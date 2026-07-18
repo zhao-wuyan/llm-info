@@ -1,0 +1,56 @@
+name: Update model data
+
+on:
+  schedule:
+    # 09:37 UTC = 17:37 Asia/Shanghai
+    - cron: "37 9 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: update-model-data
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Run tests
+        run: npm test
+
+      - name: Generate model data
+        run: npm run generate
+
+      - name: Validate generated data
+        run: npm run validate
+
+      - name: Add run summary
+        run: |
+          node --input-type=module -e "import { readFile } from 'node:fs/promises'; const data = JSON.parse(await readFile('data/models.json', 'utf8')); console.log('## 模型数据统计\n\n~~~json\n' + JSON.stringify(data.stats, null, 2) + '\n~~~')" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Create update pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: automation/update-model-data
+          delete-branch: true
+          commit-message: "chore: 更新模型价格数据"
+          title: "chore: 更新模型价格数据"
+          body: |
+            自动汇总 LiteLLM、aidy-models 和 model-price-hub 的最新模型及价格数据。
+
+            已执行：
+            - `npm test`
+            - `npm run generate`
+            - `npm run validate`

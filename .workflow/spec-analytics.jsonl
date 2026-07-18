@@ -1,0 +1,3 @@
+{"type":"cli","id":"CLI-1784351267649-1","timestamp":"2026-07-18T05:07:47.649Z","command":"load","args":{"type":"spec","category":"coding"}}
+{"type":"cli","id":"CLI-1784352911517-1","timestamp":"2026-07-18T05:35:11.517Z","command":"load","args":{"type":"spec","category":"test"}}
+{"type":"cli","id":"CLI-1784352911557-1","timestamp":"2026-07-18T05:35:11.557Z","command":"load","args":{"type":"spec","category":"coding"}}

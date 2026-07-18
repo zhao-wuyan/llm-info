@@ -1,0 +1,14 @@
+{
+  "name": "llm-info-data",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "generate": "node scripts/generate-models.js",
+    "test": "node --test",
+    "validate": "node scripts/validate-models.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

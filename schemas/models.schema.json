@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://llm-info.local/schemas/models.schema.json",
+  "title": "LLM Info aggregated model database",
+  "type": "object",
+  "required": ["schemaVersion", "generatedAt", "sources", "stats", "providers", "models"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "sources": { "type": "array", "items": { "$ref": "#/$defs/source" } },
+    "stats": { "type": "object" },
+    "providers": { "type": "array", "items": { "$ref": "#/$defs/provider" } },
+    "models": { "type": "array", "items": { "$ref": "#/$defs/model" } }
+  },
+  "$defs": {
+    "sourceRef": {
+      "type": "object",
+      "required": ["source", "id"],
+      "properties": { "source": { "type": "string" }, "id": { "type": "string" } }
+    },
+    "source": {
+      "type": "object",
+      "required": ["id", "name", "role", "url", "repository", "license", "recordCount"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "role": { "enum": ["usd-baseline", "cny-primary", "channel-validation"] },
+        "url": { "type": "string" },
+        "repository": { "type": "string" },
+        "license": { "type": "string" },
+        "recordCount": { "type": "integer", "minimum": 0 },
+        "observedAt": { "type": ["string", "null"] }
+      }
+    },
+    "provider": {
+      "type": "object",
+      "required": ["id", "name", "official", "sourceRefs"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "name": { "type": "string", "minLength": 1 },
+        "official": { "type": "boolean" },
+        "sourceRefs": { "type": "array", "items": { "$ref": "#/$defs/sourceRef" } }
+      }
+    },
+    "price": {
+      "type": "object",
+      "required": ["id", "source", "currency", "unit", "region", "rates"],
+      "properties": {
+        "id": { "type": "string" },
+        "source": { "enum": ["litellm", "aidy-models", "model-price-hub"] },
+        "currency": { "enum": ["USD", "CNY"] },
+        "unit": { "type": "string" },
+        "region": { "type": ["string", "null"] },
+        "rates": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": { "type": "number", "minimum": 0 }
+        }
+      }
+    },
+    "displayPrice": {
+      "type": ["object", "null"],
+      "properties": {
+        "priceId": { "type": "string" },
+        "source": { "type": "string" },
+        "region": { "type": ["string", "null"] },
+        "unit": { "const": "millionTokens" },
+        "rates": { "type": "object" }
+      }
+    },
+    "model": {
+      "type": "object",
+      "required": ["id", "providerId", "ownerId", "modelId", "canonicalId", "name", "sourceRefs", "pricing", "displayPrices"],
+      "properties": {
+        "id": { "type": "string" },
+        "providerId": { "type": "string" },
+        "ownerId": { "type": "string" },
+        "modelId": { "type": "string" },
+        "canonicalId": { "type": "string" },
+        "name": { "type": "string" },
+        "sourceRefs": { "type": "array", "items": { "$ref": "#/$defs/sourceRef" } },
+        "pricing": { "type": "array", "items": { "$ref": "#/$defs/price" } },
+        "displayPrices": {
+          "type": "object",
+          "required": ["USD", "CNY"],
+          "properties": {
+            "USD": { "$ref": "#/$defs/displayPrice" },
+            "CNY": { "$ref": "#/$defs/displayPrice" }
+          }
+        }
+      }
+    }
+  }
+}
