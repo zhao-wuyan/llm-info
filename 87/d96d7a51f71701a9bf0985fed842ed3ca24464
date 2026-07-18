@@ -1,0 +1,200 @@
+.github/workflows/update-model-data.yml
+  s_26e66002ab70f2::t_3bba2093a1d88c 35-36,53
+  s_26e66002ab70f2::t_8dd7ee2581fb1b 50-51
+src/validate.js
+  s_26e66002ab70f2::t_3bba2093a1d88c 17-25
+.workflow/sessions/20260718-craft-quality-compare/.backups/evidence-20260718153903-10328-1784389143029.json
+  s_26e66002ab70f2::t_bdaa175e655c20 1-5
+.workflow/sessions/20260718-craft-quality-compare/.backups/artifacts-20260718153903-10328-1784389143027.json
+  s_26e66002ab70f2::t_bdaa175e655c20 1-6
+.workflow/sessions/20260718-craft-quality-compare/runs/20260718-001-craft/.backups/run-20260718153903-10328-1784389143020.json
+  s_26e66002ab70f2::t_bdaa175e655c20 1-30
+.workflow/sessions/20260718-clarify-source-copy/context.md
+  s_26e66002ab70f2::t_d8c7cd6c144769 1
+.workflow/sessions/20260718-craft-quality-compare/.backups/gates-20260718153940-38272-1784389180863.json
+  s_26e66002ab70f2::t_4db8073fdbe32e 1-13
+.workflow/specs/architecture-constraints.md
+  s_26e66002ab70f2::t_195c261c374e7f 43-50
+.workflow/sessions/20260718-craft-quality-compare/.backups/session-20260718153929-67132-1784389169959.json
+  s_26e66002ab70f2::t_9c4541f4a9c010 1-40
+.workflow/sessions/20260718-clarify-source-copy/.backups/session-20260718155111-39040-1784389871195.json
+  s_26e66002ab70f2::t_be15e17dd1dd7d 1-40
+scripts/generate-models.js
+  s_26e66002ab70f2::t_3bba2093a1d88c 5,18-19,24-25,34-35,42,51-53
+  s_26e66002ab70f2::t_b6b5ad5217c4d8 10,20,26-31,36-41,45-50,54
+  s_26e66002ab70f2::t_8dd7ee2581fb1b 70
+test/pipeline.test.js
+  s_26e66002ab70f2::t_b6b5ad5217c4d8 8,263-269,275-294
+  s_26e66002ab70f2::t_29c76ee477b54e 270-274
+  s_26e66002ab70f2::t_447c37fa87f233 4,68-83,181-221,236-261
+  s_26e66002ab70f2::t_b7801f742e36c8 262
+src/adapters/ai-pricing.js
+  s_26e66002ab70f2::t_3bba2093a1d88c 1-63
+.workflow/sessions/20260718-clarify-source-copy/.backups/gates-20260718155111-39040-1784389871197.json
+  s_26e66002ab70f2::t_be15e17dd1dd7d 1-13
+.workflow/sessions/20260718-craft-quality-compare/artifacts.json
+  s_26e66002ab70f2::t_9c4541f4a9c010 3-31
+src/database-change.js
+  s_26e66002ab70f2::t_3bba2093a1d88c 5-7,9,12-15
+  s_26e66002ab70f2::t_b6b5ad5217c4d8 8
+.workflow/state.json
+  s_26e66002ab70f2::t_4db8073fdbe32e 77
+  s_26e66002ab70f2::t_be15e17dd1dd7d 16,85,91-92
+  s_26e66002ab70f2::t_d8c7cd6c144769 81-84
+  s_26e66002ab70f2::t_90b4025042128a 78-80
+.workflow/sessions/20260718-craft-quality-compare/.backups/artifacts-20260718153940-38272-1784389180864.json
+  s_26e66002ab70f2::t_4db8073fdbe32e 1-33
+.workflow/sessions/20260718-clarify-source-copy/.backups/artifacts-20260718155110-36380-1784389870971.json
+  s_26e66002ab70f2::t_be15e17dd1dd7d 1-6
+.workflow/sessions/20260718-craft-quality-compare/.backups/session-20260718153903-10328-1784389143023.json
+  s_26e66002ab70f2::t_bdaa175e655c20 1-40
+.workflow/sessions/20260718-craft-quality-compare/runs/20260718-001-craft/report.md
+  s_26e66002ab70f2::t_a0ee41578bc03c 6-14,17-22
+  s_26e66002ab70f2::t_572efbcdfc98ed 3,5,26-27,30-31,34-35,38-41,43-44
+.workflow/sessions/20260718-craft-quality-compare/.backups/evidence-20260718153929-67132-1784389169965.json
+  s_26e66002ab70f2::t_9c4541f4a9c010 1-5
+.workflow/sessions/20260718-clarify-source-copy/artifacts.json
+  s_26e66002ab70f2::t_d8c7cd6c144769 1-2,32-33
+  s_26e66002ab70f2::t_be15e17dd1dd7d 3-31
+.workflow/sessions/20260718-clarify-source-copy/.backups/session-20260718155110-36380-1784389870967.json
+  s_26e66002ab70f2::t_be15e17dd1dd7d 1-40
+src/fetch.js
+  s_26e66002ab70f2::t_29c76ee477b54e 10-25,50-55
+  s_26e66002ab70f2::t_3bba2093a1d88c 1,3
+  s_26e66002ab70f2::t_b6b5ad5217c4d8 9,26-49,56-62
+.workflow/sessions/20260718-clarify-source-copy/.backups/artifacts-20260718155111-39040-1784389871200.json
+  s_26e66002ab70f2::t_be15e17dd1dd7d 1-33
+.workflow/specs/.hit-log.jsonl
+  s_26e66002ab70f2::t_b7578ad9688561 10
+  s_26e66002ab70f2::t_317dff07d3fe20 8
+  s_26e66002ab70f2::t_b7f758eafb78a3 9
+.workflow/sessions/20260718-clarify-source-copy/.backups/evidence-20260718155111-39040-1784389871202.json
+  s_26e66002ab70f2::t_be15e17dd1dd7d 1-42
+.workflow/sessions/20260718-clarify-source-copy/.backups/evidence-20260718155110-36380-1784389870973.json
+  s_26e66002ab70f2::t_be15e17dd1dd7d 1-5
+.workflow/sessions/20260718-craft-quality-compare/runs/20260718-001-craft/run.json
+  s_26e66002ab70f2::t_9c4541f4a9c010 14,22-25,27-68,71-72
+.workflow/sessions/20260718-craft-quality-compare/.backups/evidence-20260718153940-38272-1784389180866.json
+  s_26e66002ab70f2::t_4db8073fdbe32e 1-60
+.workflow/sessions/20260718-clarify-source-copy/session.json
+  s_26e66002ab70f2::t_be15e17dd1dd7d 5-9,29-30
+  s_26e66002ab70f2::t_d8c7cd6c144769 1-4,10-28,31-40
+.workflow/wiki-index.json
+  s_26e66002ab70f2::t_195c261c374e7f 5-15,18-29,1682,1684,1687,1690,1694,1696,1699,1702-1704,1706-1707,1812,1814,1817,1820,1824,1826,1829,1832-1834,1836-1837,1916,1918,1921,1929,1933,1935,1941-1943,1945-1946,2067,2069,2072,2080,2084,2086,2092-2094,2096-2097,2204,2229,2254-2281
+  s_26e66002ab70f2::t_31420bd76f7322 3,16-17,41-42,66-67,91-92,116-117,141-142,166-167,191-192,216-217,241-242,266-267,291-292,316-317,341-342,355-404,416-417,441-442,466-467,491-492,516-517,541-542,566-567,591-592,616-617,641-642,666-667,691-692,716-717,741-742,766-767,791-792,816-817,841-842,866-867,891-892,916-917,941-942,966-967,991-992,1016-1017,1041-1042,1066-1067,1091-1092,1116-1117,1141-1142,1166-1167,1191-1192,1216-1217,1241-1242,1266-1267,1291-1292,1316-1317,1341-1342,1366-1367,1391-1392,1416-1417,1441-1442,1466-1467,1491-1492,1516-1517,1541-1542,1566-1567,1591-1592,1616-1617,1683,1685-1686,1688-1689,1691-1693,1695,1697-1698,1700-1701,1705,1813,1815-1816,1818-1819,1821-1823,1825,1827-1828,1830-1831,1835,1917,1919-1920,1922-1928,1930-1932,1934,1936-1940,1944,2068,2070-2071,2073-2079,2081-2083,2085,2087-2091,2095
+.workflow/sessions/20260718-craft-quality-compare/.backups/gates-20260718153929-67132-1784389169960.json
+  s_26e66002ab70f2::t_9c4541f4a9c010 1-13
+.workflow/sessions/20260718-clarify-source-copy/evidence.json
+  s_26e66002ab70f2::t_be15e17dd1dd7d 3-41
+  s_26e66002ab70f2::t_d8c7cd6c144769 1-2,42
+.workflow/sessions/20260718-craft-quality-compare/runs/20260718-001-craft/outputs/quality-source-analysis.md
+  s_26e66002ab70f2::t_535724117c2ebb 1-5
+  s_26e66002ab70f2::t_f0fd8688aadcd2 6-8
+  s_26e66002ab70f2::t_3898d90b714b67 9-39
+.workflow/sessions/20260718-clarify-source-copy/gates.json
+  s_26e66002ab70f2::t_d8c7cd6c144769 1-13
+.workflow/spec-analytics.jsonl
+  s_26e66002ab70f2::t_195c261c374e7f 57
+  s_26e66002ab70f2::t_b7578ad9688561 62
+  s_26e66002ab70f2::t_b7f758eafb78a3 61
+  s_26e66002ab70f2::t_317dff07d3fe20 58
+  s_68d73f8eeddcbd::t_002edb28aee444 55-56,59-60,63-64
+.workflow/sessions/20260718-clarify-source-copy/runs/20260718-001-clarify/outputs/copy-changes.md
+  s_26e66002ab70f2::t_6311eec291a0ca 1-24
+schemas/models.schema.json
+  s_26e66002ab70f2::t_b6b5ad5217c4d8 31-34
+  s_26e66002ab70f2::t_3bba2093a1d88c 27,36-39,89-100,112
+.workflow/sessions/20260718-clarify-source-copy/.backups/session-20260718154607-65812-1784389567301.json
+  s_26e66002ab70f2::t_d8c7cd6c144769 1-40
+.workflow/sessions/20260718-clarify-source-copy/.backups/gates-20260718155110-36380-1784389870969.json
+  s_26e66002ab70f2::t_be15e17dd1dd7d 1-13
+README.md
+  s_26e66002ab70f2::t_b6b5ad5217c4d8 26
+  s_26e66002ab70f2::t_3bba2093a1d88c 7-8,24
+  s_26e66002ab70f2::t_0ca37ba8259a62 25
+.workflow/sessions/20260718-craft-quality-compare/.backups/gates-20260718153903-10328-1784389143025.json
+  s_26e66002ab70f2::t_bdaa175e655c20 1-13
+.workflow/sessions/20260718-clarify-source-copy/runs/20260718-001-clarify/report.md
+  s_26e66002ab70f2::t_d8c7cd6c144769 1-2,4,12-17,20,23-25,28-29,34
+  s_26e66002ab70f2::t_6311eec291a0ca 3,5-11,18-19,21-22,26-27,30-33,35-36
+.workflow/sessions/20260718-craft-quality-compare/session.json
+  s_26e66002ab70f2::t_4db8073fdbe32e 5-7,29-30
+  s_26e66002ab70f2::t_9c4541f4a9c010 8-9
+.workflow/sessions/20260718-clarify-source-copy/runs/20260718-001-clarify/.backups/run-20260718155110-36380-1784389870963.json
+  s_26e66002ab70f2::t_be15e17dd1dd7d 1-30
+.workflow/sessions/20260718-craft-quality-compare/runs/20260718-001-craft/.backups/run-20260718153929-67132-1784389169953.json
+  s_26e66002ab70f2::t_9c4541f4a9c010 1-30
+.workflow/sessions/20260718-craft-quality-compare/.backups/artifacts-20260718153929-67132-1784389169963.json
+  s_26e66002ab70f2::t_9c4541f4a9c010 1-6
+.workflow/sessions/20260718-craft-quality-compare/evidence.json
+  s_26e66002ab70f2::t_9c4541f4a9c010 3-59
+.workflow/sessions/20260718-clarify-source-copy/runs/20260718-001-clarify/run.json
+  s_26e66002ab70f2::t_d8c7cd6c144769 1-13,15-21,26,28,56,59
+  s_26e66002ab70f2::t_be15e17dd1dd7d 14,22-25,27,29-55,57-58
+.workflow/sessions/20260718-clarify-source-copy/.backups/evidence-20260718154607-65812-1784389567307.json
+  s_26e66002ab70f2::t_d8c7cd6c144769 1-5
+.workflow/sessions/20260718-craft-quality-compare/.backups/session-20260718153940-38272-1784389180860.json
+  s_26e66002ab70f2::t_4db8073fdbe32e 1-40
+.workflow/sessions/20260718-clarify-source-copy/.backups/gates-20260718154607-65812-1784389567303.json
+  s_26e66002ab70f2::t_d8c7cd6c144769 1-13
+.workflow/sessions/20260718-clarify-source-copy/.backups/artifacts-20260718154607-65812-1784389567305.json
+  s_26e66002ab70f2::t_d8c7cd6c144769 1-6
+src/config.js
+  s_26e66002ab70f2::t_3bba2093a1d88c 28-36
+src/merge.js
+  s_26e66002ab70f2::t_3bba2093a1d88c 82,87,91-108,111-113,130-133
+.workflow/.backups/state-20260718153929-67132-1784389169956.json
+  s_26e66002ab70f2::t_2d91094272b60f 16,45-76,83
+.workflow/.backups/state-20260718154607-65812-1784389567298.json
+  s_26e66002ab70f2::t_45e39c051a010d 16,41-80
+.workflow/.backups/state-20260718155110-36380-1784389870965.json
+  s_26e66002ab70f2::t_1b7ed6d2b735d2 16,37-84,91
+.workflow/sessions/20260718-clarify-source-copy/.backups/artifacts-20260718155057-7384-1784389857846.json
+  s_26e66002ab70f2::t_c4c85a014b26b3 1-6
+.workflow/sessions/20260718-clarify-source-copy/.backups/evidence-20260718155057-7384-1784389857848.json
+  s_26e66002ab70f2::t_036bfdc4cab766 1-5
+.workflow/sessions/20260718-clarify-source-copy/.backups/gates-20260718155057-7384-1784389857844.json
+  s_26e66002ab70f2::t_3e8556cc5b1862 1-13
+.workflow/sessions/20260718-clarify-source-copy/.backups/session-20260718155057-7384-1784389857842.json
+  s_26e66002ab70f2::t_8cc7d76d597adb 1-40
+.workflow/sessions/20260718-clarify-source-copy/runs/20260718-001-clarify/.backups/run-20260718155057-7384-1784389857840.json
+  s_26e66002ab70f2::t_1ffe1a4f8adfc4 1-30
+.workflow/sessions/20260718-craft-quality-compare/.backups/artifacts-20260718153828-70340-1784389108634.json
+  s_26e66002ab70f2::t_5872b96b0f6662 1-6
+.workflow/sessions/20260718-craft-quality-compare/.backups/evidence-20260718153828-70340-1784389108636.json
+  s_26e66002ab70f2::t_c16ce091a5d36d 1-5
+.workflow/sessions/20260718-craft-quality-compare/.backups/gates-20260718153828-70340-1784389108632.json
+  s_26e66002ab70f2::t_e8054872d4e451 1-13
+.workflow/sessions/20260718-craft-quality-compare/.backups/session-20260718153828-70340-1784389108631.json
+  s_26e66002ab70f2::t_1e826a92cba823 1-40
+.workflow/sessions/20260718-craft-quality-compare/runs/20260718-001-craft/.backups/run-20260718153828-70340-1784389108628.json
+  s_26e66002ab70f2::t_49801735ebb369 1-30
+data/models.json
+  s_26e66002ab70f2::t_f8c9b8371a5e5a 1
+.workflow/kg/sync-state.json
+  s_26e66002ab70f2::t_2ee0ec18f0eb18 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "87d96d7a51f71701a9bf0985fed842ed3ca24464",
+  "prompts": {},
+  "sessions": {
+    "s_26e66002ab70f2": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f7539-aa43-7960-8308-c08c69f3fb08",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "zhao-wuyan <zhao-wuyan@exampl.com>"
+    },
+    "s_68d73f8eeddcbd": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f739a-2fd8-71e2-a680-7e717def3093",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "zhao-wuyan <zhao-wuyan@exampl.com>"
+    }
+  }
+}
