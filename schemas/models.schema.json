@@ -24,12 +24,19 @@
       "properties": {
         "id": { "type": "string" },
         "name": { "type": "string" },
-        "role": { "enum": ["usd-baseline", "cny-primary", "channel-validation"] },
+        "role": { "enum": ["usd-baseline", "cny-primary", "channel-validation", "quality-evidence"] },
         "url": { "type": "string" },
         "repository": { "type": "string" },
         "license": { "type": "string" },
+        "licenseLabel": { "type": "string" },
+        "licenseFile": { "type": "boolean" },
+        "licenseUrl": { "type": ["string", "null"] },
+        "licenseCheckedAt": { "type": "string", "format": "date-time" },
         "recordCount": { "type": "integer", "minimum": 0 },
-        "observedAt": { "type": ["string", "null"] }
+        "observedAt": { "type": ["string", "null"] },
+        "revision": { "type": "string" },
+        "unmappedCount": { "type": "integer", "minimum": 0 },
+        "unmappedModels": { "type": "array", "items": { "type": "string" } }
       }
     },
     "provider": {
@@ -79,6 +86,18 @@
         "rates": { "type": "object" }
       }
     },
+    "quality": {
+      "type": "object",
+      "required": ["source", "sourceModel", "aaIndex", "observedAt", "revision"],
+      "properties": {
+        "source": { "const": "ai-pricing" },
+        "sourceModel": { "type": "string" },
+        "sourceDeveloper": { "type": "string" },
+        "aaIndex": { "type": "number", "minimum": 0 },
+        "observedAt": { "type": ["string", "null"] },
+        "revision": { "type": "string" }
+      }
+    },
     "model": {
       "type": "object",
       "required": ["id", "providerId", "ownerId", "modelId", "canonicalId", "name", "sourceRefs", "pricing", "displayPrices"],
@@ -90,6 +109,7 @@
         "canonicalId": { "type": "string" },
         "name": { "type": "string" },
         "description": { "type": "string" },
+        "quality": { "$ref": "#/$defs/quality" },
         "sourceRefs": { "type": "array", "items": { "$ref": "#/$defs/sourceRef" } },
         "pricing": { "type": "array", "items": { "$ref": "#/$defs/price" } },
         "displayPrices": {

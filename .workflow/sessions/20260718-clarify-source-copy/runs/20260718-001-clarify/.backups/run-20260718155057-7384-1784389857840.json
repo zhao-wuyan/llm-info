@@ -1,0 +1,30 @@
+{
+  "schema_version": "command-run/1.0",
+  "session_id": "20260718-clarify-source-copy",
+  "run_id": "20260718-001-clarify",
+  "sequence": 1,
+  "parent_run_id": null,
+  "command": {
+    "name": "clarify",
+    "version": "1.0",
+    "source_path": "",
+    "content_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "resolved_prompt_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "status": "running",
+  "input": {
+    "args": [],
+    "consumes": [],
+    "context_identity_revision": 1
+  },
+  "gate_ids": [],
+  "output": {
+    "produces": [],
+    "primary_artifact_id": null,
+    "verdict": null
+  },
+  "handoff": null,
+  "started_at": "2026-07-18T23:46:07+08:00",
+  "completed_at": null,
+  "sealed_at": null
+}

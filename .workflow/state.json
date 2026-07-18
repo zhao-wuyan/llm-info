@@ -13,7 +13,7 @@
   },
   "transition_history": [],
   "milestone_history": [],
-  "last_updated": "2026-07-18T22:59:01+08:00",
+  "last_updated": "2026-07-18T23:51:11+08:00",
   "sessions": [
     {
       "session_id": "20260718-grill-model-prototype",
@@ -74,11 +74,19 @@
     {
       "session_id": "20260718-craft-quality-compare",
       "intent": "研究 Quality 数据源并新增模型对比页面",
-      "status": "running",
+      "status": "sealed",
+      "depends_on": [],
+      "roadmap_artifact_id": null,
+      "seed_ref": null
+    },
+    {
+      "session_id": "20260718-clarify-source-copy",
+      "intent": "修正原型数据来源与 License 描述",
+      "status": "sealed",
       "depends_on": [],
       "roadmap_artifact_id": null,
       "seed_ref": null
     }
   ],
-  "active_session_id": "20260718-craft-quality-compare"
+  "active_session_id": null
 }

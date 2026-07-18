@@ -32,6 +32,8 @@ jobs:
 
       - name: Generate model data
         run: npm run generate
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Validate generated data
         run: npm run validate
@@ -45,10 +47,10 @@ jobs:
         with:
           branch: automation/update-model-data
           delete-branch: true
-          commit-message: "chore: 更新模型价格数据"
-          title: "chore: 更新模型价格数据"
+          commit-message: "chore: 更新模型与 Quality 数据"
+          title: "chore: 更新模型与 Quality 数据"
           body: |
-            自动汇总 LiteLLM、aidy-models 和 model-price-hub 的最新模型及价格数据。
+            自动汇总 LiteLLM、aidy-models、model-price-hub 和 ai-pricing 的最新模型、价格及 Quality 数据。
 
             已执行：
             - `npm test`

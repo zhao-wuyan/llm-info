@@ -4,7 +4,8 @@
 
 - LiteLLM：USD 基准模型与价格；
 - aidy-models：CNY 主数据及模型元数据；
-- model-price-hub：中国区渠道、区域和价格的补充验证数据。
+- model-price-hub：中国区渠道、区域和价格的补充验证数据；
+- ai-pricing：Artificial Analysis Intelligence Index（`AAIndex`）Quality 快照。
 
 运行环境为 Node.js 20 或更高版本，无第三方运行时依赖：
 
@@ -20,4 +21,6 @@ npm run validate
 
 `providers[]` 承载供应商和渠道资料，包括描述、官网、文档、API 协议与连接信息；`models[]` 承载模型自身的描述、能力、上下文、发布日期和价格。模型级字段不会被提升为整个供应商的默认配置。
 
-完整机器可读约束见 `schemas/models.schema.json`。`model-price-hub` 当前仓库未声明 license，生成数据的 `sources[].license` 因此标记为 `NOASSERTION`，上线使用前需要单独确认授权边界。
+Quality 由自动化脚本从 `nuxdie/ai-pricing` 的 `src/data/llm-data.json` 拉取。适配器只读取 `AAIndex`、上游模型名和开发者，并通过显式别名映射到本地 `canonicalId`；上游价格、上下文和能力不会覆盖现有模型字段。匹配后的渠道模型包含 `quality.aaIndex`、数据文件 commit、观测时间与来源模型名，默认对比集合可按 `canonicalId` 去重后筛选 `quality != null`。
+
+完整机器可读约束见 `schemas/models.schema.json`。生成脚本会通过 GitHub License API 校验每个数据源仓库：`sources[].license` 保存 SPDX 类型，`licenseFile` 表示是否存在授权文件，`licenseUrl` 提供证据链接；无授权文件时写入 `license: "NOASSERTION"` 和 `licenseLabel: "未标注"`。API 限流或服务错误不会被误判为未标注，而会中止本次生成。

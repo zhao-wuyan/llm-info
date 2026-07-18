@@ -25,6 +25,15 @@ export const SOURCE_CONFIG = {
     repository: "https://github.com/Microllin/model-price-hub",
     license: "NOASSERTION",
   },
+  aiPricing: {
+    id: "ai-pricing",
+    name: "ai-pricing",
+    role: "quality-evidence",
+    url: "https://raw.githubusercontent.com/nuxdie/ai-pricing/main/src/data/llm-data.json",
+    revisionUrl: "https://api.github.com/repos/nuxdie/ai-pricing/commits?path=src/data/llm-data.json&per_page=1",
+    repository: "https://github.com/nuxdie/ai-pricing",
+    license: "MIT",
+  },
 };
 
 export const HUB_PROVIDER_ALIASES = {

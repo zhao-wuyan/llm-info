@@ -1,7 +1,32 @@
 {
   "version": 2,
-  "generatedAt": 1784387323741,
+  "generatedAt": 1784389959560,
   "entries": [
+    {
+      "id": "kg-code-c-projectdev-project-myproject-llm-info-src-adapters-ai-pricing-js-adaptaipricing",
+      "type": "knowhow",
+      "title": "adaptAiPricing",
+      "summary": "function in C:\\ProjectDev\\project\\myproject\\llm-info\\src\\adapters\\ai-pricing.js",
+      "tags": [
+        "kg",
+        "kg:function",
+        "source:codegraph"
+      ],
+      "status": "active",
+      "created": "2026-07-18T15:44:49.862Z",
+      "updated": "2026-07-18T15:44:49.862Z",
+      "scope": null,
+      "category": "coding",
+      "specCategory": null,
+      "createdBy": "maestrograph-db",
+      "sourceRef": "code:C:/ProjectDev/project/myproject/llm-info/src/adapters/ai-pricing.js:adaptAiPricing",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
     {
       "id": "kg-code-c-projectdev-project-myproject-llm-info-src-adapters-aidy-js-adaptaidy",
       "type": "knowhow",
@@ -13,8 +38,8 @@
         "source:codegraph"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:44.107Z",
-      "updated": "2026-07-18T14:50:44.107Z",
+      "created": "2026-07-18T15:44:49.871Z",
+      "updated": "2026-07-18T15:44:49.871Z",
       "scope": null,
       "category": "coding",
       "specCategory": null,
@@ -38,8 +63,8 @@
         "source:codegraph"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:44.107Z",
-      "updated": "2026-07-18T14:50:44.107Z",
+      "created": "2026-07-18T15:44:49.871Z",
+      "updated": "2026-07-18T15:44:49.871Z",
       "scope": null,
       "category": "coding",
       "specCategory": null,
@@ -63,8 +88,8 @@
         "source:codegraph"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:44.110Z",
-      "updated": "2026-07-18T14:50:44.110Z",
+      "created": "2026-07-18T15:44:49.874Z",
+      "updated": "2026-07-18T15:44:49.874Z",
       "scope": null,
       "category": "coding",
       "specCategory": null,
@@ -88,8 +113,8 @@
         "source:codegraph"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:44.110Z",
-      "updated": "2026-07-18T14:50:44.110Z",
+      "created": "2026-07-18T15:44:49.874Z",
+      "updated": "2026-07-18T15:44:49.874Z",
       "scope": null,
       "category": "coding",
       "specCategory": null,
@@ -113,8 +138,8 @@
         "source:codegraph"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:44.110Z",
-      "updated": "2026-07-18T14:50:44.110Z",
+      "created": "2026-07-18T15:44:49.874Z",
+      "updated": "2026-07-18T15:44:49.874Z",
       "scope": null,
       "category": "coding",
       "specCategory": null,
@@ -138,8 +163,8 @@
         "source:codegraph"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:44.114Z",
-      "updated": "2026-07-18T14:50:44.114Z",
+      "created": "2026-07-18T15:44:49.879Z",
+      "updated": "2026-07-18T15:44:49.879Z",
       "scope": null,
       "category": "coding",
       "specCategory": null,
@@ -163,8 +188,8 @@
         "source:codegraph"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:44.114Z",
-      "updated": "2026-07-18T14:50:44.114Z",
+      "created": "2026-07-18T15:44:49.879Z",
+      "updated": "2026-07-18T15:44:49.879Z",
       "scope": null,
       "category": "coding",
       "specCategory": null,
@@ -188,8 +213,8 @@
         "source:codegraph"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:44.116Z",
-      "updated": "2026-07-18T14:50:44.116Z",
+      "created": "2026-07-18T15:44:49.880Z",
+      "updated": "2026-07-18T15:44:49.880Z",
       "scope": null,
       "category": "coding",
       "specCategory": null,
@@ -213,8 +238,8 @@
         "source:codegraph"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:44.116Z",
-      "updated": "2026-07-18T14:50:44.116Z",
+      "created": "2026-07-18T15:44:49.880Z",
+      "updated": "2026-07-18T15:44:49.880Z",
       "scope": null,
       "category": "coding",
       "specCategory": null,
@@ -238,8 +263,8 @@
         "source:codegraph"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:44.116Z",
-      "updated": "2026-07-18T14:50:44.116Z",
+      "created": "2026-07-18T15:44:49.880Z",
+      "updated": "2026-07-18T15:44:49.880Z",
       "scope": null,
       "category": "coding",
       "specCategory": null,
@@ -263,8 +288,8 @@
         "source:codegraph"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:44.116Z",
-      "updated": "2026-07-18T14:50:44.116Z",
+      "created": "2026-07-18T15:44:49.880Z",
+      "updated": "2026-07-18T15:44:49.880Z",
       "scope": null,
       "category": "coding",
       "specCategory": null,
@@ -288,8 +313,8 @@
         "source:codegraph"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:44.118Z",
-      "updated": "2026-07-18T14:50:44.118Z",
+      "created": "2026-07-18T15:44:49.883Z",
+      "updated": "2026-07-18T15:44:49.883Z",
       "scope": null,
       "category": "coding",
       "specCategory": null,
@@ -313,13 +338,63 @@
         "source:codegraph"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:44.118Z",
-      "updated": "2026-07-18T14:50:44.118Z",
+      "created": "2026-07-18T15:44:49.883Z",
+      "updated": "2026-07-18T15:44:49.883Z",
       "scope": null,
       "category": "coding",
       "specCategory": null,
       "createdBy": "maestrograph-db",
       "sourceRef": "code:C:/ProjectDev/project/myproject/llm-info/src/database-change.js:withoutVolatileMetadata",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-code-c-projectdev-project-myproject-llm-info-src-fetch-js-detectlicensespdx",
+      "type": "knowhow",
+      "title": "detectLicenseSpdx",
+      "summary": "function in C:\\ProjectDev\\project\\myproject\\llm-info\\src\\fetch.js",
+      "tags": [
+        "kg",
+        "kg:function",
+        "source:codegraph"
+      ],
+      "status": "active",
+      "created": "2026-07-18T15:44:49.885Z",
+      "updated": "2026-07-18T15:44:49.885Z",
+      "scope": null,
+      "category": "coding",
+      "specCategory": null,
+      "createdBy": "maestrograph-db",
+      "sourceRef": "code:C:/ProjectDev/project/myproject/llm-info/src/fetch.js:detectLicenseSpdx",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-code-c-projectdev-project-myproject-llm-info-src-fetch-js-fetchgithublicense",
+      "type": "knowhow",
+      "title": "fetchGitHubLicense",
+      "summary": "function in C:\\ProjectDev\\project\\myproject\\llm-info\\src\\fetch.js",
+      "tags": [
+        "kg",
+        "kg:function",
+        "source:codegraph"
+      ],
+      "status": "active",
+      "created": "2026-07-18T15:44:49.885Z",
+      "updated": "2026-07-18T15:44:49.885Z",
+      "scope": null,
+      "category": "coding",
+      "specCategory": null,
+      "createdBy": "maestrograph-db",
+      "sourceRef": "code:C:/ProjectDev/project/myproject/llm-info/src/fetch.js:fetchGitHubLicense",
       "parent": null,
       "related": [],
       "source": {
@@ -338,8 +413,8 @@
         "source:codegraph"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:44.119Z",
-      "updated": "2026-07-18T14:50:44.119Z",
+      "created": "2026-07-18T15:44:49.885Z",
+      "updated": "2026-07-18T15:44:49.885Z",
       "scope": null,
       "category": "coding",
       "specCategory": null,
@@ -363,8 +438,8 @@
         "source:codegraph"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:44.120Z",
-      "updated": "2026-07-18T14:50:44.120Z",
+      "created": "2026-07-18T15:44:49.886Z",
+      "updated": "2026-07-18T15:44:49.886Z",
       "scope": null,
       "category": "coding",
       "specCategory": null,
@@ -388,8 +463,8 @@
         "source:codegraph"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:44.120Z",
-      "updated": "2026-07-18T14:50:44.120Z",
+      "created": "2026-07-18T15:44:49.886Z",
+      "updated": "2026-07-18T15:44:49.886Z",
       "scope": null,
       "category": "coding",
       "specCategory": null,
@@ -413,8 +488,8 @@
         "source:codegraph"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:44.120Z",
-      "updated": "2026-07-18T14:50:44.120Z",
+      "created": "2026-07-18T15:44:49.886Z",
+      "updated": "2026-07-18T15:44:49.886Z",
       "scope": null,
       "category": "coding",
       "specCategory": null,
@@ -438,8 +513,8 @@
         "source:codegraph"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:44.120Z",
-      "updated": "2026-07-18T14:50:44.120Z",
+      "created": "2026-07-18T15:44:49.886Z",
+      "updated": "2026-07-18T15:44:49.886Z",
       "scope": null,
       "category": "coding",
       "specCategory": null,
@@ -463,8 +538,8 @@
         "source:codegraph"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:44.124Z",
-      "updated": "2026-07-18T14:50:44.124Z",
+      "created": "2026-07-18T15:44:49.889Z",
+      "updated": "2026-07-18T15:44:49.889Z",
       "scope": null,
       "category": "coding",
       "specCategory": null,
@@ -488,8 +563,8 @@
         "source:codegraph"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:44.124Z",
-      "updated": "2026-07-18T14:50:44.124Z",
+      "created": "2026-07-18T15:44:49.889Z",
+      "updated": "2026-07-18T15:44:49.889Z",
       "scope": null,
       "category": "coding",
       "specCategory": null,
@@ -513,8 +588,8 @@
         "source:codegraph"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:44.124Z",
-      "updated": "2026-07-18T14:50:44.124Z",
+      "created": "2026-07-18T15:44:49.889Z",
+      "updated": "2026-07-18T15:44:49.889Z",
       "scope": null,
       "category": "coding",
       "specCategory": null,
@@ -538,8 +613,8 @@
         "source:codegraph"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:44.124Z",
-      "updated": "2026-07-18T14:50:44.124Z",
+      "created": "2026-07-18T15:44:49.889Z",
+      "updated": "2026-07-18T15:44:49.889Z",
       "scope": null,
       "category": "coding",
       "specCategory": null,
@@ -563,8 +638,8 @@
         "source:codegraph"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:44.124Z",
-      "updated": "2026-07-18T14:50:44.124Z",
+      "created": "2026-07-18T15:44:49.889Z",
+      "updated": "2026-07-18T15:44:49.889Z",
       "scope": null,
       "category": "coding",
       "specCategory": null,
@@ -588,8 +663,8 @@
         "source:codegraph"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:44.124Z",
-      "updated": "2026-07-18T14:50:44.124Z",
+      "created": "2026-07-18T15:44:49.889Z",
+      "updated": "2026-07-18T15:44:49.889Z",
       "scope": null,
       "category": "coding",
       "specCategory": null,
@@ -613,8 +688,8 @@
         "source:codegraph"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:44.124Z",
-      "updated": "2026-07-18T14:50:44.124Z",
+      "created": "2026-07-18T15:44:49.889Z",
+      "updated": "2026-07-18T15:44:49.889Z",
       "scope": null,
       "category": "coding",
       "specCategory": null,
@@ -638,8 +713,8 @@
         "source:codegraph"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:44.124Z",
-      "updated": "2026-07-18T14:50:44.124Z",
+      "created": "2026-07-18T15:44:49.889Z",
+      "updated": "2026-07-18T15:44:49.889Z",
       "scope": null,
       "category": "coding",
       "specCategory": null,
@@ -663,8 +738,8 @@
         "source:codegraph"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:44.126Z",
-      "updated": "2026-07-18T14:50:44.126Z",
+      "created": "2026-07-18T15:44:49.891Z",
+      "updated": "2026-07-18T15:44:49.891Z",
       "scope": null,
       "category": "coding",
       "specCategory": null,
@@ -688,8 +763,8 @@
         "source:codegraph"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:44.040Z",
-      "updated": "2026-07-18T14:50:44.040Z",
+      "created": "2026-07-18T15:44:49.864Z",
+      "updated": "2026-07-18T15:44:49.864Z",
       "scope": null,
       "category": "arch",
       "specCategory": null,
@@ -713,8 +788,8 @@
         "source:knowhow"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:43.837Z",
-      "updated": "2026-07-18T14:50:43.837Z",
+      "created": "2026-07-18T15:44:49.612Z",
+      "updated": "2026-07-18T15:44:49.612Z",
       "scope": null,
       "category": "debug",
       "specCategory": null,
@@ -738,8 +813,8 @@
         "source:spec"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:43.822Z",
-      "updated": "2026-07-18T14:50:43.822Z",
+      "created": "2026-07-18T15:44:49.599Z",
+      "updated": "2026-07-18T15:44:49.599Z",
       "scope": null,
       "category": "arch",
       "specCategory": "arch",
@@ -763,8 +838,8 @@
         "source:spec"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:43.822Z",
-      "updated": "2026-07-18T14:50:43.822Z",
+      "created": "2026-07-18T15:44:49.599Z",
+      "updated": "2026-07-18T15:44:49.599Z",
       "scope": null,
       "category": "arch",
       "specCategory": "arch",
@@ -788,8 +863,8 @@
         "source:spec"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:43.822Z",
-      "updated": "2026-07-18T14:50:43.822Z",
+      "created": "2026-07-18T15:44:49.599Z",
+      "updated": "2026-07-18T15:44:49.599Z",
       "scope": null,
       "category": "arch",
       "specCategory": "arch",
@@ -813,8 +888,8 @@
         "source:spec"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:43.822Z",
-      "updated": "2026-07-18T14:50:43.822Z",
+      "created": "2026-07-18T15:44:49.599Z",
+      "updated": "2026-07-18T15:44:49.599Z",
       "scope": null,
       "category": "arch",
       "specCategory": "arch",
@@ -838,8 +913,8 @@
         "source:spec"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:43.822Z",
-      "updated": "2026-07-18T14:50:43.822Z",
+      "created": "2026-07-18T15:44:49.599Z",
+      "updated": "2026-07-18T15:44:49.599Z",
       "scope": null,
       "category": "arch",
       "specCategory": "arch",
@@ -863,8 +938,8 @@
         "source:spec"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:43.822Z",
-      "updated": "2026-07-18T14:50:43.822Z",
+      "created": "2026-07-18T15:44:49.599Z",
+      "updated": "2026-07-18T15:44:49.599Z",
       "scope": null,
       "category": "arch",
       "specCategory": "arch",
@@ -888,8 +963,8 @@
         "source:spec"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:43.822Z",
-      "updated": "2026-07-18T14:50:43.822Z",
+      "created": "2026-07-18T15:44:49.599Z",
+      "updated": "2026-07-18T15:44:49.599Z",
       "scope": null,
       "category": "coding",
       "specCategory": "coding",
@@ -913,8 +988,8 @@
         "source:spec"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:43.822Z",
-      "updated": "2026-07-18T14:50:43.822Z",
+      "created": "2026-07-18T15:44:49.599Z",
+      "updated": "2026-07-18T15:44:49.599Z",
       "scope": null,
       "category": "coding",
       "specCategory": "coding",
@@ -938,8 +1013,8 @@
         "source:spec"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:43.822Z",
-      "updated": "2026-07-18T14:50:43.822Z",
+      "created": "2026-07-18T15:44:49.599Z",
+      "updated": "2026-07-18T15:44:49.599Z",
       "scope": null,
       "category": "coding",
       "specCategory": "coding",
@@ -963,8 +1038,8 @@
         "source:spec"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:43.822Z",
-      "updated": "2026-07-18T14:50:43.822Z",
+      "created": "2026-07-18T15:44:49.599Z",
+      "updated": "2026-07-18T15:44:49.599Z",
       "scope": null,
       "category": "coding",
       "specCategory": "coding",
@@ -988,8 +1063,8 @@
         "source:spec"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:43.822Z",
-      "updated": "2026-07-18T14:50:43.822Z",
+      "created": "2026-07-18T15:44:49.599Z",
+      "updated": "2026-07-18T15:44:49.599Z",
       "scope": null,
       "category": "coding",
       "specCategory": "coding",
@@ -1013,8 +1088,8 @@
         "source:spec"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:43.822Z",
-      "updated": "2026-07-18T14:50:43.822Z",
+      "created": "2026-07-18T15:44:49.599Z",
+      "updated": "2026-07-18T15:44:49.599Z",
       "scope": null,
       "category": "coding",
       "specCategory": "coding",
@@ -1038,8 +1113,8 @@
         "source:spec"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:43.822Z",
-      "updated": "2026-07-18T14:50:43.822Z",
+      "created": "2026-07-18T15:44:49.599Z",
+      "updated": "2026-07-18T15:44:49.599Z",
       "scope": null,
       "category": "debug",
       "specCategory": "debug",
@@ -1063,8 +1138,8 @@
         "source:spec"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:43.822Z",
-      "updated": "2026-07-18T14:50:43.822Z",
+      "created": "2026-07-18T15:44:49.599Z",
+      "updated": "2026-07-18T15:44:49.599Z",
       "scope": null,
       "category": "debug",
       "specCategory": "debug",
@@ -1088,8 +1163,8 @@
         "source:spec"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:43.822Z",
-      "updated": "2026-07-18T14:50:43.822Z",
+      "created": "2026-07-18T15:44:49.599Z",
+      "updated": "2026-07-18T15:44:49.599Z",
       "scope": null,
       "category": "learning",
       "specCategory": "learning",
@@ -1113,8 +1188,8 @@
         "source:spec"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:43.822Z",
-      "updated": "2026-07-18T14:50:43.822Z",
+      "created": "2026-07-18T15:44:49.599Z",
+      "updated": "2026-07-18T15:44:49.599Z",
       "scope": null,
       "category": "learning",
       "specCategory": "learning",
@@ -1138,8 +1213,8 @@
         "source:spec"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:43.822Z",
-      "updated": "2026-07-18T14:50:43.822Z",
+      "created": "2026-07-18T15:44:49.599Z",
+      "updated": "2026-07-18T15:44:49.599Z",
       "scope": null,
       "category": "review",
       "specCategory": "review",
@@ -1163,8 +1238,8 @@
         "source:spec"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:43.822Z",
-      "updated": "2026-07-18T14:50:43.822Z",
+      "created": "2026-07-18T15:44:49.599Z",
+      "updated": "2026-07-18T15:44:49.599Z",
       "scope": null,
       "category": "review",
       "specCategory": "review",
@@ -1188,8 +1263,8 @@
         "source:spec"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:43.822Z",
-      "updated": "2026-07-18T14:50:43.822Z",
+      "created": "2026-07-18T15:44:49.599Z",
+      "updated": "2026-07-18T15:44:49.599Z",
       "scope": null,
       "category": "review",
       "specCategory": "review",
@@ -1213,8 +1288,8 @@
         "source:spec"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:43.822Z",
-      "updated": "2026-07-18T14:50:43.822Z",
+      "created": "2026-07-18T15:44:49.599Z",
+      "updated": "2026-07-18T15:44:49.599Z",
       "scope": null,
       "category": "review",
       "specCategory": "review",
@@ -1238,8 +1313,8 @@
         "source:spec"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:43.822Z",
-      "updated": "2026-07-18T14:50:43.822Z",
+      "created": "2026-07-18T15:44:49.599Z",
+      "updated": "2026-07-18T15:44:49.599Z",
       "scope": null,
       "category": "test",
       "specCategory": "test",
@@ -1263,8 +1338,8 @@
         "source:spec"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:43.822Z",
-      "updated": "2026-07-18T14:50:43.822Z",
+      "created": "2026-07-18T15:44:49.599Z",
+      "updated": "2026-07-18T15:44:49.599Z",
       "scope": null,
       "category": "test",
       "specCategory": "test",
@@ -1288,8 +1363,8 @@
         "source:spec"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:43.822Z",
-      "updated": "2026-07-18T14:50:43.822Z",
+      "created": "2026-07-18T15:44:49.599Z",
+      "updated": "2026-07-18T15:44:49.599Z",
       "scope": null,
       "category": "test",
       "specCategory": "test",
@@ -1313,8 +1388,8 @@
         "source:spec"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:43.822Z",
-      "updated": "2026-07-18T14:50:43.822Z",
+      "created": "2026-07-18T15:44:49.599Z",
+      "updated": "2026-07-18T15:44:49.599Z",
       "scope": null,
       "category": "test",
       "specCategory": "test",
@@ -1338,8 +1413,8 @@
         "source:spec"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:43.822Z",
-      "updated": "2026-07-18T14:50:43.822Z",
+      "created": "2026-07-18T15:44:49.599Z",
+      "updated": "2026-07-18T15:44:49.599Z",
       "scope": null,
       "category": "test",
       "specCategory": "test",
@@ -1363,8 +1438,8 @@
         "source:spec"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:43.822Z",
-      "updated": "2026-07-18T14:50:43.822Z",
+      "created": "2026-07-18T15:44:49.599Z",
+      "updated": "2026-07-18T15:44:49.599Z",
       "scope": null,
       "category": "test",
       "specCategory": "test",
@@ -1388,8 +1463,8 @@
         "source:spec"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:43.822Z",
-      "updated": "2026-07-18T14:50:43.822Z",
+      "created": "2026-07-18T15:44:49.599Z",
+      "updated": "2026-07-18T15:44:49.599Z",
       "scope": null,
       "category": "ui",
       "specCategory": "ui",
@@ -1413,8 +1488,8 @@
         "source:spec"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:43.822Z",
-      "updated": "2026-07-18T14:50:43.822Z",
+      "created": "2026-07-18T15:44:49.599Z",
+      "updated": "2026-07-18T15:44:49.599Z",
       "scope": null,
       "category": "ui",
       "specCategory": "ui",
@@ -1438,8 +1513,8 @@
         "source:spec"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:43.822Z",
-      "updated": "2026-07-18T14:50:43.822Z",
+      "created": "2026-07-18T15:44:49.599Z",
+      "updated": "2026-07-18T15:44:49.599Z",
       "scope": null,
       "category": "ui",
       "specCategory": "ui",
@@ -1463,8 +1538,8 @@
         "source:spec"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:43.822Z",
-      "updated": "2026-07-18T14:50:43.822Z",
+      "created": "2026-07-18T15:44:49.599Z",
+      "updated": "2026-07-18T15:44:49.599Z",
       "scope": null,
       "category": "ui",
       "specCategory": "ui",
@@ -1488,8 +1563,8 @@
         "source:spec"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:43.822Z",
-      "updated": "2026-07-18T14:50:43.822Z",
+      "created": "2026-07-18T15:44:49.599Z",
+      "updated": "2026-07-18T15:44:49.599Z",
       "scope": null,
       "category": "ui",
       "specCategory": "ui",
@@ -1513,8 +1588,8 @@
         "source:spec"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:43.822Z",
-      "updated": "2026-07-18T14:50:43.822Z",
+      "created": "2026-07-18T15:44:49.599Z",
+      "updated": "2026-07-18T15:44:49.599Z",
       "scope": null,
       "category": "ui",
       "specCategory": "ui",
@@ -1538,8 +1613,8 @@
         "source:spec"
       ],
       "status": "active",
-      "created": "2026-07-18T14:50:43.822Z",
-      "updated": "2026-07-18T14:50:43.822Z",
+      "created": "2026-07-18T15:44:49.599Z",
+      "updated": "2026-07-18T15:44:49.599Z",
       "scope": null,
       "category": "ui",
       "specCategory": "ui",
@@ -1602,6 +1677,32 @@
       "source": {
         "kind": "file",
         "path": "knowhow/TIP-20260718-pencil-viewport-copy-layout.md"
+      }
+    },
+    {
+      "id": "session-20260718-clarify-source-copy",
+      "type": "knowhow",
+      "title": "修正原型数据来源与 License 描述",
+      "summary": "同步修正 07 数据来源页与 08 模型对比页的数据源、Quality 和 License 文案。；决策：数据来源页以当前 models.json 的四源统计和自动 License 校验结果为准。",
+      "tags": [
+        "session",
+        "sealed"
+      ],
+      "status": "completed",
+      "created": "2026-07-18T23:51:11+08:00",
+      "updated": "2026-07-18T23:51:11+08:00",
+      "scope": null,
+      "category": null,
+      "specCategory": null,
+      "createdBy": "session-runtime",
+      "sourceRef": "20260718-clarify-source-copy",
+      "parent": null,
+      "related": [
+        "session-run-20260718-clarify-source-copy-20260718-001-clarify"
+      ],
+      "source": {
+        "kind": "virtual",
+        "path": "sessions/20260718-clarify-source-copy/session.json"
       }
     },
     {
@@ -1709,6 +1810,32 @@
       }
     },
     {
+      "id": "session-20260718-craft-quality-compare",
+      "type": "knowhow",
+      "title": "研究 Quality 数据源并新增模型对比页面",
+      "summary": "完成横向柱状模型对比原型，并将 ai-pricing AAIndex 与数据源 license 校验接入自动化管线。；决策：使用显式别名映射 22 个 ai-pricing 模型到本地 canonicalId，Quality 不覆盖本地模型字段。",
+      "tags": [
+        "session",
+        "sealed"
+      ],
+      "status": "completed",
+      "created": "2026-07-18T23:39:40+08:00",
+      "updated": "2026-07-18T23:39:40+08:00",
+      "scope": null,
+      "category": null,
+      "specCategory": null,
+      "createdBy": "session-runtime",
+      "sourceRef": "20260718-craft-quality-compare",
+      "parent": null,
+      "related": [
+        "session-run-20260718-craft-quality-compare-20260718-001-craft"
+      ],
+      "source": {
+        "kind": "virtual",
+        "path": "sessions/20260718-craft-quality-compare/session.json"
+      }
+    },
+    {
       "id": "session-20260718-document-llm-info",
       "type": "knowhow",
       "title": "为 LLM Info Pencil 原型建立种子视觉系统",
@@ -1784,6 +1911,37 @@
       "source": {
         "kind": "virtual",
         "path": "sessions/20260718-teach-llm-info/session.json"
+      }
+    },
+    {
+      "id": "session-run-20260718-clarify-source-copy-20260718-001-clarify",
+      "type": "knowhow",
+      "title": "clarify 20260718-001-clarify",
+      "summary": "同步修正 07 数据来源页与 08 模型对比页的数据源、Quality 和 License 文案。；决策：数据来源页以当前 models.json 的四源统计和自动 License 校验结果为准。",
+      "tags": [
+        "session",
+        "run",
+        "sealed",
+        "clarify",
+        "verdict:ready",
+        "ux-copy-update",
+        "prototype-collection"
+      ],
+      "status": "completed",
+      "created": "2026-07-18T23:46:07+08:00",
+      "updated": "2026-07-18T23:51:10+08:00",
+      "scope": null,
+      "category": null,
+      "specCategory": null,
+      "createdBy": "clarify",
+      "sourceRef": "20260718-001-clarify",
+      "parent": "session-20260718-clarify-source-copy",
+      "related": [
+        "session-20260718-clarify-source-copy"
+      ],
+      "source": {
+        "kind": "virtual",
+        "path": "sessions/20260718-clarify-source-copy/runs/20260718-001-clarify/run.json"
       }
     },
     {
@@ -1907,6 +2065,37 @@
       }
     },
     {
+      "id": "session-run-20260718-craft-quality-compare-20260718-001-craft",
+      "type": "knowhow",
+      "title": "craft 20260718-001-craft",
+      "summary": "完成横向柱状模型对比原型，并将 ai-pricing AAIndex 与数据源 license 校验接入自动化管线。；决策：使用显式别名映射 22 个 ai-pricing 模型到本地 canonicalId，Quality 不覆盖本地模型字段。",
+      "tags": [
+        "session",
+        "run",
+        "sealed",
+        "craft",
+        "verdict:ready",
+        "prototype-collection",
+        "quality-source-analysis"
+      ],
+      "status": "completed",
+      "created": "2026-07-18T22:59:01+08:00",
+      "updated": "2026-07-18T23:39:29+08:00",
+      "scope": null,
+      "category": null,
+      "specCategory": null,
+      "createdBy": "craft",
+      "sourceRef": "20260718-001-craft",
+      "parent": "session-20260718-craft-quality-compare",
+      "related": [
+        "session-20260718-craft-quality-compare"
+      ],
+      "source": {
+        "kind": "virtual",
+        "path": "sessions/20260718-craft-quality-compare/runs/20260718-001-craft/run.json"
+      }
+    },
+    {
       "id": "session-run-20260718-document-llm-info-20260718-001-document",
       "type": "knowhow",
       "title": "document 20260718-001-document",
@@ -2012,7 +2201,7 @@
       ],
       "status": "active",
       "created": "2026-07-18T05:07:47.653Z",
-      "updated": "2026-07-18T12:53:12.305Z",
+      "updated": "2026-07-18T15:35:05.198Z",
       "scope": "project",
       "category": "arch",
       "specCategory": null,
@@ -2037,7 +2226,7 @@
       ],
       "status": "active",
       "created": "2026-07-18T05:07:47.653Z",
-      "updated": "2026-07-18T12:53:12.305Z",
+      "updated": "2026-07-18T15:35:05.198Z",
       "scope": "project",
       "category": "arch",
       "specCategory": null,
@@ -2062,7 +2251,34 @@
       ],
       "status": "active",
       "created": "2026-07-18T05:07:47.653Z",
-      "updated": "2026-07-18T12:53:12.305Z",
+      "updated": "2026-07-18T15:35:05.198Z",
+      "scope": "project",
+      "category": "arch",
+      "specCategory": null,
+      "createdBy": null,
+      "sourceRef": null,
+      "parent": "spec:project:architecture-constraints",
+      "related": [],
+      "source": {
+        "kind": "file",
+        "path": "specs/architecture-constraints.md"
+      }
+    },
+    {
+      "id": "spec:project:architecture-constraints-003",
+      "type": "spec",
+      "title": "Quality 数据源与模型映射边界",
+      "summary": "约束 Quality 自动拉取、规范模型映射、证据追溯与数据源授权校验",
+      "tags": [
+        "quality",
+        "aaindex",
+        "canonicalid",
+        "license",
+        "数据源"
+      ],
+      "status": "active",
+      "created": "2026-07-18T05:07:47.653Z",
+      "updated": "2026-07-18T15:35:05.198Z",
       "scope": "project",
       "category": "arch",
       "specCategory": null,

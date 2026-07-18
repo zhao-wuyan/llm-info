@@ -1,0 +1,33 @@
+{
+  "schema_version": "artifacts/1.0",
+  "revision": 1,
+  "artifacts": {
+    "ART-001-001": {
+      "kind": "ux-copy-update",
+      "role": "attachment",
+      "producer_run_id": "20260718-001-clarify",
+      "relative_path": "runs/20260718-001-clarify/outputs/copy-changes.md",
+      "media_type": "text/markdown",
+      "schema_version": "ux-copy-update/1.0",
+      "content_hash": "a551c80c2f90b5fd048959444721ca7a4ab35d067ce38cab6c2a07bfcd265fca",
+      "size": 722,
+      "status": "sealed",
+      "derived_from": [],
+      "replaces": null
+    },
+    "ART-001-002": {
+      "kind": "prototype-collection",
+      "role": "attachment",
+      "producer_run_id": "20260718-001-clarify",
+      "relative_path": "runs/20260718-001-clarify/outputs/prototype",
+      "media_type": "application/vnd.maestro.directory",
+      "schema_version": "prototype-collection/1.0",
+      "content_hash": "99daffc4c35470cf003e27efca7e38ba452c200fb09b26431043b8aede24a102",
+      "size": 550702,
+      "status": "sealed",
+      "derived_from": [],
+      "replaces": null
+    }
+  },
+  "aliases": {}
+}

@@ -79,22 +79,37 @@ export function selectDisplayPrice(pricing, currency) {
 export function mergeCatalogs(catalogs, generatedAt = new Date().toISOString()) {
   const providers = new Map();
   const models = new Map();
+  const qualities = new Map();
 
   for (const catalog of catalogs) {
     for (const provider of catalog.providers) providers.set(provider.id, mergeProvider(providers.get(provider.id), provider));
     for (const model of catalog.models) models.set(model.id, mergeModel(models.get(model.id), model));
+    for (const quality of catalog.qualities || []) qualities.set(quality.canonicalId, quality);
   }
 
   const mergedModels = [...models.values()]
-    .map((model) => ({
-      ...model,
-      pricing: [...model.pricing].sort((a, b) => a.id.localeCompare(b.id)),
-      displayPrices: {
-        USD: selectDisplayPrice(model.pricing, "USD"),
-        CNY: selectDisplayPrice(model.pricing, "CNY"),
-      },
-    }))
+    .map((model) => {
+      const quality = qualities.get(model.canonicalId);
+      const { canonicalId: _canonicalId, ...qualityEvidence } = quality || {};
+      return {
+        ...model,
+        ...(quality
+          ? {
+              quality: qualityEvidence,
+              sourceRefs: mergeSourceRefs(model.sourceRefs, [{ source: quality.source, id: quality.sourceModel }]),
+            }
+          : {}),
+        pricing: [...model.pricing].sort((a, b) => a.id.localeCompare(b.id)),
+        displayPrices: {
+          USD: selectDisplayPrice(model.pricing, "USD"),
+          CNY: selectDisplayPrice(model.pricing, "CNY"),
+        },
+      };
+    })
     .sort((a, b) => a.id.localeCompare(b.id));
+
+  const matchedQualityIds = new Set(mergedModels.filter((model) => model.quality).map((model) => model.canonicalId));
+  const sourceUnmappedCount = catalogs.reduce((count, catalog) => count + (catalog.meta?.unmappedCount || 0), 0);
 
   const sourceList = catalogs.map((catalog) => ({
     ...SOURCE_CONFIG[catalog.configKey],
@@ -112,6 +127,10 @@ export function mergeCatalogs(catalogs, generatedAt = new Date().toISOString()) 
       usdModels: mergedModels.filter((model) => model.displayPrices.USD).length,
       cnyModels: mergedModels.filter((model) => model.displayPrices.CNY).length,
       dualCurrencyModels: mergedModels.filter((model) => model.displayPrices.USD && model.displayPrices.CNY).length,
+      qualityModels: matchedQualityIds.size,
+      qualityListings: mergedModels.filter((model) => model.quality).length,
+      unmatchedQualityModels:
+        sourceUnmappedCount + [...qualities.keys()].filter((canonicalId) => !matchedQualityIds.has(canonicalId)).length,
     },
     providers: [...providers.values()].sort((a, b) => a.id.localeCompare(b.id)),
     models: mergedModels,

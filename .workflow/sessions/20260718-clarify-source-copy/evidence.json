@@ -1,0 +1,42 @@
+{
+  "schema_version": "evidence/1.0",
+  "revision": 1,
+  "records": {
+    "EVD-001-001": {
+      "run_id": "20260718-001-clarify",
+      "command": "clarify",
+      "kind": "decision",
+      "point": "D-001",
+      "claim": "数据来源页以当前 models.json 的四源统计和自动 License 校验结果为准。",
+      "outcome": "accepted",
+      "rationale": "数据来源页以当前 models.json 的四源统计和自动 License 校验结果为准。",
+      "status": "accepted",
+      "artifact_refs": [
+        "ART-001-001",
+        "ART-001-002"
+      ],
+      "gate_refs": [],
+      "source_refs": [
+        "report.md"
+      ]
+    },
+    "EVD-001-002": {
+      "run_id": "20260718-001-clarify",
+      "command": "clarify",
+      "kind": "decision",
+      "point": "D-002",
+      "claim": "Quality 统一描述为 ai-pricing 自动拉取的 AAIndex 外部证据，并使用“映射”术语。",
+      "outcome": "accepted",
+      "rationale": "Quality 统一描述为 ai-pricing 自动拉取的 AAIndex 外部证据，并使用“映射”术语。",
+      "status": "accepted",
+      "artifact_refs": [
+        "ART-001-001",
+        "ART-001-002"
+      ],
+      "gate_refs": [],
+      "source_refs": [
+        "report.md"
+      ]
+    }
+  }
+}

@@ -1,9 +1,11 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { adaptAidy } from "../src/adapters/aidy.js";
+import { adaptAiPricing } from "../src/adapters/ai-pricing.js";
 import { adaptLiteLlm } from "../src/adapters/litellm.js";
 import { adaptPriceHub } from "../src/adapters/price-hub.js";
 import { hasMeaningfulChanges } from "../src/database-change.js";
+import { fetchGitHubLicense } from "../src/fetch.js";
 import { mergeCatalogs } from "../src/merge.js";
 import { validateDatabase } from "../src/validate.js";
 
@@ -61,6 +63,22 @@ const hubFixture = {
       source_url: "https://example.com/pricing",
     },
   ],
+};
+
+const qualityFixture = [
+  {
+    model: "DeepSeek V4 Pro",
+    developer: "DeepSeek",
+    AAIndex: 44,
+    inputPrice: 99,
+    context: 123,
+  },
+  { model: "Unmapped Future Model", developer: "Example", AAIndex: 50 },
+];
+
+const qualityMeta = {
+  observedAt: "2026-07-18T00:00:00Z",
+  revision: "5ab51479cd8cae12e0c63dec14200ed75ef480cd",
 };
 
 test("merges native USD and CNY quotes without currency conversion", () => {
@@ -160,6 +178,47 @@ test("keeps hub evidence variants and prefers a fresh scraped quote", () => {
   assert.match(database.models[0].displayPrices.CNY.priceId, /:deepseek-scraped-/);
 });
 
+test("adapts only AAIndex quality evidence from ai-pricing", () => {
+  const catalog = adaptAiPricing(qualityFixture, qualityMeta);
+  assert.equal(catalog.qualities.length, 1);
+  assert.deepEqual(catalog.qualities[0], {
+    canonicalId: "deepseek/deepseek-v4-pro",
+    source: "ai-pricing",
+    sourceModel: "DeepSeek V4 Pro",
+    sourceDeveloper: "DeepSeek",
+    aaIndex: 44,
+    ...qualityMeta,
+  });
+  assert.equal(catalog.meta.unmappedCount, 1);
+  assert.deepEqual(catalog.meta.unmappedModels, ["Unmapped Future Model"]);
+  assert.equal("inputPrice" in catalog.qualities[0], false);
+  assert.equal("context" in catalog.qualities[0], false);
+});
+
+test("attaches Quality to every listing with the mapped canonicalId", () => {
+  const modelFixture = {
+    "deepseek-v4-pro": {
+      litellm_provider: "deepseek",
+      mode: "chat",
+    },
+  };
+  const database = mergeCatalogs(
+    [
+      { configKey: "litellm", ...adaptLiteLlm(modelFixture, "2026-07-18T00:00:00Z") },
+      { configKey: "aiPricing", ...adaptAiPricing(qualityFixture, qualityMeta) },
+    ],
+    "2026-07-18T00:00:00Z",
+  );
+
+  assert.equal(database.models[0].quality.aaIndex, 44);
+  assert.equal(database.models[0].quality.revision, qualityMeta.revision);
+  assert.ok(database.models[0].sourceRefs.some((ref) => ref.source === "ai-pricing"));
+  assert.equal(database.stats.qualityModels, 1);
+  assert.equal(database.stats.qualityListings, 1);
+  assert.equal(database.stats.unmatchedQualityModels, 1);
+  assert.deepEqual(validateDatabase(database), []);
+});
+
 test("ignores generated and observed timestamps when detecting data changes", () => {
   const first = mergeCatalogs(
     [{ configKey: "litellm", ...adaptLiteLlm(litellmFixture, "2026-07-18T00:00:00Z") }],
@@ -173,4 +232,63 @@ test("ignores generated and observed timestamps when detecting data changes", ()
   assert.equal(hasMeaningfulChanges(first, second), false);
   second.models[0].pricing[0].rates.textInput = 99;
   assert.equal(hasMeaningfulChanges(first, second), true);
+});
+
+test("ignores Quality observation metadata but detects AAIndex changes", () => {
+  const modelFixture = { "deepseek-v4-pro": { litellm_provider: "deepseek", mode: "chat" } };
+  const first = mergeCatalogs(
+    [
+      { configKey: "litellm", ...adaptLiteLlm(modelFixture, "2026-07-18T00:00:00Z") },
+      { configKey: "aiPricing", ...adaptAiPricing(qualityFixture, qualityMeta) },
+    ],
+    "2026-07-18T00:00:00Z",
+  );
+  const second = mergeCatalogs(
+    [
+      { configKey: "litellm", ...adaptLiteLlm(modelFixture, "2026-07-19T00:00:00Z") },
+      {
+        configKey: "aiPricing",
+        ...adaptAiPricing(qualityFixture, {
+          observedAt: "2026-07-19T00:00:00Z",
+          revision: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        }),
+      },
+    ],
+    "2026-07-19T00:00:00Z",
+  );
+
+  assert.equal(hasMeaningfulChanges(first, second), false);
+  second.models[0].quality.aaIndex = 45;
+  assert.equal(hasMeaningfulChanges(first, second), true);
+});
+
+test("uses the detected SPDX license and marks a missing license file", async () => {
+  const originalFetch = globalThis.fetch;
+  try {
+    globalThis.fetch = async () =>
+      new Response(
+        JSON.stringify({
+          license: { spdx_id: "NOASSERTION" },
+          content: Buffer.from("MIT License\n\nPermission is hereby granted, free of charge").toString("base64"),
+          html_url: "https://github.com/example/repo/blob/main/LICENSE",
+        }),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      );
+    assert.deepEqual(await fetchGitHubLicense("https://github.com/example/repo"), {
+      license: "MIT",
+      licenseLabel: "MIT",
+      licenseFile: true,
+      licenseUrl: "https://github.com/example/repo/blob/main/LICENSE",
+    });
+
+    globalThis.fetch = async () => new Response(null, { status: 404 });
+    assert.deepEqual(await fetchGitHubLicense("https://github.com/example/repo"), {
+      license: "NOASSERTION",
+      licenseLabel: "未标注",
+      licenseFile: false,
+      licenseUrl: null,
+    });
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
 });

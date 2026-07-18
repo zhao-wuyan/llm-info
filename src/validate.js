@@ -14,6 +14,15 @@ export function validateDatabase(database) {
     if (modelIds.has(model.id)) errors.push(`duplicate model id: ${model.id}`);
     modelIds.add(model.id);
     if (!providerIds.has(model.providerId)) errors.push(`unknown provider ${model.providerId} for ${model.id}`);
+    if (
+      model.quality &&
+      (model.quality.source !== "ai-pricing" ||
+        typeof model.quality.aaIndex !== "number" ||
+        !Number.isFinite(model.quality.aaIndex) ||
+        model.quality.aaIndex < 0)
+    ) {
+      errors.push(`invalid quality evidence for ${model.id}`);
+    }
     for (const price of model.pricing || []) {
       if (priceIds.has(price.id)) errors.push(`duplicate price id: ${price.id}`);
       priceIds.add(price.id);
