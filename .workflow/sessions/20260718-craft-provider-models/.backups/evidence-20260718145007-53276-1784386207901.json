@@ -1,0 +1,57 @@
+{
+  "schema_version": "evidence/1.0",
+  "revision": 1,
+  "records": {
+    "EVD-001-001": {
+      "run_id": "20260718-001-craft",
+      "command": "craft",
+      "kind": "decision",
+      "point": "D-001",
+      "claim": "06 展示当前供应商的全部模型，支持名称或 Model ID 搜索、能力筛选、上下文筛选、价格排序和分页。",
+      "outcome": "accepted",
+      "rationale": "06 展示当前供应商的全部模型，支持名称或 Model ID 搜索、能力筛选、上下文筛选、价格排序和分页。",
+      "status": "accepted",
+      "artifact_refs": [
+        "ART-001-001"
+      ],
+      "gate_refs": [],
+      "source_refs": [
+        "report.md"
+      ]
+    },
+    "EVD-001-002": {
+      "run_id": "20260718-001-craft",
+      "command": "craft",
+      "kind": "decision",
+      "point": "D-002",
+      "claim": "03 的供应商行进入 05 供应商详情页，06 的模型行进入 02 模型详情页。",
+      "outcome": "accepted",
+      "rationale": "03 的供应商行进入 05 供应商详情页，06 的模型行进入 02 模型详情页。",
+      "status": "accepted",
+      "artifact_refs": [
+        "ART-001-001"
+      ],
+      "gate_refs": [],
+      "source_refs": [
+        "report.md"
+      ]
+    },
+    "EVD-001-003": {
+      "run_id": "20260718-001-craft",
+      "command": "craft",
+      "kind": "decision",
+      "point": "D-003",
+      "claim": "03 与 06 弹框均相对完整 1440 页面居中，不受 224 宽左侧边栏影响。",
+      "outcome": "accepted",
+      "rationale": "03 与 06 弹框均相对完整 1440 页面居中，不受 224 宽左侧边栏影响。",
+      "status": "accepted",
+      "artifact_refs": [
+        "ART-001-001"
+      ],
+      "gate_refs": [],
+      "source_refs": [
+        "report.md"
+      ]
+    }
+  }
+}

@@ -18,4 +18,6 @@ npm run validate
 
 同一模型经厂商直连、阿里云百炼、硅基流动、PPIO 或 OpenRouter 等渠道销售时，会保留为不同的 `providerId/modelId`，避免混淆不同区域和渠道价格。`canonicalId` 用于后续页面聚合同一模型，`sourceRefs` 和每条报价的 `sourceUrl`/`observedAt` 用于追溯。
 
+`providers[]` 承载供应商和渠道资料，包括描述、官网、文档、API 协议与连接信息；`models[]` 承载模型自身的描述、能力、上下文、发布日期和价格。模型级字段不会被提升为整个供应商的默认配置。
+
 完整机器可读约束见 `schemas/models.schema.json`。`model-price-hub` 当前仓库未声明 license，生成数据的 `sources[].license` 因此标记为 `NOASSERTION`，上线使用前需要单独确认授权边界。

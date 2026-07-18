@@ -1,0 +1,57 @@
+{
+  "schema_version": "evidence/1.0",
+  "revision": 1,
+  "records": {
+    "EVD-001-001": {
+      "run_id": "20260718-001-craft",
+      "command": "craft",
+      "kind": "decision",
+      "point": "D-001",
+      "claim": "第二行按供应商列表、供应商详情、供应商详情弹框从左向右排列，数据来源页放在第三行左侧。",
+      "outcome": "accepted",
+      "rationale": "第二行按供应商列表、供应商详情、供应商详情弹框从左向右排列，数据来源页放在第三行左侧。",
+      "status": "accepted",
+      "artifact_refs": [
+        "ART-001-001"
+      ],
+      "gate_refs": [],
+      "source_refs": [
+        "report.md"
+      ]
+    },
+    "EVD-001-002": {
+      "run_id": "20260718-001-craft",
+      "command": "craft",
+      "kind": "decision",
+      "point": "D-002",
+      "claim": "供应商详情使用 NanoGPT 真实数据，展示身份、接入信息、模型覆盖、报价样例与来源追溯。",
+      "outcome": "accepted",
+      "rationale": "供应商详情使用 NanoGPT 真实数据，展示身份、接入信息、模型覆盖、报价样例与来源追溯。",
+      "status": "accepted",
+      "artifact_refs": [
+        "ART-001-001"
+      ],
+      "gate_refs": [],
+      "source_refs": [
+        "report.md"
+      ]
+    },
+    "EVD-001-003": {
+      "run_id": "20260718-001-craft",
+      "command": "craft",
+      "kind": "decision",
+      "point": "D-003",
+      "claim": "供应商列表行详情弹框提供快速查看，并保留进入完整详情页的入口。",
+      "outcome": "accepted",
+      "rationale": "供应商列表行详情弹框提供快速查看，并保留进入完整详情页的入口。",
+      "status": "accepted",
+      "artifact_refs": [
+        "ART-001-001"
+      ],
+      "gate_refs": [],
+      "source_refs": [
+        "report.md"
+      ]
+    }
+  }
+}

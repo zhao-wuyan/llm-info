@@ -9,12 +9,26 @@ import { validateDatabase } from "../src/validate.js";
 
 const aidyFixture = {
   _meta: { generatedAt: "2026-07-17T00:00:00Z" },
-  providers: { deepseek: { id: "deepseek", name: "DeepSeek", official: true } },
+  providers: {
+    deepseek: {
+      id: "deepseek",
+      name: "DeepSeek",
+      official: true,
+      featured: true,
+      description: "DeepSeek 官方模型服务。",
+      api: "openai-completions",
+      baseUrl: "https://api.deepseek.com",
+      url: "https://deepseek.com",
+      doc: "https://api-docs.deepseek.com",
+      checkModel: "deepseek-chat",
+    },
+  },
   models: {
     deepseek: [
       {
         id: "deepseek-chat",
         name: "DeepSeek Chat",
+        description: "DeepSeek 的通用对话模型。",
         abilities: {},
         pricing: { currency: "CNY", unit: "millionTokens", basePricing: { textInput: 2, textOutput: 8 } },
       },
@@ -75,6 +89,30 @@ test("uses null when a native currency price is unavailable", () => {
   );
   assert.equal(database.models[0].displayPrices.USD, null);
   assert.ok(database.models[0].displayPrices.CNY);
+});
+
+test("keeps supplier details on providers and model descriptions on models", () => {
+  const catalog = adaptAidy(aidyFixture);
+  assert.equal(catalog.providers[0].description, "DeepSeek 官方模型服务。");
+  assert.equal(catalog.providers[0].api, "openai-completions");
+  assert.equal(catalog.providers[0].website, "https://deepseek.com");
+  assert.equal(catalog.models[0].description, "DeepSeek 的通用对话模型。");
+  assert.equal("api" in catalog.models[0], false);
+});
+
+test("prefers complete aidy supplier information during provider merging", () => {
+  const database = mergeCatalogs(
+    [
+      { configKey: "litellm", ...adaptLiteLlm(litellmFixture, "2026-07-18T00:00:00Z") },
+      { configKey: "aidy", ...adaptAidy(aidyFixture) },
+      { configKey: "priceHub", ...adaptPriceHub(hubFixture) },
+    ],
+    "2026-07-18T00:00:00Z",
+  );
+  const provider = database.providers.find((item) => item.id === "deepseek");
+  assert.equal(provider.name, "DeepSeek");
+  assert.equal(provider.description, "DeepSeek 官方模型服务。");
+  assert.equal(provider.api, "openai-completions");
 });
 
 test("keeps channel prices as separate model listings", () => {

@@ -1,0 +1,59 @@
+{
+  "schema_version": "artifacts/1.0",
+  "revision": 1,
+  "artifacts": {
+    "ART-001-001": {
+      "kind": "archive",
+      "role": "attachment",
+      "producer_run_id": "20260718-001-grill",
+      "relative_path": "runs/20260718-001-grill/outputs/archive.json",
+      "media_type": "application/json",
+      "schema_version": "archive/1.0",
+      "content_hash": "c43fc8f16603599695c7a135e6d20944bd69982d5e5629bfc058455877a3e924",
+      "size": 931,
+      "status": "sealed",
+      "derived_from": [],
+      "replaces": null
+    },
+    "ART-001-002": {
+      "kind": "context-package",
+      "role": "attachment",
+      "producer_run_id": "20260718-001-grill",
+      "relative_path": "runs/20260718-001-grill/outputs/context-package.json",
+      "media_type": "application/json",
+      "schema_version": "context-package/1.0",
+      "content_hash": "f148b4225e1d897aac7f17ffafce90cf013ffc7d492634d1b3b288ae3b584d96",
+      "size": 4388,
+      "status": "sealed",
+      "derived_from": [],
+      "replaces": null
+    },
+    "ART-001-003": {
+      "kind": "grill-report",
+      "role": "attachment",
+      "producer_run_id": "20260718-001-grill",
+      "relative_path": "runs/20260718-001-grill/outputs/grill-report.md",
+      "media_type": "text/markdown",
+      "schema_version": "grill-report/1.0",
+      "content_hash": "28aa01cde519504615f0398cf992470587d80527eadc40da57ead620eed86f52",
+      "size": 6147,
+      "status": "sealed",
+      "derived_from": [],
+      "replaces": null
+    },
+    "ART-001-004": {
+      "kind": "terminology",
+      "role": "attachment",
+      "producer_run_id": "20260718-001-grill",
+      "relative_path": "runs/20260718-001-grill/outputs/terminology.md",
+      "media_type": "text/markdown",
+      "schema_version": "terminology/1.0",
+      "content_hash": "b82775c59fcd726f23dc1ecb2a135b9db1c9e2bf78f69294fd7e010bae7f1cd8",
+      "size": 1164,
+      "status": "sealed",
+      "derived_from": [],
+      "replaces": null
+    }
+  },
+  "aliases": {}
+}

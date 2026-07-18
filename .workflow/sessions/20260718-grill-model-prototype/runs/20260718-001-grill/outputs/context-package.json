@@ -1,0 +1,84 @@
+{
+  "$schema": "context-package/1.0",
+  "source": {
+    "type": "grill",
+    "artifact_id": "GRL-model-prototype-2026-07-18",
+    "session_path": ".workflow/sessions/20260718-grill-model-prototype/runs/20260718-001-grill/outputs",
+    "generated_at": "2026-07-18T20:53:36+08:00"
+  },
+  "requirements": [
+    {
+      "id": "R-001",
+      "title": "规范模型目录",
+      "description": "模型列表按 canonicalId 聚合，详情页展开供应商渠道。",
+      "priority": "must",
+      "ref": "grill-report.md#branch-1-scope--boundaries"
+    },
+    {
+      "id": "R-002",
+      "title": "详情内供应商对比",
+      "description": "多供应商对比从模型详情页进入，并限定在当前 canonicalId。",
+      "priority": "must",
+      "ref": "grill-report.md#q12-多供应商对比弹框从哪里进入"
+    }
+  ],
+  "constraints": [
+    {
+      "id": "C-001",
+      "area": "information-architecture",
+      "constraint": "模型列表页 MUST 以 canonicalId 聚合后的规范模型为主要对象。",
+      "rationale": "渠道模型记录存在大量重复，canonicalId 是数据层定义的页面聚合键。",
+      "status": "locked",
+      "ref": "grill-report.md#q11-列表页的一行或一卡代表什么"
+    },
+    {
+      "id": "C-002",
+      "area": "pricing",
+      "constraint": "对比主表 MUST 使用 displayPrices.USD/CNY，并提供 pricing 追溯入口。",
+      "rationale": "系统不做汇率换算，展示价和原始报价承担不同职责。",
+      "status": "locked",
+      "ref": "grill-report.md#q21-对比弹框的主价格采用哪种口径"
+    },
+    {
+      "id": "C-003",
+      "area": "comparison",
+      "constraint": "供应商 MUST 按行展示，比较指标 MUST 按列展示。",
+      "rationale": "单个规范模型最多有 26 个供应商。",
+      "status": "locked",
+      "ref": "grill-report.md#q22-对比弹框如何承载最多-26-个供应商"
+    },
+    {
+      "id": "C-004",
+      "area": "missing-data",
+      "constraint": "缺失价格 MUST 显示短横线并置底，有效零价 MUST 显示免费和 0.00。",
+      "rationale": "null 与 0 在数据模型中语义不同。",
+      "status": "locked",
+      "ref": "grill-report.md#branch-3-edge-cases--failure-modes"
+    }
+  ],
+  "domain": {
+    "problem_statement": "为大规模 LLM 模型与多渠道价格数据设计清晰、可追溯的浏览和比较原型。",
+    "terminology": [
+      { "term": "渠道模型", "definition": "一个供应商渠道下的具体模型记录。", "code_ref": "schemas/models.schema.json:84", "status": "locked" },
+      { "term": "规范模型", "definition": "通过 canonicalId 聚合后的同一基础模型。", "code_ref": "README.md:19", "status": "locked" },
+      { "term": "供应商", "definition": "提供模型访问和报价的厂商直连或第三方渠道。", "code_ref": "schemas/models.schema.json:$defs.provider", "status": "locked" },
+      { "term": "展示价", "definition": "displayPrices.USD/CNY 中预计算的页面首选价格。", "code_ref": "README.md:17", "status": "locked" },
+      { "term": "原始报价", "definition": "pricing 数组中可追溯的源报价。", "code_ref": "schemas/models.schema.json:$defs.price", "status": "locked" }
+    ],
+    "audience": "需要发现模型并比较接入渠道的开发者和技术决策者",
+    "industry": "LLM API 与模型基础设施"
+  },
+  "non_goals": [
+    { "title": "跨模型能力对比", "rationale": "本阶段只比较同一规范模型的供应商。", "ref": "grill-report.md#q12-多供应商对比弹框从哪里进入" },
+    { "title": "汇率换算", "rationale": "数据层明确禁止用换算价补齐缺失币种。", "ref": "README.md:17" }
+  ],
+  "insights": [
+    { "area": "scale", "summary": "10,004 条渠道模型聚合为 7,741 个规范模型，709 个规范模型包含多个渠道。", "evidence": "data/models.json 聚合统计", "ref": "grill-report.md#codebase-surface" },
+    { "area": "comparison", "summary": "单个模型最多有 26 个供应商，固定横向卡片结构不可扩展。", "evidence": "moonshotai/kimi-k2.6", "ref": "grill-report.md#q22-对比弹框如何承载最多-26-个供应商" }
+  ],
+  "open_questions": [],
+  "references": [
+    { "type": "grill-report", "path": "grill-report.md" },
+    { "type": "terminology", "path": "terminology.md" }
+  ]
+}

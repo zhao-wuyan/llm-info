@@ -1,0 +1,71 @@
+{
+  "schema_version": "command-run/1.0",
+  "session_id": "20260718-craft-provider-models",
+  "run_id": "20260718-001-craft",
+  "sequence": 1,
+  "parent_run_id": null,
+  "command": {
+    "name": "craft",
+    "version": "1.0",
+    "source_path": "",
+    "content_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "resolved_prompt_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "status": "sealed",
+  "input": {
+    "args": [],
+    "consumes": [],
+    "context_identity_revision": 1
+  },
+  "gate_ids": [],
+  "output": {
+    "produces": [
+      "ART-001-001"
+    ],
+    "primary_artifact_id": null,
+    "verdict": "ready"
+  },
+  "handoff": {
+    "schema_version": "command-handoff/1.0",
+    "producer_run_id": "20260718-001-craft",
+    "command": "craft",
+    "verdict": "ready",
+    "summary": "将 06 重构为可检索的供应商全模型列表弹框，并修正 03/06 的整页居中。",
+    "constraints": [],
+    "decisions": [
+      {
+        "id": "D-001",
+        "text": "06 展示当前供应商的全部模型，支持名称或 Model ID 搜索、能力筛选、上下文筛选、价格排序和分页。",
+        "status": "accepted"
+      },
+      {
+        "id": "D-002",
+        "text": "03 的供应商行进入 05 供应商详情页，06 的模型行进入 02 模型详情页。",
+        "status": "accepted"
+      },
+      {
+        "id": "D-003",
+        "text": "03 与 06 弹框均相对完整 1440 页面居中，不受 224 宽左侧边栏影响。",
+        "status": "accepted"
+      }
+    ],
+    "concerns": [],
+    "artifact_refs": [
+      "ART-001-001"
+    ],
+    "next": [
+      {
+        "command": "maestro-impeccable craft",
+        "reason": "实现供应商行、模型行的详情路由以及 06 的检索筛选状态。",
+        "needs": [
+          "design/原型设计.pen",
+          ".workflow/specs/ui-conventions.md"
+        ]
+      }
+    ],
+    "details": {}
+  },
+  "started_at": "2026-07-18T22:41:13+08:00",
+  "completed_at": "2026-07-18T22:49:54+08:00",
+  "sealed_at": "2026-07-18T22:49:54+08:00"
+}

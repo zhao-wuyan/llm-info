@@ -1,0 +1,74 @@
+{
+  "schema_version": "evidence/1.0",
+  "revision": 1,
+  "records": {
+    "EVD-001-001": {
+      "run_id": "20260718-001-craft",
+      "command": "craft",
+      "kind": "decision",
+      "point": "D-001",
+      "claim": "供应商列表必须以供应商为行维度，而不是以模型为行维度。",
+      "outcome": "accepted",
+      "rationale": "供应商列表必须以供应商为行维度，而不是以模型为行维度。",
+      "status": "accepted",
+      "artifact_refs": [
+        "ART-001-001"
+      ],
+      "gate_refs": [],
+      "source_refs": [
+        "report.md"
+      ]
+    },
+    "EVD-001-002": {
+      "run_id": "20260718-001-craft",
+      "command": "craft",
+      "kind": "decision",
+      "point": "D-002",
+      "claim": "新增页面从模型列表页正下方开始，向右排列。",
+      "outcome": "accepted",
+      "rationale": "新增页面从模型列表页正下方开始，向右排列。",
+      "status": "accepted",
+      "artifact_refs": [
+        "ART-001-001"
+      ],
+      "gate_refs": [],
+      "source_refs": [
+        "report.md"
+      ]
+    },
+    "EVD-001-003": {
+      "run_id": "20260718-001-craft",
+      "command": "craft",
+      "kind": "decision",
+      "point": "D-003",
+      "claim": "供应商列表页使用供应商、API / 身份、模型数、币种、USD 覆盖、CNY 覆盖六列。",
+      "outcome": "accepted",
+      "rationale": "供应商列表页使用供应商、API / 身份、模型数、币种、USD 覆盖、CNY 覆盖六列。",
+      "status": "accepted",
+      "artifact_refs": [
+        "ART-001-001"
+      ],
+      "gate_refs": [],
+      "source_refs": [
+        "report.md"
+      ]
+    },
+    "EVD-001-004": {
+      "run_id": "20260718-001-craft",
+      "command": "craft",
+      "kind": "decision",
+      "point": "D-004",
+      "claim": "左侧菜单中的供应商与数据来源均对应独立页面。",
+      "outcome": "accepted",
+      "rationale": "左侧菜单中的供应商与数据来源均对应独立页面。",
+      "status": "accepted",
+      "artifact_refs": [
+        "ART-001-001"
+      ],
+      "gate_refs": [],
+      "source_refs": [
+        "report.md"
+      ]
+    }
+  }
+}

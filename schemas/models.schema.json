@@ -39,6 +39,17 @@
         "id": { "type": "string", "minLength": 1 },
         "name": { "type": "string", "minLength": 1 },
         "official": { "type": "boolean" },
+        "featured": { "type": "boolean" },
+        "description": { "type": "string" },
+        "api": { "type": "string" },
+        "baseUrl": { "type": "string" },
+        "headers": { "type": "object", "additionalProperties": { "type": "string" } },
+        "website": { "type": "string" },
+        "documentation": { "type": "string" },
+        "enabled": { "type": "boolean" },
+        "checkModel": { "type": "string" },
+        "apiKeyUrl": { "type": "string" },
+        "compat": { "type": "object" },
         "sourceRefs": { "type": "array", "items": { "$ref": "#/$defs/sourceRef" } }
       }
     },
@@ -78,6 +89,7 @@
         "modelId": { "type": "string" },
         "canonicalId": { "type": "string" },
         "name": { "type": "string" },
+        "description": { "type": "string" },
         "sourceRefs": { "type": "array", "items": { "$ref": "#/$defs/sourceRef" } },
         "pricing": { "type": "array", "items": { "$ref": "#/$defs/price" } },
         "displayPrices": {

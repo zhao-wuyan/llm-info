@@ -1,0 +1,20 @@
+{
+  "schema_version": "artifacts/1.0",
+  "revision": 1,
+  "artifacts": {
+    "ART-001-001": {
+      "kind": "prototype-collection",
+      "role": "attachment",
+      "producer_run_id": "20260718-001-craft",
+      "relative_path": "runs/20260718-001-craft/outputs/prototype",
+      "media_type": "application/vnd.maestro.directory",
+      "schema_version": "prototype-collection/1.0",
+      "content_hash": "1e9b0d07681c70927dc3a14d5340243e0701e6321f80bd423e9f727d0cf0ca27",
+      "size": 290731,
+      "status": "sealed",
+      "derived_from": [],
+      "replaces": null
+    }
+  },
+  "aliases": {}
+}

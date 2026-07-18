@@ -1,0 +1,70 @@
+{
+  "schema_version": "command-run/1.0",
+  "session_id": "20260718-document-llm-info",
+  "run_id": "20260718-001-document",
+  "sequence": 1,
+  "parent_run_id": null,
+  "command": {
+    "name": "document",
+    "version": "1.0",
+    "source_path": "",
+    "content_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "resolved_prompt_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "status": "sealed",
+  "input": {
+    "args": [
+      "--seed"
+    ],
+    "consumes": [],
+    "context_identity_revision": 1
+  },
+  "gate_ids": [],
+  "output": {
+    "produces": [],
+    "primary_artifact_id": null,
+    "verdict": "ready"
+  },
+  "handoff": {
+    "schema_version": "command-handoff/1.0",
+    "producer_run_id": "20260718-001-document",
+    "command": "document",
+    "verdict": "ready",
+    "summary": "已为 LLM Info 创建 Seed DESIGN.md。",
+    "constraints": [],
+    "decisions": [
+      {
+        "id": "D-001",
+        "text": "采用中性底加青绿强调色。",
+        "status": "accepted"
+      },
+      {
+        "id": "D-002",
+        "text": "采用单一技术型 Sans，模型 ID 辅以 Mono。",
+        "status": "accepted"
+      },
+      {
+        "id": "D-003",
+        "text": "视觉成熟度参考 Stripe、Linear 与 Vercel。",
+        "status": "accepted"
+      }
+    ],
+    "concerns": [
+      "当前为 Seed，精确 tokens 将在 Pencil 原型中实现后回填。"
+    ],
+    "artifact_refs": [],
+    "next": [
+      {
+        "command": "maestro-impeccable craft",
+        "reason": "使用 Seed DESIGN.md 绘制 Pencil 原型。",
+        "needs": [
+          ".workflow/impeccable/DESIGN.md"
+        ]
+      }
+    ],
+    "details": {}
+  },
+  "started_at": "2026-07-18T21:00:31+08:00",
+  "completed_at": "2026-07-18T21:02:53+08:00",
+  "sealed_at": "2026-07-18T21:02:53+08:00"
+}

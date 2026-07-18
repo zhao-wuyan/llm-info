@@ -1,0 +1,70 @@
+{
+  "schema_version": "command-run/1.0",
+  "session_id": "20260718-craft-provider-detail",
+  "run_id": "20260718-001-craft",
+  "sequence": 1,
+  "parent_run_id": null,
+  "command": {
+    "name": "craft",
+    "version": "1.0",
+    "source_path": "",
+    "content_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "resolved_prompt_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "status": "sealed",
+  "input": {
+    "args": [],
+    "consumes": [],
+    "context_identity_revision": 1
+  },
+  "gate_ids": [],
+  "output": {
+    "produces": [
+      "ART-001-001"
+    ],
+    "primary_artifact_id": null,
+    "verdict": "ready"
+  },
+  "handoff": {
+    "schema_version": "command-handoff/1.0",
+    "producer_run_id": "20260718-001-craft",
+    "command": "craft",
+    "verdict": "ready",
+    "summary": "调整供应商页面排布，并补充 NanoGPT 供应商详情页与列表行详情弹框。",
+    "constraints": [],
+    "decisions": [
+      {
+        "id": "D-001",
+        "text": "第二行按供应商列表、供应商详情、供应商详情弹框从左向右排列，数据来源页放在第三行左侧。",
+        "status": "accepted"
+      },
+      {
+        "id": "D-002",
+        "text": "供应商详情使用 NanoGPT 真实数据，展示身份、接入信息、模型覆盖、报价样例与来源追溯。",
+        "status": "accepted"
+      },
+      {
+        "id": "D-003",
+        "text": "供应商列表行详情弹框提供快速查看，并保留进入完整详情页的入口。",
+        "status": "accepted"
+      }
+    ],
+    "concerns": [],
+    "artifact_refs": [
+      "ART-001-001"
+    ],
+    "next": [
+      {
+        "command": "maestro-impeccable craft",
+        "reason": "如进入实现阶段，将供应商列表行点击绑定到详情弹框，并将弹框主按钮绑定到供应商详情路由。",
+        "needs": [
+          "design/原型设计.pen"
+        ]
+      }
+    ],
+    "details": {}
+  },
+  "started_at": "2026-07-18T22:26:31+08:00",
+  "completed_at": "2026-07-18T22:35:54+08:00",
+  "sealed_at": "2026-07-18T22:35:54+08:00"
+}

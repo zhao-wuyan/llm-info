@@ -1,7 +1,2002 @@
 {
   "version": 2,
-  "generatedAt": 1784351268218,
+  "generatedAt": 1784387323741,
   "entries": [
+    {
+      "id": "kg-code-c-projectdev-project-myproject-llm-info-src-adapters-aidy-js-adaptaidy",
+      "type": "knowhow",
+      "title": "adaptAidy",
+      "summary": "function in C:\\ProjectDev\\project\\myproject\\llm-info\\src\\adapters\\aidy.js",
+      "tags": [
+        "kg",
+        "kg:function",
+        "source:codegraph"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:44.107Z",
+      "updated": "2026-07-18T14:50:44.107Z",
+      "scope": null,
+      "category": "coding",
+      "specCategory": null,
+      "createdBy": "maestrograph-db",
+      "sourceRef": "code:C:/ProjectDev/project/myproject/llm-info/src/adapters/aidy.js:adaptAidy",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-code-c-projectdev-project-myproject-llm-info-src-adapters-aidy-js-inferowner",
+      "type": "knowhow",
+      "title": "inferOwner",
+      "summary": "function in C:\\ProjectDev\\project\\myproject\\llm-info\\src\\adapters\\aidy.js",
+      "tags": [
+        "kg",
+        "kg:function",
+        "source:codegraph"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:44.107Z",
+      "updated": "2026-07-18T14:50:44.107Z",
+      "scope": null,
+      "category": "coding",
+      "specCategory": null,
+      "createdBy": "maestrograph-db",
+      "sourceRef": "code:C:/ProjectDev/project/myproject/llm-info/src/adapters/aidy.js:inferOwner",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-code-c-projectdev-project-myproject-llm-info-src-adapters-litellm-js-adaptlitellm",
+      "type": "knowhow",
+      "title": "adaptLiteLlm",
+      "summary": "function in C:\\ProjectDev\\project\\myproject\\llm-info\\src\\adapters\\litellm.js",
+      "tags": [
+        "kg",
+        "kg:function",
+        "source:codegraph"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:44.110Z",
+      "updated": "2026-07-18T14:50:44.110Z",
+      "scope": null,
+      "category": "coding",
+      "specCategory": null,
+      "createdBy": "maestrograph-db",
+      "sourceRef": "code:C:/ProjectDev/project/myproject/llm-info/src/adapters/litellm.js:adaptLiteLlm",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-code-c-projectdev-project-myproject-llm-info-src-adapters-litellm-js-extractrates",
+      "type": "knowhow",
+      "title": "extractRates",
+      "summary": "function in C:\\ProjectDev\\project\\myproject\\llm-info\\src\\adapters\\litellm.js",
+      "tags": [
+        "kg",
+        "kg:function",
+        "source:codegraph"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:44.110Z",
+      "updated": "2026-07-18T14:50:44.110Z",
+      "scope": null,
+      "category": "coding",
+      "specCategory": null,
+      "createdBy": "maestrograph-db",
+      "sourceRef": "code:C:/ProjectDev/project/myproject/llm-info/src/adapters/litellm.js:extractRates",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-code-c-projectdev-project-myproject-llm-info-src-adapters-litellm-js-rawcostfields",
+      "type": "knowhow",
+      "title": "rawCostFields",
+      "summary": "function in C:\\ProjectDev\\project\\myproject\\llm-info\\src\\adapters\\litellm.js",
+      "tags": [
+        "kg",
+        "kg:function",
+        "source:codegraph"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:44.110Z",
+      "updated": "2026-07-18T14:50:44.110Z",
+      "scope": null,
+      "category": "coding",
+      "specCategory": null,
+      "createdBy": "maestrograph-db",
+      "sourceRef": "code:C:/ProjectDev/project/myproject/llm-info/src/adapters/litellm.js:rawCostFields",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-code-c-projectdev-project-myproject-llm-info-src-adapters-price-hub-js-adaptpricehub",
+      "type": "knowhow",
+      "title": "adaptPriceHub",
+      "summary": "function in C:\\ProjectDev\\project\\myproject\\llm-info\\src\\adapters\\price-hub.js",
+      "tags": [
+        "kg",
+        "kg:function",
+        "source:codegraph"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:44.114Z",
+      "updated": "2026-07-18T14:50:44.114Z",
+      "scope": null,
+      "category": "coding",
+      "specCategory": null,
+      "createdBy": "maestrograph-db",
+      "sourceRef": "code:C:/ProjectDev/project/myproject/llm-info/src/adapters/price-hub.js:adaptPriceHub",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-code-c-projectdev-project-myproject-llm-info-src-adapters-price-hub-js-resolvechannel",
+      "type": "knowhow",
+      "title": "resolveChannel",
+      "summary": "function in C:\\ProjectDev\\project\\myproject\\llm-info\\src\\adapters\\price-hub.js",
+      "tags": [
+        "kg",
+        "kg:function",
+        "source:codegraph"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:44.114Z",
+      "updated": "2026-07-18T14:50:44.114Z",
+      "scope": null,
+      "category": "coding",
+      "specCategory": null,
+      "createdBy": "maestrograph-db",
+      "sourceRef": "code:C:/ProjectDev/project/myproject/llm-info/src/adapters/price-hub.js:resolveChannel",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-code-c-projectdev-project-myproject-llm-info-src-adapters-shared-js-createmodel",
+      "type": "knowhow",
+      "title": "createModel",
+      "summary": "function in C:\\ProjectDev\\project\\myproject\\llm-info\\src\\adapters\\shared.js",
+      "tags": [
+        "kg",
+        "kg:function",
+        "source:codegraph"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:44.116Z",
+      "updated": "2026-07-18T14:50:44.116Z",
+      "scope": null,
+      "category": "coding",
+      "specCategory": null,
+      "createdBy": "maestrograph-db",
+      "sourceRef": "code:C:/ProjectDev/project/myproject/llm-info/src/adapters/shared.js:createModel",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-code-c-projectdev-project-myproject-llm-info-src-adapters-shared-js-createprice",
+      "type": "knowhow",
+      "title": "createPrice",
+      "summary": "function in C:\\ProjectDev\\project\\myproject\\llm-info\\src\\adapters\\shared.js",
+      "tags": [
+        "kg",
+        "kg:function",
+        "source:codegraph"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:44.116Z",
+      "updated": "2026-07-18T14:50:44.116Z",
+      "scope": null,
+      "category": "coding",
+      "specCategory": null,
+      "createdBy": "maestrograph-db",
+      "sourceRef": "code:C:/ProjectDev/project/myproject/llm-info/src/adapters/shared.js:createPrice",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-code-c-projectdev-project-myproject-llm-info-src-adapters-shared-js-createprovider",
+      "type": "knowhow",
+      "title": "createProvider",
+      "summary": "function in C:\\ProjectDev\\project\\myproject\\llm-info\\src\\adapters\\shared.js",
+      "tags": [
+        "kg",
+        "kg:function",
+        "source:codegraph"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:44.116Z",
+      "updated": "2026-07-18T14:50:44.116Z",
+      "scope": null,
+      "category": "coding",
+      "specCategory": null,
+      "createdBy": "maestrograph-db",
+      "sourceRef": "code:C:/ProjectDev/project/myproject/llm-info/src/adapters/shared.js:createProvider",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-code-c-projectdev-project-myproject-llm-info-src-adapters-shared-js-numericentries",
+      "type": "knowhow",
+      "title": "numericEntries",
+      "summary": "function in C:\\ProjectDev\\project\\myproject\\llm-info\\src\\adapters\\shared.js",
+      "tags": [
+        "kg",
+        "kg:function",
+        "source:codegraph"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:44.116Z",
+      "updated": "2026-07-18T14:50:44.116Z",
+      "scope": null,
+      "category": "coding",
+      "specCategory": null,
+      "createdBy": "maestrograph-db",
+      "sourceRef": "code:C:/ProjectDev/project/myproject/llm-info/src/adapters/shared.js:numericEntries",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-code-c-projectdev-project-myproject-llm-info-src-database-change-js-hasmeaningfulchanges",
+      "type": "knowhow",
+      "title": "hasMeaningfulChanges",
+      "summary": "function in C:\\ProjectDev\\project\\myproject\\llm-info\\src\\database-change.js",
+      "tags": [
+        "kg",
+        "kg:function",
+        "source:codegraph"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:44.118Z",
+      "updated": "2026-07-18T14:50:44.118Z",
+      "scope": null,
+      "category": "coding",
+      "specCategory": null,
+      "createdBy": "maestrograph-db",
+      "sourceRef": "code:C:/ProjectDev/project/myproject/llm-info/src/database-change.js:hasMeaningfulChanges",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-code-c-projectdev-project-myproject-llm-info-src-database-change-js-withoutvolatilemetadata",
+      "type": "knowhow",
+      "title": "withoutVolatileMetadata",
+      "summary": "function in C:\\ProjectDev\\project\\myproject\\llm-info\\src\\database-change.js",
+      "tags": [
+        "kg",
+        "kg:function",
+        "source:codegraph"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:44.118Z",
+      "updated": "2026-07-18T14:50:44.118Z",
+      "scope": null,
+      "category": "coding",
+      "specCategory": null,
+      "createdBy": "maestrograph-db",
+      "sourceRef": "code:C:/ProjectDev/project/myproject/llm-info/src/database-change.js:withoutVolatileMetadata",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-code-c-projectdev-project-myproject-llm-info-src-fetch-js-fetchjson",
+      "type": "knowhow",
+      "title": "fetchJson",
+      "summary": "function in C:\\ProjectDev\\project\\myproject\\llm-info\\src\\fetch.js",
+      "tags": [
+        "kg",
+        "kg:function",
+        "source:codegraph"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:44.119Z",
+      "updated": "2026-07-18T14:50:44.119Z",
+      "scope": null,
+      "category": "coding",
+      "specCategory": null,
+      "createdBy": "maestrograph-db",
+      "sourceRef": "code:C:/ProjectDev/project/myproject/llm-info/src/fetch.js:fetchJson",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-code-c-projectdev-project-myproject-llm-info-src-ids-js-canonicalid",
+      "type": "knowhow",
+      "title": "canonicalId",
+      "summary": "function in C:\\ProjectDev\\project\\myproject\\llm-info\\src\\ids.js",
+      "tags": [
+        "kg",
+        "kg:function",
+        "source:codegraph"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:44.120Z",
+      "updated": "2026-07-18T14:50:44.120Z",
+      "scope": null,
+      "category": "coding",
+      "specCategory": null,
+      "createdBy": "maestrograph-db",
+      "sourceRef": "code:C:/ProjectDev/project/myproject/llm-info/src/ids.js:canonicalId",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-code-c-projectdev-project-myproject-llm-info-src-ids-js-listingid",
+      "type": "knowhow",
+      "title": "listingId",
+      "summary": "function in C:\\ProjectDev\\project\\myproject\\llm-info\\src\\ids.js",
+      "tags": [
+        "kg",
+        "kg:function",
+        "source:codegraph"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:44.120Z",
+      "updated": "2026-07-18T14:50:44.120Z",
+      "scope": null,
+      "category": "coding",
+      "specCategory": null,
+      "createdBy": "maestrograph-db",
+      "sourceRef": "code:C:/ProjectDev/project/myproject/llm-info/src/ids.js:listingId",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-code-c-projectdev-project-myproject-llm-info-src-ids-js-normalizeid",
+      "type": "knowhow",
+      "title": "normalizeId",
+      "summary": "function in C:\\ProjectDev\\project\\myproject\\llm-info\\src\\ids.js",
+      "tags": [
+        "kg",
+        "kg:function",
+        "source:codegraph"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:44.120Z",
+      "updated": "2026-07-18T14:50:44.120Z",
+      "scope": null,
+      "category": "coding",
+      "specCategory": null,
+      "createdBy": "maestrograph-db",
+      "sourceRef": "code:C:/ProjectDev/project/myproject/llm-info/src/ids.js:normalizeId",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-code-c-projectdev-project-myproject-llm-info-src-ids-js-normalizemodelid",
+      "type": "knowhow",
+      "title": "normalizeModelId",
+      "summary": "function in C:\\ProjectDev\\project\\myproject\\llm-info\\src\\ids.js",
+      "tags": [
+        "kg",
+        "kg:function",
+        "source:codegraph"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:44.120Z",
+      "updated": "2026-07-18T14:50:44.120Z",
+      "scope": null,
+      "category": "coding",
+      "specCategory": null,
+      "createdBy": "maestrograph-db",
+      "sourceRef": "code:C:/ProjectDev/project/myproject/llm-info/src/ids.js:normalizeModelId",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-code-c-projectdev-project-myproject-llm-info-src-merge-js-definedentries",
+      "type": "knowhow",
+      "title": "definedEntries",
+      "summary": "function in C:\\ProjectDev\\project\\myproject\\llm-info\\src\\merge.js",
+      "tags": [
+        "kg",
+        "kg:function",
+        "source:codegraph"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:44.124Z",
+      "updated": "2026-07-18T14:50:44.124Z",
+      "scope": null,
+      "category": "coding",
+      "specCategory": null,
+      "createdBy": "maestrograph-db",
+      "sourceRef": "code:C:/ProjectDev/project/myproject/llm-info/src/merge.js:definedEntries",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-code-c-projectdev-project-myproject-llm-info-src-merge-js-mergecatalogs",
+      "type": "knowhow",
+      "title": "mergeCatalogs",
+      "summary": "function in C:\\ProjectDev\\project\\myproject\\llm-info\\src\\merge.js",
+      "tags": [
+        "kg",
+        "kg:function",
+        "source:codegraph"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:44.124Z",
+      "updated": "2026-07-18T14:50:44.124Z",
+      "scope": null,
+      "category": "coding",
+      "specCategory": null,
+      "createdBy": "maestrograph-db",
+      "sourceRef": "code:C:/ProjectDev/project/myproject/llm-info/src/merge.js:mergeCatalogs",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-code-c-projectdev-project-myproject-llm-info-src-merge-js-mergemodel",
+      "type": "knowhow",
+      "title": "mergeModel",
+      "summary": "function in C:\\ProjectDev\\project\\myproject\\llm-info\\src\\merge.js",
+      "tags": [
+        "kg",
+        "kg:function",
+        "source:codegraph"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:44.124Z",
+      "updated": "2026-07-18T14:50:44.124Z",
+      "scope": null,
+      "category": "coding",
+      "specCategory": null,
+      "createdBy": "maestrograph-db",
+      "sourceRef": "code:C:/ProjectDev/project/myproject/llm-info/src/merge.js:mergeModel",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-code-c-projectdev-project-myproject-llm-info-src-merge-js-mergeprovider",
+      "type": "knowhow",
+      "title": "mergeProvider",
+      "summary": "function in C:\\ProjectDev\\project\\myproject\\llm-info\\src\\merge.js",
+      "tags": [
+        "kg",
+        "kg:function",
+        "source:codegraph"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:44.124Z",
+      "updated": "2026-07-18T14:50:44.124Z",
+      "scope": null,
+      "category": "coding",
+      "specCategory": null,
+      "createdBy": "maestrograph-db",
+      "sourceRef": "code:C:/ProjectDev/project/myproject/llm-info/src/merge.js:mergeProvider",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-code-c-projectdev-project-myproject-llm-info-src-merge-js-mergesourcerefs",
+      "type": "knowhow",
+      "title": "mergeSourceRefs",
+      "summary": "function in C:\\ProjectDev\\project\\myproject\\llm-info\\src\\merge.js",
+      "tags": [
+        "kg",
+        "kg:function",
+        "source:codegraph"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:44.124Z",
+      "updated": "2026-07-18T14:50:44.124Z",
+      "scope": null,
+      "category": "coding",
+      "specCategory": null,
+      "createdBy": "maestrograph-db",
+      "sourceRef": "code:C:/ProjectDev/project/myproject/llm-info/src/merge.js:mergeSourceRefs",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-code-c-projectdev-project-myproject-llm-info-src-merge-js-pricescore",
+      "type": "knowhow",
+      "title": "priceScore",
+      "summary": "function in C:\\ProjectDev\\project\\myproject\\llm-info\\src\\merge.js",
+      "tags": [
+        "kg",
+        "kg:function",
+        "source:codegraph"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:44.124Z",
+      "updated": "2026-07-18T14:50:44.124Z",
+      "scope": null,
+      "category": "coding",
+      "specCategory": null,
+      "createdBy": "maestrograph-db",
+      "sourceRef": "code:C:/ProjectDev/project/myproject/llm-info/src/merge.js:priceScore",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-code-c-projectdev-project-myproject-llm-info-src-merge-js-providersourcescore",
+      "type": "knowhow",
+      "title": "providerSourceScore",
+      "summary": "function in C:\\ProjectDev\\project\\myproject\\llm-info\\src\\merge.js",
+      "tags": [
+        "kg",
+        "kg:function",
+        "source:codegraph"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:44.124Z",
+      "updated": "2026-07-18T14:50:44.124Z",
+      "scope": null,
+      "category": "coding",
+      "specCategory": null,
+      "createdBy": "maestrograph-db",
+      "sourceRef": "code:C:/ProjectDev/project/myproject/llm-info/src/merge.js:providerSourceScore",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-code-c-projectdev-project-myproject-llm-info-src-merge-js-selectdisplayprice",
+      "type": "knowhow",
+      "title": "selectDisplayPrice",
+      "summary": "function in C:\\ProjectDev\\project\\myproject\\llm-info\\src\\merge.js",
+      "tags": [
+        "kg",
+        "kg:function",
+        "source:codegraph"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:44.124Z",
+      "updated": "2026-07-18T14:50:44.124Z",
+      "scope": null,
+      "category": "coding",
+      "specCategory": null,
+      "createdBy": "maestrograph-db",
+      "sourceRef": "code:C:/ProjectDev/project/myproject/llm-info/src/merge.js:selectDisplayPrice",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-code-c-projectdev-project-myproject-llm-info-src-validate-js-validatedatabase",
+      "type": "knowhow",
+      "title": "validateDatabase",
+      "summary": "function in C:\\ProjectDev\\project\\myproject\\llm-info\\src\\validate.js",
+      "tags": [
+        "kg",
+        "kg:function",
+        "source:codegraph"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:44.126Z",
+      "updated": "2026-07-18T14:50:44.126Z",
+      "scope": null,
+      "category": "coding",
+      "specCategory": null,
+      "createdBy": "maestrograph-db",
+      "sourceRef": "code:C:/ProjectDev/project/myproject/llm-info/src/validate.js:validateDatabase",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-code-github-workflows-update-model-data-yml-file",
+      "type": "knowhow",
+      "title": "update-model-data.yml",
+      "summary": "file in C:\\ProjectDev\\project\\myproject\\llm-info\\.github\\workflows\\update-model-data.yml",
+      "tags": [
+        "kg",
+        "kg:file",
+        "source:codegraph"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:44.040Z",
+      "updated": "2026-07-18T14:50:44.040Z",
+      "scope": null,
+      "category": "arch",
+      "specCategory": null,
+      "createdBy": "maestrograph-db",
+      "sourceRef": "code:.github/workflows/update-model-data.yml:<file>",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-knowhow-tip-20260718-pencil-viewport-copy-layout",
+      "type": "knowhow",
+      "title": "Pencil 视口外页面复制的布局偏移规避",
+      "summary": "在无限画布视口外扩展复杂页面时，通过复制稳定页面并原位更新来避免子树偏移。",
+      "tags": [
+        "kg",
+        "kg:knowhow_entry",
+        "source:knowhow"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:43.837Z",
+      "updated": "2026-07-18T14:50:43.837Z",
+      "scope": null,
+      "category": "debug",
+      "specCategory": null,
+      "createdBy": "maestrograph-db",
+      "sourceRef": "knowhow:TIP-20260718-pencil-viewport-copy-layout",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-spec-c-projectdev-project-myproject-llm-info-workflow-specs-architecture-constraints-md-15",
+      "type": "knowhow",
+      "title": "Architecture Constraints",
+      "summary": "\n",
+      "tags": [
+        "kg",
+        "kg:spec_entry",
+        "source:spec"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:43.822Z",
+      "updated": "2026-07-18T14:50:43.822Z",
+      "scope": null,
+      "category": "arch",
+      "specCategory": "arch",
+      "createdBy": "maestrograph-db",
+      "sourceRef": "spec:C:\\ProjectDev\\project\\myproject\\llm-info\\.workflow\\specs\\architecture-constraints.md:15",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-spec-c-projectdev-project-myproject-llm-info-workflow-specs-architecture-constraints-md-17",
+      "type": "knowhow",
+      "title": "Module Structure",
+      "summary": "\n",
+      "tags": [
+        "kg",
+        "kg:spec_entry",
+        "source:spec"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:43.822Z",
+      "updated": "2026-07-18T14:50:43.822Z",
+      "scope": null,
+      "category": "arch",
+      "specCategory": "arch",
+      "createdBy": "maestrograph-db",
+      "sourceRef": "spec:C:\\ProjectDev\\project\\myproject\\llm-info\\.workflow\\specs\\architecture-constraints.md:17",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-spec-c-projectdev-project-myproject-llm-info-workflow-specs-architecture-constraints-md-19",
+      "type": "knowhow",
+      "title": "Layer Boundaries",
+      "summary": "\n",
+      "tags": [
+        "kg",
+        "kg:spec_entry",
+        "source:spec"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:43.822Z",
+      "updated": "2026-07-18T14:50:43.822Z",
+      "scope": null,
+      "category": "arch",
+      "specCategory": "arch",
+      "createdBy": "maestrograph-db",
+      "sourceRef": "spec:C:\\ProjectDev\\project\\myproject\\llm-info\\.workflow\\specs\\architecture-constraints.md:19",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-spec-c-projectdev-project-myproject-llm-info-workflow-specs-architecture-constraints-md-21",
+      "type": "knowhow",
+      "title": "Dependency Rules",
+      "summary": "\n",
+      "tags": [
+        "kg",
+        "kg:spec_entry",
+        "source:spec"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:43.822Z",
+      "updated": "2026-07-18T14:50:43.822Z",
+      "scope": null,
+      "category": "arch",
+      "specCategory": "arch",
+      "createdBy": "maestrograph-db",
+      "sourceRef": "spec:C:\\ProjectDev\\project\\myproject\\llm-info\\.workflow\\specs\\architecture-constraints.md:21",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-spec-c-projectdev-project-myproject-llm-info-workflow-specs-architecture-constraints-md-23",
+      "type": "knowhow",
+      "title": "Technology Constraints",
+      "summary": "\n",
+      "tags": [
+        "kg",
+        "kg:spec_entry",
+        "source:spec"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:43.822Z",
+      "updated": "2026-07-18T14:50:43.822Z",
+      "scope": null,
+      "category": "arch",
+      "specCategory": "arch",
+      "createdBy": "maestrograph-db",
+      "sourceRef": "spec:C:\\ProjectDev\\project\\myproject\\llm-info\\.workflow\\specs\\architecture-constraints.md:23",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-spec-c-projectdev-project-myproject-llm-info-workflow-specs-architecture-constraints-md-25",
+      "type": "knowhow",
+      "title": "Entries",
+      "summary": "\n\n\n<spec-entry category=\"arch\" keywords=\"canonicalid,模型列表,供应商\" date=\"2026-07-18\" sid=\"S-20260718-apm3\" title=\"规范模型目录边界\" description=\"定义模型列表与渠道展开的信息架构边界\" source=",
+      "tags": [
+        "kg",
+        "kg:spec_entry",
+        "source:spec"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:43.822Z",
+      "updated": "2026-07-18T14:50:43.822Z",
+      "scope": null,
+      "category": "arch",
+      "specCategory": "arch",
+      "createdBy": "maestrograph-db",
+      "sourceRef": "spec:C:\\ProjectDev\\project\\myproject\\llm-info\\.workflow\\specs\\architecture-constraints.md:25",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-spec-c-projectdev-project-myproject-llm-info-workflow-specs-coding-conventions-md-15",
+      "type": "knowhow",
+      "title": "Coding Conventions",
+      "summary": "\n",
+      "tags": [
+        "kg",
+        "kg:spec_entry",
+        "source:spec"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:43.822Z",
+      "updated": "2026-07-18T14:50:43.822Z",
+      "scope": null,
+      "category": "coding",
+      "specCategory": "coding",
+      "createdBy": "maestrograph-db",
+      "sourceRef": "spec:C:\\ProjectDev\\project\\myproject\\llm-info\\.workflow\\specs\\coding-conventions.md:15",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-spec-c-projectdev-project-myproject-llm-info-workflow-specs-coding-conventions-md-17",
+      "type": "knowhow",
+      "title": "Formatting",
+      "summary": "\n",
+      "tags": [
+        "kg",
+        "kg:spec_entry",
+        "source:spec"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:43.822Z",
+      "updated": "2026-07-18T14:50:43.822Z",
+      "scope": null,
+      "category": "coding",
+      "specCategory": "coding",
+      "createdBy": "maestrograph-db",
+      "sourceRef": "spec:C:\\ProjectDev\\project\\myproject\\llm-info\\.workflow\\specs\\coding-conventions.md:17",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-spec-c-projectdev-project-myproject-llm-info-workflow-specs-coding-conventions-md-19",
+      "type": "knowhow",
+      "title": "Naming",
+      "summary": "\n",
+      "tags": [
+        "kg",
+        "kg:spec_entry",
+        "source:spec"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:43.822Z",
+      "updated": "2026-07-18T14:50:43.822Z",
+      "scope": null,
+      "category": "coding",
+      "specCategory": "coding",
+      "createdBy": "maestrograph-db",
+      "sourceRef": "spec:C:\\ProjectDev\\project\\myproject\\llm-info\\.workflow\\specs\\coding-conventions.md:19",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-spec-c-projectdev-project-myproject-llm-info-workflow-specs-coding-conventions-md-21",
+      "type": "knowhow",
+      "title": "Imports",
+      "summary": "\n",
+      "tags": [
+        "kg",
+        "kg:spec_entry",
+        "source:spec"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:43.822Z",
+      "updated": "2026-07-18T14:50:43.822Z",
+      "scope": null,
+      "category": "coding",
+      "specCategory": "coding",
+      "createdBy": "maestrograph-db",
+      "sourceRef": "spec:C:\\ProjectDev\\project\\myproject\\llm-info\\.workflow\\specs\\coding-conventions.md:21",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-spec-c-projectdev-project-myproject-llm-info-workflow-specs-coding-conventions-md-23",
+      "type": "knowhow",
+      "title": "Patterns",
+      "summary": "\n",
+      "tags": [
+        "kg",
+        "kg:spec_entry",
+        "source:spec"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:43.822Z",
+      "updated": "2026-07-18T14:50:43.822Z",
+      "scope": null,
+      "category": "coding",
+      "specCategory": "coding",
+      "createdBy": "maestrograph-db",
+      "sourceRef": "spec:C:\\ProjectDev\\project\\myproject\\llm-info\\.workflow\\specs\\coding-conventions.md:23",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-spec-c-projectdev-project-myproject-llm-info-workflow-specs-coding-conventions-md-25",
+      "type": "knowhow",
+      "title": "Entries",
+      "summary": "\n\n\n<spec-entry category=\"coding\" keywords=\"displayprices,pricing,价格追溯\" date=\"2026-07-18\" sid=\"S-20260718-p062\" title=\"展示价与报价追溯规则\" description=\"定义供应商价格对比的主展示口径\" ",
+      "tags": [
+        "kg",
+        "kg:spec_entry",
+        "source:spec"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:43.822Z",
+      "updated": "2026-07-18T14:50:43.822Z",
+      "scope": null,
+      "category": "coding",
+      "specCategory": "coding",
+      "createdBy": "maestrograph-db",
+      "sourceRef": "spec:C:\\ProjectDev\\project\\myproject\\llm-info\\.workflow\\specs\\coding-conventions.md:25",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-spec-c-projectdev-project-myproject-llm-info-workflow-specs-debug-notes-md-14",
+      "type": "knowhow",
+      "title": "Debug Notes",
+      "summary": "\n",
+      "tags": [
+        "kg",
+        "kg:spec_entry",
+        "source:spec"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:43.822Z",
+      "updated": "2026-07-18T14:50:43.822Z",
+      "scope": null,
+      "category": "debug",
+      "specCategory": "debug",
+      "createdBy": "maestrograph-db",
+      "sourceRef": "spec:C:\\ProjectDev\\project\\myproject\\llm-info\\.workflow\\specs\\debug-notes.md:14",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-spec-c-projectdev-project-myproject-llm-info-workflow-specs-debug-notes-md-16",
+      "type": "knowhow",
+      "title": "Entries",
+      "summary": "\n\n",
+      "tags": [
+        "kg",
+        "kg:spec_entry",
+        "source:spec"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:43.822Z",
+      "updated": "2026-07-18T14:50:43.822Z",
+      "scope": null,
+      "category": "debug",
+      "specCategory": "debug",
+      "createdBy": "maestrograph-db",
+      "sourceRef": "spec:C:\\ProjectDev\\project\\myproject\\llm-info\\.workflow\\specs\\debug-notes.md:16",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-spec-c-projectdev-project-myproject-llm-info-workflow-specs-learnings-md-13",
+      "type": "knowhow",
+      "title": "Learnings",
+      "summary": "\nAdd entries with: `/spec-add learning <description>`\n\n",
+      "tags": [
+        "kg",
+        "kg:spec_entry",
+        "source:spec"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:43.822Z",
+      "updated": "2026-07-18T14:50:43.822Z",
+      "scope": null,
+      "category": "learning",
+      "specCategory": "learning",
+      "createdBy": "maestrograph-db",
+      "sourceRef": "spec:C:\\ProjectDev\\project\\myproject\\llm-info\\.workflow\\specs\\learnings.md:13",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-spec-c-projectdev-project-myproject-llm-info-workflow-specs-learnings-md-17",
+      "type": "knowhow",
+      "title": "Entries",
+      "summary": "\n\n",
+      "tags": [
+        "kg",
+        "kg:spec_entry",
+        "source:spec"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:43.822Z",
+      "updated": "2026-07-18T14:50:43.822Z",
+      "scope": null,
+      "category": "learning",
+      "specCategory": "learning",
+      "createdBy": "maestrograph-db",
+      "sourceRef": "spec:C:\\ProjectDev\\project\\myproject\\llm-info\\.workflow\\specs\\learnings.md:17",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-spec-c-projectdev-project-myproject-llm-info-workflow-specs-quality-rules-md-13",
+      "type": "knowhow",
+      "title": "Quality Rules",
+      "summary": "\n",
+      "tags": [
+        "kg",
+        "kg:spec_entry",
+        "source:spec"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:43.822Z",
+      "updated": "2026-07-18T14:50:43.822Z",
+      "scope": null,
+      "category": "review",
+      "specCategory": "review",
+      "createdBy": "maestrograph-db",
+      "sourceRef": "spec:C:\\ProjectDev\\project\\myproject\\llm-info\\.workflow\\specs\\quality-rules.md:13",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-spec-c-projectdev-project-myproject-llm-info-workflow-specs-quality-rules-md-15",
+      "type": "knowhow",
+      "title": "Entries",
+      "summary": "\n\n",
+      "tags": [
+        "kg",
+        "kg:spec_entry",
+        "source:spec"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:43.822Z",
+      "updated": "2026-07-18T14:50:43.822Z",
+      "scope": null,
+      "category": "review",
+      "specCategory": "review",
+      "createdBy": "maestrograph-db",
+      "sourceRef": "spec:C:\\ProjectDev\\project\\myproject\\llm-info\\.workflow\\specs\\quality-rules.md:15",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-spec-c-projectdev-project-myproject-llm-info-workflow-specs-review-standards-md-14",
+      "type": "knowhow",
+      "title": "Review Standards",
+      "summary": "\n",
+      "tags": [
+        "kg",
+        "kg:spec_entry",
+        "source:spec"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:43.822Z",
+      "updated": "2026-07-18T14:50:43.822Z",
+      "scope": null,
+      "category": "review",
+      "specCategory": "review",
+      "createdBy": "maestrograph-db",
+      "sourceRef": "spec:C:\\ProjectDev\\project\\myproject\\llm-info\\.workflow\\specs\\review-standards.md:14",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-spec-c-projectdev-project-myproject-llm-info-workflow-specs-review-standards-md-16",
+      "type": "knowhow",
+      "title": "Entries",
+      "summary": "\n\n",
+      "tags": [
+        "kg",
+        "kg:spec_entry",
+        "source:spec"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:43.822Z",
+      "updated": "2026-07-18T14:50:43.822Z",
+      "scope": null,
+      "category": "review",
+      "specCategory": "review",
+      "createdBy": "maestrograph-db",
+      "sourceRef": "spec:C:\\ProjectDev\\project\\myproject\\llm-info\\.workflow\\specs\\review-standards.md:16",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-spec-c-projectdev-project-myproject-llm-info-workflow-specs-test-conventions-md-15",
+      "type": "knowhow",
+      "title": "Test Conventions",
+      "summary": "\n",
+      "tags": [
+        "kg",
+        "kg:spec_entry",
+        "source:spec"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:43.822Z",
+      "updated": "2026-07-18T14:50:43.822Z",
+      "scope": null,
+      "category": "test",
+      "specCategory": "test",
+      "createdBy": "maestrograph-db",
+      "sourceRef": "spec:C:\\ProjectDev\\project\\myproject\\llm-info\\.workflow\\specs\\test-conventions.md:15",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-spec-c-projectdev-project-myproject-llm-info-workflow-specs-test-conventions-md-17",
+      "type": "knowhow",
+      "title": "Framework",
+      "summary": "\n",
+      "tags": [
+        "kg",
+        "kg:spec_entry",
+        "source:spec"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:43.822Z",
+      "updated": "2026-07-18T14:50:43.822Z",
+      "scope": null,
+      "category": "test",
+      "specCategory": "test",
+      "createdBy": "maestrograph-db",
+      "sourceRef": "spec:C:\\ProjectDev\\project\\myproject\\llm-info\\.workflow\\specs\\test-conventions.md:17",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-spec-c-projectdev-project-myproject-llm-info-workflow-specs-test-conventions-md-19",
+      "type": "knowhow",
+      "title": "Directory Structure",
+      "summary": "\n",
+      "tags": [
+        "kg",
+        "kg:spec_entry",
+        "source:spec"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:43.822Z",
+      "updated": "2026-07-18T14:50:43.822Z",
+      "scope": null,
+      "category": "test",
+      "specCategory": "test",
+      "createdBy": "maestrograph-db",
+      "sourceRef": "spec:C:\\ProjectDev\\project\\myproject\\llm-info\\.workflow\\specs\\test-conventions.md:19",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-spec-c-projectdev-project-myproject-llm-info-workflow-specs-test-conventions-md-21",
+      "type": "knowhow",
+      "title": "Naming Conventions",
+      "summary": "\n",
+      "tags": [
+        "kg",
+        "kg:spec_entry",
+        "source:spec"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:43.822Z",
+      "updated": "2026-07-18T14:50:43.822Z",
+      "scope": null,
+      "category": "test",
+      "specCategory": "test",
+      "createdBy": "maestrograph-db",
+      "sourceRef": "spec:C:\\ProjectDev\\project\\myproject\\llm-info\\.workflow\\specs\\test-conventions.md:21",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-spec-c-projectdev-project-myproject-llm-info-workflow-specs-test-conventions-md-23",
+      "type": "knowhow",
+      "title": "Patterns",
+      "summary": "\n",
+      "tags": [
+        "kg",
+        "kg:spec_entry",
+        "source:spec"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:43.822Z",
+      "updated": "2026-07-18T14:50:43.822Z",
+      "scope": null,
+      "category": "test",
+      "specCategory": "test",
+      "createdBy": "maestrograph-db",
+      "sourceRef": "spec:C:\\ProjectDev\\project\\myproject\\llm-info\\.workflow\\specs\\test-conventions.md:23",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-spec-c-projectdev-project-myproject-llm-info-workflow-specs-test-conventions-md-25",
+      "type": "knowhow",
+      "title": "Entries",
+      "summary": "\n\n",
+      "tags": [
+        "kg",
+        "kg:spec_entry",
+        "source:spec"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:43.822Z",
+      "updated": "2026-07-18T14:50:43.822Z",
+      "scope": null,
+      "category": "test",
+      "specCategory": "test",
+      "createdBy": "maestrograph-db",
+      "sourceRef": "spec:C:\\ProjectDev\\project\\myproject\\llm-info\\.workflow\\specs\\test-conventions.md:25",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-spec-c-projectdev-project-myproject-llm-info-workflow-specs-ui-conventions-md-16",
+      "type": "knowhow",
+      "title": "UI Conventions",
+      "summary": "\n",
+      "tags": [
+        "kg",
+        "kg:spec_entry",
+        "source:spec"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:43.822Z",
+      "updated": "2026-07-18T14:50:43.822Z",
+      "scope": null,
+      "category": "ui",
+      "specCategory": "ui",
+      "createdBy": "maestrograph-db",
+      "sourceRef": "spec:C:\\ProjectDev\\project\\myproject\\llm-info\\.workflow\\specs\\ui-conventions.md:16",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-spec-c-projectdev-project-myproject-llm-info-workflow-specs-ui-conventions-md-18",
+      "type": "knowhow",
+      "title": "Color & Theme",
+      "summary": "\n",
+      "tags": [
+        "kg",
+        "kg:spec_entry",
+        "source:spec"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:43.822Z",
+      "updated": "2026-07-18T14:50:43.822Z",
+      "scope": null,
+      "category": "ui",
+      "specCategory": "ui",
+      "createdBy": "maestrograph-db",
+      "sourceRef": "spec:C:\\ProjectDev\\project\\myproject\\llm-info\\.workflow\\specs\\ui-conventions.md:18",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-spec-c-projectdev-project-myproject-llm-info-workflow-specs-ui-conventions-md-20",
+      "type": "knowhow",
+      "title": "Typography",
+      "summary": "\n",
+      "tags": [
+        "kg",
+        "kg:spec_entry",
+        "source:spec"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:43.822Z",
+      "updated": "2026-07-18T14:50:43.822Z",
+      "scope": null,
+      "category": "ui",
+      "specCategory": "ui",
+      "createdBy": "maestrograph-db",
+      "sourceRef": "spec:C:\\ProjectDev\\project\\myproject\\llm-info\\.workflow\\specs\\ui-conventions.md:20",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-spec-c-projectdev-project-myproject-llm-info-workflow-specs-ui-conventions-md-22",
+      "type": "knowhow",
+      "title": "Layout & Spacing",
+      "summary": "\n",
+      "tags": [
+        "kg",
+        "kg:spec_entry",
+        "source:spec"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:43.822Z",
+      "updated": "2026-07-18T14:50:43.822Z",
+      "scope": null,
+      "category": "ui",
+      "specCategory": "ui",
+      "createdBy": "maestrograph-db",
+      "sourceRef": "spec:C:\\ProjectDev\\project\\myproject\\llm-info\\.workflow\\specs\\ui-conventions.md:22",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-spec-c-projectdev-project-myproject-llm-info-workflow-specs-ui-conventions-md-24",
+      "type": "knowhow",
+      "title": "Motion & Animation",
+      "summary": "\n",
+      "tags": [
+        "kg",
+        "kg:spec_entry",
+        "source:spec"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:43.822Z",
+      "updated": "2026-07-18T14:50:43.822Z",
+      "scope": null,
+      "category": "ui",
+      "specCategory": "ui",
+      "createdBy": "maestrograph-db",
+      "sourceRef": "spec:C:\\ProjectDev\\project\\myproject\\llm-info\\.workflow\\specs\\ui-conventions.md:24",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-spec-c-projectdev-project-myproject-llm-info-workflow-specs-ui-conventions-md-26",
+      "type": "knowhow",
+      "title": "Component Patterns",
+      "summary": "\n",
+      "tags": [
+        "kg",
+        "kg:spec_entry",
+        "source:spec"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:43.822Z",
+      "updated": "2026-07-18T14:50:43.822Z",
+      "scope": null,
+      "category": "ui",
+      "specCategory": "ui",
+      "createdBy": "maestrograph-db",
+      "sourceRef": "spec:C:\\ProjectDev\\project\\myproject\\llm-info\\.workflow\\specs\\ui-conventions.md:26",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "kg-spec-c-projectdev-project-myproject-llm-info-workflow-specs-ui-conventions-md-28",
+      "type": "knowhow",
+      "title": "Entries",
+      "summary": "\n\n\n<spec-entry category=\"ui\" keywords=\"product,register,users,anti-references\" date=\"2026-07-18\" sid=\"S-20260718-qn96\" title=\"LLM Info 产品设计语境\" description=\"LLM ",
+      "tags": [
+        "kg",
+        "kg:spec_entry",
+        "source:spec"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:50:43.822Z",
+      "updated": "2026-07-18T14:50:43.822Z",
+      "scope": null,
+      "category": "ui",
+      "specCategory": "ui",
+      "createdBy": "maestrograph-db",
+      "sourceRef": "spec:C:\\ProjectDev\\project\\myproject\\llm-info\\.workflow\\specs\\ui-conventions.md:28",
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "virtual",
+        "path": "kg/maestro.db"
+      }
+    },
+    {
+      "id": "knowhow-tip-20260718-pencil-viewport-copy-layout",
+      "type": "knowhow",
+      "title": "Pencil 视口外页面复制的布局偏移规避",
+      "summary": "在无限画布视口外扩展复杂页面时，通过复制稳定页面并原位更新来避免子树偏移。",
+      "tags": [
+        "Pencil",
+        "原型",
+        "布局偏移",
+        "页面复制"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:15:10.324Z",
+      "updated": "2026-07-18T14:15:10.325Z",
+      "scope": null,
+      "category": "debug",
+      "specCategory": null,
+      "createdBy": null,
+      "sourceRef": null,
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "file",
+        "path": "knowhow/TIP-20260718-pencil-viewport-copy-layout.md"
+      }
+    },
+    {
+      "id": "knowhow-TIP-20260718-pencil-viewport-copy-layout-001",
+      "type": "knowhow",
+      "title": "Context",
+      "summary": "- `design/原型设计.pen` - 适用于多画面、相同导航与主区域骨架的 Pencil 原型扩展。",
+      "tags": [
+        "Pencil",
+        "原型",
+        "布局偏移",
+        "页面复制"
+      ],
+      "status": "active",
+      "created": "2026-07-18T14:15:10.324Z",
+      "updated": "2026-07-18T14:15:10.325Z",
+      "scope": null,
+      "category": "debug",
+      "specCategory": null,
+      "createdBy": null,
+      "sourceRef": null,
+      "parent": "knowhow-tip-20260718-pencil-viewport-copy-layout",
+      "related": [],
+      "source": {
+        "kind": "file",
+        "path": "knowhow/TIP-20260718-pencil-viewport-copy-layout.md"
+      }
+    },
+    {
+      "id": "session-20260718-craft-model-prototype",
+      "type": "knowhow",
+      "title": "使用 Pencil MCP 绘制模型列表、详情和供应商对比原型",
+      "summary": "已使用 Pencil MCP 完成模型列表、模型详情和多供应商对比弹框原型。；决策：列表页以规范模型为行，并展示能力、上下文、供应商数量和最低展示价。",
+      "tags": [
+        "session",
+        "sealed"
+      ],
+      "status": "completed",
+      "created": "2026-07-18T21:15:22+08:00",
+      "updated": "2026-07-18T21:15:22+08:00",
+      "scope": null,
+      "category": null,
+      "specCategory": null,
+      "createdBy": "session-runtime",
+      "sourceRef": "20260718-craft-model-prototype",
+      "parent": null,
+      "related": [
+        "session-run-20260718-craft-model-prototype-20260718-001-craft"
+      ],
+      "source": {
+        "kind": "virtual",
+        "path": "sessions/20260718-craft-model-prototype/session.json"
+      }
+    },
+    {
+      "id": "session-20260718-craft-nav-pages",
+      "type": "knowhow",
+      "title": "使用 Pencil MCP 补画供应商和数据来源页面",
+      "summary": "完成供应商列表页与数据来源页，并按第二行从模型列表页下方向右排布。；决策：供应商列表必须以供应商为行维度，而不是以模型为行维度。",
+      "tags": [
+        "session",
+        "sealed"
+      ],
+      "status": "completed",
+      "created": "2026-07-18T22:15:42+08:00",
+      "updated": "2026-07-18T22:15:42+08:00",
+      "scope": null,
+      "category": null,
+      "specCategory": null,
+      "createdBy": "session-runtime",
+      "sourceRef": "20260718-craft-nav-pages",
+      "parent": null,
+      "related": [
+        "session-run-20260718-craft-nav-pages-20260718-001-craft"
+      ],
+      "source": {
+        "kind": "virtual",
+        "path": "sessions/20260718-craft-nav-pages/session.json"
+      }
+    },
+    {
+      "id": "session-20260718-craft-provider-detail",
+      "type": "knowhow",
+      "title": "调整页面排布并补画供应商详情页",
+      "summary": "调整供应商页面排布，并补充 NanoGPT 供应商详情页与列表行详情弹框。；决策：第二行按供应商列表、供应商详情、供应商详情弹框从左向右排列，数据来源页放在第三行左侧。",
+      "tags": [
+        "session",
+        "sealed"
+      ],
+      "status": "completed",
+      "created": "2026-07-18T22:36:03+08:00",
+      "updated": "2026-07-18T22:36:03+08:00",
+      "scope": null,
+      "category": null,
+      "specCategory": null,
+      "createdBy": "session-runtime",
+      "sourceRef": "20260718-craft-provider-detail",
+      "parent": null,
+      "related": [
+        "session-run-20260718-craft-provider-detail-20260718-001-craft"
+      ],
+      "source": {
+        "kind": "virtual",
+        "path": "sessions/20260718-craft-provider-detail/session.json"
+      }
+    },
+    {
+      "id": "session-20260718-craft-provider-models",
+      "type": "knowhow",
+      "title": "重构供应商模型列表弹框并记录点击导航规则",
+      "summary": "将 06 重构为可检索的供应商全模型列表弹框，并修正 03/06 的整页居中。；决策：06 展示当前供应商的全部模型，支持名称或 Model ID 搜索、能力筛选、上下文筛选、价格排序和分页。",
+      "tags": [
+        "session",
+        "sealed"
+      ],
+      "status": "completed",
+      "created": "2026-07-18T22:50:07+08:00",
+      "updated": "2026-07-18T22:50:07+08:00",
+      "scope": null,
+      "category": null,
+      "specCategory": null,
+      "createdBy": "session-runtime",
+      "sourceRef": "20260718-craft-provider-models",
+      "parent": null,
+      "related": [
+        "session-run-20260718-craft-provider-models-20260718-001-craft"
+      ],
+      "source": {
+        "kind": "virtual",
+        "path": "sessions/20260718-craft-provider-models/session.json"
+      }
+    },
+    {
+      "id": "session-20260718-document-llm-info",
+      "type": "knowhow",
+      "title": "为 LLM Info Pencil 原型建立种子视觉系统",
+      "summary": "已为 LLM Info 创建 Seed DESIGN.md。；决策：采用中性底加青绿强调色。",
+      "tags": [
+        "session",
+        "sealed"
+      ],
+      "status": "completed",
+      "created": "2026-07-18T21:03:17+08:00",
+      "updated": "2026-07-18T21:03:17+08:00",
+      "scope": null,
+      "category": null,
+      "specCategory": null,
+      "createdBy": "session-runtime",
+      "sourceRef": "20260718-document-llm-info",
+      "parent": null,
+      "related": [
+        "session-run-20260718-document-llm-info-20260718-001-document"
+      ],
+      "source": {
+        "kind": "virtual",
+        "path": "sessions/20260718-document-llm-info/session.json"
+      }
+    },
+    {
+      "id": "session-20260718-grill-model-prototype",
+      "type": "knowhow",
+      "title": "澄清模型目录与多供应商价格对比原型",
+      "summary": "已基于真实数据模型锁定模型目录、详情和多供应商对比原型的核心边界。；决策：列表按 canonicalId 聚合规范模型。",
+      "tags": [
+        "session",
+        "sealed"
+      ],
+      "status": "completed",
+      "created": "2026-07-18T20:55:43+08:00",
+      "updated": "2026-07-18T20:55:43+08:00",
+      "scope": null,
+      "category": null,
+      "specCategory": null,
+      "createdBy": "session-runtime",
+      "sourceRef": "20260718-grill-model-prototype",
+      "parent": null,
+      "related": [
+        "session-run-20260718-grill-model-prototype-20260718-001-grill"
+      ],
+      "source": {
+        "kind": "virtual",
+        "path": "sessions/20260718-grill-model-prototype/session.json"
+      }
+    },
+    {
+      "id": "session-20260718-teach-llm-info",
+      "type": "knowhow",
+      "title": "补齐 LLM Info 原型的产品设计语境",
+      "summary": "已确认并记录 LLM Info 的产品设计语境。；决策：默认 register 为 product。",
+      "tags": [
+        "session",
+        "sealed"
+      ],
+      "status": "completed",
+      "created": "2026-07-18T20:59:29+08:00",
+      "updated": "2026-07-18T20:59:29+08:00",
+      "scope": null,
+      "category": null,
+      "specCategory": null,
+      "createdBy": "session-runtime",
+      "sourceRef": "20260718-teach-llm-info",
+      "parent": null,
+      "related": [
+        "session-run-20260718-teach-llm-info-20260718-001-teach"
+      ],
+      "source": {
+        "kind": "virtual",
+        "path": "sessions/20260718-teach-llm-info/session.json"
+      }
+    },
+    {
+      "id": "session-run-20260718-craft-model-prototype-20260718-001-craft",
+      "type": "knowhow",
+      "title": "craft 20260718-001-craft",
+      "summary": "已使用 Pencil MCP 完成模型列表、模型详情和多供应商对比弹框原型。；决策：列表页以规范模型为行，并展示能力、上下文、供应商数量和最低展示价。",
+      "tags": [
+        "session",
+        "run",
+        "sealed",
+        "craft",
+        "verdict:ready",
+        "prototype-collection"
+      ],
+      "status": "completed",
+      "created": "2026-07-18T21:04:02+08:00",
+      "updated": "2026-07-18T21:14:40+08:00",
+      "scope": null,
+      "category": null,
+      "specCategory": null,
+      "createdBy": "craft",
+      "sourceRef": "20260718-001-craft",
+      "parent": "session-20260718-craft-model-prototype",
+      "related": [
+        "session-20260718-craft-model-prototype"
+      ],
+      "source": {
+        "kind": "virtual",
+        "path": "sessions/20260718-craft-model-prototype/runs/20260718-001-craft/run.json"
+      }
+    },
+    {
+      "id": "session-run-20260718-craft-nav-pages-20260718-001-craft",
+      "type": "knowhow",
+      "title": "craft 20260718-001-craft",
+      "summary": "完成供应商列表页与数据来源页，并按第二行从模型列表页下方向右排布。；决策：供应商列表必须以供应商为行维度，而不是以模型为行维度。",
+      "tags": [
+        "session",
+        "run",
+        "sealed",
+        "craft",
+        "verdict:ready",
+        "prototype-collection"
+      ],
+      "status": "completed",
+      "created": "2026-07-18T21:48:37+08:00",
+      "updated": "2026-07-18T22:15:33+08:00",
+      "scope": null,
+      "category": null,
+      "specCategory": null,
+      "createdBy": "craft",
+      "sourceRef": "20260718-001-craft",
+      "parent": "session-20260718-craft-nav-pages",
+      "related": [
+        "session-20260718-craft-nav-pages"
+      ],
+      "source": {
+        "kind": "virtual",
+        "path": "sessions/20260718-craft-nav-pages/runs/20260718-001-craft/run.json"
+      }
+    },
+    {
+      "id": "session-run-20260718-craft-provider-detail-20260718-001-craft",
+      "type": "knowhow",
+      "title": "craft 20260718-001-craft",
+      "summary": "调整供应商页面排布，并补充 NanoGPT 供应商详情页与列表行详情弹框。；决策：第二行按供应商列表、供应商详情、供应商详情弹框从左向右排列，数据来源页放在第三行左侧。",
+      "tags": [
+        "session",
+        "run",
+        "sealed",
+        "craft",
+        "verdict:ready",
+        "prototype-collection"
+      ],
+      "status": "completed",
+      "created": "2026-07-18T22:26:31+08:00",
+      "updated": "2026-07-18T22:35:54+08:00",
+      "scope": null,
+      "category": null,
+      "specCategory": null,
+      "createdBy": "craft",
+      "sourceRef": "20260718-001-craft",
+      "parent": "session-20260718-craft-provider-detail",
+      "related": [
+        "session-20260718-craft-provider-detail"
+      ],
+      "source": {
+        "kind": "virtual",
+        "path": "sessions/20260718-craft-provider-detail/runs/20260718-001-craft/run.json"
+      }
+    },
+    {
+      "id": "session-run-20260718-craft-provider-models-20260718-001-craft",
+      "type": "knowhow",
+      "title": "craft 20260718-001-craft",
+      "summary": "将 06 重构为可检索的供应商全模型列表弹框，并修正 03/06 的整页居中。；决策：06 展示当前供应商的全部模型，支持名称或 Model ID 搜索、能力筛选、上下文筛选、价格排序和分页。",
+      "tags": [
+        "session",
+        "run",
+        "sealed",
+        "craft",
+        "verdict:ready",
+        "prototype-collection"
+      ],
+      "status": "completed",
+      "created": "2026-07-18T22:41:13+08:00",
+      "updated": "2026-07-18T22:49:54+08:00",
+      "scope": null,
+      "category": null,
+      "specCategory": null,
+      "createdBy": "craft",
+      "sourceRef": "20260718-001-craft",
+      "parent": "session-20260718-craft-provider-models",
+      "related": [
+        "session-20260718-craft-provider-models"
+      ],
+      "source": {
+        "kind": "virtual",
+        "path": "sessions/20260718-craft-provider-models/runs/20260718-001-craft/run.json"
+      }
+    },
+    {
+      "id": "session-run-20260718-document-llm-info-20260718-001-document",
+      "type": "knowhow",
+      "title": "document 20260718-001-document",
+      "summary": "已为 LLM Info 创建 Seed DESIGN.md。；决策：采用中性底加青绿强调色。",
+      "tags": [
+        "session",
+        "run",
+        "sealed",
+        "document",
+        "verdict:ready"
+      ],
+      "status": "completed",
+      "created": "2026-07-18T21:00:31+08:00",
+      "updated": "2026-07-18T21:02:53+08:00",
+      "scope": null,
+      "category": null,
+      "specCategory": null,
+      "createdBy": "document",
+      "sourceRef": "20260718-001-document",
+      "parent": "session-20260718-document-llm-info",
+      "related": [
+        "session-20260718-document-llm-info"
+      ],
+      "source": {
+        "kind": "virtual",
+        "path": "sessions/20260718-document-llm-info/runs/20260718-001-document/run.json"
+      }
+    },
+    {
+      "id": "session-run-20260718-grill-model-prototype-20260718-001-grill",
+      "type": "knowhow",
+      "title": "grill 20260718-001-grill",
+      "summary": "已基于真实数据模型锁定模型目录、详情和多供应商对比原型的核心边界。；决策：列表按 canonicalId 聚合规范模型。",
+      "tags": [
+        "session",
+        "run",
+        "sealed",
+        "grill",
+        "verdict:ready",
+        "archive",
+        "context-package",
+        "grill-report",
+        "terminology"
+      ],
+      "status": "completed",
+      "created": "2026-07-18T20:42:30+08:00",
+      "updated": "2026-07-18T20:55:26+08:00",
+      "scope": null,
+      "category": "arch",
+      "specCategory": null,
+      "createdBy": "grill",
+      "sourceRef": "20260718-001-grill",
+      "parent": "session-20260718-grill-model-prototype",
+      "related": [
+        "session-20260718-grill-model-prototype"
+      ],
+      "source": {
+        "kind": "virtual",
+        "path": "sessions/20260718-grill-model-prototype/runs/20260718-001-grill/run.json"
+      }
+    },
+    {
+      "id": "session-run-20260718-teach-llm-info-20260718-001-teach",
+      "type": "knowhow",
+      "title": "teach 20260718-001-teach",
+      "summary": "已确认并记录 LLM Info 的产品设计语境。；决策：默认 register 为 product。",
+      "tags": [
+        "session",
+        "run",
+        "sealed",
+        "teach",
+        "verdict:ready"
+      ],
+      "status": "completed",
+      "created": "2026-07-18T20:57:09+08:00",
+      "updated": "2026-07-18T20:59:07+08:00",
+      "scope": null,
+      "category": null,
+      "specCategory": null,
+      "createdBy": "teach",
+      "sourceRef": "20260718-001-teach",
+      "parent": "session-20260718-teach-llm-info",
+      "related": [
+        "session-20260718-teach-llm-info"
+      ],
+      "source": {
+        "kind": "virtual",
+        "path": "sessions/20260718-teach-llm-info/runs/20260718-001-teach/run.json"
+      }
+    },
     {
       "id": "spec:project:architecture-constraints",
       "type": "spec",
@@ -17,13 +2012,63 @@
       ],
       "status": "active",
       "created": "2026-07-18T05:07:47.653Z",
-      "updated": "2026-07-18T05:07:47.653Z",
+      "updated": "2026-07-18T12:53:12.305Z",
       "scope": "project",
       "category": "arch",
       "specCategory": null,
       "createdBy": null,
       "sourceRef": null,
       "parent": null,
+      "related": [],
+      "source": {
+        "kind": "file",
+        "path": "specs/architecture-constraints.md"
+      }
+    },
+    {
+      "id": "spec:project:architecture-constraints-001",
+      "type": "spec",
+      "title": "规范模型目录边界",
+      "summary": "定义模型列表与渠道展开的信息架构边界",
+      "tags": [
+        "canonicalid",
+        "模型列表",
+        "供应商"
+      ],
+      "status": "active",
+      "created": "2026-07-18T05:07:47.653Z",
+      "updated": "2026-07-18T12:53:12.305Z",
+      "scope": "project",
+      "category": "arch",
+      "specCategory": null,
+      "createdBy": null,
+      "sourceRef": null,
+      "parent": "spec:project:architecture-constraints",
+      "related": [],
+      "source": {
+        "kind": "file",
+        "path": "specs/architecture-constraints.md"
+      }
+    },
+    {
+      "id": "spec:project:architecture-constraints-002",
+      "type": "spec",
+      "title": "详情内供应商对比边界",
+      "summary": "限定供应商对比的入口与比较范围",
+      "tags": [
+        "供应商对比",
+        "模型详情",
+        "canonicalid"
+      ],
+      "status": "active",
+      "created": "2026-07-18T05:07:47.653Z",
+      "updated": "2026-07-18T12:53:12.305Z",
+      "scope": "project",
+      "category": "arch",
+      "specCategory": null,
+      "createdBy": null,
+      "sourceRef": null,
+      "parent": "spec:project:architecture-constraints",
       "related": [],
       "source": {
         "kind": "file",
@@ -45,13 +2090,63 @@
       ],
       "status": "active",
       "created": "2026-07-18T05:07:47.653Z",
-      "updated": "2026-07-18T05:07:47.653Z",
+      "updated": "2026-07-18T12:53:20.211Z",
       "scope": "project",
       "category": "coding",
       "specCategory": null,
       "createdBy": null,
       "sourceRef": null,
       "parent": null,
+      "related": [],
+      "source": {
+        "kind": "file",
+        "path": "specs/coding-conventions.md"
+      }
+    },
+    {
+      "id": "spec:project:coding-conventions-001",
+      "type": "spec",
+      "title": "展示价与报价追溯规则",
+      "summary": "定义供应商价格对比的主展示口径",
+      "tags": [
+        "displayprices",
+        "pricing",
+        "价格追溯"
+      ],
+      "status": "active",
+      "created": "2026-07-18T05:07:47.653Z",
+      "updated": "2026-07-18T12:53:20.211Z",
+      "scope": "project",
+      "category": "coding",
+      "specCategory": null,
+      "createdBy": null,
+      "sourceRef": null,
+      "parent": "spec:project:coding-conventions",
+      "related": [],
+      "source": {
+        "kind": "file",
+        "path": "specs/coding-conventions.md"
+      }
+    },
+    {
+      "id": "spec:project:coding-conventions-002",
+      "type": "spec",
+      "title": "缺价与零价展示语义",
+      "summary": "区分缺失价格与有效零价的界面语义",
+      "tags": [
+        "缺失价格",
+        "免费报价",
+        "null"
+      ],
+      "status": "active",
+      "created": "2026-07-18T05:07:47.653Z",
+      "updated": "2026-07-18T12:53:20.211Z",
+      "scope": "project",
+      "category": "coding",
+      "specCategory": null,
+      "createdBy": null,
+      "sourceRef": null,
+      "parent": "spec:project:coding-conventions",
       "related": [],
       "source": {
         "kind": "file",
@@ -208,13 +2303,118 @@
       ],
       "status": "active",
       "created": "2026-07-18T05:07:47.654Z",
-      "updated": "2026-07-18T05:07:47.656Z",
+      "updated": "2026-07-18T14:49:11.822Z",
       "scope": "project",
       "category": "ui",
       "specCategory": null,
       "createdBy": null,
       "sourceRef": null,
       "parent": null,
+      "related": [],
+      "source": {
+        "kind": "file",
+        "path": "specs/ui-conventions.md"
+      }
+    },
+    {
+      "id": "spec:project:ui-conventions-001",
+      "type": "spec",
+      "title": "LLM Info 产品设计语境",
+      "summary": "LLM Info 的产品界面设计语境",
+      "tags": [
+        "product",
+        "register",
+        "users",
+        "anti-references"
+      ],
+      "status": "active",
+      "created": "2026-07-18T05:07:47.654Z",
+      "updated": "2026-07-18T14:49:11.822Z",
+      "scope": "project",
+      "category": "ui",
+      "specCategory": null,
+      "createdBy": null,
+      "sourceRef": null,
+      "parent": "spec:project:ui-conventions",
+      "related": [],
+      "source": {
+        "kind": "file",
+        "path": "specs/ui-conventions.md"
+      }
+    },
+    {
+      "id": "spec:project:ui-conventions-002",
+      "type": "spec",
+      "title": "LLM Info Seed 视觉系统",
+      "summary": "LLM Info Pencil 原型的种子视觉系统",
+      "tags": [
+        "design",
+        "colors",
+        "typography",
+        "components",
+        "visual-system"
+      ],
+      "status": "active",
+      "created": "2026-07-18T05:07:47.654Z",
+      "updated": "2026-07-18T14:49:11.822Z",
+      "scope": "project",
+      "category": "ui",
+      "specCategory": null,
+      "createdBy": null,
+      "sourceRef": null,
+      "parent": "spec:project:ui-conventions",
+      "related": [],
+      "source": {
+        "kind": "file",
+        "path": "specs/ui-conventions.md"
+      }
+    },
+    {
+      "id": "spec:project:ui-conventions-003",
+      "type": "spec",
+      "title": "实体列表到详情的点击导航",
+      "summary": "统一供应商行和模型行进入对应详情页的交互规则",
+      "tags": [
+        "供应商",
+        "模型",
+        "详情",
+        "点击导航"
+      ],
+      "status": "active",
+      "created": "2026-07-18T05:07:47.654Z",
+      "updated": "2026-07-18T14:49:11.822Z",
+      "scope": "project",
+      "category": "ui",
+      "specCategory": null,
+      "createdBy": null,
+      "sourceRef": null,
+      "parent": "spec:project:ui-conventions",
+      "related": [],
+      "source": {
+        "kind": "file",
+        "path": "specs/ui-conventions.md"
+      }
+    },
+    {
+      "id": "spec:project:ui-conventions-004",
+      "type": "spec",
+      "title": "应用级弹框相对整页居中",
+      "summary": "应用级弹框不受侧边栏影响并相对完整页面居中",
+      "tags": [
+        "弹框",
+        "整页居中",
+        "侧边栏",
+        "遮罩"
+      ],
+      "status": "active",
+      "created": "2026-07-18T05:07:47.654Z",
+      "updated": "2026-07-18T14:49:11.822Z",
+      "scope": "project",
+      "category": "ui",
+      "specCategory": null,
+      "createdBy": null,
+      "sourceRef": null,
+      "parent": "spec:project:ui-conventions",
       "related": [],
       "source": {
         "kind": "file",

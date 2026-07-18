@@ -1,0 +1,66 @@
+{
+  "schema_version": "command-run/1.0",
+  "session_id": "20260718-teach-llm-info",
+  "run_id": "20260718-001-teach",
+  "sequence": 1,
+  "parent_run_id": null,
+  "command": {
+    "name": "teach",
+    "version": "1.0",
+    "source_path": "",
+    "content_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "resolved_prompt_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "status": "sealed",
+  "input": {
+    "args": [],
+    "consumes": [],
+    "context_identity_revision": 1
+  },
+  "gate_ids": [],
+  "output": {
+    "produces": [],
+    "primary_artifact_id": null,
+    "verdict": "ready"
+  },
+  "handoff": {
+    "schema_version": "command-handoff/1.0",
+    "producer_run_id": "20260718-001-teach",
+    "command": "teach",
+    "verdict": "ready",
+    "summary": "已确认并记录 LLM Info 的产品设计语境。",
+    "constraints": [],
+    "decisions": [
+      {
+        "id": "D-001",
+        "text": "默认 register 为 product。",
+        "status": "accepted"
+      },
+      {
+        "id": "D-002",
+        "text": "产品性格为冷静、专业、透明。",
+        "status": "accepted"
+      },
+      {
+        "id": "D-003",
+        "text": "无障碍基线为 WCAG 2.2 AA。",
+        "status": "accepted"
+      }
+    ],
+    "concerns": [],
+    "artifact_refs": [],
+    "next": [
+      {
+        "command": "maestro-impeccable craft",
+        "reason": "使用已确认产品语境绘制 Pencil 原型。",
+        "needs": [
+          ".workflow/impeccable/PRODUCT.md"
+        ]
+      }
+    ],
+    "details": {}
+  },
+  "started_at": "2026-07-18T20:57:09+08:00",
+  "completed_at": "2026-07-18T20:59:07+08:00",
+  "sealed_at": "2026-07-18T20:59:07+08:00"
+}

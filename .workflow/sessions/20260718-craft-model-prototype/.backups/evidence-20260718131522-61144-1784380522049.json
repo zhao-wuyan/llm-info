@@ -1,0 +1,57 @@
+{
+  "schema_version": "evidence/1.0",
+  "revision": 1,
+  "records": {
+    "EVD-001-001": {
+      "run_id": "20260718-001-craft",
+      "command": "craft",
+      "kind": "decision",
+      "point": "D-001",
+      "claim": "列表页以规范模型为行，并展示能力、上下文、供应商数量和最低展示价。",
+      "outcome": "accepted",
+      "rationale": "列表页以规范模型为行，并展示能力、上下文、供应商数量和最低展示价。",
+      "status": "accepted",
+      "artifact_refs": [
+        "ART-001-001"
+      ],
+      "gate_refs": [],
+      "source_refs": [
+        "report.md"
+      ]
+    },
+    "EVD-001-002": {
+      "run_id": "20260718-001-craft",
+      "command": "craft",
+      "kind": "decision",
+      "point": "D-002",
+      "claim": "详情页以 Kimi K2.6 展示能力、价格概览、供应商预览和数据追溯。",
+      "outcome": "accepted",
+      "rationale": "详情页以 Kimi K2.6 展示能力、价格概览、供应商预览和数据追溯。",
+      "status": "accepted",
+      "artifact_refs": [
+        "ART-001-001"
+      ],
+      "gate_refs": [],
+      "source_refs": [
+        "report.md"
+      ]
+    },
+    "EVD-001-003": {
+      "run_id": "20260718-001-craft",
+      "command": "craft",
+      "kind": "decision",
+      "point": "D-003",
+      "claim": "对比弹框以供应商为行，支持搜索、地区筛选、币种切换、价格排序和缺价置底。",
+      "outcome": "accepted",
+      "rationale": "对比弹框以供应商为行，支持搜索、地区筛选、币种切换、价格排序和缺价置底。",
+      "status": "accepted",
+      "artifact_refs": [
+        "ART-001-001"
+      ],
+      "gate_refs": [],
+      "source_refs": [
+        "report.md"
+      ]
+    }
+  }
+}

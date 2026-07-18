@@ -1,0 +1,51 @@
+{
+  "schema_version": "evidence/1.0",
+  "revision": 1,
+  "records": {
+    "EVD-001-001": {
+      "run_id": "20260718-001-teach",
+      "command": "teach",
+      "kind": "decision",
+      "point": "D-001",
+      "claim": "默认 register 为 product。",
+      "outcome": "accepted",
+      "rationale": "默认 register 为 product。",
+      "status": "accepted",
+      "artifact_refs": [],
+      "gate_refs": [],
+      "source_refs": [
+        "report.md"
+      ]
+    },
+    "EVD-001-002": {
+      "run_id": "20260718-001-teach",
+      "command": "teach",
+      "kind": "decision",
+      "point": "D-002",
+      "claim": "产品性格为冷静、专业、透明。",
+      "outcome": "accepted",
+      "rationale": "产品性格为冷静、专业、透明。",
+      "status": "accepted",
+      "artifact_refs": [],
+      "gate_refs": [],
+      "source_refs": [
+        "report.md"
+      ]
+    },
+    "EVD-001-003": {
+      "run_id": "20260718-001-teach",
+      "command": "teach",
+      "kind": "decision",
+      "point": "D-003",
+      "claim": "无障碍基线为 WCAG 2.2 AA。",
+      "outcome": "accepted",
+      "rationale": "无障碍基线为 WCAG 2.2 AA。",
+      "status": "accepted",
+      "artifact_refs": [],
+      "gate_refs": [],
+      "source_refs": [
+        "report.md"
+      ]
+    }
+  }
+}

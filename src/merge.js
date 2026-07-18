@@ -10,11 +10,18 @@ function mergeSourceRefs(current, incoming) {
   return [...refs.values()].sort((a, b) => `${a.source}:${a.id}`.localeCompare(`${b.source}:${b.id}`));
 }
 
+function providerSourceScore(provider) {
+  const priority = { "aidy-models": 300, "model-price-hub": 200, litellm: 100 };
+  return Math.max(0, ...(provider.sourceRefs || []).map((ref) => priority[ref.source] || 0));
+}
+
 function mergeProvider(current, incoming) {
   if (!current) return incoming;
+  const [preferred, fallback] =
+    providerSourceScore(incoming) > providerSourceScore(current) ? [incoming, current] : [current, incoming];
   return {
-    ...current,
-    ...definedEntries(incoming),
+    ...definedEntries(fallback),
+    ...definedEntries(preferred),
     official: current.official || incoming.official,
     sourceRefs: mergeSourceRefs(current.sourceRefs, incoming.sourceRefs),
   };

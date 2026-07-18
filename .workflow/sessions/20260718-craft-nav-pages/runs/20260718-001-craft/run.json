@@ -1,0 +1,75 @@
+{
+  "schema_version": "command-run/1.0",
+  "session_id": "20260718-craft-nav-pages",
+  "run_id": "20260718-001-craft",
+  "sequence": 1,
+  "parent_run_id": null,
+  "command": {
+    "name": "craft",
+    "version": "1.0",
+    "source_path": "",
+    "content_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "resolved_prompt_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "status": "sealed",
+  "input": {
+    "args": [],
+    "consumes": [],
+    "context_identity_revision": 1
+  },
+  "gate_ids": [],
+  "output": {
+    "produces": [
+      "ART-001-001"
+    ],
+    "primary_artifact_id": null,
+    "verdict": "ready"
+  },
+  "handoff": {
+    "schema_version": "command-handoff/1.0",
+    "producer_run_id": "20260718-001-craft",
+    "command": "craft",
+    "verdict": "ready",
+    "summary": "完成供应商列表页与数据来源页，并按第二行从模型列表页下方向右排布。",
+    "constraints": [],
+    "decisions": [
+      {
+        "id": "D-001",
+        "text": "供应商列表必须以供应商为行维度，而不是以模型为行维度。",
+        "status": "accepted"
+      },
+      {
+        "id": "D-002",
+        "text": "新增页面从模型列表页正下方开始，向右排列。",
+        "status": "accepted"
+      },
+      {
+        "id": "D-003",
+        "text": "供应商列表页使用供应商、API / 身份、模型数、币种、USD 覆盖、CNY 覆盖六列。",
+        "status": "accepted"
+      },
+      {
+        "id": "D-004",
+        "text": "左侧菜单中的供应商与数据来源均对应独立页面。",
+        "status": "accepted"
+      }
+    ],
+    "concerns": [],
+    "artifact_refs": [
+      "ART-001-001"
+    ],
+    "next": [
+      {
+        "command": "maestro-impeccable craft",
+        "reason": "如进入实现阶段，可按 Pencil 节点结构映射为前端路由与表格组件。",
+        "needs": [
+          "design/原型设计.pen"
+        ]
+      }
+    ],
+    "details": {}
+  },
+  "started_at": "2026-07-18T21:48:37+08:00",
+  "completed_at": "2026-07-18T22:15:33+08:00",
+  "sealed_at": "2026-07-18T22:15:33+08:00"
+}

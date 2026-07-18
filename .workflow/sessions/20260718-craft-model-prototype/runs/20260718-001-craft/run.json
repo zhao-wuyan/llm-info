@@ -1,0 +1,70 @@
+{
+  "schema_version": "command-run/1.0",
+  "session_id": "20260718-craft-model-prototype",
+  "run_id": "20260718-001-craft",
+  "sequence": 1,
+  "parent_run_id": null,
+  "command": {
+    "name": "craft",
+    "version": "1.0",
+    "source_path": "",
+    "content_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "resolved_prompt_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "status": "sealed",
+  "input": {
+    "args": [],
+    "consumes": [],
+    "context_identity_revision": 1
+  },
+  "gate_ids": [],
+  "output": {
+    "produces": [
+      "ART-001-001"
+    ],
+    "primary_artifact_id": null,
+    "verdict": "ready"
+  },
+  "handoff": {
+    "schema_version": "command-handoff/1.0",
+    "producer_run_id": "20260718-001-craft",
+    "command": "craft",
+    "verdict": "ready",
+    "summary": "已使用 Pencil MCP 完成模型列表、模型详情和多供应商对比弹框原型。",
+    "constraints": [],
+    "decisions": [
+      {
+        "id": "D-001",
+        "text": "列表页以规范模型为行，并展示能力、上下文、供应商数量和最低展示价。",
+        "status": "accepted"
+      },
+      {
+        "id": "D-002",
+        "text": "详情页以 Kimi K2.6 展示能力、价格概览、供应商预览和数据追溯。",
+        "status": "accepted"
+      },
+      {
+        "id": "D-003",
+        "text": "对比弹框以供应商为行，支持搜索、地区筛选、币种切换、价格排序和缺价置底。",
+        "status": "accepted"
+      }
+    ],
+    "concerns": [],
+    "artifact_refs": [
+      "ART-001-001"
+    ],
+    "next": [
+      {
+        "command": "maestro-impeccable critique",
+        "reason": "如进入实现阶段，可基于 Pencil 原型做启发式评审与前端落地。",
+        "needs": [
+          "design/原型设计.pen"
+        ]
+      }
+    ],
+    "details": {}
+  },
+  "started_at": "2026-07-18T21:04:02+08:00",
+  "completed_at": "2026-07-18T21:14:40+08:00",
+  "sealed_at": "2026-07-18T21:14:40+08:00"
+}

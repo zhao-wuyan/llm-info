@@ -1,0 +1,33 @@
+{
+  "$schema": "session-archive/1.0",
+  "session_id": "GRL-model-prototype-2026-07-18",
+  "session_type": "grill",
+  "session_path": ".workflow/sessions/20260718-grill-model-prototype/runs/20260718-001-grill/outputs",
+  "lifecycle": {
+    "status": "sealed",
+    "sealed_at": "2026-07-18T20:53:36+08:00",
+    "archived_at": null,
+    "linked_milestone": null
+  },
+  "content_refs": [
+    { "type": "context-package", "path": "context-package.json" },
+    { "type": "terminology", "path": "terminology.md" },
+    { "type": "grill-report", "path": "grill-report.md" }
+  ],
+  "extraction": {
+    "harvested": true,
+    "harvested_at": "2026-07-18T20:53:36+08:00",
+    "spec_ids": [
+      "S-20260718-apm3",
+      "S-20260718-vyay",
+      "S-20260718-p062",
+      "S-20260718-qkge"
+    ],
+    "knowhow_ids": [],
+    "domain_ids": [],
+    "supersede_marks": [],
+    "conflict_marks": [],
+    "skipped_count": 10
+  },
+  "pruned": null
+}
