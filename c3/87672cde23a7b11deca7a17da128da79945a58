@@ -1,0 +1,601 @@
+.workflow/sessions/20260718-craft-provider-detail/.backups/artifacts-20260718142631-60692-1784384791932.json
+  s_26e66002ab70f2::t_b68fecb452df0f 1-6
+.workflow/sessions/20260718-craft-provider-models/.backups/artifacts-20260718145007-53276-1784386207899.json
+  s_26e66002ab70f2::t_da3229a934b2de 1-20
+.workflow/sessions/20260718-craft-quality-compare/evidence.json
+  s_26e66002ab70f2::t_ce928a6de314b8 1-5
+.workflow/sessions/20260718-craft-quality-compare/.backups/artifacts-20260718145901-65076-1784386741694.json
+  s_26e66002ab70f2::t_ce928a6de314b8 1-6
+.workflow/sessions/20260718-craft-quality-compare/gates.json
+  s_26e66002ab70f2::t_ce928a6de314b8 1-13
+.workflow/sessions/20260718-craft-model-prototype/runs/20260718-001-craft/report.md
+  s_26e66002ab70f2::t_00fad23dd63551 1-2,20-21,23,25,29
+  s_26e66002ab70f2::t_7c4974e8205b39 3-19,22,24,26-28,30-32
+.workflow/sessions/20260718-craft-model-prototype/.backups/artifacts-20260718130402-29996-1784379842185.json
+  s_26e66002ab70f2::t_00fad23dd63551 1-6
+.workflow/sessions/20260718-craft-quality-compare/session.json
+  s_26e66002ab70f2::t_ce928a6de314b8 1-40
+.workflow/specs/coding-conventions.md
+  s_26e66002ab70f2::t_7bc9366d19eae9 27-34,43
+  s_26e66002ab70f2::t_75f85486a7c22e 35-42
+.workflow/sessions/20260718-craft-model-prototype/.backups/evidence-20260718131440-67628-1784380480220.json
+  s_26e66002ab70f2::t_3e005bbee9ee5b 1-5
+.workflow/sessions/20260718-craft-nav-pages/.backups/artifacts-20260718134837-55932-1784382517511.json
+  s_26e66002ab70f2::t_1c01b88d36eb1f 1-6
+.workflow/sessions/20260718-craft-provider-detail/.backups/gates-20260718142631-60692-1784384791930.json
+  s_26e66002ab70f2::t_b68fecb452df0f 1-13
+.workflow/sessions/20260718-teach-llm-info/.backups/artifacts-20260718125907-58796-1784379547531.json
+  s_26e66002ab70f2::t_20166e257f53b0 1-6
+.workflow/sessions/20260718-document-llm-info/session.json
+  s_26e66002ab70f2::t_b060027b1b51a9 1-4,10-28,31-40
+  s_26e66002ab70f2::t_58ea385bc7627c 5-7,29-30
+  s_26e66002ab70f2::t_14e93e6e79771f 8-9
+.workflow/sessions/20260718-teach-llm-info/.backups/artifacts-20260718125709-33936-1784379429190.json
+  s_26e66002ab70f2::t_c48806b6bdc0e6 1-6
+.workflow/sessions/20260718-teach-llm-info/.backups/session-20260718125709-33936-1784379429186.json
+  s_26e66002ab70f2::t_c48806b6bdc0e6 1-40
+.workflow/sessions/20260718-craft-provider-models/evidence.json
+  s_26e66002ab70f2::t_1d00ff6f111663 3-56
+  s_26e66002ab70f2::t_639e2f487632a9 1-2,57
+.workflow/sessions/20260718-grill-model-prototype/runs/20260718-001-grill/run.json
+  s_26e66002ab70f2::t_5be30271950b9b 1-13,15-25,32,79-80,83
+  s_26e66002ab70f2::t_54e3b9b6aae1c6 14,26-31,33-78,81-82
+.workflow/sessions/20260718-teach-llm-info/.backups/evidence-20260718125907-58796-1784379547533.json
+  s_26e66002ab70f2::t_20166e257f53b0 1-5
+.workflow/sessions/20260718-document-llm-info/evidence.json
+  s_26e66002ab70f2::t_14e93e6e79771f 3-50
+  s_26e66002ab70f2::t_b060027b1b51a9 1-2,51
+.workflow/sessions/20260718-craft-model-prototype/.backups/evidence-20260718130402-29996-1784379842187.json
+  s_26e66002ab70f2::t_00fad23dd63551 1-5
+.workflow/sessions/20260718-craft-provider-detail/.backups/session-20260718143603-22532-1784385363501.json
+  s_26e66002ab70f2::t_91cb74f0a9f507 1-40
+.workflow/sessions/20260718-craft-provider-detail/.backups/session-20260718143554-36328-1784385354314.json
+  s_26e66002ab70f2::t_014159742b5a07 1-40
+.workflow/sessions/20260718-document-llm-info/.backups/session-20260718130031-42364-1784379631965.json
+  s_26e66002ab70f2::t_b060027b1b51a9 1-40
+.workflow/sessions/20260718-craft-provider-detail/runs/20260718-001-craft/.backups/run-20260718143554-36328-1784385354309.json
+  s_26e66002ab70f2::t_014159742b5a07 1-30
+.workflow/sessions/20260718-grill-model-prototype/runs/20260718-001-grill/outputs/grill-report.md
+  s_26e66002ab70f2::t_a3e28792ca60af 65-71
+  s_26e66002ab70f2::t_a9d040398d6abd 87-93
+  s_26e66002ab70f2::t_fe3ad445fb0836 44-49
+  s_26e66002ab70f2::t_1fab56fc905c82 32,40-42,50-61
+  s_26e66002ab70f2::t_95a28f23a551f8 33,62-64,72-83
+  s_26e66002ab70f2::t_2d62b42179101e 1-31,35-39,43
+  s_26e66002ab70f2::t_78d26120916314 34,84-86,94-137
+.workflow/sessions/20260718-craft-quality-compare/.backups/gates-20260718145901-65076-1784386741693.json
+  s_26e66002ab70f2::t_ce928a6de314b8 1-13
+.workflow/sessions/20260718-craft-provider-models/runs/20260718-001-craft/report.md
+  s_26e66002ab70f2::t_639e2f487632a9 1-2,21-23,26,29-31,40-41,47
+  s_26e66002ab70f2::t_8e9f8d3c198325 3-20,24-25,27-28,32-37,39,42-46,48-49
+  s_26e66002ab70f2::t_f153075e9ba821 38
+.workflow/sessions/20260718-teach-llm-info/runs/20260718-001-teach/report.md
+  s_26e66002ab70f2::t_c48806b6bdc0e6 1-2,20-21,23
+  s_26e66002ab70f2::t_c20684d00e4aed 3-19,22,24
+.workflow/sessions/20260718-craft-provider-detail/.backups/artifacts-20260718143603-22532-1784385363507.json
+  s_26e66002ab70f2::t_91cb74f0a9f507 1-20
+.workflow/sessions/20260718-craft-provider-models/artifacts.json
+  s_26e66002ab70f2::t_639e2f487632a9 1-2,19-20
+  s_26e66002ab70f2::t_1d00ff6f111663 3-18
+.workflow/sessions/20260718-craft-provider-detail/gates.json
+  s_26e66002ab70f2::t_b68fecb452df0f 1-13
+.workflow/sessions/20260718-craft-provider-detail/.backups/gates-20260718143603-22532-1784385363504.json
+  s_26e66002ab70f2::t_91cb74f0a9f507 1-13
+.workflow/sessions/20260718-document-llm-info/runs/20260718-001-document/report.md
+  s_26e66002ab70f2::t_b060027b1b51a9 1-2,21-22,24
+  s_26e66002ab70f2::t_4b6b3572c941a3 3-20,23,25
+.workflow/sessions/20260718-craft-model-prototype/context.md
+  s_26e66002ab70f2::t_00fad23dd63551 1
+.workflow/sessions/20260718-craft-model-prototype/.backups/gates-20260718130402-29996-1784379842183.json
+  s_26e66002ab70f2::t_00fad23dd63551 1-13
+.workflow/sessions/20260718-craft-quality-compare/.backups/evidence-20260718145901-65076-1784386741696.json
+  s_26e66002ab70f2::t_ce928a6de314b8 1-5
+.workflow/sessions/20260718-grill-model-prototype/runs/20260718-001-grill/report.md
+  s_26e66002ab70f2::t_e708ae2ad83a1b 3,5-13,17-21
+  s_26e66002ab70f2::t_5be30271950b9b 1,22-23,25
+  s_26e66002ab70f2::t_fbe9ca7b0d2c77 2,4,14-16,24,26
+.workflow/sessions/20260718-craft-quality-compare/.backups/session-20260718145901-65076-1784386741691.json
+  s_26e66002ab70f2::t_ce928a6de314b8 1-40
+.workflow/sessions/20260718-document-llm-info/gates.json
+  s_26e66002ab70f2::t_b060027b1b51a9 1-13
+.workflow/sessions/20260718-craft-provider-detail/.backups/evidence-20260718142631-60692-1784384791934.json
+  s_26e66002ab70f2::t_b68fecb452df0f 1-5
+.workflow/sessions/20260718-craft-provider-detail/.backups/artifacts-20260718143554-36328-1784385354317.json
+  s_26e66002ab70f2::t_014159742b5a07 1-6
+.workflow/sessions/20260718-craft-provider-models/runs/20260718-001-craft/run.json
+  s_26e66002ab70f2::t_639e2f487632a9 1-13,15-21,25,27,68,71
+  s_26e66002ab70f2::t_1d00ff6f111663 14,22-24,26,28-67,69-70
+.workflow/sessions/20260718-craft-provider-models/.backups/artifacts-20260718144113-47224-1784385673463.json
+  s_26e66002ab70f2::t_639e2f487632a9 1-6
+.workflow/sessions/20260718-craft-provider-models/gates.json
+  s_26e66002ab70f2::t_639e2f487632a9 1-13
+.workflow/sessions/20260718-craft-model-prototype/artifacts.json
+  s_26e66002ab70f2::t_00fad23dd63551 1-2,19-20
+  s_26e66002ab70f2::t_3e005bbee9ee5b 3-18
+.workflow/sessions/20260718-craft-nav-pages/.backups/session-20260718134837-55932-1784382517508.json
+  s_26e66002ab70f2::t_1c01b88d36eb1f 1-40
+.workflow/knowhow/TIP-20260718-pencil-viewport-copy-layout.md
+  s_26e66002ab70f2::t_63455ebbd7fa1b 1-20
+.workflow/sessions/20260718-grill-model-prototype/artifacts.json
+  s_26e66002ab70f2::t_54e3b9b6aae1c6 3-57
+  s_26e66002ab70f2::t_5be30271950b9b 1-2,58-59
+.workflow/sessions/20260718-teach-llm-info/context.md
+  s_26e66002ab70f2::t_c48806b6bdc0e6 1
+.workflow/sessions/20260718-teach-llm-info/.backups/evidence-20260718125709-33936-1784379429192.json
+  s_26e66002ab70f2::t_c48806b6bdc0e6 1-5
+.workflow/sessions/20260718-document-llm-info/.backups/artifacts-20260718130253-59628-1784379773107.json
+  s_26e66002ab70f2::t_14e93e6e79771f 1-6
+.workflow/sessions/20260718-craft-provider-detail/.backups/evidence-20260718143603-22532-1784385363509.json
+  s_26e66002ab70f2::t_91cb74f0a9f507 1-57
+.workflow/sessions/20260718-document-llm-info/.backups/gates-20260718130031-42364-1784379631967.json
+  s_26e66002ab70f2::t_b060027b1b51a9 1-13
+.workflow/sessions/20260718-craft-model-prototype/.backups/gates-20260718131440-67628-1784380480215.json
+  s_26e66002ab70f2::t_3e005bbee9ee5b 1-13
+src/adapters/aidy.js
+  s_68d73f8eeddcbd::t_fbe73165e55022 20,23-24,26,29-32,46
+.workflow/sessions/20260718-teach-llm-info/runs/20260718-001-teach/.backups/run-20260718125907-58796-1784379547517.json
+  s_26e66002ab70f2::t_20166e257f53b0 1-30
+README.md
+  s_68d73f8eeddcbd::t_fbe73165e55022 21-22
+.workflow/sessions/20260718-grill-model-prototype/.backups/artifacts-20260718124230-12520-1784378550640.json
+  s_26e66002ab70f2::t_5be30271950b9b 1-6
+.workflow/sessions/20260718-document-llm-info/.backups/session-20260718130253-59628-1784379773102.json
+  s_26e66002ab70f2::t_14e93e6e79771f 1-40
+.workflow/sessions/20260718-teach-llm-info/runs/20260718-001-teach/run.json
+  s_26e66002ab70f2::t_c48806b6bdc0e6 1-13,15-23,25,63,66
+  s_26e66002ab70f2::t_20166e257f53b0 14,24,26-62,64-65
+.workflow/sessions/20260718-craft-quality-compare/runs/20260718-001-craft/run.json
+  s_26e66002ab70f2::t_ce928a6de314b8 1-30
+.workflow/spec-analytics.jsonl
+  s_26e66002ab70f2::t_7697c329e52d4d 7
+  s_26e66002ab70f2::t_aef0890d6a943b 13
+  s_26e66002ab70f2::t_2227a2a1e5613d 15
+  s_26e66002ab70f2::t_7bc9366d19eae9 16
+  s_26e66002ab70f2::t_3276c79d0cfe38 36
+  s_26e66002ab70f2::t_b8b5094a313ee5 41
+  s_26e66002ab70f2::t_adbb47cac49bb7 20
+  s_26e66002ab70f2::t_536d8d7256104d 44
+  s_68d73f8eeddcbd::t_374924c574bef1 5-6
+  s_26e66002ab70f2::t_f7ab9c556a4fc5 52
+  s_26e66002ab70f2::t_12b2d9caec5e58 37
+  s_26e66002ab70f2::t_9294aeac8b5436 18
+  s_26e66002ab70f2::t_ab84958ee662c2 14
+  s_26e66002ab70f2::t_6c984c2f39086a 35
+  s_26e66002ab70f2::t_739d33c5acad72 30
+  s_26e66002ab70f2::t_3e517dea9acceb 12
+  s_26e66002ab70f2::t_c9ed58ef9e9198 40
+  s_26e66002ab70f2::t_75f85486a7c22e 17
+  s_26e66002ab70f2::t_191f625194db7a 49
+  s_26e66002ab70f2::t_9fd679ee9e31c1 23
+  s_26e66002ab70f2::t_c69a4718d69dcf 19
+  s_68d73f8eeddcbd::t_651aa54bc58740 4
+  s_26e66002ab70f2::t_d5721b56afe0d7 8-9
+  s_68d73f8eeddcbd::t_ef6a4347e15d44 10-11,21-22,24-29,31-34,38-39,42-43,45-48,50-51,53-54
+.workflow/sessions/20260718-grill-model-prototype/.backups/gates-20260718124230-12520-1784378550637.json
+  s_26e66002ab70f2::t_5be30271950b9b 1-13
+.workflow/sessions/20260718-craft-model-prototype/.backups/session-20260718130402-29996-1784379842181.json
+  s_26e66002ab70f2::t_00fad23dd63551 1-40
+.workflow/sessions/20260718-document-llm-info/.backups/gates-20260718130253-59628-1784379773104.json
+  s_26e66002ab70f2::t_14e93e6e79771f 1-13
+.workflow/sessions/20260718-teach-llm-info/.backups/gates-20260718125907-58796-1784379547527.json
+  s_26e66002ab70f2::t_20166e257f53b0 1-13
+.workflow/sessions/20260718-document-llm-info/.backups/artifacts-20260718130031-42364-1784379631969.json
+  s_26e66002ab70f2::t_b060027b1b51a9 1-6
+.workflow/sessions/20260718-craft-provider-detail/context.md
+  s_26e66002ab70f2::t_b68fecb452df0f 1
+.workflow/sessions/20260718-grill-model-prototype/gates.json
+  s_26e66002ab70f2::t_5be30271950b9b 1-13
+.workflow/sessions/20260718-craft-nav-pages/evidence.json
+  s_26e66002ab70f2::t_1c01b88d36eb1f 1-2,74
+  s_26e66002ab70f2::t_ad31a015783fbe 3-73
+.workflow/sessions/20260718-craft-provider-detail/runs/20260718-001-craft/run.json
+  s_26e66002ab70f2::t_014159742b5a07 14,22-24,26,28-66,68-69
+  s_26e66002ab70f2::t_b68fecb452df0f 1-13,15-21,25,27,67,70
+.workflow/sessions/20260718-document-llm-info/.backups/evidence-20260718130253-59628-1784379773108.json
+  s_26e66002ab70f2::t_14e93e6e79771f 1-5
+.workflow/sessions/20260718-document-llm-info/artifacts.json
+  s_26e66002ab70f2::t_b060027b1b51a9 1-2,4-6
+  s_26e66002ab70f2::t_14e93e6e79771f 3
+.workflow/sessions/20260718-teach-llm-info/artifacts.json
+  s_26e66002ab70f2::t_20166e257f53b0 3
+  s_26e66002ab70f2::t_c48806b6bdc0e6 1-2,4-6
+.workflow/sessions/20260718-grill-model-prototype/.backups/gates-20260718125543-66360-1784379343173.json
+  s_26e66002ab70f2::t_6d128c1d582ca8 1-13
+.workflow/impeccable/PRODUCT.md
+  s_26e66002ab70f2::t_c20684d00e4aed 1-36
+.workflow/sessions/20260718-grill-model-prototype/evidence.json
+  s_26e66002ab70f2::t_54e3b9b6aae1c6 3-65
+  s_26e66002ab70f2::t_5be30271950b9b 1-2,66
+.workflow/sessions/20260718-craft-nav-pages/session.json
+  s_26e66002ab70f2::t_1c01b88d36eb1f 1-4,10-28,31-40
+  s_26e66002ab70f2::t_b246b2771aa3b0 5-7,29-30
+  s_26e66002ab70f2::t_ad31a015783fbe 8-9
+.workflow/sessions/20260718-craft-provider-detail/runs/20260718-001-craft/report.md
+  s_26e66002ab70f2::t_b68fecb452df0f 1-2,20-22,25,28-30,37-38,45
+  s_26e66002ab70f2::t_3efa005ce2dc3f 3-19,23-24,26-27,31-36,39-44,46-47
+.workflow/sessions/20260718-craft-provider-models/.backups/gates-20260718145007-53276-1784386207897.json
+  s_26e66002ab70f2::t_da3229a934b2de 1-13
+.workflow/sessions/20260718-craft-quality-compare/context.md
+  s_26e66002ab70f2::t_ce928a6de314b8 1
+.workflow/sessions/20260718-craft-nav-pages/.backups/artifacts-20260718141542-61640-1784384142764.json
+  s_26e66002ab70f2::t_b246b2771aa3b0 1-20
+.workflow/sessions/20260718-grill-model-prototype/session.json
+  s_26e66002ab70f2::t_54e3b9b6aae1c6 8-9
+  s_26e66002ab70f2::t_5be30271950b9b 1-4,10-28,31-40
+  s_26e66002ab70f2::t_6d128c1d582ca8 5-7,29-30
+.workflow/specs/.hit-log.jsonl
+  s_26e66002ab70f2::t_b8b5094a313ee5 5
+  s_26e66002ab70f2::t_191f625194db7a 7
+  s_26e66002ab70f2::t_536d8d7256104d 6
+  s_26e66002ab70f2::t_739d33c5acad72 2
+  s_26e66002ab70f2::t_9fd679ee9e31c1 1
+  s_26e66002ab70f2::t_6c984c2f39086a 3
+  s_26e66002ab70f2::t_12b2d9caec5e58 4
+.workflow/sessions/20260718-craft-nav-pages/.backups/gates-20260718141542-61640-1784384142763.json
+  s_26e66002ab70f2::t_b246b2771aa3b0 1-13
+.workflow/sessions/20260718-grill-model-prototype/context.md
+  s_26e66002ab70f2::t_5be30271950b9b 1
+.workflow/sessions/20260718-craft-model-prototype/session.json
+  s_26e66002ab70f2::t_3e005bbee9ee5b 8-9
+  s_26e66002ab70f2::t_8bfe136ec98e1b 5-7,29-30
+  s_26e66002ab70f2::t_00fad23dd63551 1-4,10-28,31-40
+.workflow/sessions/20260718-craft-nav-pages/.backups/evidence-20260718134837-55932-1784382517513.json
+  s_26e66002ab70f2::t_1c01b88d36eb1f 1-5
+.workflow/sessions/20260718-craft-provider-models/.backups/gates-20260718144113-47224-1784385673460.json
+  s_26e66002ab70f2::t_639e2f487632a9 1-13
+.workflow/.backups/state-20260718130402-29996-1784379842177.json
+  s_26e66002ab70f2::t_00fad23dd63551 1-44
+.workflow/sessions/20260718-craft-nav-pages/context.md
+  s_26e66002ab70f2::t_1c01b88d36eb1f 1
+.workflow/sessions/20260718-document-llm-info/runs/20260718-001-document/run.json
+  s_26e66002ab70f2::t_b060027b1b51a9 1-13,15-25,27,67,70
+  s_26e66002ab70f2::t_14e93e6e79771f 14,26,28-66,68-69
+.workflow/sessions/20260718-craft-model-prototype/runs/20260718-001-craft/run.json
+  s_26e66002ab70f2::t_3e005bbee9ee5b 14,22-24,26,28-66,68-69
+  s_26e66002ab70f2::t_00fad23dd63551 1-13,15-21,25,27,67,70
+.workflow/sessions/20260718-document-llm-info/runs/20260718-001-document/.backups/run-20260718130253-59628-1784379773097.json
+  s_26e66002ab70f2::t_14e93e6e79771f 1-32
+.workflow/sessions/20260718-craft-quality-compare/runs/20260718-001-craft/report.md
+  s_26e66002ab70f2::t_ce928a6de314b8 1-18
+.workflow/sessions/20260718-grill-model-prototype/.backups/evidence-20260718124230-12520-1784378550643.json
+  s_26e66002ab70f2::t_5be30271950b9b 1-5
+.workflow/sessions/20260718-craft-nav-pages/.backups/evidence-20260718141542-61640-1784384142766.json
+  s_26e66002ab70f2::t_b246b2771aa3b0 1-74
+.workflow/sessions/20260718-teach-llm-info/.backups/session-20260718125907-58796-1784379547524.json
+  s_26e66002ab70f2::t_20166e257f53b0 1-40
+.workflow/impeccable/DESIGN.md
+  s_26e66002ab70f2::t_4b6b3572c941a3 1-65
+.workflow/sessions/20260718-craft-model-prototype/runs/20260718-001-craft/.backups/run-20260718131440-67628-1784380480209.json
+  s_26e66002ab70f2::t_3e005bbee9ee5b 1-30
+.workflow/specs/architecture-constraints.md
+  s_26e66002ab70f2::t_2227a2a1e5613d 35-42
+  s_26e66002ab70f2::t_ab84958ee662c2 27-34,43
+.workflow/sessions/20260718-grill-model-prototype/.backups/evidence-20260718125543-66360-1784379343177.json
+  s_26e66002ab70f2::t_6d128c1d582ca8 1-66
+src/merge.js
+  s_68d73f8eeddcbd::t_fbe73165e55022 13-17,20-21,23-24
+.workflow/sessions/20260718-craft-provider-detail/evidence.json
+  s_26e66002ab70f2::t_b68fecb452df0f 1-2,57
+  s_26e66002ab70f2::t_014159742b5a07 3-56
+.workflow/sessions/20260718-craft-model-prototype/.backups/artifacts-20260718131440-67628-1784380480218.json
+  s_26e66002ab70f2::t_3e005bbee9ee5b 1-6
+.workflow/sessions/20260718-craft-provider-models/.backups/evidence-20260718144113-47224-1784385673465.json
+  s_26e66002ab70f2::t_639e2f487632a9 1-5
+.workflow/sessions/20260718-grill-model-prototype/.backups/artifacts-20260718125543-66360-1784379343175.json
+  s_26e66002ab70f2::t_6d128c1d582ca8 1-59
+.workflow/sessions/20260718-document-llm-info/.backups/evidence-20260718130031-42364-1784379631971.json
+  s_26e66002ab70f2::t_b060027b1b51a9 1-5
+.workflow/sessions/20260718-teach-llm-info/gates.json
+  s_26e66002ab70f2::t_c48806b6bdc0e6 1-13
+.workflow/specs/ui-conventions.md
+  s_26e66002ab70f2::t_c9ed58ef9e9198 54-61
+  s_26e66002ab70f2::t_c69a4718d69dcf 30-37,62
+  s_26e66002ab70f2::t_3276c79d0cfe38 46-53
+  s_26e66002ab70f2::t_adbb47cac49bb7 38-45
+.workflow/sessions/20260718-craft-provider-detail/.backups/session-20260718142631-60692-1784384791928.json
+  s_26e66002ab70f2::t_b68fecb452df0f 1-40
+.workflow/sessions/20260718-craft-model-prototype/evidence.json
+  s_26e66002ab70f2::t_00fad23dd63551 1-2,57
+  s_26e66002ab70f2::t_3e005bbee9ee5b 3-56
+.workflow/sessions/20260718-craft-provider-models/session.json
+  s_26e66002ab70f2::t_639e2f487632a9 1-4,10-28,31-40
+  s_26e66002ab70f2::t_1d00ff6f111663 8-9
+  s_26e66002ab70f2::t_da3229a934b2de 5-7,29-30
+.workflow/sessions/20260718-grill-model-prototype/.backups/session-20260718124230-12520-1784378550634.json
+  s_26e66002ab70f2::t_5be30271950b9b 1-40
+.workflow/sessions/20260718-craft-nav-pages/gates.json
+  s_26e66002ab70f2::t_1c01b88d36eb1f 1-13
+.workflow/sessions/20260718-grill-model-prototype/runs/20260718-001-grill/outputs/terminology.md
+  s_26e66002ab70f2::t_78d26120916314 10-12
+  s_26e66002ab70f2::t_fe3ad445fb0836 6
+  s_26e66002ab70f2::t_a3e28792ca60af 9
+  s_26e66002ab70f2::t_2d62b42179101e 1-5,7-8
+.workflow/state.json
+  s_26e66002ab70f2::t_58ea385bc7627c 37
+  s_26e66002ab70f2::t_5be30271950b9b 1-15,17-20,22-24,81-82
+  s_26e66002ab70f2::t_639e2f487632a9 65-68,70-72
+  s_26e66002ab70f2::t_c48806b6bdc0e6 25-28,30-32
+  s_26e66002ab70f2::t_da3229a934b2de 69
+  s_26e66002ab70f2::t_91cb74f0a9f507 61
+  s_26e66002ab70f2::t_098701d4de46da 29
+  s_26e66002ab70f2::t_00fad23dd63551 41-44,46-48
+  s_26e66002ab70f2::t_1c01b88d36eb1f 49-52,54-56
+  s_26e66002ab70f2::t_8bfe136ec98e1b 45
+  s_26e66002ab70f2::t_b68fecb452df0f 57-60,62-64
+  s_26e66002ab70f2::t_ce928a6de314b8 16,73-80,83-84
+  s_26e66002ab70f2::t_b246b2771aa3b0 53
+  s_26e66002ab70f2::t_b060027b1b51a9 33-36,38-40
+  s_26e66002ab70f2::t_6d128c1d582ca8 21
+test/pipeline.test.js
+  s_68d73f8eeddcbd::t_fbe73165e55022 12-25,31,94-116
+  s_68d73f8eeddcbd::t_bc47eaedc25d7d 117
+.workflow/sessions/20260718-craft-provider-models/context.md
+  s_26e66002ab70f2::t_639e2f487632a9 1
+.workflow/sessions/20260718-craft-nav-pages/artifacts.json
+  s_26e66002ab70f2::t_1c01b88d36eb1f 1-2,19-20
+  s_26e66002ab70f2::t_ad31a015783fbe 3-18
+.workflow/sessions/20260718-craft-quality-compare/artifacts.json
+  s_26e66002ab70f2::t_ce928a6de314b8 1-6
+.workflow/sessions/20260718-craft-nav-pages/runs/20260718-001-craft/report.md
+  s_26e66002ab70f2::t_d665d287350482 3-4,18,26-27,29-30,34-39,42-45,47-48
+  s_26e66002ab70f2::t_7afa711e3df5d9 5-17,19-22
+  s_26e66002ab70f2::t_1c01b88d36eb1f 1-2,23-25,28,31-33,40-41,46
+.workflow/search-daemon.json
+  s_26e66002ab70f2::t_9fd679ee9e31c1 1
+.workflow/sessions/20260718-grill-model-prototype/.backups/session-20260718125543-66360-1784379343170.json
+  s_26e66002ab70f2::t_6d128c1d582ca8 1-40
+.workflow/sessions/20260718-craft-model-prototype/gates.json
+  s_26e66002ab70f2::t_00fad23dd63551 1-13
+.workflow/sessions/20260718-document-llm-info/context.md
+  s_26e66002ab70f2::t_b060027b1b51a9 1
+.workflow/sessions/20260718-craft-provider-detail/session.json
+  s_26e66002ab70f2::t_91cb74f0a9f507 5-7,29-30
+  s_26e66002ab70f2::t_b68fecb452df0f 1-4,10-28,31-40
+  s_26e66002ab70f2::t_014159742b5a07 8-9
+.workflow/sessions/20260718-teach-llm-info/session.json
+  s_26e66002ab70f2::t_20166e257f53b0 8-9
+  s_26e66002ab70f2::t_098701d4de46da 5-7,29-30
+  s_26e66002ab70f2::t_c48806b6bdc0e6 1-4,10-28,31-40
+.workflow/sessions/20260718-craft-provider-models/.backups/session-20260718145007-53276-1784386207894.json
+  s_26e66002ab70f2::t_da3229a934b2de 1-40
+.workflow/sessions/20260718-craft-provider-models/.backups/session-20260718144113-47224-1784385673458.json
+  s_26e66002ab70f2::t_639e2f487632a9 1-40
+.workflow/wiki-index.json
+  s_26e66002ab70f2::t_ab84958ee662c2 6-15,18-40,43-65,68-90,93-115,118-140,143-165,168-190,193-215,218-240,243-265,268-290,293-315,318-340,343-365,368-390,393-415,418-440,443-465,468-490,493-515,518-540,543-565,568-590,593-615,618-640,643-665,668-690,693-705,711,721,727,731-740,743-765,768-790,793-815,818-840,843-858,860-865,868-890,893-915,918-940,943-965,968-990,993-1008,1010-1015,1018-1040,1043-1065,1068-1090,1093-1115,1118-1140,1143-1165,1168-1190,1193-1215,1218-1240,1243-1265,1268-1290,1293-1315,1318-1340,1343-1365,1368-1390,1393-1415,1418-1440,1443-1465,1468-1490,1493-1515,1518-1533,1535-1540,1543-1552,1735-1737,2028-2039,2066-2071
+  s_26e66002ab70f2::t_75f85486a7c22e 2093,2118-2143,2153
+  s_26e66002ab70f2::t_484d9e002937a2 708-709,719,1553-1604
+  s_26e66002ab70f2::t_2227a2a1e5613d 2015,2040-2065,2075
+  s_26e66002ab70f2::t_c9ed58ef9e9198 5,710,714-715,724-725,728-730,2072-2074,2076-2077,2150-2152,2154-2155,2306,2332,2359,2385-2411,2418-2422
+  s_26e66002ab70f2::t_c69a4718d69dcf 720,1738-1763,1939-1968,1998-1999,2318-2328,2356-2358,2412-2417
+  s_26e66002ab70f2::t_6d23ae7aed431d 859,1009,1534,1605-1734,1787-1935
+  s_26e66002ab70f2::t_7bc9366d19eae9 2106-2117,2144-2149
+  s_26e66002ab70f2::t_3276c79d0cfe38 2360-2384
+  s_26e66002ab70f2::t_adbb47cac49bb7 707,718,723,726,1764-1786,1936-1938,1969-1997,2329-2331,2333-2355
+  s_26e66002ab70f2::t_61b8a011f6095b 3,16-17,41-42,66-67,91-92,116-117,141-142,166-167,191-192,216-217,241-242,266-267,291-292,316-317,341-342,366-367,391-392,416-417,441-442,466-467,491-492,516-517,541-542,566-567,591-592,616-617,641-642,666-667,691-692,706,712-713,716-717,722,741-742,766-767,791-792,816-817,841-842,866-867,891-892,916-917,941-942,966-967,991-992,1016-1017,1041-1042,1066-1067,1091-1092,1116-1117,1141-1142,1166-1167,1191-1192,1216-1217,1241-1242,1266-1267,1291-1292,1316-1317,1341-1342,1366-1367,1391-1392,1416-1417,1441-1442,1466-1467,1491-1492,1516-1517,1541-1542
+.workflow/sessions/20260718-craft-nav-pages/.backups/session-20260718141542-61640-1784384142760.json
+  s_26e66002ab70f2::t_b246b2771aa3b0 1-40
+.workflow/sessions/20260718-craft-provider-detail/.backups/gates-20260718143554-36328-1784385354315.json
+  s_26e66002ab70f2::t_014159742b5a07 1-13
+.workflow/sessions/20260718-craft-provider-detail/artifacts.json
+  s_26e66002ab70f2::t_b68fecb452df0f 1-2,19-20
+  s_26e66002ab70f2::t_014159742b5a07 3-18
+.workflow/sessions/20260718-craft-provider-detail/.backups/evidence-20260718143554-36328-1784385354319.json
+  s_26e66002ab70f2::t_014159742b5a07 1-5
+.workflow/sessions/20260718-teach-llm-info/.backups/gates-20260718125709-33936-1784379429188.json
+  s_26e66002ab70f2::t_c48806b6bdc0e6 1-13
+.workflow/sessions/20260718-grill-model-prototype/runs/20260718-001-grill/outputs/archive.json
+  s_26e66002ab70f2::t_73d4d1b5ee8eb1 1-33
+schemas/models.schema.json
+  s_68d73f8eeddcbd::t_fbe73165e55022 42-52,92
+.workflow/sessions/20260718-craft-model-prototype/.backups/session-20260718131440-67628-1784380480213.json
+  s_26e66002ab70f2::t_3e005bbee9ee5b 1-40
+.workflow/sessions/20260718-craft-provider-models/.backups/evidence-20260718145007-53276-1784386207901.json
+  s_26e66002ab70f2::t_da3229a934b2de 1-57
+.workflow/sessions/20260718-teach-llm-info/evidence.json
+  s_26e66002ab70f2::t_c48806b6bdc0e6 1-2,51
+  s_26e66002ab70f2::t_20166e257f53b0 3-50
+.workflow/sessions/20260718-craft-nav-pages/runs/20260718-001-craft/run.json
+  s_26e66002ab70f2::t_1c01b88d36eb1f 1-13,15-21,25,27,72,75
+  s_26e66002ab70f2::t_ad31a015783fbe 14,22-24,26,28-71,73-74
+.workflow/sessions/20260718-craft-nav-pages/.backups/gates-20260718134837-55932-1784382517509.json
+  s_26e66002ab70f2::t_1c01b88d36eb1f 1-13
+.workflow/sessions/20260718-grill-model-prototype/runs/20260718-001-grill/outputs/context-package.json
+  s_26e66002ab70f2::t_78d26120916314 1-6,8-84
+  s_26e66002ab70f2::t_73d4d1b5ee8eb1 7
+.workflow/.backups/state-20260718130253-59628-1784379773100.json
+  s_26e66002ab70f2::t_bca6dbc367406a 1-44
+.workflow/.backups/state-20260718131440-67628-1784380480211.json
+  s_26e66002ab70f2::t_854136c74303ed 1-52
+.workflow/.backups/state-20260718134837-55932-1784382517506.json
+  s_26e66002ab70f2::t_4624def91d3daf 1-52
+.workflow/.backups/state-20260718141533-68428-1784384133398.json
+  s_26e66002ab70f2::t_e2434765b82eac 1-60
+.workflow/.backups/state-20260718142631-60692-1784384791925.json
+  s_26e66002ab70f2::t_cf5643d6c8ad1b 1-60
+.workflow/.backups/state-20260718143554-36328-1784385354311.json
+  s_26e66002ab70f2::t_5f688f61aab168 1-68
+.workflow/.backups/state-20260718144113-47224-1784385673456.json
+  s_26e66002ab70f2::t_d8f995de284232 1-68
+.workflow/.backups/state-20260718144954-42340-1784386194022.json
+  s_26e66002ab70f2::t_020eb9b24cda06 1-76
+.workflow/.backups/state-20260718145901-65076-1784386741687.json
+  s_26e66002ab70f2::t_fff123c8a2c0f1 1-76
+.workflow/sessions/20260718-craft-model-prototype/.backups/artifacts-20260718131437-42340-1784380477145.json
+  s_26e66002ab70f2::t_d55bfed3de048e 1-6
+.workflow/sessions/20260718-craft-model-prototype/.backups/artifacts-20260718131522-61144-1784380522048.json
+  s_26e66002ab70f2::t_ced780714bb1f2 1-20
+.workflow/sessions/20260718-craft-model-prototype/.backups/evidence-20260718131437-42340-1784380477147.json
+  s_26e66002ab70f2::t_9ef417ca4e3e01 1-5
+.workflow/sessions/20260718-craft-model-prototype/.backups/evidence-20260718131522-61144-1784380522049.json
+  s_26e66002ab70f2::t_11089140dbe996 1-57
+.workflow/sessions/20260718-craft-model-prototype/.backups/gates-20260718131437-42340-1784380477143.json
+  s_26e66002ab70f2::t_227afed68ce7cd 1-13
+.workflow/sessions/20260718-craft-model-prototype/.backups/gates-20260718131522-61144-1784380522045.json
+  s_26e66002ab70f2::t_8bd58b05cadcc6 1-13
+.workflow/sessions/20260718-craft-model-prototype/.backups/session-20260718131437-42340-1784380477140.json
+  s_26e66002ab70f2::t_d79307c552e0e3 1-40
+.workflow/sessions/20260718-craft-model-prototype/.backups/session-20260718131522-61144-1784380522042.json
+  s_26e66002ab70f2::t_0a3cec2c482e8e 1-40
+.workflow/sessions/20260718-craft-model-prototype/runs/20260718-001-craft/.backups/run-20260718131437-42340-1784380477137.json
+  s_26e66002ab70f2::t_29d3fa0dcfee6f 1-30
+.workflow/sessions/20260718-craft-nav-pages/.backups/artifacts-20260718141239-21992-1784383959816.json
+  s_26e66002ab70f2::t_7a1b13850c8548 1-6
+.workflow/sessions/20260718-craft-nav-pages/.backups/artifacts-20260718141533-68428-1784384133404.json
+  s_26e66002ab70f2::t_b87ef6c4efa21c 1-6
+.workflow/sessions/20260718-craft-nav-pages/.backups/evidence-20260718141239-21992-1784383959818.json
+  s_26e66002ab70f2::t_4c09aa32c3ef20 1-5
+.workflow/sessions/20260718-craft-nav-pages/.backups/evidence-20260718141533-68428-1784384133406.json
+  s_26e66002ab70f2::t_e528d2dceb2ef9 1-5
+.workflow/sessions/20260718-craft-nav-pages/.backups/gates-20260718141239-21992-1784383959814.json
+  s_26e66002ab70f2::t_c50feede1cfc21 1-13
+.workflow/sessions/20260718-craft-nav-pages/.backups/gates-20260718141533-68428-1784384133402.json
+  s_26e66002ab70f2::t_61da2a11fda815 1-13
+.workflow/sessions/20260718-craft-nav-pages/.backups/session-20260718141239-21992-1784383959812.json
+  s_26e66002ab70f2::t_171e0e8192dcdd 1-40
+.workflow/sessions/20260718-craft-nav-pages/.backups/session-20260718141533-68428-1784384133399.json
+  s_26e66002ab70f2::t_738a03cdea8d38 1-40
+.workflow/sessions/20260718-craft-nav-pages/runs/20260718-001-craft/.backups/run-20260718141239-21992-1784383959810.json
+  s_26e66002ab70f2::t_92b02eddb5ecd4 1-30
+.workflow/sessions/20260718-craft-nav-pages/runs/20260718-001-craft/.backups/run-20260718141533-68428-1784384133395.json
+  s_26e66002ab70f2::t_941cda9550a87f 1-30
+.workflow/sessions/20260718-craft-provider-detail/.backups/artifacts-20260718143541-41432-1784385341359.json
+  s_26e66002ab70f2::t_3f646d043dea09 1-6
+.workflow/sessions/20260718-craft-provider-detail/.backups/evidence-20260718143541-41432-1784385341361.json
+  s_26e66002ab70f2::t_e0e20b2a959599 1-5
+.workflow/sessions/20260718-craft-provider-detail/.backups/gates-20260718143541-41432-1784385341357.json
+  s_26e66002ab70f2::t_7fe2fe8578347e 1-13
+.workflow/sessions/20260718-craft-provider-detail/.backups/session-20260718143541-41432-1784385341355.json
+  s_26e66002ab70f2::t_29820d887c52ef 1-40
+.workflow/sessions/20260718-craft-provider-detail/runs/20260718-001-craft/.backups/run-20260718143541-41432-1784385341353.json
+  s_26e66002ab70f2::t_ab519e5481ef35 1-30
+.workflow/sessions/20260718-craft-provider-models/.backups/artifacts-20260718144832-67408-1784386112280.json
+  s_26e66002ab70f2::t_2bae6960795a0c 1-6
+.workflow/sessions/20260718-craft-provider-models/.backups/artifacts-20260718144940-67428-1784386180990.json
+  s_26e66002ab70f2::t_b5b4a9b8c7f7ec 1-6
+.workflow/sessions/20260718-craft-provider-models/.backups/artifacts-20260718144954-42340-1784386194028.json
+  s_26e66002ab70f2::t_d444e925639773 1-6
+.workflow/sessions/20260718-craft-provider-models/.backups/evidence-20260718144832-67408-1784386112281.json
+  s_26e66002ab70f2::t_8356f2c575d960 1-5
+.workflow/sessions/20260718-craft-provider-models/.backups/evidence-20260718144940-67428-1784386180993.json
+  s_26e66002ab70f2::t_3349be3b38dd38 1-5
+.workflow/sessions/20260718-craft-provider-models/.backups/evidence-20260718144954-42340-1784386194030.json
+  s_26e66002ab70f2::t_93025a28a16f48 1-5
+.workflow/sessions/20260718-craft-provider-models/.backups/gates-20260718144832-67408-1784386112278.json
+  s_26e66002ab70f2::t_196822a3665262 1-13
+.workflow/sessions/20260718-craft-provider-models/.backups/gates-20260718144940-67428-1784386180988.json
+  s_26e66002ab70f2::t_ea2a841ca2d216 1-13
+.workflow/sessions/20260718-craft-provider-models/.backups/gates-20260718144954-42340-1784386194026.json
+  s_26e66002ab70f2::t_7a8616e8a7e7ff 1-13
+.workflow/sessions/20260718-craft-provider-models/.backups/session-20260718144832-67408-1784386112276.json
+  s_26e66002ab70f2::t_a3f6aae89e4dc1 1-40
+.workflow/sessions/20260718-craft-provider-models/.backups/session-20260718144940-67428-1784386180985.json
+  s_26e66002ab70f2::t_8a9509204e285f 1-40
+.workflow/sessions/20260718-craft-provider-models/.backups/session-20260718144954-42340-1784386194024.json
+  s_26e66002ab70f2::t_de02245f06d9d2 1-40
+.workflow/sessions/20260718-craft-provider-models/runs/20260718-001-craft/.backups/run-20260718144832-67408-1784386112274.json
+  s_26e66002ab70f2::t_69fb8a961bb5a3 1-30
+.workflow/sessions/20260718-craft-provider-models/runs/20260718-001-craft/.backups/run-20260718144940-67428-1784386180982.json
+  s_26e66002ab70f2::t_8872ab8f913fb0 1-30
+.workflow/sessions/20260718-craft-provider-models/runs/20260718-001-craft/.backups/run-20260718144954-42340-1784386194019.json
+  s_26e66002ab70f2::t_a81117ff64c7b7 1-30
+.workflow/sessions/20260718-document-llm-info/.backups/artifacts-20260718130250-68340-1784379770229.json
+  s_26e66002ab70f2::t_4ecbb23beb25a3 1-6
+.workflow/sessions/20260718-document-llm-info/.backups/artifacts-20260718130318-60300-1784379798006.json
+  s_26e66002ab70f2::t_e73ddc18aa6809 1-6
+.workflow/sessions/20260718-document-llm-info/.backups/evidence-20260718130250-68340-1784379770231.json
+  s_26e66002ab70f2::t_443b9c7aafb243 1-5
+.workflow/sessions/20260718-document-llm-info/.backups/evidence-20260718130318-60300-1784379798009.json
+  s_26e66002ab70f2::t_629af244ea01c3 1-51
+.workflow/sessions/20260718-document-llm-info/.backups/gates-20260718130250-68340-1784379770228.json
+  s_26e66002ab70f2::t_a9464abc79176d 1-13
+.workflow/sessions/20260718-document-llm-info/.backups/gates-20260718130318-60300-1784379798004.json
+  s_26e66002ab70f2::t_7de589fe38eb4c 1-13
+.workflow/sessions/20260718-document-llm-info/.backups/session-20260718130250-68340-1784379770226.json
+  s_26e66002ab70f2::t_593d58dc2ab6de 1-40
+.workflow/sessions/20260718-document-llm-info/.backups/session-20260718130318-60300-1784379798001.json
+  s_26e66002ab70f2::t_93e99cb3d5ec73 1-40
+.workflow/sessions/20260718-document-llm-info/runs/20260718-001-document/.backups/run-20260718130250-68340-1784379770223.json
+  s_26e66002ab70f2::t_2b53da983b4ec4 1-32
+.workflow/sessions/20260718-grill-model-prototype/.backups/artifacts-20260718125154-67248-1784379114496.json
+  s_26e66002ab70f2::t_6bce5280d22eaf 1-6
+.workflow/sessions/20260718-grill-model-prototype/.backups/artifacts-20260718125523-4396-1784379323636.json
+  s_26e66002ab70f2::t_e851f233d8954b 1-6
+.workflow/sessions/20260718-grill-model-prototype/.backups/artifacts-20260718125526-64060-1784379326546.json
+  s_26e66002ab70f2::t_2548896a291f99 1-6
+.workflow/sessions/20260718-grill-model-prototype/.backups/evidence-20260718125154-67248-1784379114497.json
+  s_26e66002ab70f2::t_28ad839ffc2ed3 1-5
+.workflow/sessions/20260718-grill-model-prototype/.backups/evidence-20260718125523-4396-1784379323637.json
+  s_26e66002ab70f2::t_12780479a4de9f 1-5
+.workflow/sessions/20260718-grill-model-prototype/.backups/evidence-20260718125526-64060-1784379326549.json
+  s_26e66002ab70f2::t_ac8a3645f96518 1-5
+.workflow/sessions/20260718-grill-model-prototype/.backups/gates-20260718125154-67248-1784379114494.json
+  s_26e66002ab70f2::t_f863067f8662b2 1-13
+.workflow/sessions/20260718-grill-model-prototype/.backups/gates-20260718125523-4396-1784379323634.json
+  s_26e66002ab70f2::t_1df43dbcb6c4f9 1-13
+.workflow/sessions/20260718-grill-model-prototype/.backups/gates-20260718125526-64060-1784379326544.json
+  s_26e66002ab70f2::t_9a8d4e55337fda 1-13
+.workflow/sessions/20260718-grill-model-prototype/.backups/session-20260718125154-67248-1784379114492.json
+  s_26e66002ab70f2::t_57dcf28dc8e695 1-40
+.workflow/sessions/20260718-grill-model-prototype/.backups/session-20260718125523-4396-1784379323632.json
+  s_26e66002ab70f2::t_86c41826167150 1-40
+.workflow/sessions/20260718-grill-model-prototype/.backups/session-20260718125526-64060-1784379326542.json
+  s_26e66002ab70f2::t_28ea8674a0c8fe 1-40
+.workflow/sessions/20260718-grill-model-prototype/runs/20260718-001-grill/.backups/run-20260718125154-67248-1784379114490.json
+  s_26e66002ab70f2::t_d94a4dc21de6f5 1-34
+.workflow/sessions/20260718-grill-model-prototype/runs/20260718-001-grill/.backups/run-20260718125523-4396-1784379323629.json
+  s_26e66002ab70f2::t_aea15c1f987897 1-34
+.workflow/sessions/20260718-grill-model-prototype/runs/20260718-001-grill/.backups/run-20260718125526-64060-1784379326537.json
+  s_26e66002ab70f2::t_0c75259928e4d8 1-34
+.workflow/sessions/20260718-teach-llm-info/.backups/artifacts-20260718125904-18892-1784379544580.json
+  s_26e66002ab70f2::t_dbaa47f0c16edb 1-6
+.workflow/sessions/20260718-teach-llm-info/.backups/artifacts-20260718125929-61980-1784379569984.json
+  s_26e66002ab70f2::t_91ca470d3c1ccb 1-6
+.workflow/sessions/20260718-teach-llm-info/.backups/evidence-20260718125904-18892-1784379544581.json
+  s_26e66002ab70f2::t_4225c7b5e059b3 1-5
+.workflow/sessions/20260718-teach-llm-info/.backups/evidence-20260718125929-61980-1784379569987.json
+  s_26e66002ab70f2::t_44d72886dcb299 1-51
+.workflow/sessions/20260718-teach-llm-info/.backups/gates-20260718125904-18892-1784379544578.json
+  s_26e66002ab70f2::t_e2500da804b832 1-13
+.workflow/sessions/20260718-teach-llm-info/.backups/gates-20260718125929-61980-1784379569981.json
+  s_26e66002ab70f2::t_705d6f72401f36 1-13
+.workflow/sessions/20260718-teach-llm-info/.backups/session-20260718125904-18892-1784379544576.json
+  s_26e66002ab70f2::t_09c2c07b22833c 1-40
+.workflow/sessions/20260718-teach-llm-info/.backups/session-20260718125929-61980-1784379569978.json
+  s_26e66002ab70f2::t_38a791ef0cbc85 1-40
+.workflow/sessions/20260718-teach-llm-info/runs/20260718-001-teach/.backups/run-20260718125904-18892-1784379544574.json
+  s_26e66002ab70f2::t_95b059e4eacac2 1-30
+data/models.json
+  s_68d73f8eeddcbd::t_96261360750f31 1
+.maestroignore
+  s_26e66002ab70f2::t_056c25b6963c84 1-10
+.workflow/embedding.zvec/idmap.0/IDENTITY
+  s_26e66002ab70f2::t_7bc9155993bd4d 1
+.workflow/kg/sync-state.json
+  s_26e66002ab70f2::t_e93645626d11e5 1
+.workflow/search-cache.json
+  s_26e66002ab70f2::t_458a45bcf94014 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "c387672cde23a7b11deca7a17da128da79945a58",
+  "prompts": {},
+  "sessions": {
+    "s_26e66002ab70f2": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f7539-aa43-7960-8308-c08c69f3fb08",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "zhao-wuyan <zhao-wuyan@exampl.com>"
+    },
+    "s_68d73f8eeddcbd": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f739a-2fd8-71e2-a680-7e717def3093",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "zhao-wuyan <zhao-wuyan@exampl.com>"
+    }
+  }
+}
