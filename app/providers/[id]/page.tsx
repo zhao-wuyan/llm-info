@@ -3,19 +3,42 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AppShell } from "@/components/app-shell";
 import { ProviderModelsDialog } from "@/components/provider-models-dialog";
-import { PriceValue } from "@/components/ui";
+import { EntityText, PriceValue, SortableHeader } from "@/components/ui";
 import { providerById, providerStats } from "@/lib/catalog";
-import { compactNumber } from "@/lib/format";
+import { compactNumber, priceRate } from "@/lib/format";
 import { msg } from "@/lib/i18n";
 import { modelHref } from "@/lib/links";
 import { getCurrency, getLocale } from "@/lib/server-i18n";
+import { compareNullable, stableSort, type SortOrder } from "@/lib/table-sort";
 
-export default async function ProviderDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const [locale, currency, { id }] = await Promise.all([getLocale(), getCurrency(), params]);
+type PreviewSortKey = "name" | "context" | "input" | "output" | "cacheRead" | "cacheWrite";
+type SearchParams = Promise<Record<string, string | string[] | undefined>>;
+const one = (value: string | string[] | undefined) => Array.isArray(value) ? value[0] ?? "" : value ?? "";
+const priceMetric = { input: "textInput", output: "textOutput", cacheRead: "textInput_cacheRead", cacheWrite: "textInput_cacheWrite" } as const;
+
+export default async function ProviderDetailPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: SearchParams }) {
+  const [locale, currency, { id }, queryParams] = await Promise.all([getLocale(), getCurrency(), params, searchParams]);
   const provider = providerById.get(decodeURIComponent(id));
   if (!provider) notFound();
   const stats = providerStats(provider);
   const initials = provider.name.slice(0, 2).toUpperCase();
+  const rawSort = one(queryParams.sort);
+  const sortKeys: PreviewSortKey[] = ["name", "context", "input", "output", "cacheRead", "cacheWrite"];
+  const sort = sortKeys.includes(rawSort as PreviewSortKey) ? rawSort as PreviewSortKey : null;
+  const rawOrder = one(queryParams.order);
+  const order: SortOrder | null = sort ? rawOrder === "desc" ? "desc" : "asc" : null;
+  const previewModels = sort && order ? stableSort(stats.models, (left, right) => {
+    if (sort === "name") return compareNullable(left.name, right.name, order);
+    if (sort === "context") return compareNullable(left.contextWindow, right.contextWindow, order) || left.name.localeCompare(right.name);
+    return compareNullable(priceRate(left.displayPrices[currency], priceMetric[sort]), priceRate(right.displayPrices[currency], priceMetric[sort]), order) || left.name.localeCompare(right.name);
+  }) : stats.models;
+  const directionFor = (key: PreviewSortKey) => sort === key ? order : null;
+  const sortLinkFor = (key: PreviewSortKey) => {
+    const direction = directionFor(key);
+    const nextOrder = direction === null ? "asc" : direction === "asc" ? "desc" : null;
+    if (!nextOrder) return `/providers/${encodeURIComponent(provider.id)}`;
+    return `/providers/${encodeURIComponent(provider.id)}?sort=${key}&order=${nextOrder}`;
+  };
 
   return <AppShell locale={locale} section={msg(locale, "providers")} detail={provider.name}>
     <div className="detail-header">
@@ -42,17 +65,20 @@ export default async function ProviderDetailPage({ params }: { params: Promise<{
           <div className="table-frame borderless">
             <table className="data-table provider-preview-price-table">
               <thead><tr>
-                <th>{msg(locale, "model")}</th><th>{msg(locale, "context")}</th>
-                <th>{currency} {msg(locale, "inputPrice")}</th><th>{currency} {msg(locale, "outputPrice")}</th>
-                <th>{currency} {msg(locale, "cacheReadPrice")}</th><th>{currency} {msg(locale, "cacheCreationPrice")}</th>
+                <SortableHeader label={msg(locale, "model")} direction={directionFor("name")} href={sortLinkFor("name")} locale={locale} />
+                <SortableHeader label={msg(locale, "context")} direction={directionFor("context")} href={sortLinkFor("context")} locale={locale} />
+                <SortableHeader label={`${currency} ${msg(locale, "inputPrice")}`} direction={directionFor("input")} href={sortLinkFor("input")} locale={locale} />
+                <SortableHeader label={`${currency} ${msg(locale, "outputPrice")}`} direction={directionFor("output")} href={sortLinkFor("output")} locale={locale} />
+                <SortableHeader label={`${currency} ${msg(locale, "cacheReadPrice")}`} direction={directionFor("cacheRead")} href={sortLinkFor("cacheRead")} locale={locale} />
+                <SortableHeader label={`${currency} ${msg(locale, "cacheCreationPrice")}`} direction={directionFor("cacheWrite")} href={sortLinkFor("cacheWrite")} locale={locale} />
               </tr></thead>
-              <tbody>{stats.models.slice(0, 8).map((model) => <tr key={model.id}>
-                <td><Link className="entity-name" href={modelHref(model.canonicalId)}>{model.name}<small>{model.modelId}</small></Link></td>
+              <tbody>{previewModels.slice(0, 8).map((model) => <tr key={model.id}>
+                <td><Link className="entity-name" href={modelHref(model.canonicalId)}><EntityText name={model.name} id={model.modelId} /></Link></td>
                 <td className="mono">{compactNumber(model.contextWindow)}</td>
                 <td><PriceValue price={model.displayPrices[currency]} rate="textInput" currency={currency} locale={locale} /></td>
                 <td><PriceValue price={model.displayPrices[currency]} rate="textOutput" currency={currency} locale={locale} /></td>
-                <td><PriceValue price={model.displayPrices[currency]} rate="cacheReadInputToken" currency={currency} locale={locale} /></td>
-                <td><PriceValue price={model.displayPrices[currency]} rate="cacheCreationInputToken" currency={currency} locale={locale} /></td>
+                <td><PriceValue price={model.displayPrices[currency]} rate="textInput_cacheRead" currency={currency} locale={locale} /></td>
+                <td><PriceValue price={model.displayPrices[currency]} rate="textInput_cacheWrite" currency={currency} locale={locale} /></td>
               </tr>)}</tbody>
             </table>
           </div>

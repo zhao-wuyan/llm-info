@@ -3,11 +3,12 @@ import Link from "next/link";
 import { AppShell } from "@/components/app-shell";
 import { AutoSubmitForm } from "@/components/auto-submit-form";
 import { TableRowLink } from "@/components/table-row-link";
-import { EmptyState, MetricStrip, PageHeader, Pagination, PriceValue, SearchField } from "@/components/ui";
+import { EmptyState, EntityText, MetricStrip, PageHeader, Pagination, PriceValue, SearchField, SortableHeader } from "@/components/ui";
 import { canonicalModels, catalog, modelMatches } from "@/lib/catalog";
 import { compactNumber } from "@/lib/format";
 import { abilityMsg, msg } from "@/lib/i18n";
 import { modelHref } from "@/lib/links";
+import { parseModelSortKey, parseModelSortOrder, sortCanonicalModels, type ModelSortKey } from "@/lib/model-sort";
 import { getCurrency, getLocale } from "@/lib/server-i18n";
 
 const PAGE_SIZE = 20;
@@ -19,38 +20,46 @@ export default async function ModelsPage({ searchParams }: { searchParams: Param
   const params = await searchParams;
   const q = one(params.q);
   const ability = one(params.ability);
-  const sort = one(params.sort) || "providers";
+  const rawSort = one(params.sort);
+  const sort = parseModelSortKey(rawSort);
+  const order = sort ? parseModelSortOrder(one(params.order), rawSort) : null;
   const page = Math.max(1, Number(one(params.page)) || 1);
   const abilities = [...new Set(canonicalModels.flatMap((model) =>
     Object.entries(model.abilities).filter(([, value]) => value).map(([key]) => key),
   ))].sort();
 
-  const filtered = canonicalModels
-    .filter((model) => modelMatches(model, q) && (!ability || model.abilities[ability]))
-    .sort((a, b) => {
-      const leftPrice = a.minPrices[priceCurrency];
-      const rightPrice = b.minPrices[priceCurrency];
-      if (Boolean(leftPrice) !== Boolean(rightPrice)) return leftPrice ? -1 : 1;
-      if (sort === "name") return a.name.localeCompare(b.name);
-      if (sort === "context") return (b.contextWindow ?? 0) - (a.contextWindow ?? 0);
-      if (sort === "price") {
-        return (leftPrice?.rates.textInput ?? Number.POSITIVE_INFINITY) -
-          (rightPrice?.rates.textInput ?? Number.POSITIVE_INFINITY) || a.name.localeCompare(b.name);
-      }
-      return b.providerCount - a.providerCount || a.name.localeCompare(b.name);
-    });
+  const filtered = canonicalModels.filter((model) => modelMatches(model, q) && (!ability || model.abilities[ability]));
+  const sorted = sortCanonicalModels(filtered, sort, order, priceCurrency);
 
-  const pages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const pages = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE));
   const current = Math.min(page, pages);
-  const rows = filtered.slice((current - 1) * PAGE_SIZE, current * PAGE_SIZE);
-  const linkFor = (next: number) => {
+  const rows = sorted.slice((current - 1) * PAGE_SIZE, current * PAGE_SIZE);
+  const baseQuery = (includeSort = true) => {
     const copy = new URLSearchParams();
-    for (const key of ["q", "ability", "sort"] as const) {
-      const value = one(params[key]);
-      if (value) copy.set(key, value);
+    if (q) copy.set("q", q);
+    if (ability) copy.set("ability", ability);
+    if (includeSort && sort && order) {
+      copy.set("sort", sort);
+      copy.set("order", order);
     }
+    return copy;
+  };
+  const linkFor = (next: number) => {
+    const copy = baseQuery();
     copy.set("page", String(next));
     return `/models?${copy}`;
+  };
+  const directionFor = (key: ModelSortKey) => sort === key ? order : null;
+  const sortLinkFor = (key: ModelSortKey) => {
+    const direction = directionFor(key);
+    const nextOrder = direction === null ? "asc" : direction === "asc" ? "desc" : null;
+    const copy = baseQuery(false);
+    if (nextOrder) {
+      copy.set("sort", key);
+      copy.set("order", nextOrder);
+    }
+    const query = copy.toString();
+    return query ? `/models?${query}` : "/models";
   };
   const priceHeader = (key: "inputPrice" | "outputPrice" | "cacheReadPrice" | "cacheCreationPrice") =>
     `${priceCurrency} ${msg(locale, key)}`;
@@ -64,12 +73,7 @@ export default async function ModelsPage({ searchParams }: { searchParams: Param
           <option value="">{msg(locale, "allAbilities")}</option>
           {abilities.map((key) => <option key={key} value={key}>{abilityMsg(locale, key)}</option>)}
         </select>
-        <select name="sort" defaultValue={sort} aria-label="Sort">
-          <option value="providers">{msg(locale, "channels")}</option>
-          <option value="context">{msg(locale, "context")}</option>
-          <option value="price">{priceCurrency} {msg(locale, "inputPrice")}</option>
-          <option value="name">A-Z</option>
-        </select>
+        {sort && order && <><input type="hidden" name="sort" value={sort} /><input type="hidden" name="order" value={order} /></>}
         <Link href="/models" className="text-button">{msg(locale, "reset")}</Link>
       </AutoSubmitForm>
       <MetricStrip metrics={[
@@ -82,21 +86,21 @@ export default async function ModelsPage({ searchParams }: { searchParams: Param
         {rows.length ? (
           <table className="data-table model-price-table">
             <thead><tr>
-              <th>{msg(locale, "model")}</th>
+              <SortableHeader label={msg(locale, "model")} direction={directionFor("name")} href={sortLinkFor("name")} locale={locale} />
               <th>{msg(locale, "ability")}</th>
-              <th>{msg(locale, "context")}</th>
-              <th>{msg(locale, "channels")}</th>
-              <th>{priceHeader("inputPrice")}</th>
-              <th>{priceHeader("outputPrice")}</th>
-              <th>{priceHeader("cacheReadPrice")}</th>
-              <th>{priceHeader("cacheCreationPrice")}</th>
+              <SortableHeader label={msg(locale, "context")} direction={directionFor("context")} href={sortLinkFor("context")} locale={locale} />
+              <SortableHeader label={msg(locale, "channels")} direction={directionFor("providers")} href={sortLinkFor("providers")} locale={locale} />
+              <SortableHeader label={priceHeader("inputPrice")} direction={directionFor("input")} href={sortLinkFor("input")} locale={locale} />
+              <SortableHeader label={priceHeader("outputPrice")} direction={directionFor("output")} href={sortLinkFor("output")} locale={locale} />
+              <SortableHeader label={priceHeader("cacheReadPrice")} direction={directionFor("cacheRead")} href={sortLinkFor("cacheRead")} locale={locale} />
+              <SortableHeader label={priceHeader("cacheCreationPrice")} direction={directionFor("cacheWrite")} href={sortLinkFor("cacheWrite")} locale={locale} />
               <th />
             </tr></thead>
             <tbody>{rows.map((model) => {
               const price = model.minPrices[priceCurrency];
               return (
                 <TableRowLink key={model.canonicalId} href={modelHref(model.canonicalId)} label={`${msg(locale, "details")}: ${model.name}`}>
-                  <td className="entity-cell"><Link className="entity-name" href={modelHref(model.canonicalId)}>{model.name}<small>{model.canonicalId}</small></Link></td>
+                  <td className="entity-cell"><Link className="entity-name" href={modelHref(model.canonicalId)}><EntityText name={model.name} id={model.canonicalId} /></Link></td>
                   <td><div className="tag-list">{Object.entries(model.abilities).filter(([, value]) => value).slice(0, 3).map(([key]) => <span className="tag" key={key}>{abilityMsg(locale, key)}</span>)}</div></td>
                   <td className="mono">{compactNumber(model.contextWindow)}</td>
                   <td className="mono">{model.providerCount}</td>

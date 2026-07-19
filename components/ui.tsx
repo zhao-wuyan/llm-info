@@ -1,10 +1,11 @@
-import { ChevronLeft, ChevronRight, Search } from "lucide-react";
+import { ArrowDown, ArrowUp, ChevronLeft, ChevronRight, ChevronsUpDown, Search } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import type { Currency, DisplayPrice } from "@/lib/types";
 import { formatPrice, isExplicitlyFree, priceRate } from "@/lib/format";
 import type { Locale } from "@/lib/i18n";
 import { msg } from "@/lib/i18n";
+import type { SortOrder } from "@/lib/table-sort";
 
 export function PageHeader({ title, description, action }: { title: string; description: string; action?: ReactNode }) {
   return <header className="page-header"><div><h1>{title}</h1><p>{description}</p></div>{action}</header>;
@@ -16,6 +17,30 @@ export function MetricStrip({ metrics }: { metrics: Array<{ value: string | numb
 
 export function SearchField({ name = "q", defaultValue, placeholder }: { name?: string; defaultValue?: string; placeholder: string }) {
   return <label className="search-field"><span className="sr-only">{placeholder}</span><Search size={16} /><input name={name} defaultValue={defaultValue} placeholder={placeholder} /></label>;
+}
+
+export function EntityText({ name, id }: { name: string; id: string }) {
+  return <><span className="entity-title" title={name}>{name}</span>{id !== name && <small title={id}>{id}</small>}</>;
+}
+
+function SortHeaderContent({ label, direction }: { label: string; direction: SortOrder | null }) {
+  const Icon = direction === "asc" ? ArrowUp : direction === "desc" ? ArrowDown : ChevronsUpDown;
+  return <><span>{label}</span><Icon aria-hidden size={14} /></>;
+}
+
+function sortAction(locale: Locale, label: string, direction: SortOrder | null) {
+  const next = direction === null ? "sortAscending" : direction === "asc" ? "sortDescending" : "sortNone";
+  return `${msg(locale, "sortBy")} ${label}: ${msg(locale, next)}`;
+}
+
+export function SortableHeader({ label, direction, href, locale }: { label: string; direction: SortOrder | null; href: string; locale: Locale }) {
+  const action = sortAction(locale, label, direction);
+  return <th aria-sort={direction === "asc" ? "ascending" : direction === "desc" ? "descending" : "none"}><Link className={`sortable-header${direction ? " active" : ""}`} href={href} aria-label={action} title={action}><SortHeaderContent label={label} direction={direction} /></Link></th>;
+}
+
+export function SortableButtonHeader({ label, direction, onSort, locale }: { label: string; direction: SortOrder | null; onSort: () => void; locale: Locale }) {
+  const action = sortAction(locale, label, direction);
+  return <th aria-sort={direction === "asc" ? "ascending" : direction === "desc" ? "descending" : "none"}><button type="button" className={`sortable-header${direction ? " active" : ""}`} onClick={onSort} aria-label={action} title={action}><SortHeaderContent label={label} direction={direction} /></button></th>;
 }
 
 export function PriceValue({ price, rate, currency, locale }: { price: DisplayPrice | null; rate: string; currency: Currency; locale: Locale }) {

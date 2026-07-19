@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { canonicalModels, catalog, modelByCanonicalId, providerById, providerStats } from "@/lib/catalog";
-import { formatPrice, isExplicitlyFree } from "@/lib/format";
+import { formatPrice, isExplicitlyFree, priceRate } from "@/lib/format";
 import { abilityMsg, msg } from "@/lib/i18n";
 import { modelHref } from "@/lib/links";
 
@@ -45,5 +45,13 @@ describe("catalog view model", () => {
     expect(msg("zh", "cacheCreationPrice")).toBe("缓存创建价");
     expect(msg("en", "cacheReadPrice")).toBe("Cache read");
     expect(msg("en", "cacheCreationPrice")).toBe("Cache creation");
+  });
+
+  it("reads standardized cache pricing rates", () => {
+    const cached = canonicalModels.find((model) => priceRate(model.minPrices.USD, "textInput_cacheRead") !== null);
+    expect(cached).toBeDefined();
+    expect(priceRate(cached!.minPrices.USD, "textInput_cacheRead")).toBeGreaterThanOrEqual(0);
+    expect(msg("zh", "supported")).toBe("支持");
+    expect(msg("en", "unsupported")).toBe("Unsupported");
   });
 });

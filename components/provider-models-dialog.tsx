@@ -1,15 +1,18 @@
 "use client";
 
-import { ArrowDownUp, ChevronLeft, ChevronRight, Search, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Search, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useMemo, useRef, useState } from "react";
-import { compactNumber } from "@/lib/format";
+import { compactNumber, priceRate } from "@/lib/format";
 import { abilityMsg, msg, type Locale } from "@/lib/i18n";
 import { modelHref } from "@/lib/links";
+import { compareNullable, nextSortState, stableSort, type SortOrder } from "@/lib/table-sort";
 import type { Currency, Model } from "@/lib/types";
-import { PriceValue } from "./ui";
+import { EntityText, PriceValue, SortableButtonHeader } from "./ui";
 
 const PAGE_SIZE = 10;
+type DialogSortKey = "name" | "context" | "input" | "output" | "cacheRead" | "cacheWrite";
+const priceMetric = { input: "textInput", output: "textOutput", cacheRead: "textInput_cacheRead", cacheWrite: "textInput_cacheWrite" } as const;
 
 interface ProviderModelsDialogProps {
   locale: Locale;
@@ -25,26 +28,33 @@ export function ProviderModelsDialog({ locale, currency, providerName, providerI
   const [query, setQuery] = useState("");
   const [ability, setAbility] = useState("");
   const [context, setContext] = useState("");
-  const [ascending, setAscending] = useState(true);
+  const [sort, setSort] = useState<DialogSortKey | null>(null);
+  const [order, setOrder] = useState<SortOrder | null>(null);
   const [page, setPage] = useState(1);
   const abilities = [...new Set(models.flatMap((model) => Object.entries(model.abilities ?? {}).filter(([, value]) => value).map(([key]) => key)))].sort();
-  const filtered = useMemo(() => models.filter((model) => {
+  const filtered = useMemo(() => {
+    const matching = models.filter((model) => {
     const matchesQuery = `${model.name} ${model.modelId} ${model.canonicalId}`.toLowerCase().includes(query.toLowerCase());
     const matchesAbility = !ability || model.abilities?.[ability] === true;
     const matchesContext = !context || (context === "large" ? (model.contextWindow ?? 0) >= 128000 : (model.contextWindow ?? 0) < 128000);
-    return matchesQuery && matchesAbility && matchesContext;
-  }).sort((a, b) => {
-    const left = a.displayPrices[currency]?.rates.textInput;
-    const right = b.displayPrices[currency]?.rates.textInput;
-    if (left === undefined && right === undefined) return a.name.localeCompare(b.name);
-    if (left === undefined) return 1;
-    if (right === undefined) return -1;
-    return ascending ? left - right : right - left;
-  }), [ability, ascending, context, currency, models, query]);
+      return matchesQuery && matchesAbility && matchesContext;
+    });
+    if (!sort || !order) return matching;
+    return stableSort(matching, (left, right) => {
+      if (sort === "name") return compareNullable(left.name, right.name, order);
+      if (sort === "context") return compareNullable(left.contextWindow, right.contextWindow, order) || left.name.localeCompare(right.name);
+      return compareNullable(priceRate(left.displayPrices[currency], priceMetric[sort]), priceRate(right.displayPrices[currency], priceMetric[sort]), order) || left.name.localeCompare(right.name);
+    });
+  }, [ability, context, currency, models, order, query, sort]);
   const pages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const currentPage = Math.min(page, pages);
   const rows = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
   const resetPage = () => setPage(1);
+  const directionFor = (key: DialogSortKey) => sort === key ? order : null;
+  const toggleSort = (key: DialogSortKey) => {
+    const next = nextSortState(sort, order, key);
+    setSort(next.key); setOrder(next.order); resetPage();
+  };
 
   return <>
     <button className="secondary-button" onClick={() => dialog.current?.showModal()}>{msg(locale, "allProviderModels")}</button>
@@ -66,26 +76,23 @@ export function ProviderModelsDialog({ locale, currency, providerName, providerI
           <select aria-label={msg(locale, "context")} value={context} onChange={(event) => { setContext(event.target.value); resetPage(); }}>
             <option value="">{msg(locale, "context")}</option><option value="large">≥128K</option><option value="small">&lt;128K</option>
           </select>
-          <button className="secondary-button" onClick={() => setAscending((value) => !value)} aria-label={`${currency} ${msg(locale, "priceOrder")}`}>
-            <ArrowDownUp size={15} />{currency}
-          </button>
         </div>
         <div className="modal-content">
           <table className="data-table provider-model-table">
             <thead><tr>
-              <th>{msg(locale, "model")}</th><th>{msg(locale, "ability")}</th><th>{msg(locale, "context")}</th>
-              <th>{currency} {msg(locale, "inputPrice")}</th><th>{currency} {msg(locale, "outputPrice")}</th>
-              <th>{currency} {msg(locale, "cacheReadPrice")}</th><th>{currency} {msg(locale, "cacheCreationPrice")}</th>
+              <SortableButtonHeader label={msg(locale, "model")} direction={directionFor("name")} onSort={() => toggleSort("name")} locale={locale} /><th>{msg(locale, "ability")}</th><SortableButtonHeader label={msg(locale, "context")} direction={directionFor("context")} onSort={() => toggleSort("context")} locale={locale} />
+              <SortableButtonHeader label={`${currency} ${msg(locale, "inputPrice")}`} direction={directionFor("input")} onSort={() => toggleSort("input")} locale={locale} /><SortableButtonHeader label={`${currency} ${msg(locale, "outputPrice")}`} direction={directionFor("output")} onSort={() => toggleSort("output")} locale={locale} />
+              <SortableButtonHeader label={`${currency} ${msg(locale, "cacheReadPrice")}`} direction={directionFor("cacheRead")} onSort={() => toggleSort("cacheRead")} locale={locale} /><SortableButtonHeader label={`${currency} ${msg(locale, "cacheCreationPrice")}`} direction={directionFor("cacheWrite")} onSort={() => toggleSort("cacheWrite")} locale={locale} />
               <th aria-label={msg(locale, "details")} />
             </tr></thead>
             <tbody>{rows.map((model) => <tr key={model.id} role="link" tabIndex={0} onClick={() => router.push(modelHref(model.canonicalId))} onKeyDown={(event) => { if (event.key === "Enter") router.push(modelHref(model.canonicalId)); }}>
-              <td className="entity-cell"><span className="entity-name">{model.name}<small>{model.modelId}</small></span></td>
+              <td className="entity-cell"><span className="entity-name"><EntityText name={model.name} id={model.modelId} /></span></td>
               <td><div className="tag-list">{Object.entries(model.abilities ?? {}).filter(([, value]) => value).slice(0, 3).map(([key]) => <span className="tag" key={key}>{abilityMsg(locale, key)}</span>)}</div></td>
               <td className="mono">{compactNumber(model.contextWindow)}</td>
               <td><PriceValue price={model.displayPrices[currency]} rate="textInput" currency={currency} locale={locale} /></td>
               <td><PriceValue price={model.displayPrices[currency]} rate="textOutput" currency={currency} locale={locale} /></td>
-              <td><PriceValue price={model.displayPrices[currency]} rate="cacheReadInputToken" currency={currency} locale={locale} /></td>
-              <td><PriceValue price={model.displayPrices[currency]} rate="cacheCreationInputToken" currency={currency} locale={locale} /></td>
+              <td><PriceValue price={model.displayPrices[currency]} rate="textInput_cacheRead" currency={currency} locale={locale} /></td>
+              <td><PriceValue price={model.displayPrices[currency]} rate="textInput_cacheWrite" currency={currency} locale={locale} /></td>
               <td><ChevronRight size={15} aria-hidden /></td>
             </tr>)}</tbody>
           </table>
