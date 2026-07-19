@@ -1,0 +1,48 @@
+.workflow/sessions/20260720-maestro-impeccable-aaindex-sort/artifacts.json
+  s_973c3ff73cc8b2::t_ce60767634d487 3
+  s_973c3ff73cc8b2::t_b6ee04c6ff28ee 1-2,4-6
+.workflow/sessions/20260720-maestro-impeccable-aaindex-sort/context.md
+  s_973c3ff73cc8b2::t_b6ee04c6ff28ee 1
+.workflow/sessions/20260720-maestro-impeccable-aaindex-sort/evidence.json
+  s_973c3ff73cc8b2::t_ce60767634d487 3-20
+  s_973c3ff73cc8b2::t_b6ee04c6ff28ee 1-2,21
+.workflow/sessions/20260720-maestro-impeccable-aaindex-sort/runs/20260720-001-maestro-impeccable/run.json
+  s_973c3ff73cc8b2::t_b6ee04c6ff28ee 1-5,66-116,118
+  s_973c3ff73cc8b2::t_ce60767634d487 14,27,29-61,63-64
+  s_973c3ff73cc8b2::t_5a2a69dc40fff0 6-13,15-26,28,62,65,117
+.workflow/state.json
+  s_973c3ff73cc8b2::t_ff5de90dd96348 16,221
+  s_973c3ff73cc8b2::t_b6ee04c6ff28ee 217-220,222-224
+.workflow/sessions/20260720-maestro-impeccable-aaindex-sort/gates.json
+  s_973c3ff73cc8b2::t_b6ee04c6ff28ee 1-13
+.workflow/sessions/20260720-maestro-impeccable-aaindex-sort/runs/20260720-001-maestro-impeccable/report.md
+  s_973c3ff73cc8b2::t_b6ee04c6ff28ee 1,17-18,20,22,27,29
+  s_973c3ff73cc8b2::t_775082a6f944c8 2,16
+  s_973c3ff73cc8b2::t_97bbdfd88d1055 3-15,19,21,23-26,28,30-37
+app/compare/page.tsx
+  s_973c3ff73cc8b2::t_89c915eeed6533 52-53,90-91,100,110-112
+.workflow/sessions/20260720-maestro-impeccable-aaindex-sort/session.json
+  s_973c3ff73cc8b2::t_ff5de90dd96348 4-6,27-28
+  s_973c3ff73cc8b2::t_b6ee04c6ff28ee 1-3,9-26,29-61
+  s_973c3ff73cc8b2::t_ce60767634d487 7-8
+.workflow/specs/ui-conventions.md
+  s_973c3ff73cc8b2::t_c08390f863e0f6 182-189
+tests/e2e/catalog.spec.ts
+  s_973c3ff73cc8b2::t_db1932f1cf309e 103-107
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "198322b3fbed41a024ec48a0e4f4ed587682e044",
+  "prompts": {},
+  "sessions": {
+    "s_973c3ff73cc8b2": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f7b0a-ad0c-7552-8d47-5e2969c14a02",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "zhao-wuyan <zhao-wuyan@exampl.com>"
+    }
+  }
+}
