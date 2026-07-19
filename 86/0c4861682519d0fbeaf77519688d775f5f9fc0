@@ -1,0 +1,312 @@
+.workflow/sessions/20260719-maestro-impeccable-ability-last/session.json
+  s_18c1a519366e7c::t_a3b4594cfe8e3b 1-4,10-28,31-40
+  s_18c1a519366e7c::t_c38db633624de5 5-7,29-30
+  s_18c1a519366e7c::t_6818b6120257a9 8-9
+.workflow/state.json
+  s_18c1a519366e7c::t_96e25e577847cf 185-188,190-192
+  s_18c1a519366e7c::t_d2cb88afff3b65 182-184,201-204,206-208
+  s_18c1a519366e7c::t_a3b4594cfe8e3b 193-196,198-200
+  s_18c1a519366e7c::t_a84b434772f727 189
+  s_18c1a519366e7c::t_c38db633624de5 197
+  s_18c1a519366e7c::t_4fd50ad58d0952 89-180
+  s_18c1a519366e7c::t_9deb0c08a3b0d4 16,181,205
+.workflow/sessions/20260719-maestro-impeccable-responsive-headers/context.md
+  s_18c1a519366e7c::t_96e25e577847cf 1
+.workflow/sessions/20260719-maestro-impeccable-model-count-copy/session.json
+  s_18c1a519366e7c::t_d2cb88afff3b65 1-4,10-28,31-40
+  s_18c1a519366e7c::t_9deb0c08a3b0d4 5-9,29-30
+.workflow/sessions/20260719-maestro-impeccable-cache-creation/artifacts.json
+  s_18c1a519366e7c::t_4fd50ad58d0952 1-2,4-6
+  s_18c1a519366e7c::t_115fb73e9a9767 3
+.workflow/sessions/20260719-maestro-impeccable-cache-creation/evidence.json
+  s_18c1a519366e7c::t_4fd50ad58d0952 1-5
+.workflow/sessions/20260719-maestro-impeccable-responsive-headers/session.json
+  s_18c1a519366e7c::t_a84b434772f727 5-7,29-30
+  s_18c1a519366e7c::t_e527b446f66195 8-9
+  s_18c1a519366e7c::t_96e25e577847cf 1-4,10-28,31-40
+.gitignore
+  s_18c1a519366e7c::t_e166fee7c44116 8-22,24
+  s_18c1a519366e7c::t_43a2562660468d 23,25
+app/providers/[id]/page.tsx
+  s_18c1a519366e7c::t_e1878d21c0c540 70-73
+.workflow/sessions/20260719-maestro-impeccable-responsive-headers/runs/20260719-001-maestro-impeccable/report.md
+  s_18c1a519366e7c::t_96e25e577847cf 1,5,8-9,11,13,15
+  s_18c1a519366e7c::t_a7adb4ed009aae 2-4,6-7,10,12,14,16-20
+.workflow/sessions/20260719-maestro-impeccable-model-count-copy/context.md
+  s_18c1a519366e7c::t_d2cb88afff3b65 1
+.workflow/sessions/20260719-maestro-impeccable-responsive-headers/gates.json
+  s_18c1a519366e7c::t_96e25e577847cf 1-13
+.workflow/sessions/20260719-maestro-impeccable-cache-creation/session.json
+  s_18c1a519366e7c::t_4fd50ad58d0952 1-4,10-28,31-40
+  s_18c1a519366e7c::t_115fb73e9a9767 8-9
+  s_18c1a519366e7c::t_8165086c6932d5 5-7,29-30
+.workflow/sessions/20260719-maestro-impeccable-responsive-headers/evidence.json
+  s_18c1a519366e7c::t_96e25e577847cf 1-5
+.workflow/sessions/20260719-maestro-impeccable-model-count-copy/evidence.json
+  s_18c1a519366e7c::t_d2cb88afff3b65 1-2,21
+  s_18c1a519366e7c::t_9deb0c08a3b0d4 3-20
+app/compare/page.tsx
+  s_18c1a519366e7c::t_e1878d21c0c540 116
+tests/catalog.test.ts
+  s_18c1a519366e7c::t_e1878d21c0c540 44-47
+components/ui.tsx
+  s_18c1a519366e7c::t_e1878d21c0c540 26,28,31,33,36-38,41-43
+.workflow/sessions/20260719-maestro-impeccable-responsive-headers/runs/20260719-001-maestro-impeccable/run.json
+  s_18c1a519366e7c::t_e527b446f66195 14,27,29-41,43-44
+  s_18c1a519366e7c::t_96e25e577847cf 1-13,15-26,28,42,45
+.workflow/specs/ui-conventions.md
+  s_18c1a519366e7c::t_8f8a703061ed5c 94-157
+  s_18c1a519366e7c::t_55cd111b6f1bd2 166-173
+  s_18c1a519366e7c::t_8d945b67eabef6 158-165
+.workflow/sessions/20260719-maestro-impeccable-model-count-copy/runs/20260719-001-maestro-impeccable/run.json
+  s_18c1a519366e7c::t_d2cb88afff3b65 1-13,15-26,28,54,57
+  s_18c1a519366e7c::t_9deb0c08a3b0d4 14,27,29-53,55-56
+.workflow/sessions/20260719-maestro-impeccable-cache-creation/context.md
+  s_18c1a519366e7c::t_4fd50ad58d0952 1
+.workflow/sessions/20260719-maestro-impeccable-model-count-copy/artifacts.json
+  s_18c1a519366e7c::t_d2cb88afff3b65 1-2,4-6
+  s_18c1a519366e7c::t_9deb0c08a3b0d4 3
+.workflow/sessions/20260719-maestro-impeccable-ability-last/gates.json
+  s_18c1a519366e7c::t_a3b4594cfe8e3b 1-13
+.workflow/sessions/20260719-maestro-impeccable-ability-last/runs/20260719-001-maestro-impeccable/run.json
+  s_18c1a519366e7c::t_a3b4594cfe8e3b 1-13,15-24,31,68-69,72
+  s_18c1a519366e7c::t_6818b6120257a9 14,25-30,32-67,70-71
+.workflow/sessions/20260719-maestro-impeccable-model-count-copy/runs/20260719-001-maestro-impeccable/report.md
+  s_18c1a519366e7c::t_b36504616ecf73 3-11,18-19,21-22,26-29,32-36,38-39
+  s_18c1a519366e7c::t_d2cb88afff3b65 1-2,12-17,20,23-25,30-31,37
+.workflow/sessions/20260719-maestro-impeccable-cache-creation/runs/20260719-001-maestro-impeccable/run.json
+  s_18c1a519366e7c::t_4fd50ad58d0952 1-13,15-26,28,42,45
+  s_18c1a519366e7c::t_115fb73e9a9767 14,27,29-41,43-44
+.workflow/sessions/20260719-maestro-impeccable-ability-last/context.md
+  s_18c1a519366e7c::t_a3b4594cfe8e3b 1
+components/comparison-dialog.tsx
+  s_18c1a519366e7c::t_e1878d21c0c540 44
+components/provider-models-dialog.tsx
+  s_18c1a519366e7c::t_e1878d21c0c540 84-85
+  s_18c1a519366e7c::t_c1c15dd284a0f8 83,86,96
+app/models/[...canonicalId]/page.tsx
+  s_18c1a519366e7c::t_e1878d21c0c540 51
+.workflow/sessions/20260719-maestro-impeccable-ability-last/artifacts.json
+  s_18c1a519366e7c::t_a3b4594cfe8e3b 1-2,58-59
+  s_18c1a519366e7c::t_6818b6120257a9 3-57
+.workflow/sessions/20260719-maestro-impeccable-ability-last/evidence.json
+  s_18c1a519366e7c::t_a3b4594cfe8e3b 1-2,26
+  s_18c1a519366e7c::t_6818b6120257a9 3-25
+.workflow/sessions/20260719-maestro-impeccable-model-count-copy/gates.json
+  s_18c1a519366e7c::t_d2cb88afff3b65 1-13
+tests/e2e/catalog.spec.ts
+  s_18c1a519366e7c::t_46f4bd503f3c17 88-89,239-240
+  s_18c1a519366e7c::t_93a7f96ce3470d 33-34,39-42,59-62,73-76,103-106,121-122,155-170,174-175,178,193-201
+  s_18c1a519366e7c::t_68b58a3e0e3371 77-78,117
+  s_18c1a519366e7c::t_8d2e5cdeeef987 208-209,230,235
+  s_18c1a519366e7c::t_49f0dc7ddf794a 171
+.workflow/sessions/20260719-maestro-impeccable-cache-creation/runs/20260719-001-maestro-impeccable/report.md
+  s_18c1a519366e7c::t_7fb13ef27574e7 5
+  s_18c1a519366e7c::t_e7c80ebc422fd5 2-4,10,12,14,16-20
+  s_18c1a519366e7c::t_4fd50ad58d0952 1,8-9,11,13,15
+  s_18c1a519366e7c::t_7af79a54efd744 6-7
+lib/i18n.ts
+  s_18c1a519366e7c::t_e1878d21c0c540 10
+  s_18c1a519366e7c::t_b5dfad8b103bf0 8,18,21,28,38,41
+app/models/page.tsx
+  s_18c1a519366e7c::t_e1878d21c0c540 90-93
+  s_18c1a519366e7c::t_c1c15dd284a0f8 94,108
+.workflow/sessions/20260719-maestro-impeccable-ability-last/runs/20260719-001-maestro-impeccable/report.md
+  s_18c1a519366e7c::t_a3b4594cfe8e3b 1,15-16,18-20,23,26-28,35-36,44
+  s_18c1a519366e7c::t_da278dbf1d203c 2,5-10,12-14,17
+  s_18c1a519366e7c::t_4fcc581fae51d3 3-4,11,21-22,24-25,29-34,37-43,45-46
+.workflow/specs/debug-notes.md
+  s_18c1a519366e7c::t_2cae552bdab278 18-26
+.workflow/sessions/20260719-maestro-impeccable-responsive-headers/artifacts.json
+  s_18c1a519366e7c::t_e527b446f66195 3
+  s_18c1a519366e7c::t_96e25e577847cf 1-2,4-6
+.workflow/sessions/20260719-maestro-impeccable-cache-creation/gates.json
+  s_18c1a519366e7c::t_4fd50ad58d0952 1-13
+app/globals.css
+  s_18c1a519366e7c::t_9ef4d596f367aa 60,80,95
+  s_18c1a519366e7c::t_8f94bcc003fa3b 81-94
+.workflow/impeccable/critique/2026-07-18T17-24-59Z__app.md
+  s_803fff4eb5e32c::t_2541ce3ef670cf 1-43
+.workflow/sessions/20260719-maestro-impeccable-bar-colors/artifacts.json
+  s_803fff4eb5e32c::t_763c754cfb58ce 2-13,15-16,18-26,28-29,31-39,41-42,44-45
+.workflow/sessions/20260719-maestro-impeccable-bar-colors/context.md
+  s_803fff4eb5e32c::t_5c1b4e0e10a031 1
+.workflow/sessions/20260719-maestro-impeccable-bar-colors/evidence.json
+  s_803fff4eb5e32c::t_ceffd4dab17e90 1-25
+.workflow/sessions/20260719-maestro-impeccable-bar-colors/gates.json
+  s_803fff4eb5e32c::t_71c2da5de254b2 1-13
+.workflow/sessions/20260719-maestro-impeccable-bar-colors/runs/20260719-001-maestro-impeccable/report.md
+  s_803fff4eb5e32c::t_1f5e8a10b56830 1-38
+.workflow/sessions/20260719-maestro-impeccable-bar-colors/runs/20260719-001-maestro-impeccable/run.json
+  s_803fff4eb5e32c::t_1b88b25b000c00 1-70
+.workflow/sessions/20260719-maestro-impeccable-bar-colors/session.json
+  s_803fff4eb5e32c::t_aae5a3468cc2a3 1-40
+.workflow/sessions/20260719-maestro-impeccable-compare-ability-tags/artifacts.json
+  s_803fff4eb5e32c::t_1fffd9a6408fd2 1-6
+.workflow/sessions/20260719-maestro-impeccable-compare-ability-tags/context.md
+  s_803fff4eb5e32c::t_9c4cf0838267f2 1
+.workflow/sessions/20260719-maestro-impeccable-compare-ability-tags/evidence.json
+  s_803fff4eb5e32c::t_3fb4132e5a8456 1-21
+.workflow/sessions/20260719-maestro-impeccable-compare-ability-tags/gates.json
+  s_803fff4eb5e32c::t_4a76f884cdea0d 1-13
+.workflow/sessions/20260719-maestro-impeccable-compare-ability-tags/runs/20260719-001-maestro-impeccable/report.md
+  s_803fff4eb5e32c::t_cee0421a58f5a1 1-36
+.workflow/sessions/20260719-maestro-impeccable-compare-ability-tags/runs/20260719-001-maestro-impeccable/run.json
+  s_803fff4eb5e32c::t_43824c0cd15050 1-57
+.workflow/sessions/20260719-maestro-impeccable-compare-ability-tags/session.json
+  s_803fff4eb5e32c::t_43ec89392d6332 1-40
+.workflow/sessions/20260719-maestro-impeccable-compare-bars/artifacts.json
+  s_803fff4eb5e32c::t_1f00f51af87b4e 1-6
+.workflow/sessions/20260719-maestro-impeccable-compare-bars/context.md
+  s_803fff4eb5e32c::t_fa1d9821d971c5 1
+.workflow/sessions/20260719-maestro-impeccable-compare-bars/evidence.json
+  s_803fff4eb5e32c::t_c09ebf2dfe5aac 1-36
+.workflow/sessions/20260719-maestro-impeccable-compare-bars/gates.json
+  s_803fff4eb5e32c::t_f2971e5948c80f 1-13
+.workflow/sessions/20260719-maestro-impeccable-compare-bars/runs/20260719-001-maestro-impeccable/report.md
+  s_803fff4eb5e32c::t_7a70d08f60b6fd 1-45
+.workflow/sessions/20260719-maestro-impeccable-compare-bars/runs/20260719-001-maestro-impeccable/run.json
+  s_803fff4eb5e32c::t_3e46da8dd85d21 1-67
+.workflow/sessions/20260719-maestro-impeccable-compare-bars/session.json
+  s_803fff4eb5e32c::t_c1c5f661bfe5a2 1-40
+.workflow/sessions/20260719-maestro-impeccable-currency-mode/artifacts.json
+  s_803fff4eb5e32c::t_318e17f6310c25 1-6
+.workflow/sessions/20260719-maestro-impeccable-currency-mode/context.md
+  s_803fff4eb5e32c::t_a2a552c7b9147a 1
+.workflow/sessions/20260719-maestro-impeccable-currency-mode/evidence.json
+  s_803fff4eb5e32c::t_c9f74cb1539900 1-36
+.workflow/sessions/20260719-maestro-impeccable-currency-mode/gates.json
+  s_803fff4eb5e32c::t_66b79efd30eb4a 1-13
+.workflow/sessions/20260719-maestro-impeccable-currency-mode/runs/20260719-001-maestro-impeccable/report.md
+  s_803fff4eb5e32c::t_dd249ab27b7c0a 1-48
+.workflow/sessions/20260719-maestro-impeccable-currency-mode/runs/20260719-001-maestro-impeccable/run.json
+  s_803fff4eb5e32c::t_f20072290d8199 1-56
+.workflow/sessions/20260719-maestro-impeccable-currency-mode/session.json
+  s_803fff4eb5e32c::t_b9817052a5fd46 1-40
+.workflow/sessions/20260719-maestro-impeccable-global-sort/artifacts.json
+  s_803fff4eb5e32c::t_b93e2e5c3f3426 2-13,15-16,18-26,28-29,31-33
+.workflow/sessions/20260719-maestro-impeccable-global-sort/context.md
+  s_803fff4eb5e32c::t_9bbced072462a3 1
+.workflow/sessions/20260719-maestro-impeccable-global-sort/evidence.json
+  s_803fff4eb5e32c::t_eb8061f7b2515f 1-24
+.workflow/sessions/20260719-maestro-impeccable-global-sort/gates.json
+  s_803fff4eb5e32c::t_0c9c9cb938408a 1-13
+.workflow/sessions/20260719-maestro-impeccable-global-sort/runs/20260719-001-maestro-impeccable/report.md
+  s_803fff4eb5e32c::t_56739da9dda93f 1-40
+.workflow/sessions/20260719-maestro-impeccable-global-sort/runs/20260719-001-maestro-impeccable/run.json
+  s_803fff4eb5e32c::t_c324149624285d 1-68
+.workflow/sessions/20260719-maestro-impeccable-global-sort/session.json
+  s_803fff4eb5e32c::t_b3c8e6d22a4789 1-40
+.workflow/sessions/20260719-maestro-impeccable-inline-bars/artifacts.json
+  s_803fff4eb5e32c::t_2b48e81066135d 1-6
+.workflow/sessions/20260719-maestro-impeccable-inline-bars/context.md
+  s_803fff4eb5e32c::t_d6ee39a119cfba 1
+.workflow/sessions/20260719-maestro-impeccable-inline-bars/evidence.json
+  s_803fff4eb5e32c::t_506ecec3075ecf 1-21
+.workflow/sessions/20260719-maestro-impeccable-inline-bars/gates.json
+  s_803fff4eb5e32c::t_fef6ecbe916482 1-13
+.workflow/sessions/20260719-maestro-impeccable-inline-bars/runs/20260719-001-maestro-impeccable/report.md
+  s_803fff4eb5e32c::t_c823438f3fada5 1-39
+.workflow/sessions/20260719-maestro-impeccable-inline-bars/runs/20260719-001-maestro-impeccable/run.json
+  s_803fff4eb5e32c::t_81f9cf2ac501d9 1-62
+.workflow/sessions/20260719-maestro-impeccable-inline-bars/session.json
+  s_803fff4eb5e32c::t_7fb497f6c43983 1-40
+.workflow/sessions/20260719-maestro-impeccable-provider-detail-pricing/artifacts.json
+  s_803fff4eb5e32c::t_36928d1624ca20 1-6
+.workflow/sessions/20260719-maestro-impeccable-provider-detail-pricing/context.md
+  s_803fff4eb5e32c::t_eed9a1e2437ad2 1
+.workflow/sessions/20260719-maestro-impeccable-provider-detail-pricing/evidence.json
+  s_803fff4eb5e32c::t_abd10b15541313 1-36
+.workflow/sessions/20260719-maestro-impeccable-provider-detail-pricing/gates.json
+  s_803fff4eb5e32c::t_4104b876e62194 1-13
+.workflow/sessions/20260719-maestro-impeccable-provider-detail-pricing/runs/20260719-001-maestro-impeccable/report.md
+  s_803fff4eb5e32c::t_9f411e6199b46a 1-42
+.workflow/sessions/20260719-maestro-impeccable-provider-detail-pricing/runs/20260719-001-maestro-impeccable/run.json
+  s_803fff4eb5e32c::t_1365af0dde1940 1-67
+.workflow/sessions/20260719-maestro-impeccable-provider-detail-pricing/session.json
+  s_803fff4eb5e32c::t_bb3fd2d878e7d7 1-40
+.workflow/sessions/20260719-maestro-impeccable-provider-model-pricing/artifacts.json
+  s_803fff4eb5e32c::t_5d1c7c4ee45963 1-6
+.workflow/sessions/20260719-maestro-impeccable-provider-model-pricing/context.md
+  s_803fff4eb5e32c::t_2debbca1c65138 1
+.workflow/sessions/20260719-maestro-impeccable-provider-model-pricing/evidence.json
+  s_803fff4eb5e32c::t_68730d9a0ac66d 1-36
+.workflow/sessions/20260719-maestro-impeccable-provider-model-pricing/gates.json
+  s_803fff4eb5e32c::t_80fb2959c657fa 1-13
+.workflow/sessions/20260719-maestro-impeccable-provider-model-pricing/runs/20260719-001-maestro-impeccable/report.md
+  s_803fff4eb5e32c::t_83d9f2a0c8b043 1-43
+.workflow/sessions/20260719-maestro-impeccable-provider-model-pricing/runs/20260719-001-maestro-impeccable/run.json
+  s_803fff4eb5e32c::t_f2801459acdf61 1-67
+.workflow/sessions/20260719-maestro-impeccable-provider-model-pricing/session.json
+  s_803fff4eb5e32c::t_ae2ce3f6d01084 1-40
+.workflow/sessions/20260719-maestro-impeccable-system-table-sort/artifacts.json
+  s_803fff4eb5e32c::t_1b5a8ba96a2f2d 2-13,15-16,18-26,28-29,31-39,41-42,44-52,54-55,57-58
+.workflow/sessions/20260719-maestro-impeccable-system-table-sort/context.md
+  s_803fff4eb5e32c::t_fe5fe24257d4da 1
+.workflow/sessions/20260719-maestro-impeccable-system-table-sort/evidence.json
+  s_803fff4eb5e32c::t_0d9fbcecb83ce8 1-26
+.workflow/sessions/20260719-maestro-impeccable-system-table-sort/gates.json
+  s_803fff4eb5e32c::t_e4f922a3a6338f 1-13
+.workflow/sessions/20260719-maestro-impeccable-system-table-sort/runs/20260719-001-maestro-impeccable/report.md
+  s_803fff4eb5e32c::t_a1837f020d7900 1-41
+.workflow/sessions/20260719-maestro-impeccable-system-table-sort/runs/20260719-001-maestro-impeccable/run.json
+  s_803fff4eb5e32c::t_30ae2256d44753 1-72
+.workflow/sessions/20260719-maestro-impeccable-system-table-sort/session.json
+  s_803fff4eb5e32c::t_f60ddd82bd6327 1-40
+.workflow/sessions/20260719-maestro-impeccable-table-ellipsis/artifacts.json
+  s_803fff4eb5e32c::t_218f27c9d3cdc9 1-33
+.workflow/sessions/20260719-maestro-impeccable-table-ellipsis/context.md
+  s_803fff4eb5e32c::t_30731f39a6be02 1
+.workflow/sessions/20260719-maestro-impeccable-table-ellipsis/evidence.json
+  s_803fff4eb5e32c::t_bcd0e8747fa59c 1-24
+.workflow/sessions/20260719-maestro-impeccable-table-ellipsis/gates.json
+  s_803fff4eb5e32c::t_73f6b36702a753 1-13
+.workflow/sessions/20260719-maestro-impeccable-table-ellipsis/runs/20260719-001-maestro-impeccable/report.md
+  s_803fff4eb5e32c::t_5ae3e08a636c3f 1-40
+.workflow/sessions/20260719-maestro-impeccable-table-ellipsis/runs/20260719-001-maestro-impeccable/run.json
+  s_803fff4eb5e32c::t_6909afe574e859 1-68
+.workflow/sessions/20260719-maestro-impeccable-table-ellipsis/session.json
+  s_803fff4eb5e32c::t_1b34b53cb7d0b6 1-40
+.workflow/sessions/maestro-20260718-235735/artifacts.json
+  s_803fff4eb5e32c::t_925166c561c461 2-13,15-16,18-26,28-29,31-39,41-42,44-46
+.workflow/sessions/maestro-20260718-235735/context.md
+  s_803fff4eb5e32c::t_5cedbfafd60264 1
+.workflow/sessions/maestro-20260718-235735/evidence.json
+  s_803fff4eb5e32c::t_f7df8f14fb9ec7 2-21,23-39,41-57,59-74,76-91,93
+.workflow/sessions/maestro-20260718-235735/gates.json
+  s_803fff4eb5e32c::t_3f153f9a6a6b59 1-13
+.workflow/sessions/maestro-20260718-235735/runs/20260719-001-maestro-impeccable/report.md
+  s_803fff4eb5e32c::t_bec8c4051017f1 1-74
+.workflow/sessions/maestro-20260718-235735/runs/20260719-001-maestro-impeccable/run.json
+  s_803fff4eb5e32c::t_e7b541810d4789 1-87
+.workflow/sessions/maestro-20260718-235735/runs/20260719-002-impeccable/report.md
+  s_803fff4eb5e32c::t_c7cca76786cd38 1-46
+.workflow/sessions/maestro-20260718-235735/runs/20260719-002-impeccable/run.json
+  s_803fff4eb5e32c::t_eecb2871384c1d 1-74
+.workflow/sessions/maestro-20260718-235735/session.json
+  s_803fff4eb5e32c::t_c32bfbac13b467 1-77
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "860c4861682519d0fbeaf77519688d775f5f9fc0",
+  "prompts": {},
+  "sessions": {
+    "s_18c1a519366e7c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f79f9-182d-7cf3-92ec-3ed63ad433a0",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "zhao-wuyan <zhao-wuyan@exampl.com>"
+    },
+    "s_803fff4eb5e32c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f75db-590d-7622-849c-7035172eaef0",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "zhao-wuyan <zhao-wuyan@exampl.com>"
+    }
+  }
+}
