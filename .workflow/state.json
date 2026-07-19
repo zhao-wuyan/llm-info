@@ -13,7 +13,7 @@
   },
   "transition_history": [],
   "milestone_history": [],
-  "last_updated": "2026-07-19T23:58:06+08:00",
+  "last_updated": "2026-07-20T00:18:54+08:00",
   "sessions": [
     {
       "session_id": "20260718-grill-model-prototype",
@@ -210,6 +210,14 @@
     {
       "session_id": "20260719-maestro-impeccable-priced-filter",
       "intent": "为模型目录增加当前币种有价格筛选",
+      "status": "sealed",
+      "depends_on": [],
+      "roadmap_artifact_id": null,
+      "seed_ref": null
+    },
+    {
+      "session_id": "20260720-maestro-impeccable-aaindex-sort",
+      "intent": "模型对比默认按 AAIndex 倒序",
       "status": "sealed",
       "depends_on": [],
       "roadmap_artifact_id": null,

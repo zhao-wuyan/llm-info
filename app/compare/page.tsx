@@ -49,7 +49,8 @@ export default async function ComparePage({ searchParams }: { searchParams: Para
   const owner = one(params.owner);
   const rawSort = one(params.sort);
   const sortKeys: CompareSortKey[] = ["name", "quality", "input", "output", "cacheRead", "cacheWrite", "context"];
-  const sort = sortKeys.includes(rawSort as CompareSortKey) ? rawSort as CompareSortKey : null;
+  const sortDisabled = rawSort === "none";
+  const sort = sortDisabled ? null : sortKeys.includes(rawSort as CompareSortKey) ? rawSort as CompareSortKey : "quality";
   const rawOrder = one(params.order);
   const order: SortOrder | null = sort ? rawOrder === "asc" || rawOrder === "desc" ? rawOrder : sort === "quality" ? "desc" : "asc" : null;
   const ability = one(params.ability);
@@ -86,7 +87,8 @@ export default async function ComparePage({ searchParams }: { searchParams: Para
     if (q) query.set("q", q);
     if (owner) query.set("owner", owner);
     if (ability) query.set("ability", ability);
-    if (includeSort && sort && order) { query.set("sort", sort); query.set("order", order); }
+    if (includeSort && sortDisabled) query.set("sort", "none");
+    else if (includeSort && sort && order) { query.set("sort", sort); query.set("order", order); }
     return query;
   };
   const directionFor = (key: CompareSortKey) => sort === key ? order : null;
@@ -95,6 +97,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Para
     const nextOrder = direction === null ? "asc" : direction === "asc" ? "desc" : null;
     const query = baseQuery(false);
     if (nextOrder) { query.set("sort", key); query.set("order", nextOrder); }
+    else query.set("sort", "none");
     return query.size ? `/compare?${query}` : "/compare";
   };
 
@@ -104,7 +107,9 @@ export default async function ComparePage({ searchParams }: { searchParams: Para
       <SearchField defaultValue={one(params.q)} placeholder={msg(locale, "searchModels")} />
       <select name="owner" defaultValue={owner} aria-label="Owner"><option value="">Owner</option>{owners.map((value) => <option key={value}>{value}</option>)}</select>
       <select name="ability" defaultValue={ability} aria-label={msg(locale, "ability")}><option value="">{msg(locale, "allAbilities")}</option><option value="reasoning">{abilityMsg(locale, "reasoning")}</option><option value="toolCall">{abilityMsg(locale, "toolCall")}</option><option value="vision">{abilityMsg(locale, "vision")}</option></select>
-      {sort && order && <><input type="hidden" name="sort" value={sort} /><input type="hidden" name="order" value={order} /></>}
+      {sortDisabled
+        ? <input type="hidden" name="sort" value="none" />
+        : sort && order && <><input type="hidden" name="sort" value={sort} /><input type="hidden" name="order" value={order} /></>}
       <Link href="/compare" className="text-button">{msg(locale, "reset")}</Link>
     </AutoSubmitForm>
     <div className="evidence-banner"><div><strong>{msg(locale, "qualityEvidence")}</strong><span>ai-pricing · {revision?.slice(0, 8) ?? "-"} · MIT</span></div><span>{currency} · {msg(locale, "priceUnit")}</span><span>{quality.length} / {quality.length} {msg(locale, "mappedModels")}</span></div>

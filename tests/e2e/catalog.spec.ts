@@ -100,6 +100,11 @@ test("source and quality pages use live catalog data", async ({ page }, testInfo
   await expect(page.getByRole("heading", { name: "模型对比" })).toBeVisible();
   await expect(page.getByText("22 / 22 已映射模型").first()).toBeVisible();
   await expect(page.locator(".compare-table .sortable-header")).toHaveCount(7);
+  const qualityHeader = page.getByRole("columnheader", { name: "排序 AAIndex: 不排序" });
+  await expect(qualityHeader).toHaveAttribute("aria-sort", "descending");
+  await expect(qualityHeader.getByRole("link")).toHaveAttribute("href", /sort=none/);
+  const qualityValues = (await page.locator(".compare-table tbody tr td:nth-child(2) .comparison-bar-value strong").allTextContents()).map(Number);
+  expect(qualityValues).toEqual([...qualityValues].sort((left, right) => right - left));
   await expect(page.getByRole("columnheader", { name: "输入 USD" })).toBeVisible();
   await expect(page.getByRole("columnheader", { name: "输出 USD" })).toBeVisible();
   await expect(page.getByRole("columnheader", { name: "缓存读 USD" })).toBeVisible();

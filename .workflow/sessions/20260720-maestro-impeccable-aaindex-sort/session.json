@@ -1,0 +1,61 @@
+{
+  "session_id": "20260720-maestro-impeccable-aaindex-sort",
+  "intent": "模型对比默认按 AAIndex 倒序",
+  "status": "sealed",
+  "identity_revision": 2,
+  "activity_revision": 3,
+  "active_run_id": null,
+  "latest_completed_run_id": "20260720-001-maestro-impeccable",
+  "boundary_contract": {
+    "in_scope": [],
+    "out_of_scope": [],
+    "constraints": [],
+    "definition_of_done": ""
+  },
+  "orchestration": {
+    "engine": "manual",
+    "quality_mode": "standard",
+    "auto_mode": false,
+    "chain": [],
+    "decision_points": [],
+    "position": null,
+    "decomposition": null,
+    "lease": null,
+    "executor": null
+  },
+  "lifecycle": {
+    "sealed_at": "2026-07-20T00:18:54+08:00",
+    "seal_summary": "Sealed with 1 Run(s)",
+    "promoted_spec_ids": [],
+    "promoted_knowhow_ids": [],
+    "forked_from": null
+  },
+  "refs": {
+    "gates": "gates.json",
+    "artifacts": "artifacts.json",
+    "evidence": "evidence.json"
+  },
+  "schema_version": "session/1.2",
+  "intent_identity": {
+    "schema_version": "intent-identity/1.0",
+    "normalization": "NFKC+unicode-lower+whitespace-collapse/1",
+    "workspace_id": "sha256:e8c909275bc02b1a22c0241b80e51c3b79ecfc53b6ab5611d38073cfcd03971b",
+    "command": "maestro-impeccable",
+    "verbatim": "模型对比默认按 AAIndex 倒序",
+    "normalized": "模型对比默认按 aaindex 倒序",
+    "normalized_length": 18,
+    "normalized_hash": "sha256:eb40b89742fee1e9e7bc7e3ccf117eb5ca0758d885f7cc400b0d7f1d5f3605dd",
+    "revision": 1,
+    "source": "persisted",
+    "backfill_status": "native",
+    "empty": false
+  },
+  "provenance": {
+    "source": "native",
+    "forked_from": null,
+    "imported_from": [],
+    "created_by": "session-store"
+  },
+  "requests": [],
+  "ralph_authority": null
+}

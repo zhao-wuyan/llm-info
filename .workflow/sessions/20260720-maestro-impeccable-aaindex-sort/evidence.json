@@ -1,0 +1,21 @@
+{
+  "schema_version": "evidence/1.0",
+  "revision": 1,
+  "records": {
+    "EVD-001-001": {
+      "run_id": "20260720-001-maestro-impeccable",
+      "command": "maestro-impeccable",
+      "kind": "decision",
+      "point": "default-quality-desc",
+      "claim": "URL 未提供排序参数时使用 quality desc；sort=none 表示用户主动取消排序。",
+      "outcome": "accepted",
+      "rationale": "URL 未提供排序参数时使用 quality desc；sort=none 表示用户主动取消排序。",
+      "status": "accepted",
+      "artifact_refs": [],
+      "gate_refs": [],
+      "source_refs": [
+        "report.md"
+      ]
+    }
+  }
+}

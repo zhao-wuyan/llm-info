@@ -180,3 +180,11 @@ Design System: LLM Info. Color strategy: 中性底加青绿强调色。Typograph
 模型目录 MUST 提供“只看有报价”复选框，并按 Topbar 当前 USD/CNY 币种判断 displayPrices[currency] 是否存在；筛选 MUST 在排序和分页前执行。启用、搜索或切换能力筛选 MUST 回到第 1 页；排序和分页 MUST 通过 priced=1 URL 参数保留筛选状态；取消筛选 MUST 恢复缺价模型并继续以短横线展示。
 
 </spec-entry>
+
+<spec-entry category="ui" keywords="compare,aaindex,default-sort,three-state,url" date="2026-07-19" sid="S-20260719-fpun" title="模型对比默认 AAIndex 倒序" description="模型对比默认按 AAIndex 倒序并保留显式无排序状态" source="session-run:20260720-maestro-impeccable-aaindex-sort/20260720-001-maestro-impeccable">
+
+### 模型对比默认 AAIndex 倒序
+
+模型对比页在 URL 未提供 sort 参数时 MUST 默认按 AAIndex（quality）倒序排列；用户主动取消排序时 MUST 使用 sort=none 显式保存无排序状态，筛选表单和分页链接 MUST 保留该状态。AAIndex 表头 MUST 继续提供不排序、正序、倒序三态循环，重置页面 MUST 恢复默认 AAIndex 倒序。
+
+</spec-entry>
