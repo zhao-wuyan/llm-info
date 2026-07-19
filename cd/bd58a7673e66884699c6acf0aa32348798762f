@@ -1,0 +1,187 @@
+components/providers.tsx
+  s_803fff4eb5e32c::t_18f674c4d1cdd1 1-8
+lib/server-i18n.ts
+  s_803fff4eb5e32c::t_18f674c4d1cdd1 1-2,4-7,13
+  s_803fff4eb5e32c::t_98b733a490c4f5 3,8-12
+.gitignore
+  s_803fff4eb5e32c::t_e6409f1920391c 3
+  s_803fff4eb5e32c::t_d0c9991d49f74a 4-7
+app/models/page.tsx
+  s_803fff4eb5e32c::t_14bbae5aec9576 1-7,10,12-17,117
+  s_803fff4eb5e32c::t_4494e3eb3d20b6 8-9
+  s_803fff4eb5e32c::t_3a2eb4251132de 11,18-116
+components/table-row-link.tsx
+  s_803fff4eb5e32c::t_c7c2db0041cfd8 1-16
+components/comparison-dialog.tsx
+  s_803fff4eb5e32c::t_c7c2db0041cfd8 1-28,30,32-39
+  s_803fff4eb5e32c::t_c05b6f5a29fa8d 29,31
+src/merge.js
+  s_803fff4eb5e32c::t_8ca39e2e40b015 76
+lib/i18n.ts
+  s_803fff4eb5e32c::t_45b6ca8bd96e99 1-9,11-28,30-45
+  s_803fff4eb5e32c::t_98b733a490c4f5 10,29
+  s_803fff4eb5e32c::t_1978c1fccb2993 46-74
+app/models/[...canonicalId]/page.tsx
+  s_803fff4eb5e32c::t_14bbae5aec9576 1-7,10-15,17
+  s_803fff4eb5e32c::t_4494e3eb3d20b6 8-9
+  s_803fff4eb5e32c::t_dec73bf13af029 16
+app/loading.tsx
+  s_803fff4eb5e32c::t_18f674c4d1cdd1 1
+app/sources/page.tsx
+  s_803fff4eb5e32c::t_9b4d7e89085cbe 1-16
+test/pipeline.test.js
+  s_803fff4eb5e32c::t_1c5c2f1c8971d2 112,135-148
+  s_803fff4eb5e32c::t_15e3c7ccfd7954 127-134
+  s_803fff4eb5e32c::t_8ca39e2e40b015 113-126,149-150
+components/topbar.tsx
+  s_803fff4eb5e32c::t_98b733a490c4f5 6,9,11,15,25-30
+  s_803fff4eb5e32c::t_18f674c4d1cdd1 1-5,7-8,10,12-14,16-24,31
+components/sidebar.tsx
+  s_803fff4eb5e32c::t_283ec6ba8a080f 6,19-20,23,29,39-40
+  s_803fff4eb5e32c::t_18f674c4d1cdd1 1-5,7-18,21-22,24-28,30-38,41-43
+next.config.ts
+  s_803fff4eb5e32c::t_45b6ca8bd96e99 1-7
+vitest.config.ts
+  s_803fff4eb5e32c::t_c44c4ac3b00f5c 9
+  s_803fff4eb5e32c::t_45b6ca8bd96e99 1-8,10
+schemas/models.schema.json
+  s_803fff4eb5e32c::t_8ca39e2e40b015 72,87
+components/app-shell.tsx
+  s_803fff4eb5e32c::t_18f674c4d1cdd1 1-3,5-7,11
+  s_803fff4eb5e32c::t_98b733a490c4f5 4,8-10
+app/error.tsx
+  s_803fff4eb5e32c::t_18f674c4d1cdd1 1-4
+src/adapters/litellm.js
+  s_803fff4eb5e32c::t_1c5c2f1c8971d2 1,96
+tsconfig.json
+  s_803fff4eb5e32c::t_45b6ca8bd96e99 1-21
+app/providers/page.tsx
+  s_803fff4eb5e32c::t_9b4d7e89085cbe 1-21
+package.json
+  s_803fff4eb5e32c::t_45b6ca8bd96e99 7-9,13-14,17-24,26-33
+  s_803fff4eb5e32c::t_c44c4ac3b00f5c 11-12
+  s_803fff4eb5e32c::t_fffd3a6d36e6a5 25
+  s_803fff4eb5e32c::t_d0c9991d49f74a 34-39
+components/auto-submit-form.tsx
+  s_803fff4eb5e32c::t_14bbae5aec9576 1-10
+tests/catalog.test.ts
+  s_803fff4eb5e32c::t_1978c1fccb2993 34-39
+  s_803fff4eb5e32c::t_8ca39e2e40b015 20-23
+  s_803fff4eb5e32c::t_ee5f86a134892e 4,41-44,46
+  s_803fff4eb5e32c::t_97ecc35f0cbd64 1-2,5-19,27-33,48-49
+  s_803fff4eb5e32c::t_0326a0dbaf91e2 3,24-26
+  s_803fff4eb5e32c::t_d9b1c835e1650a 40
+  s_803fff4eb5e32c::t_98b733a490c4f5 45,47
+app/compare/page.tsx
+  s_803fff4eb5e32c::t_9b4d7e89085cbe 1-6,8-14,16
+  s_803fff4eb5e32c::t_c6bcd2f6bd9a2e 15
+  s_803fff4eb5e32c::t_4494e3eb3d20b6 7
+.workflow/specs/ui-conventions.md
+  s_803fff4eb5e32c::t_2c642701473e2b 62-69
+  s_803fff4eb5e32c::t_f53dcb4fcf6dbb 78-85
+  s_803fff4eb5e32c::t_608680e92d9929 86-93
+  s_803fff4eb5e32c::t_543bda7c52d225 70-77
+app/page.tsx
+  s_803fff4eb5e32c::t_18f674c4d1cdd1 1-3
+lib/catalog.ts
+  s_803fff4eb5e32c::t_45b6ca8bd96e99 1-75
+src/adapters/aidy.js
+  s_803fff4eb5e32c::t_1c5c2f1c8971d2 1,73
+app/globals.css
+  s_803fff4eb5e32c::t_9b4d7e89085cbe 53
+  s_803fff4eb5e32c::t_2400fd80b604b1 40,47,63
+  s_803fff4eb5e32c::t_18f674c4d1cdd1 1-4,6-26,29-37,39,42,44-46,48-49,51-52,56-59,62,64,66
+  s_803fff4eb5e32c::t_c7d1158421ef88 5
+  s_803fff4eb5e32c::t_c7c2db0041cfd8 50
+  s_803fff4eb5e32c::t_fe146ca8eb1cfb 54-55,65
+  s_803fff4eb5e32c::t_68aa72af650adf 61
+  s_803fff4eb5e32c::t_78f604e31b9e78 60
+  s_803fff4eb5e32c::t_7855c821d6023a 27-28,38,41
+  s_803fff4eb5e32c::t_e02d99436a4f33 43
+lib/format.ts
+  s_803fff4eb5e32c::t_45b6ca8bd96e99 1-23
+  s_803fff4eb5e32c::t_0326a0dbaf91e2 24-27
+src/adapters/price-hub.js
+  s_803fff4eb5e32c::t_1c5c2f1c8971d2 2,62
+.workflow/specs/coding-conventions.md
+  s_803fff4eb5e32c::t_38dd649d83146b 37
+  s_803fff4eb5e32c::t_0971291fe7bf97 45,53
+  s_803fff4eb5e32c::t_1dd72d085a9477 51-52,54-58
+  s_803fff4eb5e32c::t_ac910e13fc3a97 43-44,46-50
+playwright.config.ts
+  s_803fff4eb5e32c::t_ef1420deb9e643 15
+  s_803fff4eb5e32c::t_ecb2142538d422 3-4,7-8
+  s_803fff4eb5e32c::t_45b6ca8bd96e99 1-2,5-6,9-14,16-24
+components/provider-models-dialog.tsx
+  s_803fff4eb5e32c::t_14bbae5aec9576 8
+  s_803fff4eb5e32c::t_c7c2db0041cfd8 1-5,10-12,23-24,30-36,42,44,47,104
+  s_803fff4eb5e32c::t_4494e3eb3d20b6 6-7
+  s_803fff4eb5e32c::t_064b2f69273853 9,13-22,25-29,37-41,43,45-46,48-103
+lib/types.ts
+  s_803fff4eb5e32c::t_45b6ca8bd96e99 1-13,15-120
+  s_803fff4eb5e32c::t_8ca39e2e40b015 14
+tests/e2e/accessibility.spec.ts
+  s_803fff4eb5e32c::t_426090b291c5a7 1-21
+tests/e2e/catalog.spec.ts
+  s_803fff4eb5e32c::t_b89dabeecb7803 1,9,14,17-22
+  s_803fff4eb5e32c::t_ecb2142538d422 5-8
+  s_803fff4eb5e32c::t_bfe11194af478a 30
+  s_803fff4eb5e32c::t_4122db894fb694 47-55
+  s_803fff4eb5e32c::t_97ecc35f0cbd64 2-4,10-13,15-16,23-28,31,33-34,36-43,57,70-78,80-82,84-86,88-89,94-95,116-120,122-123
+  s_803fff4eb5e32c::t_36256c228ec908 32,35,44,121
+  s_803fff4eb5e32c::t_2c497db8c4f37b 79
+  s_803fff4eb5e32c::t_85199be27d05b7 83,87,90-93
+  s_803fff4eb5e32c::t_68aa72af650adf 45-46,58-69
+  s_803fff4eb5e32c::t_960ef66f26f8c8 96,113
+  s_803fff4eb5e32c::t_2400fd80b604b1 97-108,114-115
+  s_803fff4eb5e32c::t_10c6c92457d6fc 56
+  s_803fff4eb5e32c::t_37ac5468185c6a 109-112
+  s_803fff4eb5e32c::t_4cdd1c4f7f3388 29
+src/adapters/shared.js
+  s_803fff4eb5e32c::t_8ca39e2e40b015 63-66
+  s_803fff4eb5e32c::t_1c5c2f1c8971d2 67-75
+app/not-found.tsx
+  s_803fff4eb5e32c::t_18f674c4d1cdd1 1-2
+components/ui.tsx
+  s_803fff4eb5e32c::t_18f674c4d1cdd1 1-4,6-23,26-30,32-36
+  s_803fff4eb5e32c::t_8ca39e2e40b015 25
+  s_803fff4eb5e32c::t_0326a0dbaf91e2 5,24
+  s_803fff4eb5e32c::t_c7d1158421ef88 31
+tests/setup.ts
+  s_803fff4eb5e32c::t_97ecc35f0cbd64 1
+app/layout.tsx
+  s_803fff4eb5e32c::t_283ec6ba8a080f 4,10-12
+  s_803fff4eb5e32c::t_18f674c4d1cdd1 1-3,5-9,13
+app/providers/[id]/page.tsx
+  s_803fff4eb5e32c::t_9b4d7e89085cbe 1-10,12-13,89
+  s_803fff4eb5e32c::t_4122db894fb694 44-48,52-55
+  s_803fff4eb5e32c::t_55064c02e871c8 11,14-42,49-51,56-88
+  s_803fff4eb5e32c::t_78f604e31b9e78 43
+lib/links.ts
+  s_803fff4eb5e32c::t_14bbae5aec9576 1-3
+next-env.d.ts
+  s_803fff4eb5e32c::t_45b6ca8bd96e99 1-4
+  s_803fff4eb5e32c::t_f71cbf2892a982 5-6
+data/models.json
+  s_803fff4eb5e32c::t_df3f5ae03510f8 1
+package-lock.json
+  s_803fff4eb5e32c::t_f451a2bc2dbc59 1-3413
+design/原型设计.pen
+  s_803fff4eb5e32c::t_4f43625f848c2d 3-28014
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "cdbd58a7673e66884699c6acf0aa32348798762f",
+  "prompts": {},
+  "sessions": {
+    "s_803fff4eb5e32c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f75db-590d-7622-849c-7035172eaef0",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "zhao-wuyan <zhao-wuyan@exampl.com>"
+    }
+  }
+}
