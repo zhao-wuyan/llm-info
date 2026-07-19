@@ -1,0 +1,25 @@
+app/models/[...canonicalId]/page.tsx
+  s_18c1a519366e7c::t_a85f8f5cbdcef4 10,13,16,19,26-27,32,51
+tests/e2e/catalog.spec.ts
+  s_18c1a519366e7c::t_a85f8f5cbdcef4 32-34,38-42,44-46
+components/comparison-dialog.tsx
+  s_18c1a519366e7c::t_a85f8f5cbdcef4 13-14,32,44
+app/globals.css
+  s_18c1a519366e7c::t_a85f8f5cbdcef4 74
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "5f54315e8813de77354fd3438e2a20b168fa7741",
+  "prompts": {},
+  "sessions": {
+    "s_18c1a519366e7c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f79f9-182d-7cf3-92ec-3ed63ad433a0",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "zhao-wuyan <zhao-wuyan@exampl.com>"
+    }
+  }
+}
