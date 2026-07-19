@@ -23,24 +23,24 @@ export function EntityText({ name, id }: { name: string; id: string }) {
   return <><span className="entity-title" title={name}>{name}</span>{id !== name && <small title={id}>{id}</small>}</>;
 }
 
-function SortHeaderContent({ label, direction }: { label: string; direction: SortOrder | null }) {
+function SortHeaderContent({ label, subtitle, direction }: { label: string; subtitle?: string; direction: SortOrder | null }) {
   const Icon = direction === "asc" ? ArrowUp : direction === "desc" ? ArrowDown : ChevronsUpDown;
-  return <><span>{label}</span><Icon aria-hidden size={14} /></>;
+  return <><span className="sortable-header-copy"><span>{label}</span>{subtitle && <small>{subtitle}</small>}</span><Icon aria-hidden size={14} /></>;
 }
 
-function sortAction(locale: Locale, label: string, direction: SortOrder | null) {
+function sortAction(locale: Locale, label: string, subtitle: string | undefined, direction: SortOrder | null) {
   const next = direction === null ? "sortAscending" : direction === "asc" ? "sortDescending" : "sortNone";
-  return `${msg(locale, "sortBy")} ${label}: ${msg(locale, next)}`;
+  return `${msg(locale, "sortBy")} ${label}${subtitle ? ` ${subtitle}` : ""}: ${msg(locale, next)}`;
 }
 
-export function SortableHeader({ label, direction, href, locale }: { label: string; direction: SortOrder | null; href: string; locale: Locale }) {
-  const action = sortAction(locale, label, direction);
-  return <th aria-sort={direction === "asc" ? "ascending" : direction === "desc" ? "descending" : "none"}><Link className={`sortable-header${direction ? " active" : ""}`} href={href} aria-label={action} title={action}><SortHeaderContent label={label} direction={direction} /></Link></th>;
+export function SortableHeader({ label, subtitle, direction, href, locale }: { label: string; subtitle?: string; direction: SortOrder | null; href: string; locale: Locale }) {
+  const action = sortAction(locale, label, subtitle, direction);
+  return <th aria-sort={direction === "asc" ? "ascending" : direction === "desc" ? "descending" : "none"}><Link className={`sortable-header${direction ? " active" : ""}`} href={href} aria-label={action} title={action}><SortHeaderContent label={label} subtitle={subtitle} direction={direction} /></Link></th>;
 }
 
-export function SortableButtonHeader({ label, direction, onSort, locale }: { label: string; direction: SortOrder | null; onSort: () => void; locale: Locale }) {
-  const action = sortAction(locale, label, direction);
-  return <th aria-sort={direction === "asc" ? "ascending" : direction === "desc" ? "descending" : "none"}><button type="button" className={`sortable-header${direction ? " active" : ""}`} onClick={onSort} aria-label={action} title={action}><SortHeaderContent label={label} direction={direction} /></button></th>;
+export function SortableButtonHeader({ label, subtitle, direction, onSort, locale }: { label: string; subtitle?: string; direction: SortOrder | null; onSort: () => void; locale: Locale }) {
+  const action = sortAction(locale, label, subtitle, direction);
+  return <th aria-sort={direction === "asc" ? "ascending" : direction === "desc" ? "descending" : "none"}><button type="button" className={`sortable-header${direction ? " active" : ""}`} onClick={onSort} aria-label={action} title={action}><SortHeaderContent label={label} subtitle={subtitle} direction={direction} /></button></th>;
 }
 
 export function PriceValue({ price, rate, currency, locale }: { price: DisplayPrice | null; rate: string; currency: Currency; locale: Locale }) {

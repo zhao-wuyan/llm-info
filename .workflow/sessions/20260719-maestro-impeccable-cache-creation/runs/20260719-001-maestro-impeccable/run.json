@@ -1,0 +1,45 @@
+{
+  "schema_version": "command-run/1.0",
+  "session_id": "20260719-maestro-impeccable-cache-creation",
+  "run_id": "20260719-001-maestro-impeccable",
+  "sequence": 1,
+  "parent_run_id": null,
+  "command": {
+    "name": "maestro-impeccable",
+    "version": "1.0",
+    "source_path": "../../../../Users/xinghe_zwy/.claude/commands/maestro-impeccable.md",
+    "content_hash": "2732fb58441fa63d955dfbdb3629bae683701662745cd49a2ddca557ee926106",
+    "resolved_prompt_hash": "2732fb58441fa63d955dfbdb3629bae683701662745cd49a2ddca557ee926106"
+  },
+  "status": "sealed",
+  "input": {
+    "args": [
+      "craft",
+      "cache-creation-pricing"
+    ],
+    "consumes": [],
+    "context_identity_revision": 1
+  },
+  "gate_ids": [],
+  "output": {
+    "produces": [],
+    "primary_artifact_id": null,
+    "verdict": "ready"
+  },
+  "handoff": {
+    "schema_version": "command-handoff/1.0",
+    "producer_run_id": "20260719-001-maestro-impeccable",
+    "command": "maestro-impeccable",
+    "verdict": "ready",
+    "summary": "模型详情供应商预览与多供应商对比弹框已补齐四类当前币种价格、三态排序和响应式验证。",
+    "constraints": [],
+    "decisions": [],
+    "concerns": [],
+    "artifact_refs": [],
+    "next": [],
+    "details": {}
+  },
+  "started_at": "2026-07-19T18:45:07+08:00",
+  "completed_at": "2026-07-19T19:01:12+08:00",
+  "sealed_at": "2026-07-19T19:01:12+08:00"
+}

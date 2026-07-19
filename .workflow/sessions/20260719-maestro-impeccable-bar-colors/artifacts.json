@@ -1,0 +1,46 @@
+{
+  "schema_version": "artifacts/1.0",
+  "revision": 1,
+  "artifacts": {
+    "ART-001-001": {
+      "kind": "desktop-compare-bars",
+      "role": "evidence",
+      "producer_run_id": "20260719-001-maestro-impeccable",
+      "relative_path": "runs/20260719-001-maestro-impeccable/evidence/screenshots/desktop-compare-bars.png",
+      "media_type": "application/octet-stream",
+      "schema_version": "desktop-compare-bars/1.0",
+      "content_hash": "5740dd670c6421bde1af3f606d2c442e6d3b6a5268fd23e0a65876903023cb13",
+      "size": 136855,
+      "status": "sealed",
+      "derived_from": [],
+      "replaces": null
+    },
+    "ART-001-002": {
+      "kind": "desktop-compare-bars-dark",
+      "role": "evidence",
+      "producer_run_id": "20260719-001-maestro-impeccable",
+      "relative_path": "runs/20260719-001-maestro-impeccable/evidence/screenshots/desktop-compare-bars-dark.png",
+      "media_type": "application/octet-stream",
+      "schema_version": "desktop-compare-bars-dark/1.0",
+      "content_hash": "4aafd986f504b08b8af8dac8bc4a11c27fb6e13f6a8e557d991969bb02f364ca",
+      "size": 137419,
+      "status": "sealed",
+      "derived_from": [],
+      "replaces": null
+    },
+    "ART-001-003": {
+      "kind": "mobile-compare-bars-end",
+      "role": "evidence",
+      "producer_run_id": "20260719-001-maestro-impeccable",
+      "relative_path": "runs/20260719-001-maestro-impeccable/evidence/screenshots/mobile-compare-bars-end.png",
+      "media_type": "application/octet-stream",
+      "schema_version": "mobile-compare-bars-end/1.0",
+      "content_hash": "0364340f66b91850d49ccc7eb59d5af47b7017dad86011c17bf4ede959b64d3d",
+      "size": 375754,
+      "status": "sealed",
+      "derived_from": [],
+      "replaces": null
+    }
+  },
+  "aliases": {}
+}

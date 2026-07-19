@@ -80,19 +80,20 @@ export function ProviderModelsDialog({ locale, currency, providerName, providerI
         <div className="modal-content">
           <table className="data-table provider-model-table">
             <thead><tr>
-              <SortableButtonHeader label={msg(locale, "model")} direction={directionFor("name")} onSort={() => toggleSort("name")} locale={locale} /><th>{msg(locale, "ability")}</th><SortableButtonHeader label={msg(locale, "context")} direction={directionFor("context")} onSort={() => toggleSort("context")} locale={locale} />
-              <SortableButtonHeader label={`${currency} ${msg(locale, "inputPrice")}`} direction={directionFor("input")} onSort={() => toggleSort("input")} locale={locale} /><SortableButtonHeader label={`${currency} ${msg(locale, "outputPrice")}`} direction={directionFor("output")} onSort={() => toggleSort("output")} locale={locale} />
-              <SortableButtonHeader label={`${currency} ${msg(locale, "cacheReadPrice")}`} direction={directionFor("cacheRead")} onSort={() => toggleSort("cacheRead")} locale={locale} /><SortableButtonHeader label={`${currency} ${msg(locale, "cacheCreationPrice")}`} direction={directionFor("cacheWrite")} onSort={() => toggleSort("cacheWrite")} locale={locale} />
+              <SortableButtonHeader label={msg(locale, "model")} direction={directionFor("name")} onSort={() => toggleSort("name")} locale={locale} /><SortableButtonHeader label={msg(locale, "context")} direction={directionFor("context")} onSort={() => toggleSort("context")} locale={locale} />
+              <SortableButtonHeader label={msg(locale, "inputPrice")} subtitle={currency} direction={directionFor("input")} onSort={() => toggleSort("input")} locale={locale} /><SortableButtonHeader label={msg(locale, "outputPrice")} subtitle={currency} direction={directionFor("output")} onSort={() => toggleSort("output")} locale={locale} />
+              <SortableButtonHeader label={msg(locale, "cacheReadPrice")} subtitle={currency} direction={directionFor("cacheRead")} onSort={() => toggleSort("cacheRead")} locale={locale} /><SortableButtonHeader label={msg(locale, "cacheCreationPrice")} subtitle={currency} direction={directionFor("cacheWrite")} onSort={() => toggleSort("cacheWrite")} locale={locale} />
+              <th>{msg(locale, "ability")}</th>
               <th aria-label={msg(locale, "details")} />
             </tr></thead>
             <tbody>{rows.map((model) => <tr key={model.id} role="link" tabIndex={0} onClick={() => router.push(modelHref(model.canonicalId))} onKeyDown={(event) => { if (event.key === "Enter") router.push(modelHref(model.canonicalId)); }}>
               <td className="entity-cell"><span className="entity-name"><EntityText name={model.name} id={model.modelId} /></span></td>
-              <td><div className="tag-list">{Object.entries(model.abilities ?? {}).filter(([, value]) => value).slice(0, 3).map(([key]) => <span className="tag" key={key}>{abilityMsg(locale, key)}</span>)}</div></td>
               <td className="mono">{compactNumber(model.contextWindow)}</td>
               <td><PriceValue price={model.displayPrices[currency]} rate="textInput" currency={currency} locale={locale} /></td>
               <td><PriceValue price={model.displayPrices[currency]} rate="textOutput" currency={currency} locale={locale} /></td>
               <td><PriceValue price={model.displayPrices[currency]} rate="textInput_cacheRead" currency={currency} locale={locale} /></td>
               <td><PriceValue price={model.displayPrices[currency]} rate="textInput_cacheWrite" currency={currency} locale={locale} /></td>
+              <td><div className="tag-list">{Object.entries(model.abilities ?? {}).filter(([, value]) => value).slice(0, 3).map(([key]) => <span className="tag" key={key}>{abilityMsg(locale, key)}</span>)}</div></td>
               <td><ChevronRight size={15} aria-hidden /></td>
             </tr>)}</tbody>
           </table>

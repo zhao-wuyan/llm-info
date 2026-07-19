@@ -1,0 +1,24 @@
+{
+  "schema_version": "evidence/1.0",
+  "revision": 1,
+  "records": {
+    "EVD-001-001": {
+      "run_id": "20260719-001-maestro-impeccable",
+      "command": "maestro-impeccable",
+      "kind": "decision",
+      "point": "url-sort-state",
+      "claim": "使用 sort/order URL 参数保存排序，表头链接负责三态循环并重置页码。",
+      "outcome": "accepted",
+      "rationale": "使用 sort/order URL 参数保存排序，表头链接负责三态循环并重置页码。",
+      "status": "accepted",
+      "artifact_refs": [
+        "ART-001-001",
+        "ART-001-002"
+      ],
+      "gate_refs": [],
+      "source_refs": [
+        "report.md"
+      ]
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "schema_version": "evidence/1.0",
+  "revision": 1,
+  "records": {
+    "EVD-001-001": {
+      "run_id": "20260719-001-maestro-impeccable",
+      "command": "maestro-impeccable",
+      "kind": "decision",
+      "point": "shared-currency",
+      "claim": "供应商预览与全部模型弹框共同服从顶部 llm-currency 偏好。",
+      "outcome": "accepted",
+      "rationale": "供应商预览与全部模型弹框共同服从顶部 llm-currency 偏好。",
+      "status": "accepted",
+      "artifact_refs": [],
+      "gate_refs": [],
+      "source_refs": [
+        "report.md"
+      ]
+    },
+    "EVD-001-002": {
+      "run_id": "20260719-001-maestro-impeccable",
+      "command": "maestro-impeccable",
+      "kind": "decision",
+      "point": "responsive-table",
+      "claim": "桌面使用 840px 紧凑固定列宽完整显示四类价格，移动端使用局部横向滚动。",
+      "outcome": "accepted",
+      "rationale": "桌面使用 840px 紧凑固定列宽完整显示四类价格，移动端使用局部横向滚动。",
+      "status": "accepted",
+      "artifact_refs": [],
+      "gate_refs": [],
+      "source_refs": [
+        "report.md"
+      ]
+    }
+  }
+}

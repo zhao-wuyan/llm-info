@@ -1,0 +1,57 @@
+{
+  "schema_version": "command-run/1.0",
+  "session_id": "20260719-maestro-impeccable-compare-ability-tags",
+  "run_id": "20260719-001-maestro-impeccable",
+  "sequence": 1,
+  "parent_run_id": null,
+  "command": {
+    "name": "maestro-impeccable",
+    "version": "1.0",
+    "source_path": "../../../../Users/xinghe_zwy/.claude/commands/maestro-impeccable.md",
+    "content_hash": "2732fb58441fa63d955dfbdb3629bae683701662745cd49a2ddca557ee926106",
+    "resolved_prompt_hash": "2732fb58441fa63d955dfbdb3629bae683701662745cd49a2ddca557ee926106"
+  },
+  "status": "sealed",
+  "input": {
+    "args": [
+      "polish",
+      "compare-ability-tags"
+    ],
+    "consumes": [],
+    "context_identity_revision": 1
+  },
+  "gate_ids": [],
+  "output": {
+    "produces": [],
+    "primary_artifact_id": null,
+    "verdict": "ready"
+  },
+  "handoff": {
+    "schema_version": "command-handoff/1.0",
+    "producer_run_id": "20260719-001-maestro-impeccable",
+    "command": "maestro-impeccable",
+    "verdict": "ready",
+    "summary": "模型对比页已按数据类型修正视觉编码：连续数值保留柱状图，布尔能力恢复支持/不支持标签。",
+    "constraints": [
+      {
+        "id": "semantic-encoding",
+        "text": "柱状图只用于连续数值，不得用于布尔能力并暗示数量关系。",
+        "status": "locked"
+      }
+    ],
+    "decisions": [
+      {
+        "id": "ability-tags",
+        "text": "工具调用、视觉理解、推理使用支持/不支持状态标签。",
+        "status": "accepted"
+      }
+    ],
+    "concerns": [],
+    "artifact_refs": [],
+    "next": [],
+    "details": {}
+  },
+  "started_at": "2026-07-19T16:16:35+08:00",
+  "completed_at": "2026-07-19T16:22:56+08:00",
+  "sealed_at": "2026-07-19T16:22:56+08:00"
+}

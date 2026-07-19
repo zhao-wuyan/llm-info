@@ -92,3 +92,83 @@ Design System: LLM Info. Color strategy: 中性底加青绿强调色。Typograph
 供应商详情页默认展示的模型预览表必须遵循顶部全局币种偏好，展示输入、输出、缓存读取、缓存创建四类当前币种原生报价；缺价显示 -，不得并列比较 USD/CNY。桌面端应在详情主栏内完整展示四类价格，移动端在表格容器内横向滚动且不得造成 document 级溢出。
 
 </spec-entry>
+
+<spec-entry category="ui" keywords="compare,currency,bar-chart,pricing" date="2026-07-19" sid="S-20260719-43wq" title="模型对比使用全局币种参数柱" description="统一模型对比页价格体系与参数视觉编码" source="main@cdbd58a" status="deprecated" superseded-by="S-20260719-0mau">
+
+### 模型对比使用全局币种参数柱
+
+模型对比页必须服从顶部 llm-currency 偏好，不得并列展示 USD/CNY；必须展示当前币种输入、输出、缓存读取、缓存创建四类原生报价。AAIndex、四类价格、上下文和布尔能力参数必须使用带明确数值或状态文字的水平柱状图；缺价显示 -，零价显示 0.00，能力状态不得只依赖颜色。表格在移动端局部横向滚动并固定模型列。
+
+</spec-entry>
+
+<spec-entry category="ui" keywords="compare,currency,bar-chart,boolean-tag" date="2026-07-19" sid="S-20260719-0mau" title="模型对比按数据类型选择视觉编码" description="区分连续数值柱状图与布尔能力状态标签" source="main@cdbd58a" supersedes="S-20260719-43wq" status="deprecated" superseded-by="S-20260719-v434">
+
+### 模型对比按数据类型选择视觉编码
+
+模型对比页必须服从顶部 llm-currency 偏好，展示当前币种输入、输出、缓存读取、缓存创建四类原生报价。仅 AAIndex、四类价格、上下文等连续数值使用带明确数值的水平柱状图；工具调用、视觉理解、推理等布尔能力必须使用支持/不支持状态标签，不得使用柱状图暗示数量关系。缺价显示 -，零价显示 0.00；移动端局部横向滚动并固定模型列。
+
+</spec-entry>
+
+<spec-entry category="ui" keywords="compare,bar-chart,inline-value,vision" date="2026-07-19" sid="S-20260719-v434" title="模型对比数值柱内联标签" description="固定柱轨内联数值并精简能力列" source="main@cdbd58a" supersedes="S-20260719-0mau">
+
+### 模型对比数值柱内联标签
+
+模型对比页连续数值柱必须使用固定宽度轨道，填充层和数值标签均绝对定位在轨道内，数值字符长度不得参与柱宽计算；缺价在同一轨道内显示 -。能力结果只展示视觉理解是否支持，使用支持/不支持状态标签；不得展示工具调用和推理结果列。
+
+</spec-entry>
+
+<spec-entry category="ui" keywords="compare,bar-chart,color,tone,dark-mode" date="2026-07-19" sid="S-20260719-a8l4" title="模型对比数值柱分类淡色" description="为模型对比连续数值柱建立明暗主题分类淡色映射" source="session-run:20260719-maestro-impeccable-bar-colors/20260719-001-maestro-impeccable">
+
+### 模型对比数值柱分类淡色
+
+模型对比页的 AAIndex、输入价、输出价、缓存读取价、缓存创建价、上下文数值柱 MUST 分别使用稳定的淡紫、淡绿、淡粉、淡蓝、淡黄、淡青 tone；暗黑模式 MUST 使用对应的低饱和色。颜色仅辅助分类，数值标签和 aria-label MUST 保留，不得依赖颜色单独传递数值或支持状态。
+
+</spec-entry>
+
+<spec-entry category="ui" keywords="models,table,sorting,pagination,url,three-state" date="2026-07-19" sid="S-20260719-e5d9" title="模型列表表头全量三态排序" description="模型列表对完整筛选结果集执行表头三态排序" source="session-run:20260719-maestro-impeccable-global-sort/20260719-001-maestro-impeccable">
+
+### 模型列表表头全量三态排序
+
+模型列表的模型名称、上下文、供应商数、输入价、输出价、缓存读取价、缓存创建价表头 MUST 可点击排序，并按正序、倒序、不排序三态循环。排序 MUST 在筛选后的完整结果集上执行且先于分页；数值缺失项在正序和倒序中 MUST 始终置底。排序状态 MUST 使用 URL sort/order 参数，分页和筛选 MUST 保留当前有效排序，切换排序 MUST 回到第 1 页。
+
+</spec-entry>
+
+<spec-entry category="ui" keywords="table,fixed-layout,column-width,sorting,three-state,pagination,responsive" date="2026-07-19" sid="S-20260719-para" title="系统数据表固定列宽与三态排序" description="统一系统数据列表固定列宽和三态全量排序" source="session-run:20260719-maestro-impeccable-system-table-sort/20260719-001-maestro-impeccable">
+
+### 系统数据表固定列宽与三态排序
+
+系统内数据列表 MUST 使用 table-layout: fixed 和按表定义的稳定列宽，排序状态变化不得改变表头或数据列宽。实体名称列及数量、价格、上下文、质量分等可比较数值列 MUST 提供正序、倒序、不排序三态表头；能力、状态、License、来源说明和操作列 MUST NOT 为统一而强行排序。有分页或预览截断的列表 MUST 先对完整筛选结果集排序再切片；数值缺失项在两个方向均置底。移动端 MUST 保持局部横向滚动且不得产生 document 级溢出。
+
+</spec-entry>
+
+<spec-entry category="ui" keywords="table,ellipsis,truncation,title,overflow,fixed-width" date="2026-07-19" sid="S-20260719-pywk" title="固定列宽表格截断省略号" description="表格单行内容截断时显示省略号并保留完整文本" source="session-run:20260719-maestro-impeccable-table-ellipsis/20260719-001-maestro-impeccable">
+
+### 固定列宽表格截断省略号
+
+固定列宽表格中被限制为单行的实体名称、实体 ID、表头和长标签一旦超出可用宽度，MUST 使用 text-overflow: ellipsis 明确显示省略号，不得无提示裁切。实体名称和 ID MUST 在 title 中保留完整文本；名称与 ID 完全相同时 SHOULD 省略重复 ID。可正常换行的说明文本 MUST NOT 为统一样式而强制截断。
+
+</spec-entry>
+
+<spec-entry category="ui" keywords="table-header,subtitle,currency,responsive,clamp,mobile" date="2026-07-19" sid="S-20260719-amai" title="价格表头双行与窄屏弹性列宽" description="统一双行币种表头和移动端弹性表格列宽" source="main@5f54315">
+
+### 价格表头双行与窄屏弹性列宽
+
+价格表头 MUST 将输入、输出、缓存读、缓存写作为主标题，将当前 USD/CNY 作为第二行小号次级文字；中文价格标签 MUST 使用输入、输出、缓存读、缓存写。桌面端 MUST 保持既有固定列宽；小于 900px 时实体首列 MUST 使用 clamp 弹性缩窄并允许名称与 ID 多行换行，其他列与单元格间距 SHOULD 同步收紧；达到各表最小宽度后 MUST 在局部容器横向滚动且不得产生 document 级溢出。
+
+</spec-entry>
+
+<spec-entry category="ui" keywords="table,ability,column-order,responsive" date="2026-07-19" sid="S-20260719-ep0i" title="列表能力列统一置后" description="统一所有列表的能力列顺序" source="session-run:20260719-maestro-impeccable-ability-last/20260719-001-maestro-impeccable">
+
+### 列表能力列统一置后
+
+所有包含能力数据的列表 MUST 将能力列放在最后一个有标题的数据列；无标题操作列 MAY 继续位于能力列之后。模型对比若仅展示单项布尔能力，该能力列同样 MUST 位于最后。移动端横向滚动后 MUST 可完整查看能力标签和操作入口。
+
+</spec-entry>
+
+<spec-entry category="ui" keywords="copy,model-count,canonical,i18n" date="2026-07-19" sid="S-20260719-c5og" title="模型计数使用通俗文案" description="区分界面模型计数文案与内部 canonical 术语" source="session-run:20260719-maestro-impeccable-model-count-copy/20260719-001-maestro-impeccable">
+
+### 模型计数使用通俗文案
+
+面向用户的模型计数标签 MUST 使用模型数，说明文案 MUST 使用模型而非规范模型或 Canonical models；canonicalId、canonicalModels 等术语 MAY 保留在代码、数据结构和技术文档中。英文计数标签 MUST 使用 Models。
+
+</spec-entry>

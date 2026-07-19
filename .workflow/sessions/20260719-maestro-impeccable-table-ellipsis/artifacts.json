@@ -1,0 +1,33 @@
+{
+  "schema_version": "artifacts/1.0",
+  "revision": 1,
+  "artifacts": {
+    "ART-001-001": {
+      "kind": "desktop-model-global-sort",
+      "role": "evidence",
+      "producer_run_id": "20260719-001-maestro-impeccable",
+      "relative_path": "runs/20260719-001-maestro-impeccable/evidence/screenshots/desktop-model-global-sort.png",
+      "media_type": "application/octet-stream",
+      "schema_version": "desktop-model-global-sort/1.0",
+      "content_hash": "28afc8765b111825d573feee84ffd7076300dd7ce38dbd2f0574aa6c2c72b2cf",
+      "size": 143283,
+      "status": "sealed",
+      "derived_from": [],
+      "replaces": null
+    },
+    "ART-001-002": {
+      "kind": "mobile-model-global-sort",
+      "role": "evidence",
+      "producer_run_id": "20260719-001-maestro-impeccable",
+      "relative_path": "runs/20260719-001-maestro-impeccable/evidence/screenshots/mobile-model-global-sort.png",
+      "media_type": "application/octet-stream",
+      "schema_version": "mobile-model-global-sort/1.0",
+      "content_hash": "ec116d7f75eedd6511504bb51a2ab6ea5d182daa3bcf6fab279c0a06f6670a4c",
+      "size": 376792,
+      "status": "sealed",
+      "derived_from": [],
+      "replaces": null
+    }
+  },
+  "aliases": {}
+}

@@ -1,0 +1,59 @@
+{
+  "schema_version": "artifacts/1.0",
+  "revision": 1,
+  "artifacts": {
+    "ART-001-001": {
+      "kind": "desktop-model-global-sort-end",
+      "role": "evidence",
+      "producer_run_id": "20260719-001-maestro-impeccable",
+      "relative_path": "runs/20260719-001-maestro-impeccable/evidence/screenshots/desktop-model-global-sort-end.png",
+      "media_type": "application/octet-stream",
+      "schema_version": "desktop-model-global-sort-end/1.0",
+      "content_hash": "589af98abcdbf449e6642d784fdcee6e906aafc5facb78090ca94373ee796288",
+      "size": 143581,
+      "status": "sealed",
+      "derived_from": [],
+      "replaces": null
+    },
+    "ART-001-002": {
+      "kind": "mobile-model-global-sort-end",
+      "role": "evidence",
+      "producer_run_id": "20260719-001-maestro-impeccable",
+      "relative_path": "runs/20260719-001-maestro-impeccable/evidence/screenshots/mobile-model-global-sort-end.png",
+      "media_type": "application/octet-stream",
+      "schema_version": "mobile-model-global-sort-end/1.0",
+      "content_hash": "2e4b3ff553147bfd9405bfa216020e49cea5634dd6a924a43073108cdbc3cf33",
+      "size": 438257,
+      "status": "sealed",
+      "derived_from": [],
+      "replaces": null
+    },
+    "ART-001-003": {
+      "kind": "desktop-provider-dialog-end",
+      "role": "evidence",
+      "producer_run_id": "20260719-001-maestro-impeccable",
+      "relative_path": "runs/20260719-001-maestro-impeccable/evidence/screenshots/desktop-provider-dialog-end.png",
+      "media_type": "application/octet-stream",
+      "schema_version": "desktop-provider-dialog-end/1.0",
+      "content_hash": "558d454be973d684c965b0b8b9ac84d4c8faa0b2d6838c2300dbf1926686bd64",
+      "size": 78804,
+      "status": "sealed",
+      "derived_from": [],
+      "replaces": null
+    },
+    "ART-001-004": {
+      "kind": "mobile-provider-dialog-end",
+      "role": "evidence",
+      "producer_run_id": "20260719-001-maestro-impeccable",
+      "relative_path": "runs/20260719-001-maestro-impeccable/evidence/screenshots/mobile-provider-dialog-end.png",
+      "media_type": "application/octet-stream",
+      "schema_version": "mobile-provider-dialog-end/1.0",
+      "content_hash": "8c4d75082097d9fe2e2996c73dabb2d29191ee350d32f80cf4083bbe779308b7",
+      "size": 271398,
+      "status": "sealed",
+      "derived_from": [],
+      "replaces": null
+    }
+  },
+  "aliases": {}
+}

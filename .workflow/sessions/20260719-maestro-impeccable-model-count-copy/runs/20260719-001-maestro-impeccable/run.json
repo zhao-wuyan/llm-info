@@ -1,0 +1,57 @@
+{
+  "schema_version": "command-run/1.0",
+  "session_id": "20260719-maestro-impeccable-model-count-copy",
+  "run_id": "20260719-001-maestro-impeccable",
+  "sequence": 1,
+  "parent_run_id": null,
+  "command": {
+    "name": "maestro-impeccable",
+    "version": "1.0",
+    "source_path": "../../../../Users/xinghe_zwy/.claude/commands/maestro-impeccable.md",
+    "content_hash": "2732fb58441fa63d955dfbdb3629bae683701662745cd49a2ddca557ee926106",
+    "resolved_prompt_hash": "2732fb58441fa63d955dfbdb3629bae683701662745cd49a2ddca557ee926106"
+  },
+  "status": "sealed",
+  "input": {
+    "args": [
+      "clarify",
+      "model-count-copy"
+    ],
+    "consumes": [],
+    "context_identity_revision": 1
+  },
+  "gate_ids": [],
+  "output": {
+    "produces": [],
+    "primary_artifact_id": null,
+    "verdict": "ready"
+  },
+  "handoff": {
+    "schema_version": "command-handoff/1.0",
+    "producer_run_id": "20260719-001-maestro-impeccable",
+    "command": "maestro-impeccable",
+    "verdict": "ready",
+    "summary": "模型计数标签已由规范模型改为模型数，相关中英文说明文案已同步去除内部 canonical 术语。",
+    "constraints": [
+      {
+        "id": "preserve-canonical-semantics",
+        "text": "仅调整用户界面文案，不改变 canonicalId 聚合和统计口径。",
+        "status": "locked"
+      }
+    ],
+    "decisions": [
+      {
+        "id": "plain-model-count-copy",
+        "text": "中文计数标签使用模型数，英文使用 Models；说明文字使用模型。",
+        "status": "accepted"
+      }
+    ],
+    "concerns": [],
+    "artifact_refs": [],
+    "next": [],
+    "details": {}
+  },
+  "started_at": "2026-07-19T19:38:59+08:00",
+  "completed_at": "2026-07-19T19:42:48+08:00",
+  "sealed_at": "2026-07-19T19:42:48+08:00"
+}

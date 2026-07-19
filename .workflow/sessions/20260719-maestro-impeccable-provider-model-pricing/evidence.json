@@ -1,0 +1,36 @@
+{
+  "schema_version": "evidence/1.0",
+  "revision": 1,
+  "records": {
+    "EVD-001-001": {
+      "run_id": "20260719-001-maestro-impeccable",
+      "command": "maestro-impeccable",
+      "kind": "decision",
+      "point": "global-currency",
+      "claim": "弹框直接服从顶部 llm-currency 偏好，不增加第二套局部币种开关。",
+      "outcome": "accepted",
+      "rationale": "弹框直接服从顶部 llm-currency 偏好，不增加第二套局部币种开关。",
+      "status": "accepted",
+      "artifact_refs": [],
+      "gate_refs": [],
+      "source_refs": [
+        "report.md"
+      ]
+    },
+    "EVD-001-002": {
+      "run_id": "20260719-001-maestro-impeccable",
+      "command": "maestro-impeccable",
+      "kind": "decision",
+      "point": "missing-price-order",
+      "claim": "按当前币种输入价排序，缺价模型在升序和降序时都置底。",
+      "outcome": "accepted",
+      "rationale": "按当前币种输入价排序，缺价模型在升序和降序时都置底。",
+      "status": "accepted",
+      "artifact_refs": [],
+      "gate_refs": [],
+      "source_refs": [
+        "report.md"
+      ]
+    }
+  }
+}

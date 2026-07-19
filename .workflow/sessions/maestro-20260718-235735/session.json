@@ -1,0 +1,77 @@
+{
+  "schema_version": "session/1.1",
+  "session_id": "maestro-20260718-235735",
+  "intent": "根据现有 Pencil 原型开发可部署到 Vercel 的 LLM Info 前端，支持暗黑模式与 UI i18n，原样读取 models.json，并提高列表数据密度",
+  "status": "sealed",
+  "identity_revision": 2,
+  "activity_revision": 6,
+  "active_run_id": null,
+  "latest_completed_run_id": "20260719-002-impeccable",
+  "boundary_contract": {
+    "in_scope": [],
+    "out_of_scope": [],
+    "constraints": [],
+    "definition_of_done": ""
+  },
+  "orchestration": {
+    "engine": "ralph",
+    "quality_mode": "full",
+    "auto_mode": false,
+    "chain": [
+      {
+        "step_id": "step-000-impeccable",
+        "command": "impeccable",
+        "status": "sealed",
+        "run_id": "20260719-002-impeccable",
+        "inserted_by": "build",
+        "decision_ref": null,
+        "args": "craft app components --skip-harvest",
+        "stage": "ui-build-closeout",
+        "retry": {
+          "count": 0,
+          "max": 2
+        }
+      }
+    ],
+    "decision_points": [],
+    "position": {
+      "lifecycle": "ui-build",
+      "phase": null,
+      "phase_is_new": true,
+      "milestone": "",
+      "planning_mode": "independent",
+      "passed_gates": [],
+      "scope_verdict": null
+    },
+    "decomposition": {
+      "execution_criteria": [
+        "Vercel 可构建部署，生产构建通过",
+        "所有原型主页面和下钻交互可用",
+        "暗黑模式可跟随系统并可手动切换",
+        "UI 文案支持中文与英文切换，models.json 数据保持原文",
+        "列表数据行更紧凑，其他间距不变",
+        "现有数据流水线测试与新增前端测试通过"
+      ],
+      "goals": [],
+      "changelog": []
+    },
+    "lease": null,
+    "executor": {
+      "platform": "codex",
+      "cli_tool": "claude"
+    }
+  },
+  "requests": [],
+  "lifecycle": {
+    "sealed_at": "2026-07-19T01:34:23+08:00",
+    "seal_summary": "完成 LLM Info 前端开发：Pencil 原型落地、Vercel production build、暗黑模式、UI i18n、原始 models.json 读取、紧凑列表行及完整质量验证。",
+    "promoted_spec_ids": [],
+    "promoted_knowhow_ids": [],
+    "forked_from": null
+  },
+  "refs": {
+    "gates": "gates.json",
+    "artifacts": "artifacts.json",
+    "evidence": "evidence.json"
+  }
+}

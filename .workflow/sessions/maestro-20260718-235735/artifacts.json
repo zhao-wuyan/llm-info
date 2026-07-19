@@ -1,0 +1,46 @@
+{
+  "schema_version": "artifacts/1.0",
+  "revision": 2,
+  "artifacts": {
+    "ART-001-001": {
+      "kind": "screenshots",
+      "role": "evidence",
+      "producer_run_id": "20260719-001-maestro-impeccable",
+      "relative_path": "runs/20260719-001-maestro-impeccable/evidence/screenshots",
+      "media_type": "application/vnd.maestro.directory",
+      "schema_version": "screenshots/1.0",
+      "content_hash": "eaab2c8470b08eb1dd328f58ac6a611e2141f3c0b5774fea4b20d49ecb6aad35",
+      "size": 0,
+      "status": "sealed",
+      "derived_from": [],
+      "replaces": null
+    },
+    "ART-001-002": {
+      "kind": "playwright-results",
+      "role": "evidence",
+      "producer_run_id": "20260719-001-maestro-impeccable",
+      "relative_path": "runs/20260719-001-maestro-impeccable/evidence/playwright-results",
+      "media_type": "application/vnd.maestro.directory",
+      "schema_version": "playwright-results/1.0",
+      "content_hash": "3a0c8649de9afdb588bc32bbce9f897ff9fa03459b361ea9b4bd695f9b35427c",
+      "size": 0,
+      "status": "sealed",
+      "derived_from": [],
+      "replaces": null
+    },
+    "ART-002-001": {
+      "kind": "report",
+      "role": "evidence",
+      "producer_run_id": "20260719-002-impeccable",
+      "relative_path": "runs/20260719-002-impeccable/report.md",
+      "media_type": "text/markdown",
+      "schema_version": "report/1.0",
+      "content_hash": "69056fe1194154a07fb246ce025de2562161ec2e2c983decae3a58a2d1d0c3ef",
+      "size": 2090,
+      "status": "sealed",
+      "derived_from": [],
+      "replaces": null
+    }
+  },
+  "aliases": {}
+}

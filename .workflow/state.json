@@ -13,7 +13,7 @@
   },
   "transition_history": [],
   "milestone_history": [],
-  "last_updated": "2026-07-18T23:51:11+08:00",
+  "last_updated": "2026-07-19T19:42:48+08:00",
   "sessions": [
     {
       "session_id": "20260718-grill-model-prototype",
@@ -82,6 +82,126 @@
     {
       "session_id": "20260718-clarify-source-copy",
       "intent": "修正原型数据来源与 License 描述",
+      "status": "sealed",
+      "depends_on": [],
+      "roadmap_artifact_id": null,
+      "seed_ref": null
+    },
+    {
+      "session_id": "maestro-20260718-235735",
+      "intent": "根据现有 Pencil 原型开发可部署到 Vercel 的 LLM Info 前端，支持暗黑模式与 UI i18n，原样读取 models.json，并提高列表数据密度",
+      "status": "sealed",
+      "depends_on": [],
+      "roadmap_artifact_id": null,
+      "seed_ref": null
+    },
+    {
+      "session_id": "20260719-maestro-impeccable-currency-mode",
+      "intent": "将模型列表改为单币种四价格列并新增全局 USD/CNY 切换",
+      "status": "sealed",
+      "depends_on": [],
+      "roadmap_artifact_id": null,
+      "seed_ref": null
+    },
+    {
+      "session_id": "20260719-maestro-impeccable-provider-model-pricing",
+      "intent": "供应商模型列表弹框同步全局币种四价格列",
+      "status": "sealed",
+      "depends_on": [],
+      "roadmap_artifact_id": null,
+      "seed_ref": null
+    },
+    {
+      "session_id": "20260719-maestro-impeccable-provider-detail-pricing",
+      "intent": "供应商详情主表同步全局币种四价格列",
+      "status": "sealed",
+      "depends_on": [],
+      "roadmap_artifact_id": null,
+      "seed_ref": null
+    },
+    {
+      "session_id": "20260719-maestro-impeccable-compare-bars",
+      "intent": "统一模型对比价格体系并将数值参数改为柱状图",
+      "status": "sealed",
+      "depends_on": [],
+      "roadmap_artifact_id": null,
+      "seed_ref": null
+    },
+    {
+      "session_id": "20260719-maestro-impeccable-compare-ability-tags",
+      "intent": "模型对比布尔能力恢复状态标签",
+      "status": "sealed",
+      "depends_on": [],
+      "roadmap_artifact_id": null,
+      "seed_ref": null
+    },
+    {
+      "session_id": "20260719-maestro-impeccable-inline-bars",
+      "intent": "模型对比数值内联柱并只保留视觉理解能力",
+      "status": "sealed",
+      "depends_on": [],
+      "roadmap_artifact_id": null,
+      "seed_ref": null
+    },
+    {
+      "session_id": "20260719-maestro-impeccable-bar-colors",
+      "intent": "模型对比数值柱按指标使用不同淡色系",
+      "status": "sealed",
+      "depends_on": [],
+      "roadmap_artifact_id": null,
+      "seed_ref": null
+    },
+    {
+      "session_id": "20260719-maestro-impeccable-global-sort",
+      "intent": "模型列表表头三态全量排序",
+      "status": "sealed",
+      "depends_on": [],
+      "roadmap_artifact_id": null,
+      "seed_ref": null
+    },
+    {
+      "session_id": "20260719-maestro-impeccable-system-table-sort",
+      "intent": "统一系统列表固定列宽与三态排序",
+      "status": "sealed",
+      "depends_on": [],
+      "roadmap_artifact_id": null,
+      "seed_ref": null
+    },
+    {
+      "session_id": "20260719-maestro-impeccable-table-ellipsis",
+      "intent": "固定列宽表格截断内容显示省略号",
+      "status": "sealed",
+      "depends_on": [],
+      "roadmap_artifact_id": null,
+      "seed_ref": null
+    },
+    {
+      "session_id": "20260719-maestro-impeccable-cache-creation",
+      "intent": "统一补齐缓存创建价展示",
+      "status": "sealed",
+      "depends_on": [],
+      "roadmap_artifact_id": null,
+      "seed_ref": null
+    },
+    {
+      "session_id": "20260719-maestro-impeccable-responsive-headers",
+      "intent": "调整价格表头层级与表格响应式宽度",
+      "status": "sealed",
+      "depends_on": [],
+      "roadmap_artifact_id": null,
+      "seed_ref": null
+    },
+    {
+      "session_id": "20260719-maestro-impeccable-ability-last",
+      "intent": "将所有列表能力列移动到最后",
+      "status": "sealed",
+      "depends_on": [],
+      "roadmap_artifact_id": null,
+      "seed_ref": null
+    },
+    {
+      "session_id": "20260719-maestro-impeccable-model-count-copy",
+      "intent": "将规范模型界面文案改为模型数",
       "status": "sealed",
       "depends_on": [],
       "roadmap_artifact_id": null,

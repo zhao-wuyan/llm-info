@@ -1,0 +1,59 @@
+{
+  "schema_version": "artifacts/1.0",
+  "revision": 1,
+  "artifacts": {
+    "ART-001-001": {
+      "kind": "desktop-model-global-sort",
+      "role": "evidence",
+      "producer_run_id": "20260719-001-maestro-impeccable",
+      "relative_path": "runs/20260719-001-maestro-impeccable/evidence/screenshots/desktop-model-global-sort.png",
+      "media_type": "application/octet-stream",
+      "schema_version": "desktop-model-global-sort/1.0",
+      "content_hash": "e64e567d2dfb13977e16c50211d16aa0a34dbd7962fce25adac3d710f6ea28cd",
+      "size": 140321,
+      "status": "sealed",
+      "derived_from": [],
+      "replaces": null
+    },
+    "ART-001-002": {
+      "kind": "desktop-provider-dialog",
+      "role": "evidence",
+      "producer_run_id": "20260719-001-maestro-impeccable",
+      "relative_path": "runs/20260719-001-maestro-impeccable/evidence/screenshots/desktop-provider-dialog.png",
+      "media_type": "application/octet-stream",
+      "schema_version": "desktop-provider-dialog/1.0",
+      "content_hash": "37d00c4c06c6b067926b9a7ae9eb98b687392384b5843e0a8d42f5e26c2e9052",
+      "size": 80809,
+      "status": "sealed",
+      "derived_from": [],
+      "replaces": null
+    },
+    "ART-001-003": {
+      "kind": "desktop-compare-bars",
+      "role": "evidence",
+      "producer_run_id": "20260719-001-maestro-impeccable",
+      "relative_path": "runs/20260719-001-maestro-impeccable/evidence/screenshots/desktop-compare-bars.png",
+      "media_type": "application/octet-stream",
+      "schema_version": "desktop-compare-bars/1.0",
+      "content_hash": "b3f0866ee5c51dbbf396a4f732ea5a03954bd37e82eee54bef5c1fb8c0b96f75",
+      "size": 145497,
+      "status": "sealed",
+      "derived_from": [],
+      "replaces": null
+    },
+    "ART-001-004": {
+      "kind": "mobile-provider-dialog",
+      "role": "evidence",
+      "producer_run_id": "20260719-001-maestro-impeccable",
+      "relative_path": "runs/20260719-001-maestro-impeccable/evidence/screenshots/mobile-provider-dialog.png",
+      "media_type": "application/octet-stream",
+      "schema_version": "mobile-provider-dialog/1.0",
+      "content_hash": "22cdc6e407d0edc5310a50d7ed677f30231a48b4b7a1d704d35e74c2afdb7ea3",
+      "size": 249822,
+      "status": "sealed",
+      "derived_from": [],
+      "replaces": null
+    }
+  },
+  "aliases": {}
+}

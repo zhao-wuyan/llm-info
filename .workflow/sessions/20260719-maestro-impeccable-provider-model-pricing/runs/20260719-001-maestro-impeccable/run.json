@@ -1,0 +1,67 @@
+{
+  "schema_version": "command-run/1.0",
+  "session_id": "20260719-maestro-impeccable-provider-model-pricing",
+  "run_id": "20260719-001-maestro-impeccable",
+  "sequence": 1,
+  "parent_run_id": null,
+  "command": {
+    "name": "maestro-impeccable",
+    "version": "1.0",
+    "source_path": "../../../../Users/xinghe_zwy/.claude/commands/maestro-impeccable.md",
+    "content_hash": "2732fb58441fa63d955dfbdb3629bae683701662745cd49a2ddca557ee926106",
+    "resolved_prompt_hash": "2732fb58441fa63d955dfbdb3629bae683701662745cd49a2ddca557ee926106"
+  },
+  "status": "sealed",
+  "input": {
+    "args": [
+      "harden",
+      "供应商模型弹框价格体系"
+    ],
+    "consumes": [],
+    "context_identity_revision": 1
+  },
+  "gate_ids": [],
+  "output": {
+    "produces": [],
+    "primary_artifact_id": null,
+    "verdict": "ready"
+  },
+  "handoff": {
+    "schema_version": "command-handoff/1.0",
+    "producer_run_id": "20260719-001-maestro-impeccable",
+    "command": "maestro-impeccable",
+    "verdict": "ready",
+    "summary": "供应商全部模型弹框已接入全局 USD/CNY 价格体系，并展示输入、输出、缓存读取、缓存创建四类原生报价。",
+    "constraints": [
+      {
+        "id": "native-pricing",
+        "text": "models.json 原始报价不做汇率换算；缺失的当前币种报价显示为 -。",
+        "status": "locked"
+      },
+      {
+        "id": "spacing-scope",
+        "text": "仅调整弹框模型表格布局，不改变其他页面间距。",
+        "status": "locked"
+      }
+    ],
+    "decisions": [
+      {
+        "id": "global-currency",
+        "text": "弹框直接服从顶部 llm-currency 偏好，不增加第二套局部币种开关。",
+        "status": "accepted"
+      },
+      {
+        "id": "missing-price-order",
+        "text": "按当前币种输入价排序，缺价模型在升序和降序时都置底。",
+        "status": "accepted"
+      }
+    ],
+    "concerns": [],
+    "artifact_refs": [],
+    "next": [],
+    "details": {}
+  },
+  "started_at": "2026-07-19T14:29:42+08:00",
+  "completed_at": "2026-07-19T14:40:23+08:00",
+  "sealed_at": "2026-07-19T14:40:23+08:00"
+}

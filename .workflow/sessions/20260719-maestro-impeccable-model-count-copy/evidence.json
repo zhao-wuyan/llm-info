@@ -1,0 +1,21 @@
+{
+  "schema_version": "evidence/1.0",
+  "revision": 1,
+  "records": {
+    "EVD-001-001": {
+      "run_id": "20260719-001-maestro-impeccable",
+      "command": "maestro-impeccable",
+      "kind": "decision",
+      "point": "plain-model-count-copy",
+      "claim": "中文计数标签使用模型数，英文使用 Models；说明文字使用模型。",
+      "outcome": "accepted",
+      "rationale": "中文计数标签使用模型数，英文使用 Models；说明文字使用模型。",
+      "status": "accepted",
+      "artifact_refs": [],
+      "gate_refs": [],
+      "source_refs": [
+        "report.md"
+      ]
+    }
+  }
+}

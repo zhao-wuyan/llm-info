@@ -1,0 +1,21 @@
+{
+  "schema_version": "evidence/1.0",
+  "revision": 1,
+  "records": {
+    "EVD-001-001": {
+      "run_id": "20260719-001-maestro-impeccable",
+      "command": "maestro-impeccable",
+      "kind": "decision",
+      "point": "ability-tags",
+      "claim": "工具调用、视觉理解、推理使用支持/不支持状态标签。",
+      "outcome": "accepted",
+      "rationale": "工具调用、视觉理解、推理使用支持/不支持状态标签。",
+      "status": "accepted",
+      "artifact_refs": [],
+      "gate_refs": [],
+      "source_refs": [
+        "report.md"
+      ]
+    }
+  }
+}

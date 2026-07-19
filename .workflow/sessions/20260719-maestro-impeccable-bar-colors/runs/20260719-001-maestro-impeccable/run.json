@@ -1,0 +1,70 @@
+{
+  "schema_version": "command-run/1.0",
+  "session_id": "20260719-maestro-impeccable-bar-colors",
+  "run_id": "20260719-001-maestro-impeccable",
+  "sequence": 1,
+  "parent_run_id": null,
+  "command": {
+    "name": "maestro-impeccable",
+    "version": "1.0",
+    "source_path": "../../../../Users/xinghe_zwy/.claude/commands/maestro-impeccable.md",
+    "content_hash": "2732fb58441fa63d955dfbdb3629bae683701662745cd49a2ddca557ee926106",
+    "resolved_prompt_hash": "2732fb58441fa63d955dfbdb3629bae683701662745cd49a2ddca557ee926106"
+  },
+  "status": "sealed",
+  "input": {
+    "args": [
+      "colorize",
+      "compare-bars"
+    ],
+    "consumes": [],
+    "context_identity_revision": 1
+  },
+  "gate_ids": [],
+  "output": {
+    "produces": [
+      "ART-001-001",
+      "ART-001-002",
+      "ART-001-003"
+    ],
+    "primary_artifact_id": null,
+    "verdict": "ready"
+  },
+  "handoff": {
+    "schema_version": "command-handoff/1.0",
+    "producer_run_id": "20260719-001-maestro-impeccable",
+    "command": "maestro-impeccable",
+    "verdict": "ready",
+    "summary": "模型对比页 6 类连续数值柱已使用独立淡色，并完成明暗主题、响应式和无障碍验证。",
+    "constraints": [
+      {
+        "id": "color-is-secondary",
+        "text": "颜色仅用于指标分类辅助，数值与 aria-label 必须保留。",
+        "status": "locked"
+      },
+      {
+        "id": "stable-tone-map",
+        "text": "AAIndex、四类价格和上下文使用稳定的一一对应 tone。",
+        "status": "locked"
+      }
+    ],
+    "decisions": [
+      {
+        "id": "theme-tokens",
+        "text": "使用显式 OKLCH 明暗主题 token，避免透明色叠加造成不确定对比度。",
+        "status": "accepted"
+      }
+    ],
+    "concerns": [],
+    "artifact_refs": [
+      "ART-001-001",
+      "ART-001-002",
+      "ART-001-003"
+    ],
+    "next": [],
+    "details": {}
+  },
+  "started_at": "2026-07-19T16:59:10+08:00",
+  "completed_at": "2026-07-19T17:06:09+08:00",
+  "sealed_at": "2026-07-19T17:06:09+08:00"
+}

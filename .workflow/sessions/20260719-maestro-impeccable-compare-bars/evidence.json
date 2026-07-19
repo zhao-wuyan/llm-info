@@ -1,0 +1,36 @@
+{
+  "schema_version": "evidence/1.0",
+  "revision": 1,
+  "records": {
+    "EVD-001-001": {
+      "run_id": "20260719-001-maestro-impeccable",
+      "command": "maestro-impeccable",
+      "kind": "decision",
+      "point": "row-relative-scale",
+      "claim": "数值柱按当前筛选结果中同列最大值归一化，非零最小柱宽为 4%。",
+      "outcome": "accepted",
+      "rationale": "数值柱按当前筛选结果中同列最大值归一化，非零最小柱宽为 4%。",
+      "status": "accepted",
+      "artifact_refs": [],
+      "gate_refs": [],
+      "source_refs": [
+        "report.md"
+      ]
+    },
+    "EVD-001-002": {
+      "run_id": "20260719-001-maestro-impeccable",
+      "command": "maestro-impeccable",
+      "kind": "decision",
+      "point": "isolated-next-build",
+      "claim": "Next.js 支持 NEXT_DIST_DIR 隔离验证构建，Vercel 未设置时仍使用默认 .next。",
+      "outcome": "accepted",
+      "rationale": "Next.js 支持 NEXT_DIST_DIR 隔离验证构建，Vercel 未设置时仍使用默认 .next。",
+      "status": "accepted",
+      "artifact_refs": [],
+      "gate_refs": [],
+      "source_refs": [
+        "report.md"
+      ]
+    }
+  }
+}

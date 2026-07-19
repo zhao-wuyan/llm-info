@@ -1,0 +1,94 @@
+{
+  "schema_version": "evidence/1.0",
+  "revision": 2,
+  "records": {
+    "EVD-001-001": {
+      "run_id": "20260719-001-maestro-impeccable",
+      "command": "maestro-impeccable",
+      "kind": "decision",
+      "point": "D-001",
+      "claim": "Keep the full catalog on the server and send only current page/dialog data to clients.",
+      "outcome": "accepted",
+      "rationale": "Keep the full catalog on the server and send only current page/dialog data to clients.",
+      "status": "accepted",
+      "artifact_refs": [
+        "ART-001-001",
+        "ART-001-002"
+      ],
+      "gate_refs": [],
+      "source_refs": [
+        "report.md"
+      ]
+    },
+    "EVD-001-002": {
+      "run_id": "20260719-001-maestro-impeccable",
+      "command": "maestro-impeccable",
+      "kind": "decision",
+      "point": "D-002",
+      "claim": "Use native dialog for viewport-centered modals and mobile focus isolation.",
+      "outcome": "accepted",
+      "rationale": "Use native dialog for viewport-centered modals and mobile focus isolation.",
+      "status": "accepted",
+      "artifact_refs": [
+        "ART-001-001",
+        "ART-001-002"
+      ],
+      "gate_refs": [],
+      "source_refs": [
+        "report.md"
+      ]
+    },
+    "EVD-001-003": {
+      "run_id": "20260719-001-maestro-impeccable",
+      "command": "maestro-impeccable",
+      "kind": "decision",
+      "point": "D-003",
+      "claim": "Preserve native currency, source, model, provider, and Quality evidence without translation or FX conversion.",
+      "outcome": "accepted",
+      "rationale": "Preserve native currency, source, model, provider, and Quality evidence without translation or FX conversion.",
+      "status": "accepted",
+      "artifact_refs": [
+        "ART-001-001",
+        "ART-001-002"
+      ],
+      "gate_refs": [],
+      "source_refs": [
+        "report.md"
+      ]
+    },
+    "EVD-002-001": {
+      "run_id": "20260719-002-impeccable",
+      "command": "impeccable",
+      "kind": "decision",
+      "point": "D-001",
+      "claim": "Stop at the workflow pre-check because the command includes --skip-harvest.",
+      "outcome": "accepted",
+      "rationale": "Stop at the workflow pre-check because the command includes --skip-harvest.",
+      "status": "accepted",
+      "artifact_refs": [
+        "ART-002-001"
+      ],
+      "gate_refs": [],
+      "source_refs": [
+        "report.md"
+      ]
+    },
+    "EVD-002-002": {
+      "run_id": "20260719-002-impeccable",
+      "command": "impeccable",
+      "kind": "decision",
+      "point": "D-002",
+      "claim": "Treat Run 20260719-001-maestro-impeccable as the implementation and verification authority.",
+      "outcome": "accepted",
+      "rationale": "Treat Run 20260719-001-maestro-impeccable as the implementation and verification authority.",
+      "status": "accepted",
+      "artifact_refs": [
+        "ART-002-001"
+      ],
+      "gate_refs": [],
+      "source_refs": [
+        "report.md"
+      ]
+    }
+  }
+}

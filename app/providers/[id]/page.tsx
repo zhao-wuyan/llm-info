@@ -67,10 +67,10 @@ export default async function ProviderDetailPage({ params, searchParams }: { par
               <thead><tr>
                 <SortableHeader label={msg(locale, "model")} direction={directionFor("name")} href={sortLinkFor("name")} locale={locale} />
                 <SortableHeader label={msg(locale, "context")} direction={directionFor("context")} href={sortLinkFor("context")} locale={locale} />
-                <SortableHeader label={`${currency} ${msg(locale, "inputPrice")}`} direction={directionFor("input")} href={sortLinkFor("input")} locale={locale} />
-                <SortableHeader label={`${currency} ${msg(locale, "outputPrice")}`} direction={directionFor("output")} href={sortLinkFor("output")} locale={locale} />
-                <SortableHeader label={`${currency} ${msg(locale, "cacheReadPrice")}`} direction={directionFor("cacheRead")} href={sortLinkFor("cacheRead")} locale={locale} />
-                <SortableHeader label={`${currency} ${msg(locale, "cacheCreationPrice")}`} direction={directionFor("cacheWrite")} href={sortLinkFor("cacheWrite")} locale={locale} />
+                <SortableHeader label={msg(locale, "inputPrice")} subtitle={currency} direction={directionFor("input")} href={sortLinkFor("input")} locale={locale} />
+                <SortableHeader label={msg(locale, "outputPrice")} subtitle={currency} direction={directionFor("output")} href={sortLinkFor("output")} locale={locale} />
+                <SortableHeader label={msg(locale, "cacheReadPrice")} subtitle={currency} direction={directionFor("cacheRead")} href={sortLinkFor("cacheRead")} locale={locale} />
+                <SortableHeader label={msg(locale, "cacheCreationPrice")} subtitle={currency} direction={directionFor("cacheWrite")} href={sortLinkFor("cacheWrite")} locale={locale} />
               </tr></thead>
               <tbody>{previewModels.slice(0, 8).map((model) => <tr key={model.id}>
                 <td><Link className="entity-name" href={modelHref(model.canonicalId)}><EntityText name={model.name} id={model.modelId} /></Link></td>

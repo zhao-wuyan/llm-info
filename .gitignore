@@ -5,3 +5,21 @@ playwright-report/
 test-results/
 coverage/
 *.tsbuildinfo
+
+# Maestro local caches and reproducible evidence
+.workflow/.backups/
+.workflow/.maestro/
+.workflow/embedding-index.bin
+.workflow/embedding.zvec/
+.workflow/kg/maestro.db
+.workflow/kg/resolution.jsonl
+.workflow/kg/sync-state.json
+.workflow/search-cache.json
+.workflow/search-daemon.json
+.workflow/spec-analytics.jsonl
+.workflow/specs/.hit-log.jsonl
+.workflow/wiki-index.json
+.workflow/sessions/**/.backups/
+.workflow/sessions/**/diagnostics.ndjson
+.workflow/sessions/**/evidence*/
+.workflow/sessions/**/work/

@@ -113,7 +113,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Para
         <thead><tr>
           <SortableHeader label={msg(locale, "model")} direction={directionFor("name")} href={sortLinkFor("name")} locale={locale} />
           <SortableHeader label="AAIndex" direction={directionFor("quality")} href={sortLinkFor("quality")} locale={locale} />
-          {priceMetrics.map((metric) => <SortableHeader key={metric} label={`${currency} ${priceLabels[metric]}`} direction={directionFor(sortKeyForMetric[metric])} href={sortLinkFor(sortKeyForMetric[metric])} locale={locale} />)}
+          {priceMetrics.map((metric) => <SortableHeader key={metric} label={priceLabels[metric]} subtitle={currency} direction={directionFor(sortKeyForMetric[metric])} href={sortLinkFor(sortKeyForMetric[metric])} locale={locale} />)}
           <SortableHeader label={msg(locale, "context")} direction={directionFor("context")} href={sortLinkFor("context")} locale={locale} />
           <th>{abilityMsg(locale, "vision")}</th>
         </tr></thead>

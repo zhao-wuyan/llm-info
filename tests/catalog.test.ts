@@ -41,8 +41,10 @@ describe("catalog view model", () => {
   });
 
   it("localizes cache pricing labels", () => {
-    expect(msg("zh", "cacheReadPrice")).toBe("缓存读取价");
-    expect(msg("zh", "cacheCreationPrice")).toBe("缓存创建价");
+    expect(msg("zh", "inputPrice")).toBe("输入");
+    expect(msg("zh", "outputPrice")).toBe("输出");
+    expect(msg("zh", "cacheReadPrice")).toBe("缓存读");
+    expect(msg("zh", "cacheCreationPrice")).toBe("缓存写");
     expect(msg("en", "cacheReadPrice")).toBe("Cache read");
     expect(msg("en", "cacheCreationPrice")).toBe("Cache creation");
   });

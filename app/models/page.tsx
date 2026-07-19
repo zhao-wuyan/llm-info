@@ -61,8 +61,6 @@ export default async function ModelsPage({ searchParams }: { searchParams: Param
     const query = copy.toString();
     return query ? `/models?${query}` : "/models";
   };
-  const priceHeader = (key: "inputPrice" | "outputPrice" | "cacheReadPrice" | "cacheCreationPrice") =>
-    `${priceCurrency} ${msg(locale, key)}`;
 
   return (
     <AppShell locale={locale} section={msg(locale, "models")}>
@@ -87,13 +85,13 @@ export default async function ModelsPage({ searchParams }: { searchParams: Param
           <table className="data-table model-price-table">
             <thead><tr>
               <SortableHeader label={msg(locale, "model")} direction={directionFor("name")} href={sortLinkFor("name")} locale={locale} />
-              <th>{msg(locale, "ability")}</th>
               <SortableHeader label={msg(locale, "context")} direction={directionFor("context")} href={sortLinkFor("context")} locale={locale} />
               <SortableHeader label={msg(locale, "channels")} direction={directionFor("providers")} href={sortLinkFor("providers")} locale={locale} />
-              <SortableHeader label={priceHeader("inputPrice")} direction={directionFor("input")} href={sortLinkFor("input")} locale={locale} />
-              <SortableHeader label={priceHeader("outputPrice")} direction={directionFor("output")} href={sortLinkFor("output")} locale={locale} />
-              <SortableHeader label={priceHeader("cacheReadPrice")} direction={directionFor("cacheRead")} href={sortLinkFor("cacheRead")} locale={locale} />
-              <SortableHeader label={priceHeader("cacheCreationPrice")} direction={directionFor("cacheWrite")} href={sortLinkFor("cacheWrite")} locale={locale} />
+              <SortableHeader label={msg(locale, "inputPrice")} subtitle={priceCurrency} direction={directionFor("input")} href={sortLinkFor("input")} locale={locale} />
+              <SortableHeader label={msg(locale, "outputPrice")} subtitle={priceCurrency} direction={directionFor("output")} href={sortLinkFor("output")} locale={locale} />
+              <SortableHeader label={msg(locale, "cacheReadPrice")} subtitle={priceCurrency} direction={directionFor("cacheRead")} href={sortLinkFor("cacheRead")} locale={locale} />
+              <SortableHeader label={msg(locale, "cacheCreationPrice")} subtitle={priceCurrency} direction={directionFor("cacheWrite")} href={sortLinkFor("cacheWrite")} locale={locale} />
+              <th>{msg(locale, "ability")}</th>
               <th />
             </tr></thead>
             <tbody>{rows.map((model) => {
@@ -101,13 +99,13 @@ export default async function ModelsPage({ searchParams }: { searchParams: Param
               return (
                 <TableRowLink key={model.canonicalId} href={modelHref(model.canonicalId)} label={`${msg(locale, "details")}: ${model.name}`}>
                   <td className="entity-cell"><Link className="entity-name" href={modelHref(model.canonicalId)}><EntityText name={model.name} id={model.canonicalId} /></Link></td>
-                  <td><div className="tag-list">{Object.entries(model.abilities).filter(([, value]) => value).slice(0, 3).map(([key]) => <span className="tag" key={key}>{abilityMsg(locale, key)}</span>)}</div></td>
                   <td className="mono">{compactNumber(model.contextWindow)}</td>
                   <td className="mono">{model.providerCount}</td>
                   <td><PriceValue price={price} rate="textInput" currency={priceCurrency} locale={locale} /></td>
                   <td><PriceValue price={price} rate="textOutput" currency={priceCurrency} locale={locale} /></td>
                   <td><PriceValue price={price} rate="textInput_cacheRead" currency={priceCurrency} locale={locale} /></td>
                   <td><PriceValue price={price} rate="textInput_cacheWrite" currency={priceCurrency} locale={locale} /></td>
+                  <td><div className="tag-list">{Object.entries(model.abilities).filter(([, value]) => value).slice(0, 3).map(([key]) => <span className="tag" key={key}>{abilityMsg(locale, key)}</span>)}</div></td>
                   <td><ChevronRight size={15} /></td>
                 </TableRowLink>
               );

@@ -1,0 +1,68 @@
+{
+  "schema_version": "command-run/1.0",
+  "session_id": "20260719-maestro-impeccable-table-ellipsis",
+  "run_id": "20260719-001-maestro-impeccable",
+  "sequence": 1,
+  "parent_run_id": null,
+  "command": {
+    "name": "maestro-impeccable",
+    "version": "1.0",
+    "source_path": "../../../../Users/xinghe_zwy/.claude/commands/maestro-impeccable.md",
+    "content_hash": "2732fb58441fa63d955dfbdb3629bae683701662745cd49a2ddca557ee926106",
+    "resolved_prompt_hash": "2732fb58441fa63d955dfbdb3629bae683701662745cd49a2ddca557ee926106"
+  },
+  "status": "sealed",
+  "input": {
+    "args": [
+      "harden",
+      "table-ellipsis"
+    ],
+    "consumes": [],
+    "context_identity_revision": 1
+  },
+  "gate_ids": [],
+  "output": {
+    "produces": [
+      "ART-001-001",
+      "ART-001-002"
+    ],
+    "primary_artifact_id": null,
+    "verdict": "ready"
+  },
+  "handoff": {
+    "schema_version": "command-handoff/1.0",
+    "producer_run_id": "20260719-001-maestro-impeccable",
+    "command": "maestro-impeccable",
+    "verdict": "ready",
+    "summary": "固定列宽表格中的长名称、ID、表头和标签已使用省略号，并保留实体完整文本提示。",
+    "constraints": [
+      {
+        "id": "visible-truncation",
+        "text": "单行内容被截断时必须显示省略号，不得无提示裁切。",
+        "status": "locked"
+      },
+      {
+        "id": "full-entity-text",
+        "text": "实体名称和 ID 的完整值必须保留在 title 与 DOM 中。",
+        "status": "locked"
+      }
+    ],
+    "decisions": [
+      {
+        "id": "shared-entity-text",
+        "text": "使用共享 EntityText 统一名称和 ID 的省略号，并省略与名称相同的冗余 ID。",
+        "status": "accepted"
+      }
+    ],
+    "concerns": [],
+    "artifact_refs": [
+      "ART-001-001",
+      "ART-001-002"
+    ],
+    "next": [],
+    "details": {}
+  },
+  "started_at": "2026-07-19T17:45:16+08:00",
+  "completed_at": "2026-07-19T18:00:38+08:00",
+  "sealed_at": "2026-07-19T18:00:38+08:00"
+}

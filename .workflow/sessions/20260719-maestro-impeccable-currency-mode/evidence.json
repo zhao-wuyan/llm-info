@@ -1,0 +1,36 @@
+{
+  "schema_version": "evidence/1.0",
+  "revision": 1,
+  "records": {
+    "EVD-001-001": {
+      "run_id": "20260719-001-maestro-impeccable",
+      "command": "maestro-impeccable",
+      "kind": "decision",
+      "point": "D-001",
+      "claim": "模型列表不再并列比较 USD/CNY，价格列、排序和指标统一使用 llm-currency 当前值。",
+      "outcome": "accepted",
+      "rationale": "模型列表不再并列比较 USD/CNY，价格列、排序和指标统一使用 llm-currency 当前值。",
+      "status": "accepted",
+      "artifact_refs": [],
+      "gate_refs": [],
+      "source_refs": [
+        "report.md"
+      ]
+    },
+    "EVD-001-002": {
+      "run_id": "20260719-001-maestro-impeccable",
+      "command": "maestro-impeccable",
+      "kind": "decision",
+      "point": "D-002",
+      "claim": "供应商比较弹框保留自身币种控件，因为它属于显式比较工作流。",
+      "outcome": "accepted",
+      "rationale": "供应商比较弹框保留自身币种控件，因为它属于显式比较工作流。",
+      "status": "accepted",
+      "artifact_refs": [],
+      "gate_refs": [],
+      "source_refs": [
+        "report.md"
+      ]
+    }
+  }
+}

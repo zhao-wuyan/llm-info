@@ -1,0 +1,56 @@
+{
+  "schema_version": "command-run/1.0",
+  "session_id": "20260719-maestro-impeccable-currency-mode",
+  "run_id": "20260719-001-maestro-impeccable",
+  "sequence": 1,
+  "parent_run_id": null,
+  "command": {
+    "name": "maestro-impeccable",
+    "version": "1.0",
+    "source_path": "../../../../Users/xinghe_zwy/.claude/commands/maestro-impeccable.md",
+    "content_hash": "2732fb58441fa63d955dfbdb3629bae683701662745cd49a2ddca557ee926106",
+    "resolved_prompt_hash": "2732fb58441fa63d955dfbdb3629bae683701662745cd49a2ddca557ee926106"
+  },
+  "status": "sealed",
+  "input": {
+    "args": [
+      "harden",
+      "模型列表价格体系与右上角币种切换"
+    ],
+    "consumes": [],
+    "context_identity_revision": 1
+  },
+  "gate_ids": [],
+  "output": {
+    "produces": [],
+    "primary_artifact_id": null,
+    "verdict": "ready"
+  },
+  "handoff": {
+    "schema_version": "command-handoff/1.0",
+    "producer_run_id": "20260719-001-maestro-impeccable",
+    "command": "maestro-impeccable",
+    "verdict": "ready",
+    "summary": "将模型列表改为由 Topbar USD/CNY 持久化偏好驱动的单币种价格体系， 并展示输入、输出、缓存读取、缓存创建四个价格维度，完成桌面与移动端验证。",
+    "constraints": [],
+    "decisions": [
+      {
+        "id": "D-001",
+        "text": "模型列表不再并列比较 USD/CNY，价格列、排序和指标统一使用 llm-currency 当前值。",
+        "status": "accepted"
+      },
+      {
+        "id": "D-002",
+        "text": "供应商比较弹框保留自身币种控件，因为它属于显式比较工作流。",
+        "status": "accepted"
+      }
+    ],
+    "concerns": [],
+    "artifact_refs": [],
+    "next": [],
+    "details": {}
+  },
+  "started_at": "2026-07-19T13:31:58+08:00",
+  "completed_at": "2026-07-19T13:48:46+08:00",
+  "sealed_at": "2026-07-19T13:48:46+08:00"
+}
