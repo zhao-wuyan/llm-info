@@ -1,0 +1,51 @@
+app/models/page.tsx
+  s_973c3ff73cc8b2::t_c457805c938bc0 23,32-36,46,80-83
+.workflow/sessions/20260719-maestro-impeccable-priced-filter/evidence.json
+  s_973c3ff73cc8b2::t_30cfb0962e8fdd 3-20
+  s_973c3ff73cc8b2::t_38ad549e4ec0ff 1-2,21
+.workflow/sessions/20260719-maestro-impeccable-priced-filter/session.json
+  s_973c3ff73cc8b2::t_5c8dadb7d69449 37-47
+  s_973c3ff73cc8b2::t_38ad549e4ec0ff 1-3,9-26,29-36,48
+  s_973c3ff73cc8b2::t_77960b20c44d9a 4-6,27-28
+  s_973c3ff73cc8b2::t_30cfb0962e8fdd 7-8
+.workflow/sessions/20260719-maestro-impeccable-priced-filter/gates.json
+  s_973c3ff73cc8b2::t_38ad549e4ec0ff 1-13
+tests/e2e/catalog.spec.ts
+  s_973c3ff73cc8b2::t_662ab19ebeb77c 205
+  s_973c3ff73cc8b2::t_c457805c938bc0 187-204,207-222
+  s_973c3ff73cc8b2::t_3162ac079e4e32 186,206
+.workflow/sessions/20260719-maestro-impeccable-priced-filter/artifacts.json
+  s_973c3ff73cc8b2::t_38ad549e4ec0ff 1-2,4-6
+  s_973c3ff73cc8b2::t_30cfb0962e8fdd 3
+.workflow/sessions/20260719-maestro-impeccable-priced-filter/context.md
+  s_973c3ff73cc8b2::t_38ad549e4ec0ff 1
+.workflow/sessions/20260719-maestro-impeccable-priced-filter/runs/20260719-001-maestro-impeccable/report.md
+  s_973c3ff73cc8b2::t_54ad997e6ae351 5-7,9-11
+  s_973c3ff73cc8b2::t_38ad549e4ec0ff 1-2,12-17,20,23-25,28-29,34
+  s_973c3ff73cc8b2::t_eaf00b02c01f8f 3-4,8,18-19,21-22,26-27,30-33,35-36
+.workflow/state.json
+  s_973c3ff73cc8b2::t_77960b20c44d9a 16,213
+  s_973c3ff73cc8b2::t_38ad549e4ec0ff 209-212,214-216
+.workflow/specs/ui-conventions.md
+  s_973c3ff73cc8b2::t_eb8bf3bd04831f 174-181
+.workflow/sessions/20260719-maestro-impeccable-priced-filter/runs/20260719-001-maestro-impeccable/run.json
+  s_973c3ff73cc8b2::t_38ad549e4ec0ff 1-12,14-25,27,53,75
+  s_973c3ff73cc8b2::t_30cfb0962e8fdd 13,26,28-52,54-55
+  s_973c3ff73cc8b2::t_5c8dadb7d69449 56-74
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "bdf8709c7646ad2f01278d789cf219d98b145b46",
+  "prompts": {},
+  "sessions": {
+    "s_973c3ff73cc8b2": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f7b0a-ad0c-7552-8d47-5e2969c14a02",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "zhao-wuyan <zhao-wuyan@exampl.com>"
+    }
+  }
+}
