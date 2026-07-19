@@ -69,6 +69,7 @@
         "currency": { "enum": ["USD", "CNY"] },
         "unit": { "type": "string" },
         "region": { "type": ["string", "null"] },
+        "free": { "type": "boolean" },
         "rates": {
           "type": "object",
           "minProperties": 1,
@@ -83,6 +84,7 @@
         "source": { "type": "string" },
         "region": { "type": ["string", "null"] },
         "unit": { "const": "millionTokens" },
+        "free": { "type": "boolean" },
         "rates": { "type": "object" }
       }
     },

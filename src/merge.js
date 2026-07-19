@@ -73,6 +73,7 @@ export function selectDisplayPrice(pricing, currency) {
     region: selected.region,
     unit: selected.unit,
     rates: selected.rates,
+    ...(selected.free === true ? { free: true } : {}),
   };
 }
 

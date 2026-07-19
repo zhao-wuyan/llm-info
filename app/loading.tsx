@@ -1,0 +1,1 @@
+export default function Loading() { return <div className="loading-shell" role="status" aria-label="Loading"><div className="skeleton wide" /><div className="skeleton" /><div className="skeleton table" /></div>; }

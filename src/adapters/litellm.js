@@ -1,4 +1,4 @@
-import { createModel, createPrice, createProvider, numericEntries } from "./shared.js";
+import { createModel, createPrice, createProvider, inferFree, numericEntries } from "./shared.js";
 
 const TOKEN_RATE_MAP = {
   input_cost_per_token: "textInput",
@@ -93,6 +93,7 @@ export function adaptLiteLlm(data, fetchedAt) {
           currency: "USD",
           unit: mapping.unit,
           rates,
+          free: inferFree(sourceModel, rates, sourceId, sourceModel.model_name) ? true : undefined,
           sourceRates,
           observedAt: fetchedAt,
           official: false,

@@ -1,3 +1,7 @@
 node_modules/
 data/models.json.tmp
-
+.next*/
+playwright-report/
+test-results/
+coverage/
+*.tsbuildinfo

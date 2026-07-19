@@ -60,3 +60,16 @@ export function numericEntries(object) {
     ),
   );
 }
+
+export function explicitFree(object) {
+  return object?.free === true || object?.isFree === true || object?.is_free === true;
+}
+
+export function inferFree(object, rates, ...labels) {
+  if (explicitFree(object)) return true;
+  const values = Object.values(rates || {}).filter((value) => typeof value === "number" && Number.isFinite(value));
+  const hasFreeToken = labels.some(
+    (label) => typeof label === "string" && /(?:^|[^a-z0-9])free(?:$|[^a-z0-9])/i.test(label),
+  );
+  return values.length > 0 && values.every((value) => value === 0) && hasFreeToken;
+}

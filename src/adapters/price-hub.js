@@ -1,5 +1,5 @@
 import { HUB_CHANNEL_ALIASES, HUB_PROVIDER_ALIASES } from "../config.js";
-import { createModel, createPrice, createProvider, numericEntries } from "./shared.js";
+import { createModel, createPrice, createProvider, inferFree, numericEntries } from "./shared.js";
 
 function resolveChannel(entry) {
   if (entry.channel === "official") {
@@ -59,6 +59,7 @@ export function adaptPriceHub(data) {
         region: entry.region,
         quoteKey: `${entry.source || "unknown"}-${entry.provenance || "unknown"}-${entry.via_vision ? "vision" : "direct"}`,
         rates,
+        free: inferFree(entry, rates, sourceModelId, entry.model_name) ? true : undefined,
         sourceUrl: entry.source_url,
         observedAt: entry.scraped_at || data.generated_at || null,
         official: Boolean(entry.official),

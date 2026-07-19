@@ -109,6 +109,45 @@ test("uses null when a native currency price is unavailable", () => {
   assert.ok(database.models[0].displayPrices.CNY);
 });
 
+test("propagates explicit free markers and zero-priced free labels", () => {
+  const zeroPriced = structuredClone(aidyFixture);
+  zeroPriced.models.deepseek[0].pricing.basePricing = { textInput: 0, textOutput: 0 };
+  const unmarked = mergeCatalogs(
+    [{ configKey: "aidy", ...adaptAidy(zeroPriced) }],
+    "2026-07-18T00:00:00Z",
+  );
+  assert.equal(unmarked.models[0].displayPrices.CNY.free, undefined);
+
+  zeroPriced.models.deepseek[0].pricing.free = true;
+  const explicitlyFree = mergeCatalogs(
+    [{ configKey: "aidy", ...adaptAidy(zeroPriced) }],
+    "2026-07-18T00:00:00Z",
+  );
+  assert.equal(explicitlyFree.models[0].displayPrices.CNY.free, true);
+
+  const freeLiteLlm = structuredClone(litellmFixture);
+  freeLiteLlm["deepseek-chat"].is_free = true;
+  assert.equal(adaptLiteLlm(freeLiteLlm, "2026-07-18T00:00:00Z").models[0].pricing[0].free, true);
+
+  const freeHub = structuredClone(hubFixture);
+  freeHub.entries[0].isFree = true;
+  assert.equal(adaptPriceHub(freeHub).models[0].pricing[0].free, true);
+
+  const labeledZero = structuredClone(aidyFixture);
+  labeledZero.models.deepseek[0].id = "deepseek-chat-free";
+  labeledZero.models.deepseek[0].name = "DeepSeek Chat Free";
+  labeledZero.models.deepseek[0].pricing.basePricing = { textInput: 0, textOutput: 0 };
+  assert.equal(adaptAidy(labeledZero).models[0].pricing[0].free, true);
+
+  labeledZero.models.deepseek[0].pricing.basePricing.textInput = 1;
+  assert.equal(adaptAidy(labeledZero).models[0].pricing[0].free, undefined);
+
+  const substringOnly = structuredClone(aidyFixture);
+  substringOnly.models.deepseek[0].id = "freeform-chat";
+  substringOnly.models.deepseek[0].pricing.basePricing = { textInput: 0, textOutput: 0 };
+  assert.equal(adaptAidy(substringOnly).models[0].pricing[0].free, undefined);
+});
+
 test("keeps supplier details on providers and model descriptions on models", () => {
   const catalog = adaptAidy(aidyFixture);
   assert.equal(catalog.providers[0].description, "DeepSeek 官方模型服务。");

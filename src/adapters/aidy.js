@@ -1,4 +1,4 @@
-import { createModel, createPrice, createProvider, numericEntries } from "./shared.js";
+import { createModel, createPrice, createProvider, inferFree, numericEntries } from "./shared.js";
 
 function inferOwner(providerId, provider, modelId) {
   if (provider?.official) return providerId;
@@ -70,6 +70,7 @@ export function adaptAidy(data) {
               unit: sourceModel.pricing.unit,
               region: sourceModel.pricing.currency === "CNY" ? "cn" : null,
               rates,
+              free: inferFree(sourceModel.pricing, rates, sourceModel.id, sourceModel.name) ? true : undefined,
               adjustments: sourceModel.pricing.adjustments,
               observedAt: generatedAt,
               official: Boolean(provider?.official),

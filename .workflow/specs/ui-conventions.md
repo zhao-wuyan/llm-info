@@ -60,3 +60,35 @@ Design System: LLM Info. Color strategy: 中性底加青绿强调色。Typograph
 覆盖侧边栏和主内容区的应用级弹框 MUST 相对完整页面视口居中，不得只相对侧边栏之后的主内容区域居中。对于 1440 宽页面与 1100 宽弹框，水平位置 MUST 为 x = 170；遮罩 MUST 覆盖完整页面。
 
 </spec-entry>
+
+<spec-entry category="ui" keywords="responsive table dialog overflow" date="2026-07-18" sid="S-20260718-sdp2" title="移动数据详情宽度约束" description="防止宽表撑大移动文档并破坏整页弹框居中" source="main@87d96d7">
+
+### 移动数据详情宽度约束
+
+包含最小宽度表格的移动详情布局 MUST 在 grid/flex 祖先链使用 minmax(0, 1fr) 与 min-width: 0，表格 MUST 在局部容器内滚动，打开应用级 dialog 前后 document.scrollWidth MUST 等于 document.clientWidth。
+
+</spec-entry>
+
+<spec-entry category="ui" keywords="模型列表,币种切换,缓存价格,llm-currency" date="2026-07-19" sid="S-20260719-zx1q" title="模型列表单币种价格体系" description="统一模型列表价格维度与全局币种偏好" source="main@87d96d7">
+
+### 模型列表单币种价格体系
+
+模型列表 MUST 使用 Topbar 的 USD/CNY 价格体系偏好，并通过 llm-currency cookie 持久化；MUST 按当前币种展示输入价、输出价、缓存读取价、缓存创建价四列，MUST NOT 在模型列表并列展示 USD/CNY 输入价；价格排序 MUST 使用当前币种；缺少当前币种报价的模型 MUST 保留、显示短横线并置底。供应商比较弹框 MAY 保留局部币种切换。
+
+</spec-entry>
+
+<spec-entry category="ui" keywords="provider-dialog,currency,pricing,cache-price" date="2026-07-19" sid="S-20260719-q28a" title="供应商模型弹框遵循全局价格体系" description="统一供应商模型弹框的币种与四类价格展示规则" source="main@87d96d7">
+
+### 供应商模型弹框遵循全局价格体系
+
+供应商详情的全部模型弹框必须直接读取顶部全局币种偏好，按当前币种展示输入、输出、缓存读取、缓存创建四类原生报价；当前币种缺价显示 - 且置于有价模型之后，不做汇率换算。移动端使用弹框内容区局部横向滚动并固定模型首列。
+
+</spec-entry>
+
+<spec-entry category="ui" keywords="provider-detail,preview,currency,pricing" date="2026-07-19" sid="S-20260719-982d" title="供应商详情预览遵循全局价格体系" description="统一供应商详情模型预览与全局四价格列规则" source="main@87d96d7">
+
+### 供应商详情预览遵循全局价格体系
+
+供应商详情页默认展示的模型预览表必须遵循顶部全局币种偏好，展示输入、输出、缓存读取、缓存创建四类当前币种原生报价；缺价显示 -，不得并列比较 USD/CNY。桌面端应在详情主栏内完整展示四类价格，移动端在表格容器内横向滚动且不得造成 document 级溢出。
+
+</spec-entry>
