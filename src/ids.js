@@ -1,3 +1,5 @@
+import modelAliases from "./model-aliases.json" with { type: "json" };
+
 export function normalizeId(value) {
   return String(value ?? "")
     .trim()
@@ -19,5 +21,16 @@ export function listingId(providerId, modelId) {
 }
 
 export function canonicalId(ownerId, modelId) {
-  return `${normalizeId(ownerId)}/${normalizeModelId(modelId, ownerId)}`;
+  return resolveCanonicalId(`${normalizeId(ownerId)}/${normalizeModelId(modelId, ownerId)}`);
+}
+
+export function resolveCanonicalId(value) {
+  let resolved = normalizeId(value);
+  const visited = new Set();
+  while (modelAliases[resolved] && !visited.has(resolved)) {
+    visited.add(resolved);
+    const alias = modelAliases[resolved];
+    resolved = typeof alias === "string" ? alias : alias.canonicalId;
+  }
+  return resolved;
 }

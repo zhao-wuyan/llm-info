@@ -8,7 +8,7 @@ const numericValue = (model: CanonicalModel, key: Exclude<ModelSortKey, "name">)
   if (key === "context") return model.contextWindow ?? null;
   if (key === "providers") return model.providerCount;
   const rate = key === "input" ? "textInput" : key === "output" ? "textOutput" : key === "cacheRead" ? "textInput_cacheRead" : "textInput_cacheWrite";
-  return priceRate(model.minPrices.USD, rate);
+  return priceRate(model.displayPrices.USD, rate);
 };
 
 describe("model list sorting", () => {

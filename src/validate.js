@@ -5,7 +5,27 @@ export function validateDatabase(database) {
   if (database?.schemaVersion !== 1) errors.push("schemaVersion must be 1");
   if (!Array.isArray(database?.providers)) errors.push("providers must be an array");
   if (!Array.isArray(database?.models)) errors.push("models must be an array");
+  if (!Array.isArray(database?.modelAliases)) errors.push("modelAliases must be an array");
+  if (!Array.isArray(database?.modelAliasCandidates)) errors.push("modelAliasCandidates must be an array");
   if (errors.length > 0) return errors;
+
+  const aliasIds = new Set();
+  for (const alias of database.modelAliases) {
+    if (!alias?.alias || !alias?.canonicalId || alias.alias === alias.canonicalId) {
+      errors.push(`invalid model alias: ${JSON.stringify(alias)}`);
+      continue;
+    }
+    if (aliasIds.has(alias.alias)) errors.push(`duplicate model alias: ${alias.alias}`);
+    aliasIds.add(alias.alias);
+    if (!Number.isFinite(alias.confidence) || alias.confidence < 0 || alias.confidence > 1) {
+      errors.push(`invalid model alias confidence: ${alias.alias}`);
+    }
+  }
+  for (const candidate of database.modelAliasCandidates) {
+    if (!candidate?.alias || !candidate?.canonicalId || candidate.kind !== "candidate") {
+      errors.push(`invalid model alias candidate: ${JSON.stringify(candidate)}`);
+    }
+  }
 
   const providerIds = new Set(database.providers.map((provider) => provider.id));
   const modelIds = new Set();
@@ -39,6 +59,11 @@ export function validateDatabase(database) {
       if (displayPrice && !priceIds.has(displayPrice.priceId)) {
         errors.push(`display price ${displayPrice.priceId} does not reference a quote`);
       }
+    }
+  }
+  for (const aliasId of aliasIds) {
+    if (database.models.some((model) => model.canonicalId === aliasId)) {
+      errors.push(`applied model alias remains as canonicalId: ${aliasId}`);
     }
   }
   return errors;

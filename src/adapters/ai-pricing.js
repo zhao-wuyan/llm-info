@@ -1,3 +1,5 @@
+import { resolveCanonicalId } from "../ids.js";
+
 export const QUALITY_MODEL_ALIASES = {
   "GPT 5.6 Sol": "openai/gpt-5.6-sol",
   "GPT 5.6 Terra": "openai/gpt-5.6-terra",
@@ -32,11 +34,12 @@ export function adaptAiPricing(data, { observedAt, revision }) {
 
   for (const record of data) {
     if (typeof record?.AAIndex !== "number" || !Number.isFinite(record.AAIndex) || record.AAIndex < 0) continue;
-    const canonicalId = QUALITY_MODEL_ALIASES[record.model];
-    if (!canonicalId) {
+    const mappedCanonicalId = QUALITY_MODEL_ALIASES[record.model];
+    if (!mappedCanonicalId) {
       unmappedModels.push(record.model);
       continue;
     }
+    const canonicalId = resolveCanonicalId(mappedCanonicalId);
     qualities.push({
       canonicalId,
       source: "ai-pricing",

@@ -1,7 +1,7 @@
 import { ArrowDown, ArrowUp, ChevronLeft, ChevronRight, ChevronsUpDown, Search } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import type { Currency, DisplayPrice } from "@/lib/types";
+import type { CanonicalDisplayPrice, Currency, DisplayPrice } from "@/lib/types";
 import { formatPrice, isExplicitlyFree, priceRate } from "@/lib/format";
 import type { Locale } from "@/lib/i18n";
 import { msg } from "@/lib/i18n";
@@ -43,11 +43,14 @@ export function SortableButtonHeader({ label, subtitle, direction, onSort, local
   return <th aria-sort={direction === "asc" ? "ascending" : direction === "desc" ? "descending" : "none"}><button type="button" className={`sortable-header${direction ? " active" : ""}`} onClick={onSort} aria-label={action} title={action}><SortHeaderContent label={label} subtitle={subtitle} direction={direction} /></button></th>;
 }
 
-export function PriceValue({ price, rate, currency, locale }: { price: DisplayPrice | null; rate: string; currency: Currency; locale: Locale }) {
+export function PriceValue({ price, rate, currency, locale }: { price: DisplayPrice | CanonicalDisplayPrice | null; rate: string; currency: Currency; locale: Locale }) {
   const value = priceRate(price, rate);
   if (value === null) return <span className="missing">-</span>;
   const isFree = isExplicitlyFree(price);
-  return <span className={isFree ? "free-price" : "price"}>{isFree && <small>{msg(locale, "free")}</small>}{formatPrice(value, currency)}</span>;
+  const title = price && "confidence" in price
+    ? `${price.providerId} · ${msg(locale, "confidence")} ${price.confidence.score}%`
+    : undefined;
+  return <span className={isFree ? "free-price" : "price"} title={title}>{isFree && <small>{msg(locale, "free")}</small>}{formatPrice(value, currency)}</span>;
 }
 
 export function Pagination({ page, pages, href }: { page: number; pages: number; href: (page: number) => string }) {

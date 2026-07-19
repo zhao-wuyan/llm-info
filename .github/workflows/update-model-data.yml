@@ -41,6 +41,7 @@ jobs:
       - name: Add run summary
         run: |
           node --input-type=module -e "import { readFile } from 'node:fs/promises'; const data = JSON.parse(await readFile('data/models.json', 'utf8')); console.log('## 模型数据统计\n\n~~~json\n' + JSON.stringify(data.stats, null, 2) + '\n~~~')" >> "$GITHUB_STEP_SUMMARY"
+          node scripts/report-model-aliases.js --markdown >> "$GITHUB_STEP_SUMMARY"
 
       - name: Create update pull request
         uses: peter-evans/create-pull-request@v7
@@ -50,7 +51,7 @@ jobs:
           commit-message: "chore: 更新模型与 Quality 数据"
           title: "chore: 更新模型与 Quality 数据"
           body: |
-            自动汇总 LiteLLM、aidy-models、model-price-hub 和 ai-pricing 的最新模型、价格及 Quality 数据。
+            自动汇总 LiteLLM、aidy-models、model-price-hub 和 ai-pricing 的最新模型、价格、Quality 数据及模型 alias 候选。
 
             已执行：
             - `npm test`

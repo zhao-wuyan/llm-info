@@ -1,4 +1,5 @@
 import { SCHEMA_VERSION, SOURCE_CONFIG } from "./config.js";
+import { createAliasResolver, discoverModelAliases, explicitModelAliases } from "./model-alias-discovery.js";
 
 function definedEntries(object) {
   return Object.fromEntries(Object.entries(object).filter(([, value]) => value !== undefined));
@@ -80,20 +81,32 @@ export function selectDisplayPrice(pricing, currency) {
 export function mergeCatalogs(catalogs, generatedAt = new Date().toISOString()) {
   const providers = new Map();
   const models = new Map();
-  const qualities = new Map();
+  const qualityRecords = [];
 
   for (const catalog of catalogs) {
     for (const provider of catalog.providers) providers.set(provider.id, mergeProvider(providers.get(provider.id), provider));
     for (const model of catalog.models) models.set(model.id, mergeModel(models.get(model.id), model));
-    for (const quality of catalog.qualities || []) qualities.set(quality.canonicalId, quality);
+    qualityRecords.push(...(catalog.qualities || []));
   }
+
+  const discoveredAliases = discoverModelAliases([...models.values()], [...providers.values()]);
+  const modelAliases = [...explicitModelAliases(), ...discoveredAliases.automatic];
+  const resolveDiscoveredAlias = createAliasResolver(discoveredAliases.automatic);
+  const qualities = new Map(
+    qualityRecords.map((quality) => {
+      const canonicalId = resolveDiscoveredAlias(quality.canonicalId);
+      return [canonicalId, { ...quality, canonicalId }];
+    }),
+  );
 
   const mergedModels = [...models.values()]
     .map((model) => {
-      const quality = qualities.get(model.canonicalId);
+      const canonicalId = resolveDiscoveredAlias(model.canonicalId);
+      const quality = qualities.get(canonicalId);
       const { canonicalId: _canonicalId, ...qualityEvidence } = quality || {};
       return {
         ...model,
+        canonicalId,
         ...(quality
           ? {
               quality: qualityEvidence,
@@ -132,7 +145,11 @@ export function mergeCatalogs(catalogs, generatedAt = new Date().toISOString()) 
       qualityListings: mergedModels.filter((model) => model.quality).length,
       unmatchedQualityModels:
         sourceUnmappedCount + [...qualities.keys()].filter((canonicalId) => !matchedQualityIds.has(canonicalId)).length,
+      automaticModelAliases: discoveredAliases.automatic.length,
+      modelAliasCandidates: discoveredAliases.candidates.length,
     },
+    modelAliases,
+    modelAliasCandidates: discoveredAliases.candidates,
     providers: [...providers.values()].sort((a, b) => a.id.localeCompare(b.id)),
     models: mergedModels,
   };

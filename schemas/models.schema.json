@@ -3,16 +3,30 @@
   "$id": "https://llm-info.local/schemas/models.schema.json",
   "title": "LLM Info aggregated model database",
   "type": "object",
-  "required": ["schemaVersion", "generatedAt", "sources", "stats", "providers", "models"],
+  "required": ["schemaVersion", "generatedAt", "sources", "stats", "modelAliases", "modelAliasCandidates", "providers", "models"],
   "properties": {
     "schemaVersion": { "const": 1 },
     "generatedAt": { "type": "string", "format": "date-time" },
     "sources": { "type": "array", "items": { "$ref": "#/$defs/source" } },
     "stats": { "type": "object" },
+    "modelAliases": { "type": "array", "items": { "$ref": "#/$defs/modelAlias" } },
+    "modelAliasCandidates": { "type": "array", "items": { "$ref": "#/$defs/modelAlias" } },
     "providers": { "type": "array", "items": { "$ref": "#/$defs/provider" } },
     "models": { "type": "array", "items": { "$ref": "#/$defs/model" } }
   },
   "$defs": {
+    "modelAlias": {
+      "type": "object",
+      "required": ["alias", "canonicalId", "kind", "confidence", "reason"],
+      "properties": {
+        "alias": { "type": "string" },
+        "canonicalId": { "type": "string" },
+        "kind": { "enum": ["explicit", "automatic", "candidate"] },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "reason": { "type": "string" },
+        "evidence": { "type": "object" }
+      }
+    },
     "sourceRef": {
       "type": "object",
       "required": ["source", "id"],

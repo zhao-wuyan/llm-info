@@ -61,16 +61,16 @@ export default async function ComparePage({ searchParams }: { searchParams: Para
     if (sort === "quality") return compareNullable(left.quality?.aaIndex, right.quality?.aaIndex, order) || left.name.localeCompare(right.name);
     if (sort === "context") return compareNullable(left.contextWindow, right.contextWindow, order) || left.name.localeCompare(right.name);
     const metric = priceSortMetrics[sort];
-    return compareNullable(priceRate(left.minPrices[currency], metric), priceRate(right.minPrices[currency], metric), order) || left.name.localeCompare(right.name);
+    return compareNullable(priceRate(left.displayPrices[currency], metric), priceRate(right.displayPrices[currency], metric), order) || left.name.localeCompare(right.name);
   }) : filtered;
   const revision = catalog.sources.find((source) => source.id === "ai-pricing")?.revision;
   const maxima = {
     quality: maxValue(rows.map((model) => model.quality?.aaIndex)),
     context: maxValue(rows.map((model) => model.contextWindow)),
-    textInput: maxValue(rows.map((model) => priceRate(model.minPrices[currency], "textInput"))),
-    textOutput: maxValue(rows.map((model) => priceRate(model.minPrices[currency], "textOutput"))),
-    textInput_cacheRead: maxValue(rows.map((model) => priceRate(model.minPrices[currency], "textInput_cacheRead"))),
-    textInput_cacheWrite: maxValue(rows.map((model) => priceRate(model.minPrices[currency], "textInput_cacheWrite"))),
+    textInput: maxValue(rows.map((model) => priceRate(model.displayPrices[currency], "textInput"))),
+    textOutput: maxValue(rows.map((model) => priceRate(model.displayPrices[currency], "textOutput"))),
+    textInput_cacheRead: maxValue(rows.map((model) => priceRate(model.displayPrices[currency], "textInput_cacheRead"))),
+    textInput_cacheWrite: maxValue(rows.map((model) => priceRate(model.displayPrices[currency], "textInput_cacheWrite"))),
   } satisfies Record<"quality" | "context" | PriceMetric, number>;
   const priceLabels: Record<PriceMetric, string> = {
     textInput: msg(locale, "inputPrice"),
@@ -118,7 +118,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Para
           <th>{abilityMsg(locale, "vision")}</th>
         </tr></thead>
         <tbody>{rows.map((model) => {
-          const price = model.minPrices[currency];
+          const price = model.displayPrices[currency];
           return <tr key={model.canonicalId}>
             <td className="entity-cell"><Link className="entity-name" href={modelHref(model.canonicalId)}><EntityText name={model.name} id={model.canonicalId} /></Link></td>
             <td className="comparison-cell"><MetricBar label="AAIndex" value={model.quality?.aaIndex} max={maxima.quality} display={String(model.quality?.aaIndex ?? "-")} tone="quality" /></td>

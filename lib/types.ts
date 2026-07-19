@@ -14,6 +14,25 @@ export interface DisplayPrice {
   free?: boolean;
 }
 
+export type OfficialStatus = "verified" | "inferred" | "none";
+
+export interface PriceConfidence {
+  score: number;
+  level: "verified" | "high" | "medium" | "low";
+  reason: "verified-official" | "inferred-official" | "provider-consensus" | "single-provider";
+  supportingProviderCount: number;
+  supportingProviders: string[];
+  supportingSources: string[];
+  observedAt: string | null;
+}
+
+export interface CanonicalDisplayPrice extends DisplayPrice {
+  providerId: string;
+  officialStatus: OfficialStatus;
+  officialLikelihood: number;
+  confidence: PriceConfidence;
+}
+
 export interface Price extends DisplayPrice {
   id: string;
   currency: Currency;
@@ -90,11 +109,35 @@ export interface DataSource {
   unmappedCount?: number;
 }
 
+export interface ModelAliasEvidence {
+  officialListings: number;
+  officialQuotes: number;
+  sourceCount: number;
+  providerCount: number;
+  listingCount: number;
+}
+
+export interface ModelAliasRecord {
+  alias: string;
+  canonicalId: string;
+  kind: "explicit" | "automatic" | "candidate";
+  confidence: number;
+  reason: string;
+  evidence?: {
+    namesMatch?: boolean;
+    typesMatch?: boolean;
+    alias: ModelAliasEvidence;
+    target: ModelAliasEvidence;
+  };
+}
+
 export interface Catalog {
   schemaVersion: 1;
   generatedAt: string;
   stats: Record<string, number>;
   sources: DataSource[];
+  modelAliases: ModelAliasRecord[];
+  modelAliasCandidates: ModelAliasRecord[];
   providers: Provider[];
   models: Model[];
 }
@@ -115,6 +158,7 @@ export interface CanonicalModel {
   quality?: Quality;
   channels: Model[];
   providerCount: number;
+  displayPrices: Record<Currency, CanonicalDisplayPrice | null>;
   minPrices: Record<Currency, DisplayPrice | null>;
   sourceRefs: SourceRef[];
 }

@@ -77,7 +77,7 @@ export default async function ModelsPage({ searchParams }: { searchParams: Param
       <MetricStrip metrics={[
         { value: compactNumber(canonicalModels.length), label: msg(locale, "modelCount") },
         { value: compactNumber(catalog.models.length), label: msg(locale, "channelCount") },
-        { value: compactNumber(canonicalModels.filter((model) => model.minPrices[priceCurrency]).length), label: `${priceCurrency} ${msg(locale, "pricedModels")}` },
+        { value: compactNumber(canonicalModels.filter((model) => model.displayPrices[priceCurrency]).length), label: `${priceCurrency} ${msg(locale, "pricedModels")}` },
         { value: compactNumber(canonicalModels.filter((model) => model.providerCount > 1).length), label: msg(locale, "multiProvider") },
       ]} />
       <div className="table-frame">
@@ -95,7 +95,7 @@ export default async function ModelsPage({ searchParams }: { searchParams: Param
               <th />
             </tr></thead>
             <tbody>{rows.map((model) => {
-              const price = model.minPrices[priceCurrency];
+              const price = model.displayPrices[priceCurrency];
               return (
                 <TableRowLink key={model.canonicalId} href={modelHref(model.canonicalId)} label={`${msg(locale, "details")}: ${model.name}`}>
                   <td className="entity-cell"><Link className="entity-name" href={modelHref(model.canonicalId)}><EntityText name={model.name} id={model.canonicalId} /></Link></td>

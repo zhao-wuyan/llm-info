@@ -7,6 +7,7 @@ import { adaptPriceHub } from "../src/adapters/price-hub.js";
 import { hasMeaningfulChanges } from "../src/database-change.js";
 import { fetchGitHubLicense } from "../src/fetch.js";
 import { mergeCatalogs } from "../src/merge.js";
+import { discoverModelAliases } from "../src/model-alias-discovery.js";
 import { validateDatabase } from "../src/validate.js";
 
 const aidyFixture = {
@@ -232,6 +233,141 @@ test("adapts only AAIndex quality evidence from ai-pricing", () => {
   assert.deepEqual(catalog.meta.unmappedModels, ["Unmapped Future Model"]);
   assert.equal("inputPrice" in catalog.qualities[0], false);
   assert.equal("context" in catalog.qualities[0], false);
+});
+
+test("resolves explicit canonical aliases for model and Quality records", () => {
+  const aliased = structuredClone(aidyFixture);
+  aliased.providers.anthropic = { name: "Anthropic", official: true };
+  aliased.providers.poe = { name: "Poe", official: false };
+  aliased.models = {
+    anthropic: [{ id: "claude-opus-4-8", name: "Claude Opus 4.8", abilities: {} }],
+    poe: [{ id: "anthropic/claude-opus-4.8", name: "Claude Opus 4.8", abilities: {} }],
+  };
+  const catalog = adaptAidy(aliased);
+  assert.deepEqual(new Set(catalog.models.map((model) => model.canonicalId)), new Set(["anthropic/claude-opus-4-8"]));
+  assert.equal(catalog.models[0].id === catalog.models[1].id, false);
+
+  const quality = adaptAiPricing(
+    [{ model: "Claude Opus 4.8", developer: "Anthropic", AAIndex: 56 }],
+    qualityMeta,
+  );
+  assert.equal(quality.qualities[0].canonicalId, "anthropic/claude-opus-4-8");
+});
+
+test("automatically merges owner variants and model separator substitutions only", () => {
+  const providers = [
+    { id: "anthropic", name: "Anthropic", official: true, sourceRefs: [] },
+    { id: "poe", name: "Poe", official: false, sourceRefs: [] },
+    { id: "xai", name: "xAI", official: true, sourceRefs: [] },
+  ];
+  const models = [
+    {
+      id: "anthropic/claude-sonnet-4-6",
+      providerId: "anthropic",
+      ownerId: "anthropic",
+      modelId: "claude-sonnet-4-6",
+      canonicalId: "anthropic/claude-sonnet-4-6",
+      name: "Claude Sonnet 4.6",
+      sourceRefs: [{ source: "litellm", id: "anthropic/claude-sonnet-4-6" }],
+      pricing: [{ official: true }],
+    },
+    {
+      id: "poe/anthropic/claude-sonnet-4.6",
+      providerId: "poe",
+      ownerId: "anthropic",
+      modelId: "anthropic/claude-sonnet-4.6",
+      canonicalId: "anthropic/claude-sonnet-4.6",
+      name: "Claude Sonnet 4.6",
+      sourceRefs: [{ source: "aidy-models", id: "poe/anthropic/claude-sonnet-4.6" }],
+      pricing: [{ official: false }],
+    },
+    {
+      id: "poe/qwen3-14b",
+      providerId: "poe",
+      ownerId: "qwen",
+      modelId: "qwen3-14b",
+      canonicalId: "qwen/qwen3-14b",
+      name: "Qwen 3 14B",
+      sourceRefs: [{ source: "aidy-models", id: "poe/qwen3-14b" }],
+      pricing: [],
+    },
+    {
+      id: "poe/qwen-3-14b",
+      providerId: "poe",
+      ownerId: "qwen",
+      modelId: "qwen-3-14b",
+      canonicalId: "qwen/qwen-3-14b",
+      name: "Qwen 3 14B",
+      sourceRefs: [{ source: "litellm", id: "poe/qwen-3-14b" }],
+      pricing: [],
+    },
+    {
+      id: "poe/claude-opus-48",
+      providerId: "poe",
+      ownerId: "anthropic",
+      modelId: "claude-opus-48",
+      canonicalId: "anthropic/claude-opus-48",
+      name: "Claude Opus 48",
+      sourceRefs: [{ source: "aidy-models", id: "poe/claude-opus-48" }],
+      pricing: [],
+    },
+    {
+      id: "poe/claude-opus-4-8",
+      providerId: "poe",
+      ownerId: "anthropic",
+      modelId: "claude-opus-4-8",
+      canonicalId: "anthropic/claude-opus-4-8",
+      name: "Claude Opus 4.8",
+      sourceRefs: [{ source: "litellm", id: "poe/claude-opus-4-8" }],
+      pricing: [],
+    },
+    {
+      id: "xai/grok-4.5",
+      providerId: "xai",
+      ownerId: "xai",
+      modelId: "grok-4.5",
+      canonicalId: "xai/grok-4.5",
+      name: "Grok 4.5",
+      sourceRefs: [{ source: "litellm", id: "xai/grok-4.5" }],
+      pricing: [{ official: true }],
+    },
+    {
+      id: "poe/x-ai/grok-4.5",
+      providerId: "poe",
+      ownerId: "x-ai",
+      modelId: "x-ai/grok-4.5",
+      canonicalId: "x-ai/grok-4.5",
+      name: "Grok 4.5",
+      sourceRefs: [{ source: "aidy-models", id: "poe/x-ai/grok-4.5" }],
+      pricing: [{ official: false }],
+    },
+  ];
+
+  const aliases = discoverModelAliases(models, providers);
+  assert.deepEqual(
+    aliases.automatic.map(({ alias, canonicalId }) => ({ alias, canonicalId })),
+    [
+      { alias: "anthropic/claude-sonnet-4.6", canonicalId: "anthropic/claude-sonnet-4-6" },
+      { alias: "x-ai/grok-4.5", canonicalId: "xai/grok-4.5" },
+    ],
+  );
+  assert.deepEqual(aliases.candidates, []);
+  assert.equal(
+    aliases.automatic.some(
+      ({ alias, canonicalId }) =>
+        new Set([alias, canonicalId]).has("qwen/qwen3-14b") &&
+        new Set([alias, canonicalId]).has("qwen/qwen-3-14b"),
+    ),
+    false,
+  );
+  assert.equal(
+    aliases.automatic.some(
+      ({ alias, canonicalId }) =>
+        new Set([alias, canonicalId]).has("anthropic/claude-opus-48") &&
+        new Set([alias, canonicalId]).has("anthropic/claude-opus-4-8"),
+    ),
+    false,
+  );
 });
 
 test("attaches Quality to every listing with the mapped canonicalId", () => {

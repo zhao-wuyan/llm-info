@@ -28,7 +28,7 @@ export function parseModelSortOrder(value: string, rawSort: string): ModelSortOr
 function numericValue(model: CanonicalModel, key: Exclude<ModelSortKey, "name">, currency: Currency) {
   if (key === "context") return model.contextWindow ?? null;
   if (key === "providers") return model.providerCount;
-  return priceRate(model.minPrices[currency], priceRateKeys[key]);
+  return priceRate(model.displayPrices[currency], priceRateKeys[key]);
 }
 
 export function sortCanonicalModels(models: readonly CanonicalModel[], key: ModelSortKey | null, order: ModelSortOrder | null, currency: Currency) {

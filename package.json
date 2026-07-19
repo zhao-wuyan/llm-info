@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start",
     "generate": "node scripts/generate-models.js",
+    "aliases": "node scripts/report-model-aliases.js",
     "test": "node --test test/*.test.js && vitest run",
     "test:data": "node --test test/*.test.js",
     "test:ui": "vitest run",
