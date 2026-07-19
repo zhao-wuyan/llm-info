@@ -1,0 +1,75 @@
+{
+  "session_id": "20260719-maestro-impeccable-priced-filter",
+  "run_id": "20260719-001-maestro-impeccable",
+  "sequence": 1,
+  "parent_run_id": null,
+  "command": {
+    "name": "maestro-impeccable",
+    "version": "1.0",
+    "source_path": "../../../../Users/xinghe_zwy/.claude/commands/maestro-impeccable.md",
+    "content_hash": "2732fb58441fa63d955dfbdb3629bae683701662745cd49a2ddca557ee926106",
+    "resolved_prompt_hash": "2732fb58441fa63d955dfbdb3629bae683701662745cd49a2ddca557ee926106"
+  },
+  "status": "sealed",
+  "input": {
+    "args": [
+      "harden",
+      "models-priced-filter"
+    ],
+    "consumes": [],
+    "context_identity_revision": 1
+  },
+  "gate_ids": [],
+  "output": {
+    "produces": [],
+    "primary_artifact_id": null,
+    "verdict": "ready"
+  },
+  "handoff": {
+    "schema_version": "command-handoff/1.0",
+    "producer_run_id": "20260719-001-maestro-impeccable",
+    "command": "maestro-impeccable",
+    "verdict": "ready",
+    "summary": "模型目录新增按当前币种生效的只看有报价筛选，并完整保留排序与分页状态。",
+    "constraints": [
+      {
+        "id": "native-current-currency",
+        "text": "筛选只依据当前币种原生 displayPrices，不做汇率转换或跨币种回退。",
+        "status": "locked"
+      }
+    ],
+    "decisions": [
+      {
+        "id": "priced-url-state",
+        "text": "使用 priced=1 URL 参数持久化筛选，筛选先于排序和分页执行。",
+        "status": "accepted"
+      }
+    ],
+    "concerns": [],
+    "artifact_refs": [],
+    "next": [],
+    "details": {}
+  },
+  "started_at": "2026-07-19T23:44:30+08:00",
+  "completed_at": "2026-07-19T23:57:53+08:00",
+  "sealed_at": "2026-07-19T23:57:53+08:00",
+  "schema_version": "command-run/1.2",
+  "chain_step_id": null,
+  "resolved_platform": "claude",
+  "goal_binding": null,
+  "checkpoint_expectation": null,
+  "checkpoint": null,
+  "retry_fence": null,
+  "contract_snapshot": null,
+  "guidance_snapshot": null,
+  "creation_decision": null,
+  "creation_provenance": {
+    "schema_version": "creation-provenance/1.0",
+    "provenance": "legacy-inferred",
+    "source_workspace_id": null,
+    "source_session_id": null,
+    "source_run_id": null,
+    "imported_artifact_hashes": []
+  },
+  "transition": null
+}

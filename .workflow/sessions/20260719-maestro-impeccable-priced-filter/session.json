@@ -1,0 +1,48 @@
+{
+  "session_id": "20260719-maestro-impeccable-priced-filter",
+  "intent": "为模型目录增加当前币种有价格筛选",
+  "status": "sealed",
+  "identity_revision": 2,
+  "activity_revision": 3,
+  "active_run_id": null,
+  "latest_completed_run_id": "20260719-001-maestro-impeccable",
+  "boundary_contract": {
+    "in_scope": [],
+    "out_of_scope": [],
+    "constraints": [],
+    "definition_of_done": ""
+  },
+  "orchestration": {
+    "engine": "manual",
+    "quality_mode": "standard",
+    "auto_mode": false,
+    "chain": [],
+    "decision_points": [],
+    "position": null,
+    "decomposition": null,
+    "lease": null,
+    "executor": null
+  },
+  "lifecycle": {
+    "sealed_at": "2026-07-19T23:58:06+08:00",
+    "seal_summary": "Sealed with 1 Run(s)",
+    "promoted_spec_ids": [],
+    "promoted_knowhow_ids": [],
+    "forked_from": null
+  },
+  "refs": {
+    "gates": "gates.json",
+    "artifacts": "artifacts.json",
+    "evidence": "evidence.json"
+  },
+  "schema_version": "session/1.2",
+  "intent_identity": null,
+  "provenance": {
+    "source": "legacy-inferred",
+    "forked_from": null,
+    "imported_from": [],
+    "created_by": "legacy"
+  },
+  "requests": [],
+  "ralph_authority": null
+}

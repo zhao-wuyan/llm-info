@@ -1,0 +1,21 @@
+{
+  "schema_version": "evidence/1.0",
+  "revision": 1,
+  "records": {
+    "EVD-001-001": {
+      "run_id": "20260719-001-maestro-impeccable",
+      "command": "maestro-impeccable",
+      "kind": "decision",
+      "point": "priced-url-state",
+      "claim": "使用 priced=1 URL 参数持久化筛选，筛选先于排序和分页执行。",
+      "outcome": "accepted",
+      "rationale": "使用 priced=1 URL 参数持久化筛选，筛选先于排序和分页执行。",
+      "status": "accepted",
+      "artifact_refs": [],
+      "gate_refs": [],
+      "source_refs": [
+        "report.md"
+      ]
+    }
+  }
+}

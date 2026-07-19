@@ -172,3 +172,11 @@ Design System: LLM Info. Color strategy: 中性底加青绿强调色。Typograph
 面向用户的模型计数标签 MUST 使用模型数，说明文案 MUST 使用模型而非规范模型或 Canonical models；canonicalId、canonicalModels 等术语 MAY 保留在代码、数据结构和技术文档中。英文计数标签 MUST 使用 Models。
 
 </spec-entry>
+
+<spec-entry category="ui" keywords="模型列表,报价筛选,币种,分页,url" date="2026-07-19" sid="S-20260719-ae0l" title="模型目录当前币种报价筛选" description="模型目录按当前币种筛选有报价模型并保留 URL 状态" source="main@c11b14e">
+
+### 模型目录当前币种报价筛选
+
+模型目录 MUST 提供“只看有报价”复选框，并按 Topbar 当前 USD/CNY 币种判断 displayPrices[currency] 是否存在；筛选 MUST 在排序和分页前执行。启用、搜索或切换能力筛选 MUST 回到第 1 页；排序和分页 MUST 通过 priced=1 URL 参数保留筛选状态；取消筛选 MUST 恢复缺价模型并继续以短横线展示。
+
+</spec-entry>

@@ -20,6 +20,7 @@ export default async function ModelsPage({ searchParams }: { searchParams: Param
   const params = await searchParams;
   const q = one(params.q);
   const ability = one(params.ability);
+  const onlyPriced = one(params.priced) === "1";
   const rawSort = one(params.sort);
   const sort = parseModelSortKey(rawSort);
   const order = sort ? parseModelSortOrder(one(params.order), rawSort) : null;
@@ -28,7 +29,11 @@ export default async function ModelsPage({ searchParams }: { searchParams: Param
     Object.entries(model.abilities).filter(([, value]) => value).map(([key]) => key),
   ))].sort();
 
-  const filtered = canonicalModels.filter((model) => modelMatches(model, q) && (!ability || model.abilities[ability]));
+  const filtered = canonicalModels.filter((model) =>
+    modelMatches(model, q)
+    && (!ability || model.abilities[ability])
+    && (!onlyPriced || model.displayPrices[priceCurrency] !== null),
+  );
   const sorted = sortCanonicalModels(filtered, sort, order, priceCurrency);
 
   const pages = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE));
@@ -38,6 +43,7 @@ export default async function ModelsPage({ searchParams }: { searchParams: Param
     const copy = new URLSearchParams();
     if (q) copy.set("q", q);
     if (ability) copy.set("ability", ability);
+    if (onlyPriced) copy.set("priced", "1");
     if (includeSort && sort && order) {
       copy.set("sort", sort);
       copy.set("order", order);
@@ -71,6 +77,10 @@ export default async function ModelsPage({ searchParams }: { searchParams: Param
           <option value="">{msg(locale, "allAbilities")}</option>
           {abilities.map((key) => <option key={key} value={key}>{abilityMsg(locale, key)}</option>)}
         </select>
+        <label className="check-control">
+          <input type="checkbox" name="priced" value="1" defaultChecked={onlyPriced} />
+          {msg(locale, "onlyPriced")}
+        </label>
         {sort && order && <><input type="hidden" name="sort" value={sort} /><input type="hidden" name="order" value={order} /></>}
         <Link href="/models" className="text-button">{msg(locale, "reset")}</Link>
       </AutoSubmitForm>

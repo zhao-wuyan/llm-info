@@ -183,6 +183,43 @@ test("price system controls model pricing columns and persists", async ({ page }
   await page.screenshot({ path: path.join(evidenceRoot, `${testInfo.project.name}-currency-system.png`), fullPage: true });
 });
 
+test("model price filter follows the current currency and survives sorting and pagination", async ({ page }, testInfo) => {
+  await page.goto("/models");
+  await page.waitForLoadState("networkidle");
+  await page.getByRole("button", { name: "价格体系: CNY" }).click();
+  await expect(page.getByRole("columnheader", { name: "输入 CNY" })).toBeVisible();
+
+  const table = page.locator(".model-price-table");
+  const onlyPriced = page.getByRole("checkbox", { name: "只看有报价" });
+  const allCount = Number.parseInt(await page.locator(".table-footer > span").innerText(), 10);
+  await onlyPriced.check();
+
+  await expect.poll(() => new URL(page.url()).searchParams.get("priced")).toBe("1");
+  await expect(onlyPriced).toBeChecked();
+  const pricedCount = Number.parseInt(await page.locator(".table-footer > span").innerText(), 10);
+  expect(pricedCount).toBeLessThan(allCount);
+  await expect.poll(() => table.locator("tbody tr").evaluateAll((rows) => rows.every((row) => {
+    const priceCells = [...row.querySelectorAll("td")].slice(3, 7);
+    return priceCells.some((cell) => cell.textContent?.trim() !== "-");
+  }))).toBe(true);
+  await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth === document.documentElement.clientWidth)).toBe(true);
+  await page.screenshot({ path: path.join(evidenceRoot, `${testInfo.project.name}-model-priced-filter.png`), fullPage: true });
+
+  await table.getByRole("link", { name: "排序 模型: 正序" }).click();
+  await expect.poll(() => new URL(page.url()).searchParams.get("priced")).toBe("1");
+  const pageTwo = page.getByRole("navigation", { name: "Pagination" }).getByRole("link", { name: "2", exact: true });
+  await expect(pageTwo).toHaveAttribute("href", /priced=1/);
+  await pageTwo.click();
+  await expect.poll(() => new URL(page.url()).searchParams.get("page")).toBe("2");
+  await expect.poll(() => new URL(page.url()).searchParams.get("priced")).toBe("1");
+
+  await onlyPriced.uncheck();
+  await expect.poll(() => new URL(page.url()).searchParams.get("priced")).toBeNull();
+  await expect.poll(() => new URL(page.url()).searchParams.get("page")).toBeNull();
+  await expect(onlyPriced).not.toBeChecked();
+  await expect(page.locator(".table-footer > span")).toContainText(String(allCount));
+});
+
 test("model table headers cycle sorting across the complete filtered dataset", async ({ page }, testInfo) => {
   await page.goto("/models?q=512-x-512");
   await page.waitForLoadState("networkidle");
