@@ -29,14 +29,21 @@ test("model discovery and provider comparison drill down", async ({ page }, test
   await page.locator('a[href="/models/moonshotai/kimi-k2.6"]').click();
   await page.waitForURL("**/models/moonshotai/kimi-k2.6", { timeout: 15_000 });
   await expect(page.getByRole("heading", { name: "Kimi K2.6" })).toBeVisible();
-  await expect(page.locator(".model-channel-table .sortable-header")).toHaveCount(3);
+  await expect(page.locator(".model-channel-table .sortable-header")).toHaveCount(5);
+  await expect(page.getByRole("columnheader", { name: "USD 缓存读取价" })).toBeVisible();
+  await expect(page.getByRole("columnheader", { name: "USD 缓存创建价" })).toBeVisible();
   await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth === document.documentElement.clientWidth)).toBe(true);
   await page.getByRole("button", { name: "比较供应商" }).click();
   await expect(page.getByRole("dialog")).toBeVisible();
-  await expect(page.getByRole("dialog").locator("button.sortable-header")).toHaveCount(3);
-  await page.getByRole("dialog").getByRole("button", { name: "排序 输入价: 正序" }).click();
-  await expect(page.getByRole("dialog").getByRole("columnheader", { name: /排序 输入价/ })).toHaveAttribute("aria-sort", "ascending");
+  await expect(page.getByRole("dialog").locator("button.sortable-header")).toHaveCount(5);
+  await expect(page.getByRole("dialog").getByRole("columnheader", { name: "USD 缓存读取价" })).toBeVisible();
+  await expect(page.getByRole("dialog").getByRole("columnheader", { name: "USD 缓存创建价" })).toBeVisible();
+  await page.getByRole("dialog").getByRole("button", { name: "排序 USD 缓存创建价: 正序" }).click();
+  await expect(page.getByRole("dialog").getByRole("columnheader", { name: /排序 USD 缓存创建价/ })).toHaveAttribute("aria-sort", "ascending");
   await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth === document.documentElement.clientWidth)).toBe(true);
+  if (testInfo.project.name === "mobile") {
+    await expect.poll(() => page.getByRole("dialog").locator(".modal-content").evaluate((element) => element.scrollWidth > element.clientWidth)).toBe(true);
+  }
   await expect(page.getByRole("dialog").getByText("moonshotai/kimi-k2.6")).toBeVisible();
   await page.screenshot({ path: path.join(evidenceRoot, `${testInfo.project.name}-model-dialog.png`), fullPage: true });
 });
