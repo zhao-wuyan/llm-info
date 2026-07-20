@@ -1,0 +1,24 @@
+.gitignore
+  s_5cb9549d5cb362::t_8234d73d914a46 4-5,11-26,33,39-40
+.workflow/state.json
+  s_5cb9549d5cb362::t_866f6d128a3a8c 233-240,260
+  s_5cb9549d5cb362::t_860034bd9a5e61 16
+  s_5cb9549d5cb362::t_61ba4abc24ecc4 241-248
+  s_5cb9549d5cb362::t_4359e6f98804ff 249-256,259
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "e9d1ec6bc37aed8d19785c1d36d2543f2905750a",
+  "prompts": {},
+  "sessions": {
+    "s_5cb9549d5cb362": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f7eaa-6af7-7070-a05f-fabe916c587e",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "zhao-wuyan <zhao-wuyan@exampl.com>"
+    }
+  }
+}
