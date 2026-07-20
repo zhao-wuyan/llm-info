@@ -1,25 +1,43 @@
 node_modules/
 data/models.json.tmp
 .next*/
+out/
+build/
 playwright-report/
 test-results/
 coverage/
 *.tsbuildinfo
 .idea/
+.vscode/
+
+# Local environment and tool output
+.env
+.env.*
+!.env.example
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.vercel/
+.tmp/
+tmp/
+.DS_Store
+Thumbs.db
 
 # Maestro local caches and reproducible evidence
 .workflow/.backups/
 .workflow/.maestro/
 .workflow/embedding-index.bin
 .workflow/embedding.zvec/
-.workflow/kg/maestro.db
-.workflow/kg/resolution.jsonl
-.workflow/kg/sync-state.json
+.workflow/kg/
 .workflow/search-cache.json*
 .workflow/search-daemon.json
 .workflow/spec-analytics.jsonl
 .workflow/specs/.hit-log.jsonl
 .workflow/wiki-index.json
+.workflow/sessions/*-companion-*/
+.workflow/sessions/*-security-audit-*/
 .workflow/sessions/**/.backups/
 .workflow/sessions/**/diagnostics.ndjson
 .workflow/sessions/**/evidence*/
