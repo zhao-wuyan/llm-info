@@ -13,7 +13,7 @@
   },
   "transition_history": [],
   "milestone_history": [],
-  "last_updated": "2026-07-20T11:39:09+08:00",
+  "last_updated": "2026-07-20T18:45:29+08:00",
   "sessions": [
     {
       "session_id": "20260718-grill-model-prototype",
@@ -230,7 +230,31 @@
       "depends_on": [],
       "roadmap_artifact_id": null,
       "seed_ref": null
+    },
+    {
+      "session_id": "20260720-security-audit-auto-update",
+      "intent": "审计自动更新供应链风险",
+      "status": "running",
+      "depends_on": [],
+      "roadmap_artifact_id": null,
+      "seed_ref": null
+    },
+    {
+      "session_id": "20260720-companion-update-gitignore",
+      "intent": "更新项目 Git 忽略规则",
+      "status": "running",
+      "depends_on": [],
+      "roadmap_artifact_id": null,
+      "seed_ref": null
+    },
+    {
+      "session_id": "20260720-companion-fix-pr7-lock",
+      "intent": "修复 PR #7 依赖锁文件并验证",
+      "status": "running",
+      "depends_on": [],
+      "roadmap_artifact_id": null,
+      "seed_ref": null
     }
   ],
-  "active_session_id": null
+  "active_session_id": "20260720-companion-fix-pr7-lock"
 }
