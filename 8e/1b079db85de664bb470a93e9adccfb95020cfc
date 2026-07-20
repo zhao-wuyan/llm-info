@@ -1,0 +1,21 @@
+.github/workflows/validate-model-update.yml
+  s_5cb9549d5cb362::t_dd2a2dc125845e 40
+.github/workflows/ci.yml
+  s_5cb9549d5cb362::t_dd2a2dc125845e 1-33
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "8e1b079db85de664bb470a93e9adccfb95020cfc",
+  "prompts": {},
+  "sessions": {
+    "s_5cb9549d5cb362": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f7eaa-6af7-7070-a05f-fabe916c587e",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "zhao-wuyan <zhao-wuyan@exampl.com>"
+    }
+  }
+}
