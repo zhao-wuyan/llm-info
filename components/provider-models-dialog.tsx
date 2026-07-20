@@ -28,16 +28,18 @@ export function ProviderModelsDialog({ locale, currency, providerName, providerI
   const [query, setQuery] = useState("");
   const [ability, setAbility] = useState("");
   const [context, setContext] = useState("");
+  const [onlyPriced, setOnlyPriced] = useState(false);
   const [sort, setSort] = useState<DialogSortKey | null>(null);
   const [order, setOrder] = useState<SortOrder | null>(null);
   const [page, setPage] = useState(1);
   const abilities = [...new Set(models.flatMap((model) => Object.entries(model.abilities ?? {}).filter(([, value]) => value).map(([key]) => key)))].sort();
   const filtered = useMemo(() => {
     const matching = models.filter((model) => {
-    const matchesQuery = `${model.name} ${model.modelId} ${model.canonicalId}`.toLowerCase().includes(query.toLowerCase());
-    const matchesAbility = !ability || model.abilities?.[ability] === true;
-    const matchesContext = !context || (context === "large" ? (model.contextWindow ?? 0) >= 128000 : (model.contextWindow ?? 0) < 128000);
-      return matchesQuery && matchesAbility && matchesContext;
+      const matchesQuery = `${model.name} ${model.modelId} ${model.canonicalId}`.toLowerCase().includes(query.toLowerCase());
+      const matchesAbility = !ability || model.abilities?.[ability] === true;
+      const matchesContext = !context || (context === "large" ? (model.contextWindow ?? 0) >= 128000 : (model.contextWindow ?? 0) < 128000);
+      const matchesPrice = !onlyPriced || model.displayPrices[currency] !== null;
+      return matchesQuery && matchesAbility && matchesContext && matchesPrice;
     });
     if (!sort || !order) return matching;
     return stableSort(matching, (left, right) => {
@@ -45,7 +47,7 @@ export function ProviderModelsDialog({ locale, currency, providerName, providerI
       if (sort === "context") return compareNullable(left.contextWindow, right.contextWindow, order) || left.name.localeCompare(right.name);
       return compareNullable(priceRate(left.displayPrices[currency], priceMetric[sort]), priceRate(right.displayPrices[currency], priceMetric[sort]), order) || left.name.localeCompare(right.name);
     });
-  }, [ability, context, currency, models, order, query, sort]);
+  }, [ability, context, currency, models, onlyPriced, order, query, sort]);
   const pages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const currentPage = Math.min(page, pages);
   const rows = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
@@ -76,6 +78,10 @@ export function ProviderModelsDialog({ locale, currency, providerName, providerI
           <select aria-label={msg(locale, "context")} value={context} onChange={(event) => { setContext(event.target.value); resetPage(); }}>
             <option value="">{msg(locale, "context")}</option><option value="large">≥128K</option><option value="small">&lt;128K</option>
           </select>
+          <label className="check-control">
+            <input type="checkbox" checked={onlyPriced} onChange={(event) => { setOnlyPriced(event.target.checked); resetPage(); }} />
+            {msg(locale, "onlyPriced")}
+          </label>
         </div>
         <div className="modal-content">
           <table className="data-table provider-model-table">

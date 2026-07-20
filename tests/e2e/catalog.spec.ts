@@ -89,6 +89,31 @@ test("provider catalog opens the all-models dialog", async ({ page }, testInfo) 
   await page.screenshot({ path: path.join(evidenceRoot, `${testInfo.project.name}-provider-dialog-end.png`), fullPage: true });
 });
 
+test("provider model dialog filters quoted models in the current currency", async ({ page }) => {
+  await page.route("**/_vercel/**", (route) => route.fulfill({ status: 200, contentType: "application/javascript", body: "" }));
+  await page.goto("/providers/qwen");
+  await page.waitForLoadState("networkidle");
+  await page.getByRole("button", { name: "价格体系: CNY" }).click();
+  await page.getByRole("button", { name: "查看全部模型" }).click();
+
+  const dialog = page.getByRole("dialog");
+  const count = dialog.locator(".modal-footer > span");
+  const onlyPriced = dialog.getByRole("checkbox", { name: "只看有报价" });
+  const allCount = Number.parseInt(await count.innerText(), 10);
+
+  await onlyPriced.check();
+  await expect(onlyPriced).toBeChecked();
+  await expect.poll(async () => Number.parseInt(await count.innerText(), 10)).toBeLessThan(allCount);
+  await expect.poll(() => dialog.locator("tbody tr").evaluateAll((rows) => rows.every((row) => {
+    const priceCells = [...row.querySelectorAll("td")].slice(2, 6);
+    return priceCells.some((cell) => cell.textContent?.trim() !== "-");
+  }))).toBe(true);
+
+  await onlyPriced.uncheck();
+  await expect(onlyPriced).not.toBeChecked();
+  await expect.poll(async () => Number.parseInt(await count.innerText(), 10)).toBe(allCount);
+});
+
 test("source and quality pages use live catalog data", async ({ page }, testInfo) => {
   await page.goto("/providers"); await page.waitForLoadState("networkidle");
   await expect(page.locator(".provider-catalog-table .sortable-header")).toHaveCount(5);
