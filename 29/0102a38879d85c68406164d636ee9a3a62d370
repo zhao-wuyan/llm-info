@@ -1,0 +1,30 @@
+.workflow/state.json
+  s_f927827a308c6e::t_6a09a1bde9f5c9 265-272
+  s_f927827a308c6e::t_e05e9486213137 273-280,283
+  s_5cb9549d5cb362::t_a59358dc32fdce 257-264
+  s_f927827a308c6e::t_1175b6985d2266 16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "290102a38879d85c68406164d636ee9a3a62d370",
+  "prompts": {},
+  "sessions": {
+    "s_5cb9549d5cb362": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f7eaa-6af7-7070-a05f-fabe916c587e",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "zhao-wuyan <zhao-wuyan@exampl.com>"
+    },
+    "s_f927827a308c6e": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f7f33-d569-7db0-8696-bc02e47464b4",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": null
+    }
+  }
+}
