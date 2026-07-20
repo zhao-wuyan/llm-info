@@ -1,0 +1,19 @@
+.github/workflows/update-model-data.yml
+  s_5cb9549d5cb362::t_c999dd6da13477 30-32
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "cd3d79fde9d456bf612f3c631e453d8f12c8a407",
+  "prompts": {},
+  "sessions": {
+    "s_5cb9549d5cb362": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f7eaa-6af7-7070-a05f-fabe916c587e",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "zhao-wuyan <zhao-wuyan@exampl.com>"
+    }
+  }
+}
