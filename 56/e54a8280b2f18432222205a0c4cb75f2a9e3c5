@@ -1,0 +1,48 @@
+.workflow/sessions/20260720-maestro-impeccable-github-link/runs/20260720-001-maestro-impeccable/run.json
+  s_973c3ff73cc8b2::t_af1e28630ab29d 14,27,29-58,60-61
+  s_973c3ff73cc8b2::t_22f99f6b27f23f 1-5,63-113,115
+  s_973c3ff73cc8b2::t_35c0c6c0f7d4dc 6-13,15-26,28,59,62,114
+.workflow/sessions/20260720-maestro-impeccable-github-link/evidence.json
+  s_973c3ff73cc8b2::t_af1e28630ab29d 3-20
+  s_973c3ff73cc8b2::t_22f99f6b27f23f 1-2,21
+components/sidebar.tsx
+  s_973c3ff73cc8b2::t_b7fca4d10da2ff 3,33-45
+.workflow/sessions/20260720-maestro-impeccable-github-link/session.json
+  s_973c3ff73cc8b2::t_22f99f6b27f23f 1-3,9-26,29-61
+  s_973c3ff73cc8b2::t_af1e28630ab29d 4-8,27-28
+.workflow/sessions/20260720-maestro-impeccable-github-link/runs/20260720-001-maestro-impeccable/report.md
+  s_973c3ff73cc8b2::t_22f99f6b27f23f 1-2,16-17,19,21,26,28
+  s_973c3ff73cc8b2::t_51f52f65e92673 3-15,18,20,22-25,27,29-37
+.workflow/sessions/20260720-maestro-impeccable-github-link/context.md
+  s_973c3ff73cc8b2::t_22f99f6b27f23f 1
+.workflow/sessions/20260720-maestro-impeccable-github-link/artifacts.json
+  s_973c3ff73cc8b2::t_af1e28630ab29d 3
+  s_973c3ff73cc8b2::t_22f99f6b27f23f 1-2,4-6
+.workflow/state.json
+  s_973c3ff73cc8b2::t_22f99f6b27f23f 225-228,230-232
+  s_973c3ff73cc8b2::t_af1e28630ab29d 16,229
+.workflow/sessions/20260720-maestro-impeccable-github-link/gates.json
+  s_973c3ff73cc8b2::t_22f99f6b27f23f 1-13
+app/globals.css
+  s_973c3ff73cc8b2::t_b7fca4d10da2ff 48-49,81
+.workflow/specs/ui-conventions.md
+  s_973c3ff73cc8b2::t_bf6c2721acf2cb 190-197
+tests/e2e/catalog.spec.ts
+  s_973c3ff73cc8b2::t_c116302a52ac53 147-153
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "56e54a8280b2f18432222205a0c4cb75f2a9e3c5",
+  "prompts": {},
+  "sessions": {
+    "s_973c3ff73cc8b2": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f7b0a-ad0c-7552-8d47-5e2969c14a02",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "zhao-wuyan <zhao-wuyan@exampl.com>"
+    }
+  }
+}
