@@ -1,0 +1,61 @@
+{
+  "session_id": "20260720-maestro-impeccable-github-link",
+  "intent": "在网页全局导航中添加本项目 GitHub 地址",
+  "status": "sealed",
+  "identity_revision": 2,
+  "activity_revision": 3,
+  "active_run_id": null,
+  "latest_completed_run_id": "20260720-001-maestro-impeccable",
+  "boundary_contract": {
+    "in_scope": [],
+    "out_of_scope": [],
+    "constraints": [],
+    "definition_of_done": ""
+  },
+  "orchestration": {
+    "engine": "manual",
+    "quality_mode": "standard",
+    "auto_mode": false,
+    "chain": [],
+    "decision_points": [],
+    "position": null,
+    "decomposition": null,
+    "lease": null,
+    "executor": null
+  },
+  "lifecycle": {
+    "sealed_at": "2026-07-20T11:39:09+08:00",
+    "seal_summary": "Sealed with 1 Run(s)",
+    "promoted_spec_ids": [],
+    "promoted_knowhow_ids": [],
+    "forked_from": null
+  },
+  "refs": {
+    "gates": "gates.json",
+    "artifacts": "artifacts.json",
+    "evidence": "evidence.json"
+  },
+  "schema_version": "session/1.2",
+  "intent_identity": {
+    "schema_version": "intent-identity/1.0",
+    "normalization": "NFKC+unicode-lower+whitespace-collapse/1",
+    "workspace_id": "sha256:e8c909275bc02b1a22c0241b80e51c3b79ecfc53b6ab5611d38073cfcd03971b",
+    "command": "maestro-impeccable",
+    "verbatim": "在网页全局导航中添加本项目 GitHub 地址",
+    "normalized": "在网页全局导航中添加本项目 github 地址",
+    "normalized_length": 23,
+    "normalized_hash": "sha256:de3b4004dba9d4eeac9d8956a7f05602f1f4d14fe9f8a967a81e6c1009ddd53f",
+    "revision": 1,
+    "source": "persisted",
+    "backfill_status": "native",
+    "empty": false
+  },
+  "provenance": {
+    "source": "native",
+    "forked_from": null,
+    "imported_from": [],
+    "created_by": "session-store"
+  },
+  "requests": [],
+  "ralph_authority": null
+}

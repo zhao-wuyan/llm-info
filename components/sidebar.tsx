@@ -1,6 +1,6 @@
 "use client";
 
-import { BarChart3, Box, Building2, Database, Menu, X } from "lucide-react";
+import { BarChart3, Box, Building2, Database, ExternalLink, Github, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRef } from "react";
@@ -30,6 +30,19 @@ export function Sidebar({ locale, generatedAt, sourceCount }: { locale: Locale; 
         })}
       </nav>
       <div className="nav-spacer" />
+      <a
+        className="project-link"
+        href="https://github.com/zhao-wuyan/llm-info"
+        target="_blank"
+        rel="noreferrer"
+        aria-label={locale === "zh" ? "在 GitHub 查看 LLM Info 项目" : "View LLM Info on GitHub"}
+        title={locale === "zh" ? "在 GitHub 查看 LLM Info 项目" : "View LLM Info on GitHub"}
+        onClick={closeDrawer}
+      >
+        <Github size={17} aria-hidden />
+        <span>GitHub</span>
+        <ExternalLink className="external-indicator" size={13} aria-hidden />
+      </a>
       <div className="data-status"><span><i />{msg(locale, "dataUpdated")}</span><small>{generatedAt.slice(0, 10)} · {sourceCount} {locale === "zh" ? "个数据源" : "sources"}</small></div>
     </>
   );

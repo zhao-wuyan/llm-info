@@ -188,3 +188,11 @@ Design System: LLM Info. Color strategy: 中性底加青绿强调色。Typograph
 模型对比页在 URL 未提供 sort 参数时 MUST 默认按 AAIndex（quality）倒序排列；用户主动取消排序时 MUST 使用 sort=none 显式保存无排序状态，筛选表单和分页链接 MUST 保留该状态。AAIndex 表头 MUST 继续提供不排序、正序、倒序三态循环，重置页面 MUST 恢复默认 AAIndex 倒序。
 
 </spec-entry>
+
+<spec-entry category="ui" keywords="github,repository,external-link,sidebar,mobile,a11y" date="2026-07-20" sid="S-20260720-agyi" title="全局项目 GitHub 入口" description="在桌面侧栏和移动抽屉提供可访问的项目 GitHub 外链" source="session-run:20260720-maestro-impeccable-github-link/20260720-001-maestro-impeccable">
+
+### 全局项目 GitHub 入口
+
+应用 MUST 在桌面侧栏底部提供本项目 GitHub 外链，并在移动端导航抽屉复用同一入口；链接 MUST 显示 GitHub 文案和平台图标，提供本地化可访问名称，并使用 target=_blank 与 rel=noreferrer 安全打开新窗口。该入口 MUST 作为次级项目链接，不得挤占主导航或顶部高频工具。
+
+</spec-entry>

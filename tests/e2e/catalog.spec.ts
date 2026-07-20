@@ -144,6 +144,13 @@ test("source and quality pages use live catalog data", async ({ page }, testInfo
 
 test("locale and theme controls persist UI preferences", async ({ page }, testInfo) => {
   await page.goto("/models"); await page.waitForLoadState("networkidle");
+  if (testInfo.project.name === "mobile") await page.getByRole("button", { name: "打开导航" }).click();
+  const projectLink = page.getByRole("link", { name: "在 GitHub 查看 LLM Info 项目" });
+  await expect(projectLink).toBeVisible();
+  await expect(projectLink).toHaveAttribute("href", "https://github.com/zhao-wuyan/llm-info");
+  await expect(projectLink).toHaveAttribute("target", "_blank");
+  await expect(projectLink).toHaveAttribute("rel", "noreferrer");
+  if (testInfo.project.name === "mobile") await page.keyboard.press("Escape");
   await page.getByRole("button", { name: "切换语言" }).click();
   await expect(page.getByRole("heading", { name: "Models" })).toBeVisible();
   await expect(page.locator("html")).toHaveAttribute("lang", "en");

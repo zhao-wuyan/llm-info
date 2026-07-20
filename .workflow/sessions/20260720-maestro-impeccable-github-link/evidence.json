@@ -1,0 +1,21 @@
+{
+  "schema_version": "evidence/1.0",
+  "revision": 1,
+  "records": {
+    "EVD-001-001": {
+      "run_id": "20260720-001-maestro-impeccable",
+      "command": "maestro-impeccable",
+      "kind": "decision",
+      "point": "secondary-sidebar-placement",
+      "claim": "GitHub 入口放在侧栏底部、数据状态上方，作为次级项目链接，不占用顶部高频工具栏。",
+      "outcome": "accepted",
+      "rationale": "GitHub 入口放在侧栏底部、数据状态上方，作为次级项目链接，不占用顶部高频工具栏。",
+      "status": "accepted",
+      "artifact_refs": [],
+      "gate_refs": [],
+      "source_refs": [
+        "report.md"
+      ]
+    }
+  }
+}

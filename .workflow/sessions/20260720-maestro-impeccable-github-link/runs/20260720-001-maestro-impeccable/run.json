@@ -1,0 +1,115 @@
+{
+  "session_id": "20260720-maestro-impeccable-github-link",
+  "run_id": "20260720-001-maestro-impeccable",
+  "sequence": 1,
+  "parent_run_id": null,
+  "command": {
+    "name": "maestro-impeccable",
+    "version": "1.0",
+    "source_path": "../../../../Users/xinghe_zwy/.claude/commands/maestro-impeccable.md",
+    "content_hash": "740bdab6b743a3d1ae7d9523537f74a9a012365010e7abc20d24181d9692cf70",
+    "resolved_prompt_hash": "740bdab6b743a3d1ae7d9523537f74a9a012365010e7abc20d24181d9692cf70",
+    "contract_hash": "4cf0b2520cdb34a0443e432aa1bc6f49d4035208ca410588fd059e8ad245609e"
+  },
+  "status": "sealed",
+  "input": {
+    "args": [
+      "craft",
+      "github-link"
+    ],
+    "consumes": [],
+    "context_identity_revision": 1
+  },
+  "gate_ids": [],
+  "output": {
+    "produces": [],
+    "primary_artifact_id": null,
+    "verdict": "ready"
+  },
+  "handoff": {
+    "schema_version": "command-handoff/1.0",
+    "producer_run_id": "20260720-001-maestro-impeccable",
+    "command": "maestro-impeccable",
+    "verdict": "ready",
+    "summary": "应用已在桌面侧栏和移动导航抽屉增加本项目 GitHub 外链，并完成可访问性、响应式和外链属性验证。",
+    "constraints": [
+      {
+        "id": "global-repository-access",
+        "text": "项目 GitHub 入口必须在桌面侧栏和移动导航抽屉中均可访问。",
+        "status": "locked"
+      },
+      {
+        "id": "safe-external-link",
+        "text": "外链必须提供本地化可访问名称，并使用 target=_blank 与 rel=noreferrer。",
+        "status": "locked"
+      }
+    ],
+    "decisions": [
+      {
+        "id": "secondary-sidebar-placement",
+        "text": "GitHub 入口放在侧栏底部、数据状态上方，作为次级项目链接，不占用顶部高频工具栏。",
+        "status": "accepted"
+      }
+    ],
+    "concerns": [],
+    "artifact_refs": [],
+    "next": [],
+    "details": {}
+  },
+  "started_at": "2026-07-20T11:24:42+08:00",
+  "completed_at": "2026-07-20T11:39:09+08:00",
+  "sealed_at": "2026-07-20T11:39:09+08:00",
+  "schema_version": "command-run/1.2",
+  "chain_step_id": null,
+  "resolved_platform": "claude",
+  "goal_binding": null,
+  "checkpoint_expectation": null,
+  "checkpoint": null,
+  "retry_fence": null,
+  "contract_snapshot": {
+    "schema_version": "contract-snapshot/1.0",
+    "contract_version": "command-contract/1.0",
+    "normalized": {
+      "contract_version": 1,
+      "consumes": [],
+      "produces": [],
+      "gates": {
+        "entry": [],
+        "exit": []
+      }
+    },
+    "snapshot_hash": "sha256:4cf0b2520cdb34a0443e432aa1bc6f49d4035208ca410588fd059e8ad245609e",
+    "parser_version": "maestro-command-contract/2",
+    "captured_at": "2026-07-20T03:24:42.120Z",
+    "warnings": []
+  },
+  "guidance_snapshot": {
+    "schema_version": "guidance-snapshot/1.0",
+    "source_path": "../../../../Users/xinghe_zwy/.claude/commands/maestro-impeccable.md",
+    "content_hash": "sha256:740bdab6b743a3d1ae7d9523537f74a9a012365010e7abc20d24181d9692cf70",
+    "resolved_prompt_hash": "sha256:740bdab6b743a3d1ae7d9523537f74a9a012365010e7abc20d24181d9692cf70",
+    "prepare_hash": null,
+    "workflow_hash": null,
+    "run_mode_hash": "sha256:28b5880f420c58c19d21f29ae74a3bd666caa8ec152e0df2487c8306f44eb459"
+  },
+  "creation_decision": {
+    "schema_version": "creation-decision/1.0",
+    "decision_id": "dec_6508e2a8b38cdd2af7903830",
+    "request_id": null,
+    "mode": "explicit-create",
+    "authority": "explicit-command",
+    "decided_at": "2026-07-20T11:24:42+08:00",
+    "session_identity_revision": 1,
+    "session_activity_revision": 0,
+    "confirmation_token_hash": null
+  },
+  "creation_provenance": {
+    "schema_version": "creation-provenance/1.0",
+    "provenance": "native-v2",
+    "source_workspace_id": null,
+    "source_session_id": null,
+    "source_run_id": null,
+    "imported_artifact_hashes": []
+  },
+  "transition": null
+}
