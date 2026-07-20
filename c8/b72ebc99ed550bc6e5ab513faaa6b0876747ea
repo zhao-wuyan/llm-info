@@ -1,0 +1,22 @@
+components/provider-models-dialog.tsx
+  s_f927827a308c6e::t_73eb141a8d5dd2 31,41-42,50,81-84
+  s_f927827a308c6e::t_ffa771c13122ca 38-40
+tests/e2e/catalog.spec.ts
+  s_f927827a308c6e::t_6de5ca0871d983 92-116
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "c8b72ebc99ed550bc6e5ab513faaa6b0876747ea",
+  "prompts": {},
+  "sessions": {
+    "s_f927827a308c6e": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f7f33-d569-7db0-8696-bc02e47464b4",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "zhao-wuyan <zhao-wuyan@exampl.com>"
+    }
+  }
+}
