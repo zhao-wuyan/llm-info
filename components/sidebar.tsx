@@ -1,6 +1,6 @@
 "use client";
 
-import { BarChart3, Box, Building2, Database, ExternalLink, Github, Menu, X } from "lucide-react";
+import { BarChart3, Box, Building2, Database, ExternalLink, GitFork, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRef } from "react";
@@ -39,7 +39,7 @@ export function Sidebar({ locale, generatedAt, sourceCount }: { locale: Locale; 
         title={locale === "zh" ? "在 GitHub 查看 LLM Info 项目" : "View LLM Info on GitHub"}
         onClick={closeDrawer}
       >
-        <Github size={17} aria-hidden />
+        <GitFork size={17} aria-hidden />
         <span>GitHub</span>
         <ExternalLink className="external-indicator" size={13} aria-hidden />
       </a>
