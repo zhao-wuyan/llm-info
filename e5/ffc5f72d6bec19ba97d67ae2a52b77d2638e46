@@ -1,0 +1,28 @@
+tsconfig.json
+  s_5cb9549d5cb362::t_3d4c8794f61469 18
+  s_5cb9549d5cb362::t_afbedbdf694890 35-36
+components/sidebar.tsx
+  s_5cb9549d5cb362::t_bd4c252dd5c1f1 3,42
+next-env.d.ts
+  s_5cb9549d5cb362::t_ddf4e4b0e8a8a1 3
+package-lock.json
+  s_5cb9549d5cb362::t_444e45b26e128e 29,1713-1716,2866-2868,2872-2873,2876
+package.json
+  s_5cb9549d5cb362::t_a5d38bcd1465ee 38
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "e5ffc5f72d6bec19ba97d67ae2a52b77d2638e46",
+  "prompts": {},
+  "sessions": {
+    "s_5cb9549d5cb362": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f7eaa-6af7-7070-a05f-fabe916c587e",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "zhao-wuyan <zhao-wuyan@exampl.com>"
+    }
+  }
+}
