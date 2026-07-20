@@ -1,0 +1,45 @@
+src/config.js
+  s_5cb9549d5cb362::t_585da9ea770249 10-14,23,32,41
+schemas/models.schema.json
+  s_5cb9549d5cb362::t_a6e819c50d586e 37
+  s_5cb9549d5cb362::t_585da9ea770249 52-55
+.github/dependabot.yml
+  s_5cb9549d5cb362::t_df6e4b388c8a24 1-20
+src/fetch.js
+  s_5cb9549d5cb362::t_585da9ea770249 1-2,12-57
+  s_5cb9549d5cb362::t_8223b1ace98851 58-59
+src/validate.js
+  s_5cb9549d5cb362::t_a6e819c50d586e 8,13-18
+  s_5cb9549d5cb362::t_921020fb7fb4fb 19
+test/pipeline.test.js
+  s_5cb9549d5cb362::t_a6e819c50d586e 85-96,100-102,394-395
+  s_5cb9549d5cb362::t_585da9ea770249 8,482-514
+  s_5cb9549d5cb362::t_72daf11bace5c3 515-517
+  s_5cb9549d5cb362::t_f112ad0089fc66 518
+scripts/generate-models.js
+  s_5cb9549d5cb362::t_585da9ea770249 10,20-26,35,37,40-45,50-53,55-57
+lib/types.ts
+  s_5cb9549d5cb362::t_585da9ea770249 109-111
+.github/workflows/validate-model-update.yml
+  s_5cb9549d5cb362::t_df6e4b388c8a24 1-102
+src/merge.js
+  s_5cb9549d5cb362::t_a6e819c50d586e 128-131
+.github/workflows/update-model-data.yml
+  s_5cb9549d5cb362::t_df6e4b388c8a24 13,16-17,20-23,25-28,31,34,67-104,107,109,114-121,123-124,127-128
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "a99b6a0eef8f5241d91f3a117a93d0ff79e8be34",
+  "prompts": {},
+  "sessions": {
+    "s_5cb9549d5cb362": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f7eaa-6af7-7070-a05f-fabe916c587e",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "zhao-wuyan <zhao-wuyan@exampl.com>"
+    }
+  }
+}
