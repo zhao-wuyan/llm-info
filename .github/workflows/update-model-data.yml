@@ -10,22 +10,28 @@ concurrency:
   group: update-model-data
   cancel-in-progress: false
 
-permissions:
-  contents: write
-  pull-requests: write
+permissions: {}
 
 jobs:
-  update:
+  generate:
+    name: Generate and inspect update
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    permissions:
+      contents: read
+    outputs:
+      bulk_change: ${{ steps.changes.outputs.bulk_change }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Checkout trusted main
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          persist-credentials: false
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 22
+          cache: npm
 
       - name: Install dependencies
         run: npm ci
@@ -58,18 +64,65 @@ jobs:
           cat "$RUNNER_TEMP/model-update-summary.md" >> "$GITHUB_STEP_SUMMARY"
           node scripts/report-model-aliases.js --markdown >> "$GITHUB_STEP_SUMMARY"
 
+      - name: Stage generated artifact
+        run: |
+          mkdir -p "$RUNNER_TEMP/model-update/data"
+          cp data/models.json "$RUNNER_TEMP/model-update/data/models.json"
+          cp "$RUNNER_TEMP/model-update-summary.md" "$RUNNER_TEMP/model-update/model-update-summary.md"
+
+      - name: Upload generated artifact
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: model-update
+          path: ${{ runner.temp }}/model-update
+          if-no-files-found: error
+          retention-days: 1
+
+  publish:
+    name: Publish update pull request
+    needs: generate
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      actions: write
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout trusted main
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          persist-credentials: false
+
+      - name: Download generated artifact
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: model-update
+          path: ${{ runner.temp }}/model-update
+
+      - name: Apply generated data
+        run: cp "$RUNNER_TEMP/model-update/data/models.json" data/models.json
+
       - name: Create update pull request
         id: cpr
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676 # v7
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           branch: automation/update-model-data
           delete-branch: true
           commit-message: "chore: 更新模型与 Quality 数据"
           title: "chore: 更新模型与 Quality 数据"
-          body-path: ${{ runner.temp }}/model-update-summary.md
+          body-path: ${{ runner.temp }}/model-update/model-update-summary.md
 
-      - name: Auto-merge validated update
-        if: steps.cpr.outputs.pull-request-number != '' && steps.changes.outputs.bulk_change != 'true'
+      - name: Dispatch independent PR validation
+        if: steps.cpr.outputs.pull-request-number != ''
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh pr merge "${{ steps.cpr.outputs.pull-request-number }}" --squash --delete-branch
+          PR_NUMBER: ${{ steps.cpr.outputs.pull-request-number }}
+        run: gh workflow run validate-model-update.yml --ref main -f pull_request_number="$PR_NUMBER"
+
+      - name: Enable auto-merge for normal updates
+        if: steps.cpr.outputs.pull-request-number != '' && needs.generate.outputs.bulk_change != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ steps.cpr.outputs.pull-request-number }}
+        run: gh pr merge "$PR_NUMBER" --auto --squash

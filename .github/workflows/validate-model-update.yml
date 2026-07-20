@@ -1,0 +1,102 @@
+name: Validate model update
+
+on:
+  workflow_dispatch:
+    inputs:
+      pull_request_number:
+        description: Pull request number to validate
+        required: true
+        type: string
+
+permissions: {}
+
+jobs:
+  validate:
+    name: Validate model update
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      checks: write
+      contents: read
+      pull-requests: read
+    steps:
+      - name: Resolve pull request and start required check
+        id: check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ inputs.pull_request_number }}
+        run: |
+          [[ "$PR_NUMBER" =~ ^[0-9]+$ ]] || { echo "Invalid pull request number"; exit 1; }
+          pr_json="$(gh api "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER")"
+          head_sha="$(jq -r '.head.sha' <<<"$pr_json")"
+          head_ref="$(jq -r '.head.ref' <<<"$pr_json")"
+          head_repo="$(jq -r '.head.repo.full_name' <<<"$pr_json")"
+          base_ref="$(jq -r '.base.ref' <<<"$pr_json")"
+          [[ "$head_repo" == "$GITHUB_REPOSITORY" ]] || { echo "PR must originate from this repository"; exit 1; }
+          [[ "$head_ref" == "automation/update-model-data" ]] || { echo "Unexpected PR branch: $head_ref"; exit 1; }
+          [[ "$base_ref" == "main" ]] || { echo "Unexpected base branch: $base_ref"; exit 1; }
+          details_url="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+          check_id="$(gh api --method POST "repos/$GITHUB_REPOSITORY/check-runs" \
+            -f name='validate-model-update' \
+            -f head_sha="$head_sha" \
+            -f status='in_progress' \
+            -f details_url="$details_url" \
+            --jq '.id')"
+          echo "check_id=$check_id" >> "$GITHUB_OUTPUT"
+          echo "head_sha=$head_sha" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout trusted main
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Import only the generated database from the PR
+        env:
+          PR_NUMBER: ${{ inputs.pull_request_number }}
+        run: |
+          git fetch --no-tags origin "pull/$PR_NUMBER/head:refs/remotes/origin/model-update-pr"
+          changed_files="$(git diff --name-only HEAD...refs/remotes/origin/model-update-pr)"
+          [[ "$changed_files" == "data/models.json" ]] || {
+            echo "Update PR may only change data/models.json"
+            echo "$changed_files"
+            exit 1
+          }
+          git checkout refs/remotes/origin/model-update-pr -- data/models.json
+
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests against generated data
+        run: npm test
+
+      - name: Validate generated data
+        run: npm run validate
+
+      - name: Complete required check
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CHECK_ID: ${{ steps.check.outputs.check_id }}
+        run: |
+          gh api --method PATCH "repos/$GITHUB_REPOSITORY/check-runs/$CHECK_ID" \
+            -f status='completed' \
+            -f conclusion='success' \
+            -f completed_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+
+      - name: Fail required check
+        if: failure() && steps.check.outputs.check_id != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CHECK_ID: ${{ steps.check.outputs.check_id }}
+        run: |
+          gh api --method PATCH "repos/$GITHUB_REPOSITORY/check-runs/$CHECK_ID" \
+            -f status='completed' \
+            -f conclusion='failure' \
+            -f completed_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"

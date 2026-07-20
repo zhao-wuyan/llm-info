@@ -125,10 +125,10 @@ export function mergeCatalogs(catalogs, generatedAt = new Date().toISOString()) 
   const matchedQualityIds = new Set(mergedModels.filter((model) => model.quality).map((model) => model.canonicalId));
   const sourceUnmappedCount = catalogs.reduce((count, catalog) => count + (catalog.meta?.unmappedCount || 0), 0);
 
-  const sourceList = catalogs.map((catalog) => ({
-    ...SOURCE_CONFIG[catalog.configKey],
-    ...catalog.meta,
-  }));
+  const sourceList = catalogs.map((catalog) => {
+    const { github: _github, ...source } = SOURCE_CONFIG[catalog.configKey];
+    return { ...source, ...catalog.meta };
+  });
 
   return {
     schemaVersion: SCHEMA_VERSION,

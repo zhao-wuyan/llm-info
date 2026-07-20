@@ -106,6 +106,9 @@ export interface DataSource {
   observedAt: string | null;
   revision?: string;
   revisionUrl?: string;
+  contentSha256?: string;
+  commitVerified?: boolean;
+  commitVerificationReason?: string;
   unmappedCount?: number;
 }
 

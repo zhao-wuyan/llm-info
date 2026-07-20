@@ -5,7 +5,7 @@ import { adaptAiPricing } from "../src/adapters/ai-pricing.js";
 import { adaptLiteLlm } from "../src/adapters/litellm.js";
 import { adaptPriceHub } from "../src/adapters/price-hub.js";
 import { hasMeaningfulChanges } from "../src/database-change.js";
-import { fetchGitHubLicense } from "../src/fetch.js";
+import { fetchGitHubJsonSource, fetchGitHubLicense } from "../src/fetch.js";
 import { mergeCatalogs } from "../src/merge.js";
 import { discoverModelAliases } from "../src/model-alias-discovery.js";
 import { validateDatabase } from "../src/validate.js";
@@ -82,12 +82,24 @@ const qualityMeta = {
   revision: "5ab51479cd8cae12e0c63dec14200ed75ef480cd",
 };
 
+const sourceProvenance = {
+  revision: "a".repeat(40),
+  revisionUrl: `https://github.com/example/repo/commit/${"a".repeat(40)}`,
+  contentSha256: "b".repeat(64),
+  commitVerified: false,
+  commitVerificationReason: "unsigned",
+};
+
+function withSourceProvenance(catalog) {
+  return { ...catalog, meta: { ...catalog.meta, ...sourceProvenance } };
+}
+
 test("merges native USD and CNY quotes without currency conversion", () => {
   const database = mergeCatalogs(
     [
-      { configKey: "litellm", ...adaptLiteLlm(litellmFixture, "2026-07-18T00:00:00Z") },
-      { configKey: "aidy", ...adaptAidy(aidyFixture) },
-      { configKey: "priceHub", ...adaptPriceHub(hubFixture) },
+      withSourceProvenance({ configKey: "litellm", ...adaptLiteLlm(litellmFixture, "2026-07-18T00:00:00Z") }),
+      withSourceProvenance({ configKey: "aidy", ...adaptAidy(aidyFixture) }),
+      withSourceProvenance({ configKey: "priceHub", ...adaptPriceHub(hubFixture) }),
     ],
     "2026-07-18T00:00:00Z",
   );
@@ -379,8 +391,8 @@ test("attaches Quality to every listing with the mapped canonicalId", () => {
   };
   const database = mergeCatalogs(
     [
-      { configKey: "litellm", ...adaptLiteLlm(modelFixture, "2026-07-18T00:00:00Z") },
-      { configKey: "aiPricing", ...adaptAiPricing(qualityFixture, qualityMeta) },
+      withSourceProvenance({ configKey: "litellm", ...adaptLiteLlm(modelFixture, "2026-07-18T00:00:00Z") }),
+      withSourceProvenance({ configKey: "aiPricing", ...adaptAiPricing(qualityFixture, qualityMeta) }),
     ],
     "2026-07-18T00:00:00Z",
   );
@@ -463,6 +475,43 @@ test("uses the detected SPDX license and marks a missing license file", async ()
       licenseFile: false,
       licenseUrl: null,
     });
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("resolves a GitHub ref before downloading and hashing source JSON", async () => {
+  const originalFetch = globalThis.fetch;
+  const sha = "a".repeat(40);
+  const calls = [];
+  try {
+    globalThis.fetch = async (url) => {
+      calls.push(String(url));
+      if (String(url).includes("api.github.com")) {
+        return new Response(
+          JSON.stringify({
+            sha,
+            commit: {
+              committer: { date: "2026-07-20T00:00:00Z" },
+              verification: { verified: true, reason: "valid" },
+            },
+          }),
+          { status: 200, headers: { "Content-Type": "application/json" } },
+        );
+      }
+      return new Response('{"models":[]}', { status: 200, headers: { "Content-Type": "application/json" } });
+    };
+
+    const result = await fetchGitHubJsonSource({
+      id: "fixture",
+      github: { repository: "example/repo", ref: "main", path: "data/models.json" },
+    });
+    assert.deepEqual(result.data, { models: [] });
+    assert.equal(result.provenance.revision, sha);
+    assert.equal(result.provenance.commitVerified, true);
+    assert.match(result.provenance.contentSha256, /^[0-9a-f]{64}$/);
+    assert.equal(calls[0], "https://api.github.com/repos/example/repo/commits/main");
+    assert.equal(calls[1], `https://raw.githubusercontent.com/example/repo/${sha}/data/models.json`);
   } finally {
     globalThis.fetch = originalFetch;
   }

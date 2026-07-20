@@ -7,6 +7,11 @@ export const SOURCE_CONFIG = {
     role: "usd-baseline",
     url: "https://raw.githubusercontent.com/BerriAI/litellm/litellm_internal_staging/model_prices_and_context_window.json",
     repository: "https://github.com/BerriAI/litellm",
+    github: {
+      repository: "BerriAI/litellm",
+      ref: "litellm_internal_staging",
+      path: "model_prices_and_context_window.json",
+    },
     license: "NOASSERTION",
   },
   aidy: {
@@ -15,6 +20,7 @@ export const SOURCE_CONFIG = {
     role: "cny-primary",
     url: "https://raw.githubusercontent.com/ImSingee/aidy-models/master/models.json",
     repository: "https://github.com/ImSingee/aidy-models",
+    github: { repository: "ImSingee/aidy-models", ref: "master", path: "models.json" },
     license: "MIT",
   },
   priceHub: {
@@ -23,6 +29,7 @@ export const SOURCE_CONFIG = {
     role: "channel-validation",
     url: "https://raw.githubusercontent.com/Microllin/model-price-hub/main/data/latest.json",
     repository: "https://github.com/Microllin/model-price-hub",
+    github: { repository: "Microllin/model-price-hub", ref: "main", path: "data/latest.json" },
     license: "NOASSERTION",
   },
   aiPricing: {
@@ -30,8 +37,8 @@ export const SOURCE_CONFIG = {
     name: "ai-pricing",
     role: "quality-evidence",
     url: "https://raw.githubusercontent.com/nuxdie/ai-pricing/main/src/data/llm-data.json",
-    revisionUrl: "https://api.github.com/repos/nuxdie/ai-pricing/commits?path=src/data/llm-data.json&per_page=1",
     repository: "https://github.com/nuxdie/ai-pricing",
+    github: { repository: "nuxdie/ai-pricing", ref: "main", path: "src/data/llm-data.json" },
     license: "MIT",
   },
 };

@@ -5,9 +5,17 @@ export function validateDatabase(database) {
   if (database?.schemaVersion !== 1) errors.push("schemaVersion must be 1");
   if (!Array.isArray(database?.providers)) errors.push("providers must be an array");
   if (!Array.isArray(database?.models)) errors.push("models must be an array");
+  if (!Array.isArray(database?.sources)) errors.push("sources must be an array");
   if (!Array.isArray(database?.modelAliases)) errors.push("modelAliases must be an array");
   if (!Array.isArray(database?.modelAliasCandidates)) errors.push("modelAliasCandidates must be an array");
   if (errors.length > 0) return errors;
+
+  for (const source of database.sources) {
+    if (!/^[0-9a-f]{40}$/i.test(source.revision || "")) errors.push(`invalid source revision: ${source.id}`);
+    if (!/^[0-9a-f]{64}$/i.test(source.contentSha256 || "")) errors.push(`invalid source content hash: ${source.id}`);
+    if (typeof source.commitVerified !== "boolean") errors.push(`missing commit verification status: ${source.id}`);
+    if (!source.commitVerificationReason) errors.push(`missing commit verification reason: ${source.id}`);
+  }
 
   const aliasIds = new Set();
   for (const alias of database.modelAliases) {

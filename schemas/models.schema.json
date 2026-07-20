@@ -34,7 +34,7 @@
     },
     "source": {
       "type": "object",
-      "required": ["id", "name", "role", "url", "repository", "license", "recordCount"],
+      "required": ["id", "name", "role", "url", "repository", "license", "recordCount", "revision", "revisionUrl", "contentSha256", "commitVerified", "commitVerificationReason"],
       "properties": {
         "id": { "type": "string" },
         "name": { "type": "string" },
@@ -49,6 +49,10 @@
         "recordCount": { "type": "integer", "minimum": 0 },
         "observedAt": { "type": ["string", "null"] },
         "revision": { "type": "string" },
+        "revisionUrl": { "type": "string" },
+        "contentSha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "commitVerified": { "type": "boolean" },
+        "commitVerificationReason": { "type": "string" },
         "unmappedCount": { "type": "integer", "minimum": 0 },
         "unmappedModels": { "type": "array", "items": { "type": "string" } }
       }
