@@ -13,7 +13,7 @@
   },
   "transition_history": [],
   "milestone_history": [],
-  "last_updated": "2026-07-20T18:45:29+08:00",
+  "last_updated": "2026-07-20T19:20:35+08:00",
   "sessions": [
     {
       "session_id": "20260718-grill-model-prototype",
@@ -254,7 +254,31 @@
       "depends_on": [],
       "roadmap_artifact_id": null,
       "seed_ref": null
+    },
+    {
+      "session_id": "20260720-companion-submit-local-pr",
+      "intent": "将当前剩余修改通过 PR 提交",
+      "status": "running",
+      "depends_on": [],
+      "roadmap_artifact_id": null,
+      "seed_ref": null
+    },
+    {
+      "session_id": "20260720-companion-provider-priced-filter",
+      "intent": "供应商模型弹框增加只看有报价筛选",
+      "status": "running",
+      "depends_on": [],
+      "roadmap_artifact_id": null,
+      "seed_ref": null
+    },
+    {
+      "session_id": "20260720-companion-worktree-cleanup",
+      "intent": "整理剩余文件并提交",
+      "status": "running",
+      "depends_on": [],
+      "roadmap_artifact_id": null,
+      "seed_ref": null
     }
   ],
-  "active_session_id": "20260720-companion-fix-pr7-lock"
+  "active_session_id": "20260720-companion-worktree-cleanup"
 }
