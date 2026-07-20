@@ -8,7 +8,7 @@ import { resolveCanonicalModelId } from "@/lib/model-aliases";
 describe("catalog view model", () => {
   it("groups channel records by canonicalId without mutating source data", () => {
     expect(canonicalModels.length).toBe(new Set(catalog.models.map((model) => resolveCanonicalModelId(model.canonicalId))).size);
-    expect(catalog.models.length).toBe(10_007);
+    expect(canonicalModels.reduce((count, model) => count + model.channels.length, 0)).toBe(catalog.models.length);
     expect(modelByCanonicalId.get("moonshotai/kimi-k2.6")?.channels.length).toBe(26);
   });
 

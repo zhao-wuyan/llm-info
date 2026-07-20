@@ -33,6 +33,9 @@ jobs:
       - name: Run tests
         run: npm test
 
+      - name: Save current model data
+        run: cp data/models.json "$RUNNER_TEMP/models-before.json"
+
       - name: Generate model data
         run: npm run generate
         env:
@@ -41,22 +44,32 @@ jobs:
       - name: Validate generated data
         run: npm run validate
 
+      - name: Build change summary
+        id: changes
+        run: |
+          node scripts/report-model-changes.js \
+            --before "$RUNNER_TEMP/models-before.json" \
+            --after data/models.json \
+            --output "$RUNNER_TEMP/model-update-summary.md" \
+            --github-output "$GITHUB_OUTPUT"
+
       - name: Add run summary
         run: |
-          node --input-type=module -e "import { readFile } from 'node:fs/promises'; const data = JSON.parse(await readFile('data/models.json', 'utf8')); console.log('## 模型数据统计\n\n~~~json\n' + JSON.stringify(data.stats, null, 2) + '\n~~~')" >> "$GITHUB_STEP_SUMMARY"
+          cat "$RUNNER_TEMP/model-update-summary.md" >> "$GITHUB_STEP_SUMMARY"
           node scripts/report-model-aliases.js --markdown >> "$GITHUB_STEP_SUMMARY"
 
       - name: Create update pull request
+        id: cpr
         uses: peter-evans/create-pull-request@v7
         with:
           branch: automation/update-model-data
           delete-branch: true
           commit-message: "chore: 更新模型与 Quality 数据"
           title: "chore: 更新模型与 Quality 数据"
-          body: |
-            自动汇总 LiteLLM、aidy-models、model-price-hub 和 ai-pricing 的最新模型、价格、Quality 数据及模型 alias 候选。
+          body-path: ${{ runner.temp }}/model-update-summary.md
 
-            已执行：
-            - `npm test`
-            - `npm run generate`
-            - `npm run validate`
+      - name: Auto-merge validated update
+        if: steps.cpr.outputs.pull-request-number != '' && steps.changes.outputs.bulk_change != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh pr merge "${{ steps.cpr.outputs.pull-request-number }}" --squash --delete-branch

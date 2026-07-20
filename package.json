@@ -9,6 +9,7 @@
     "start": "next start",
     "generate": "node scripts/generate-models.js",
     "aliases": "node scripts/report-model-aliases.js",
+    "changes": "node scripts/report-model-changes.js",
     "test": "node --test test/*.test.js && vitest run",
     "test:data": "node --test test/*.test.js",
     "test:ui": "vitest run",
