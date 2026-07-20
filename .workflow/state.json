@@ -13,7 +13,7 @@
   },
   "transition_history": [],
   "milestone_history": [],
-  "last_updated": "2026-07-20T19:20:35+08:00",
+  "last_updated": "2026-07-20T19:41:08+08:00",
   "sessions": [
     {
       "session_id": "20260718-grill-model-prototype",
@@ -278,7 +278,15 @@
       "depends_on": [],
       "roadmap_artifact_id": null,
       "seed_ref": null
+    },
+    {
+      "session_id": "20260720-companion-dependabot-ci",
+      "intent": "收紧 Dependabot 策略并增加 CI 构建",
+      "status": "running",
+      "depends_on": [],
+      "roadmap_artifact_id": null,
+      "seed_ref": null
     }
   ],
-  "active_session_id": "20260720-companion-worktree-cleanup"
+  "active_session_id": "20260720-companion-dependabot-ci"
 }
