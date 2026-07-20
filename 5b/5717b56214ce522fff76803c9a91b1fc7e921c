@@ -1,0 +1,21 @@
+tsconfig.json
+  s_f927827a308c6e::t_fb467c9e0d946b 18
+next-env.d.ts
+  s_f927827a308c6e::t_83052d20d0336d 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "5b5717b56214ce522fff76803c9a91b1fc7e921c",
+  "prompts": {},
+  "sessions": {
+    "s_f927827a308c6e": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f7f33-d569-7db0-8696-bc02e47464b4",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "zhao-wuyan <zhao-wuyan@exampl.com>"
+    }
+  }
+}
