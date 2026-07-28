@@ -3,7 +3,7 @@ import { AppShell } from "@/components/app-shell";
 import { AutoSubmitForm } from "@/components/auto-submit-form";
 import { EmptyState, EntityText, PageHeader, SearchField, SortableHeader } from "@/components/ui";
 import { canonicalModels, catalog } from "@/lib/catalog";
-import { compactNumber, formatPrice, isExplicitlyFree, priceRate } from "@/lib/format";
+import { compactNumber, formatPrice, formatReleaseDate, isExplicitlyFree, priceRate, releaseDateValue } from "@/lib/format";
 import { abilityMsg, msg } from "@/lib/i18n";
 import { modelHref } from "@/lib/links";
 import { getCurrency, getLocale } from "@/lib/server-i18n";
@@ -13,11 +13,11 @@ import type { Currency } from "@/lib/types";
 type Params = Promise<Record<string, string | string[] | undefined>>;
 type PriceMetric = "textInput" | "textOutput" | "textInput_cacheRead" | "textInput_cacheWrite";
 type MetricTone = "quality" | "input" | "output" | "cache-read" | "cache-write" | "context";
-type CompareSortKey = "name" | "quality" | "input" | "output" | "cacheRead" | "cacheWrite" | "context";
+type CompareSortKey = "name" | "released" | "quality" | "input" | "output" | "cacheRead" | "cacheWrite" | "context";
 
 const one = (value: string | string[] | undefined) => Array.isArray(value) ? value[0] ?? "" : value ?? "";
 const priceMetrics: PriceMetric[] = ["textInput", "textOutput", "textInput_cacheRead", "textInput_cacheWrite"];
-const priceSortMetrics: Record<Exclude<CompareSortKey, "name" | "quality" | "context">, PriceMetric> = {
+const priceSortMetrics: Record<Exclude<CompareSortKey, "name" | "released" | "quality" | "context">, PriceMetric> = {
   input: "textInput", output: "textOutput", cacheRead: "textInput_cacheRead", cacheWrite: "textInput_cacheWrite",
 };
 const priceMetricTones: Record<PriceMetric, MetricTone> = {
@@ -48,7 +48,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Para
   const q = one(params.q).toLowerCase();
   const owner = one(params.owner);
   const rawSort = one(params.sort);
-  const sortKeys: CompareSortKey[] = ["name", "quality", "input", "output", "cacheRead", "cacheWrite", "context"];
+  const sortKeys: CompareSortKey[] = ["name", "released", "quality", "input", "output", "cacheRead", "cacheWrite", "context"];
   const sortDisabled = rawSort === "none";
   const sort = sortDisabled ? null : sortKeys.includes(rawSort as CompareSortKey) ? rawSort as CompareSortKey : "quality";
   const rawOrder = one(params.order);
@@ -59,6 +59,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Para
   const filtered = quality.filter((model) => (!q || `${model.name} ${model.canonicalId}`.toLowerCase().includes(q)) && (!owner || model.ownerId === owner) && (!ability || model.abilities[ability]));
   const rows = sort && order ? stableSort(filtered, (left, right) => {
     if (sort === "name") return compareNullable(left.name, right.name, order);
+    if (sort === "released") return compareNullable(releaseDateValue(left.releasedAt), releaseDateValue(right.releasedAt), order) || left.name.localeCompare(right.name);
     if (sort === "quality") return compareNullable(left.quality?.aaIndex, right.quality?.aaIndex, order) || left.name.localeCompare(right.name);
     if (sort === "context") return compareNullable(left.contextWindow, right.contextWindow, order) || left.name.localeCompare(right.name);
     const metric = priceSortMetrics[sort];
@@ -79,7 +80,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Para
     textInput_cacheRead: msg(locale, "cacheReadPrice"),
     textInput_cacheWrite: msg(locale, "cacheCreationPrice"),
   };
-  const sortKeyForMetric: Record<PriceMetric, Exclude<CompareSortKey, "name" | "quality" | "context">> = {
+  const sortKeyForMetric: Record<PriceMetric, Exclude<CompareSortKey, "name" | "released" | "quality" | "context">> = {
     textInput: "input", textOutput: "output", textInput_cacheRead: "cacheRead", textInput_cacheWrite: "cacheWrite",
   };
   const baseQuery = (includeSort = true) => {
@@ -117,6 +118,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Para
       {rows.length ? <table className="data-table compare-table">
         <thead><tr>
           <SortableHeader label={msg(locale, "model")} direction={directionFor("name")} href={sortLinkFor("name")} locale={locale} />
+          <SortableHeader label={msg(locale, "releasedAt")} direction={directionFor("released")} href={sortLinkFor("released")} locale={locale} />
           <SortableHeader label="AAIndex" direction={directionFor("quality")} href={sortLinkFor("quality")} locale={locale} />
           {priceMetrics.map((metric) => <SortableHeader key={metric} label={priceLabels[metric]} subtitle={currency} direction={directionFor(sortKeyForMetric[metric])} href={sortLinkFor(sortKeyForMetric[metric])} locale={locale} />)}
           <SortableHeader label={msg(locale, "context")} direction={directionFor("context")} href={sortLinkFor("context")} locale={locale} />
@@ -126,6 +128,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Para
           const price = model.displayPrices[currency];
           return <tr key={model.canonicalId}>
             <td className="entity-cell"><Link className="entity-name" href={modelHref(model.canonicalId)}><EntityText name={model.name} id={model.canonicalId} /></Link></td>
+            <td className="mono release-date-cell">{formatReleaseDate(model.releasedAt)}</td>
             <td className="comparison-cell"><MetricBar label="AAIndex" value={model.quality?.aaIndex} max={maxima.quality} display={String(model.quality?.aaIndex ?? "-")} tone="quality" /></td>
             {priceMetrics.map((metric) => {
               const value = priceRate(price, metric);

@@ -1,8 +1,8 @@
-import { priceRate } from "@/lib/format";
+import { priceRate, releaseDateValue } from "@/lib/format";
 import { compareNullable, stableSort, type SortOrder } from "@/lib/table-sort";
 import type { CanonicalModel, Currency } from "@/lib/types";
 
-export const modelSortKeys = ["name", "context", "providers", "input", "output", "cacheRead", "cacheWrite"] as const;
+export const modelSortKeys = ["name", "released", "context", "providers", "input", "output", "cacheRead", "cacheWrite"] as const;
 
 export type ModelSortKey = typeof modelSortKeys[number];
 export type ModelSortOrder = SortOrder;
@@ -22,10 +22,11 @@ export function parseModelSortKey(value: string): ModelSortKey | null {
 export function parseModelSortOrder(value: string, rawSort: string): ModelSortOrder | null {
   if (value === "asc" || value === "desc") return value;
   if (!rawSort) return null;
-  return rawSort === "context" || rawSort === "providers" ? "desc" : "asc";
+  return rawSort === "released" || rawSort === "context" || rawSort === "providers" ? "desc" : "asc";
 }
 
 function numericValue(model: CanonicalModel, key: Exclude<ModelSortKey, "name">, currency: Currency) {
+  if (key === "released") return releaseDateValue(model.releasedAt);
   if (key === "context") return model.contextWindow ?? null;
   if (key === "providers") return model.providerCount;
   return priceRate(model.displayPrices[currency], priceRateKeys[key]);

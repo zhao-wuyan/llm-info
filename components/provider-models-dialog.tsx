@@ -3,7 +3,7 @@
 import { ChevronLeft, ChevronRight, Search, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useMemo, useRef, useState } from "react";
-import { compactNumber, priceRate } from "@/lib/format";
+import { compactNumber, formatReleaseDate, priceRate, releaseDateValue } from "@/lib/format";
 import { abilityMsg, msg, type Locale } from "@/lib/i18n";
 import { modelHref } from "@/lib/links";
 import { compareNullable, nextSortState, stableSort, type SortOrder } from "@/lib/table-sort";
@@ -11,7 +11,7 @@ import type { Currency, Model } from "@/lib/types";
 import { EntityText, PriceValue, SortableButtonHeader } from "./ui";
 
 const PAGE_SIZE = 10;
-type DialogSortKey = "name" | "context" | "input" | "output" | "cacheRead" | "cacheWrite";
+type DialogSortKey = "name" | "released" | "context" | "input" | "output" | "cacheRead" | "cacheWrite";
 const priceMetric = { input: "textInput", output: "textOutput", cacheRead: "textInput_cacheRead", cacheWrite: "textInput_cacheWrite" } as const;
 
 interface ProviderModelsDialogProps {
@@ -44,6 +44,7 @@ export function ProviderModelsDialog({ locale, currency, providerName, providerI
     if (!sort || !order) return matching;
     return stableSort(matching, (left, right) => {
       if (sort === "name") return compareNullable(left.name, right.name, order);
+      if (sort === "released") return compareNullable(releaseDateValue(left.releasedAt), releaseDateValue(right.releasedAt), order) || left.name.localeCompare(right.name);
       if (sort === "context") return compareNullable(left.contextWindow, right.contextWindow, order) || left.name.localeCompare(right.name);
       return compareNullable(priceRate(left.displayPrices[currency], priceMetric[sort]), priceRate(right.displayPrices[currency], priceMetric[sort]), order) || left.name.localeCompare(right.name);
     });
@@ -86,7 +87,9 @@ export function ProviderModelsDialog({ locale, currency, providerName, providerI
         <div className="modal-content">
           <table className="data-table provider-model-table">
             <thead><tr>
-              <SortableButtonHeader label={msg(locale, "model")} direction={directionFor("name")} onSort={() => toggleSort("name")} locale={locale} /><SortableButtonHeader label={msg(locale, "context")} direction={directionFor("context")} onSort={() => toggleSort("context")} locale={locale} />
+              <SortableButtonHeader label={msg(locale, "model")} direction={directionFor("name")} onSort={() => toggleSort("name")} locale={locale} />
+              <SortableButtonHeader label={msg(locale, "releasedAt")} direction={directionFor("released")} onSort={() => toggleSort("released")} locale={locale} />
+              <SortableButtonHeader label={msg(locale, "context")} direction={directionFor("context")} onSort={() => toggleSort("context")} locale={locale} />
               <SortableButtonHeader label={msg(locale, "inputPrice")} subtitle={currency} direction={directionFor("input")} onSort={() => toggleSort("input")} locale={locale} /><SortableButtonHeader label={msg(locale, "outputPrice")} subtitle={currency} direction={directionFor("output")} onSort={() => toggleSort("output")} locale={locale} />
               <SortableButtonHeader label={msg(locale, "cacheReadPrice")} subtitle={currency} direction={directionFor("cacheRead")} onSort={() => toggleSort("cacheRead")} locale={locale} /><SortableButtonHeader label={msg(locale, "cacheCreationPrice")} subtitle={currency} direction={directionFor("cacheWrite")} onSort={() => toggleSort("cacheWrite")} locale={locale} />
               <th>{msg(locale, "ability")}</th>
@@ -94,6 +97,7 @@ export function ProviderModelsDialog({ locale, currency, providerName, providerI
             </tr></thead>
             <tbody>{rows.map((model) => <tr key={model.id} role="link" tabIndex={0} onClick={() => router.push(modelHref(model.canonicalId))} onKeyDown={(event) => { if (event.key === "Enter") router.push(modelHref(model.canonicalId)); }}>
               <td className="entity-cell"><span className="entity-name"><EntityText name={model.name} id={model.modelId} /></span></td>
+              <td className="mono release-date-cell">{formatReleaseDate(model.releasedAt)}</td>
               <td className="mono">{compactNumber(model.contextWindow)}</td>
               <td><PriceValue price={model.displayPrices[currency]} rate="textInput" currency={currency} locale={locale} /></td>
               <td><PriceValue price={model.displayPrices[currency]} rate="textOutput" currency={currency} locale={locale} /></td>

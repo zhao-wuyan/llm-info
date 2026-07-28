@@ -125,7 +125,7 @@ Design System: LLM Info. Color strategy: 中性底加青绿强调色。Typograph
 
 </spec-entry>
 
-<spec-entry category="ui" keywords="models,table,sorting,pagination,url,three-state" date="2026-07-19" sid="S-20260719-e5d9" title="模型列表表头全量三态排序" description="模型列表对完整筛选结果集执行表头三态排序" source="session-run:20260719-maestro-impeccable-global-sort/20260719-001-maestro-impeccable">
+<spec-entry category="ui" keywords="models,table,sorting,pagination,url,three-state" date="2026-07-19" sid="S-20260719-e5d9" title="模型列表表头全量三态排序" description="模型列表对完整筛选结果集执行表头三态排序" source="session-run:20260719-maestro-impeccable-global-sort/20260719-001-maestro-impeccable" status="deprecated" superseded-by="S-20260728-jpeg">
 
 ### 模型列表表头全量三态排序
 
@@ -194,5 +194,13 @@ Design System: LLM Info. Color strategy: 中性底加青绿强调色。Typograph
 ### 全局项目 GitHub 入口
 
 应用 MUST 在桌面侧栏底部提供本项目 GitHub 外链，并在移动端导航抽屉复用同一入口；链接 MUST 显示 GitHub 文案和平台图标，提供本地化可访问名称，并使用 target=_blank 与 rel=noreferrer 安全打开新窗口。该入口 MUST 作为次级项目链接，不得挤占主导航或顶部高频工具。
+
+</spec-entry>
+
+<spec-entry category="ui" keywords="模型列表,发布时间,三态排序" date="2026-07-28" sid="S-20260728-jpeg" title="模型列表表头全量三态排序（含发布时间）" description="模型列表发布时间与数值列使用相同的全量三态排序契约" source="dev@b63a4eb" supersedes="S-20260719-e5d9">
+
+### 模型列表表头全量三态排序（含发布时间）
+
+模型列表的模型名称、发布时间、上下文、供应商数、输入价、输出价、缓存读取价、缓存创建价表头 MUST 可点击排序，并按正序、倒序、不排序三态循环。排序 MUST 在筛选后的完整结果集上执行且先于分页；日期非法或缺失项以及数值缺失项在正序和倒序中 MUST 始终置底。排序状态 MUST 使用 URL sort/order 参数，分页和筛选 MUST 保留当前有效排序，切换排序 MUST 回到第 1 页。
 
 </spec-entry>

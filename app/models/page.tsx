@@ -5,7 +5,7 @@ import { AutoSubmitForm } from "@/components/auto-submit-form";
 import { TableRowLink } from "@/components/table-row-link";
 import { EmptyState, EntityText, MetricStrip, PageHeader, Pagination, PriceValue, SearchField, SortableHeader } from "@/components/ui";
 import { canonicalModels, catalog, modelMatches } from "@/lib/catalog";
-import { compactNumber } from "@/lib/format";
+import { compactNumber, formatReleaseDate } from "@/lib/format";
 import { abilityMsg, msg } from "@/lib/i18n";
 import { modelHref } from "@/lib/links";
 import { parseModelSortKey, parseModelSortOrder, sortCanonicalModels, type ModelSortKey } from "@/lib/model-sort";
@@ -95,6 +95,7 @@ export default async function ModelsPage({ searchParams }: { searchParams: Param
           <table className="data-table model-price-table">
             <thead><tr>
               <SortableHeader label={msg(locale, "model")} direction={directionFor("name")} href={sortLinkFor("name")} locale={locale} />
+              <SortableHeader label={msg(locale, "releasedAt")} direction={directionFor("released")} href={sortLinkFor("released")} locale={locale} />
               <SortableHeader label={msg(locale, "context")} direction={directionFor("context")} href={sortLinkFor("context")} locale={locale} />
               <SortableHeader label={msg(locale, "channels")} direction={directionFor("providers")} href={sortLinkFor("providers")} locale={locale} />
               <SortableHeader label={msg(locale, "inputPrice")} subtitle={priceCurrency} direction={directionFor("input")} href={sortLinkFor("input")} locale={locale} />
@@ -109,6 +110,7 @@ export default async function ModelsPage({ searchParams }: { searchParams: Param
               return (
                 <TableRowLink key={model.canonicalId} href={modelHref(model.canonicalId)} label={`${msg(locale, "details")}: ${model.name}`}>
                   <td className="entity-cell"><Link className="entity-name" href={modelHref(model.canonicalId)}><EntityText name={model.name} id={model.canonicalId} /></Link></td>
+                  <td className="mono release-date-cell">{formatReleaseDate(model.releasedAt)}</td>
                   <td className="mono">{compactNumber(model.contextWindow)}</td>
                   <td className="mono">{model.providerCount}</td>
                   <td><PriceValue price={price} rate="textInput" currency={priceCurrency} locale={locale} /></td>
