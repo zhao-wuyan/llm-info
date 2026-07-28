@@ -1,10 +1,11 @@
 import { describe, expect, test } from "vitest";
 import { canonicalModels } from "@/lib/catalog";
-import { priceRate } from "@/lib/format";
+import { priceRate, releaseDateValue } from "@/lib/format";
 import { sortCanonicalModels, type ModelSortKey } from "@/lib/model-sort";
 import type { CanonicalModel } from "@/lib/types";
 
 const numericValue = (model: CanonicalModel, key: Exclude<ModelSortKey, "name">) => {
+  if (key === "released") return releaseDateValue(model.releasedAt);
   if (key === "context") return model.contextWindow ?? null;
   if (key === "providers") return model.providerCount;
   const rate = key === "input" ? "textInput" : key === "output" ? "textOutput" : key === "cacheRead" ? "textInput_cacheRead" : "textInput_cacheWrite";
@@ -17,7 +18,7 @@ describe("model list sorting", () => {
     expect(sorted.map((model) => model.canonicalId)).toEqual(canonicalModels.map((model) => model.canonicalId));
   });
 
-  test.each(["context", "providers", "input", "output", "cacheRead", "cacheWrite"] as const)("sorts the complete %s dataset in both directions and keeps missing values last", (key) => {
+  test.each(["released", "context", "providers", "input", "output", "cacheRead", "cacheWrite"] as const)("sorts the complete %s dataset in both directions and keeps missing values last", (key) => {
     for (const order of ["asc", "desc"] as const) {
       const sorted = sortCanonicalModels(canonicalModels, key, order, "USD");
       const values = sorted.map((model) => numericValue(model, key));
@@ -26,6 +27,12 @@ describe("model list sorting", () => {
       expect(present).toEqual(expected);
       expect(values.slice(present.length).every((value) => value == null)).toBe(true);
     }
+  });
+
+  test("normalizes supported release date precision and rejects invalid dates", () => {
+    expect(releaseDateValue("2026-01")).toBe(Date.UTC(2026, 0, 1));
+    expect(releaseDateValue("2025-4-16")).toBe(Date.UTC(2025, 3, 16));
+    expect(releaseDateValue("2025-25-11")).toBeNull();
   });
 
   test("sorts before the complete dataset is split into pages", () => {

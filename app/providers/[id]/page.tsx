@@ -5,13 +5,13 @@ import { AppShell } from "@/components/app-shell";
 import { ProviderModelsDialog } from "@/components/provider-models-dialog";
 import { EntityText, PriceValue, SortableHeader } from "@/components/ui";
 import { providerById, providerStats } from "@/lib/catalog";
-import { compactNumber, priceRate } from "@/lib/format";
+import { compactNumber, formatReleaseDate, priceRate, releaseDateValue } from "@/lib/format";
 import { msg } from "@/lib/i18n";
 import { modelHref } from "@/lib/links";
 import { getCurrency, getLocale } from "@/lib/server-i18n";
 import { compareNullable, stableSort, type SortOrder } from "@/lib/table-sort";
 
-type PreviewSortKey = "name" | "context" | "input" | "output" | "cacheRead" | "cacheWrite";
+type PreviewSortKey = "name" | "released" | "context" | "input" | "output" | "cacheRead" | "cacheWrite";
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 const one = (value: string | string[] | undefined) => Array.isArray(value) ? value[0] ?? "" : value ?? "";
 const priceMetric = { input: "textInput", output: "textOutput", cacheRead: "textInput_cacheRead", cacheWrite: "textInput_cacheWrite" } as const;
@@ -23,12 +23,13 @@ export default async function ProviderDetailPage({ params, searchParams }: { par
   const stats = providerStats(provider);
   const initials = provider.name.slice(0, 2).toUpperCase();
   const rawSort = one(queryParams.sort);
-  const sortKeys: PreviewSortKey[] = ["name", "context", "input", "output", "cacheRead", "cacheWrite"];
+  const sortKeys: PreviewSortKey[] = ["name", "released", "context", "input", "output", "cacheRead", "cacheWrite"];
   const sort = sortKeys.includes(rawSort as PreviewSortKey) ? rawSort as PreviewSortKey : null;
   const rawOrder = one(queryParams.order);
   const order: SortOrder | null = sort ? rawOrder === "desc" ? "desc" : "asc" : null;
   const previewModels = sort && order ? stableSort(stats.models, (left, right) => {
     if (sort === "name") return compareNullable(left.name, right.name, order);
+    if (sort === "released") return compareNullable(releaseDateValue(left.releasedAt), releaseDateValue(right.releasedAt), order) || left.name.localeCompare(right.name);
     if (sort === "context") return compareNullable(left.contextWindow, right.contextWindow, order) || left.name.localeCompare(right.name);
     return compareNullable(priceRate(left.displayPrices[currency], priceMetric[sort]), priceRate(right.displayPrices[currency], priceMetric[sort]), order) || left.name.localeCompare(right.name);
   }) : stats.models;
@@ -66,6 +67,7 @@ export default async function ProviderDetailPage({ params, searchParams }: { par
             <table className="data-table provider-preview-price-table">
               <thead><tr>
                 <SortableHeader label={msg(locale, "model")} direction={directionFor("name")} href={sortLinkFor("name")} locale={locale} />
+                <SortableHeader label={msg(locale, "releasedAt")} direction={directionFor("released")} href={sortLinkFor("released")} locale={locale} />
                 <SortableHeader label={msg(locale, "context")} direction={directionFor("context")} href={sortLinkFor("context")} locale={locale} />
                 <SortableHeader label={msg(locale, "inputPrice")} subtitle={currency} direction={directionFor("input")} href={sortLinkFor("input")} locale={locale} />
                 <SortableHeader label={msg(locale, "outputPrice")} subtitle={currency} direction={directionFor("output")} href={sortLinkFor("output")} locale={locale} />
@@ -74,6 +76,7 @@ export default async function ProviderDetailPage({ params, searchParams }: { par
               </tr></thead>
               <tbody>{previewModels.slice(0, 8).map((model) => <tr key={model.id}>
                 <td><Link className="entity-name" href={modelHref(model.canonicalId)}><EntityText name={model.name} id={model.modelId} /></Link></td>
+                <td className="mono release-date-cell">{formatReleaseDate(model.releasedAt)}</td>
                 <td className="mono">{compactNumber(model.contextWindow)}</td>
                 <td><PriceValue price={model.displayPrices[currency]} rate="textInput" currency={currency} locale={locale} /></td>
                 <td><PriceValue price={model.displayPrices[currency]} rate="textOutput" currency={currency} locale={locale} /></td>

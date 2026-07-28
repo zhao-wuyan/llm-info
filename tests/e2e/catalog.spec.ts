@@ -52,7 +52,7 @@ test("provider catalog opens the all-models dialog", async ({ page }, testInfo) 
   await page.goto("/providers/nano-gpt");
   await page.waitForLoadState("networkidle");
   await expect(page.getByRole("heading", { name: "NanoGPT" })).toBeVisible();
-  await expect(page.locator(".provider-preview-price-table .sortable-header")).toHaveCount(6);
+  await expect(page.locator(".provider-preview-price-table .sortable-header")).toHaveCount(7);
   await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth === document.documentElement.clientWidth)).toBe(true);
   await page.getByRole("button", { name: "价格体系: CNY" }).click();
   await expect(page.getByRole("button", { name: "价格体系: CNY" })).toHaveAttribute("aria-pressed", "true");
@@ -61,6 +61,9 @@ test("provider catalog opens the all-models dialog", async ({ page }, testInfo) 
   await expect(page.getByRole("columnheader", { name: "缓存读 CNY" })).toBeVisible();
   await expect(page.getByRole("columnheader", { name: "缓存写 CNY" })).toBeVisible();
   await expect(page.locator(".detail-main .missing").first()).toHaveText("-");
+  await page.getByRole("link", { name: "排序 发布时间: 正序" }).click();
+  await expect.poll(() => new URL(page.url()).searchParams.get("sort")).toBe("released");
+  await expect(page.getByRole("columnheader", { name: /排序 发布时间/ })).toHaveAttribute("aria-sort", "ascending");
   await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth === document.documentElement.clientWidth)).toBe(true);
   if (testInfo.project.name === "mobile") {
     await expect.poll(() => page.locator(".detail-main .table-frame").evaluate((element) => element.scrollWidth > element.clientWidth)).toBe(true);
@@ -74,12 +77,14 @@ test("provider catalog opens the all-models dialog", async ({ page }, testInfo) 
   await expect(dialog.getByRole("columnheader", { name: "输出 CNY" })).toBeVisible();
   await expect(dialog.getByRole("columnheader", { name: "缓存读 CNY" })).toBeVisible();
   await expect(dialog.getByRole("columnheader", { name: "缓存写 CNY" })).toBeVisible();
-  await expect(dialog.locator("thead th").nth(6)).toHaveText("能力");
-  await expect(dialog.locator("thead th").nth(7)).toHaveAttribute("aria-label", "详情");
+  await expect(dialog.locator("thead th").nth(7)).toHaveText("能力");
+  await expect(dialog.locator("thead th").nth(8)).toHaveAttribute("aria-label", "详情");
   await expect(dialog.locator(".missing").first()).toHaveText("-");
-  await expect(dialog.locator("button.sortable-header")).toHaveCount(6);
+  await expect(dialog.locator("button.sortable-header")).toHaveCount(7);
   await dialog.getByRole("button", { name: "排序 模型: 正序" }).click();
   await expect(dialog.getByRole("columnheader", { name: /排序 模型/ })).toHaveAttribute("aria-sort", "ascending");
+  await dialog.getByRole("button", { name: "排序 发布时间: 正序" }).click();
+  await expect(dialog.getByRole("columnheader", { name: /排序 发布时间/ })).toHaveAttribute("aria-sort", "ascending");
   await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth === document.documentElement.clientWidth)).toBe(true);
   if (testInfo.project.name === "mobile") {
     await expect.poll(() => dialog.locator(".modal-content").evaluate((element) => element.scrollWidth > element.clientWidth)).toBe(true);
@@ -124,16 +129,19 @@ test("source and quality pages use live catalog data", async ({ page }, testInfo
   await page.goto("/compare"); await page.waitForLoadState("networkidle");
   await expect(page.getByRole("heading", { name: "模型对比" })).toBeVisible();
   await expect(page.getByText("22 / 22 已映射模型").first()).toBeVisible();
-  await expect(page.locator(".compare-table .sortable-header")).toHaveCount(7);
+  await expect(page.locator(".compare-table .sortable-header")).toHaveCount(8);
   const qualityHeader = page.getByRole("columnheader", { name: "排序 AAIndex: 不排序" });
   await expect(qualityHeader).toHaveAttribute("aria-sort", "descending");
   await expect(qualityHeader.getByRole("link")).toHaveAttribute("href", /sort=none/);
-  const qualityValues = (await page.locator(".compare-table tbody tr td:nth-child(2) .comparison-bar-value strong").allTextContents()).map(Number);
+  const qualityValues = (await page.locator(".compare-table tbody tr td:nth-child(3) .comparison-bar-value strong").allTextContents()).map(Number);
   expect(qualityValues).toEqual([...qualityValues].sort((left, right) => right - left));
   await expect(page.getByRole("columnheader", { name: "输入 USD" })).toBeVisible();
   await expect(page.getByRole("columnheader", { name: "输出 USD" })).toBeVisible();
   await expect(page.getByRole("columnheader", { name: "缓存读 USD" })).toBeVisible();
   await expect(page.getByRole("columnheader", { name: "缓存写 USD" })).toBeVisible();
+  await page.getByRole("link", { name: "排序 发布时间: 正序" }).click();
+  await expect.poll(() => new URL(page.url()).searchParams.get("sort")).toBe("released");
+  await expect(page.getByRole("columnheader", { name: /排序 发布时间/ })).toHaveAttribute("aria-sort", "ascending");
   const firstComparisonRow = page.locator(".compare-table tbody tr").first();
   await expect(firstComparisonRow.locator(".comparison-bar")).toHaveCount(6);
   const barTones = await firstComparisonRow.locator(".comparison-bar").evaluateAll((elements) => elements.map((element) => element.getAttribute("data-tone")));
@@ -278,9 +286,9 @@ test("model table headers cycle sorting across the complete filtered dataset", a
   await page.waitForLoadState("networkidle");
   const table = page.locator(".model-price-table");
   const modelHeader = table.locator("thead th").first();
-  await expect(table.locator("thead .sortable-header")).toHaveCount(7);
-  await expect(table.locator("thead th").nth(7)).toHaveText("能力");
-  await expect(table.locator("thead th").nth(8)).toHaveText("");
+  await expect(table.locator("thead .sortable-header")).toHaveCount(8);
+  await expect(table.locator("thead th").nth(8)).toHaveText("能力");
+  await expect(table.locator("thead th").nth(9)).toHaveText("");
   await expect(page.locator('select[name="sort"]')).toHaveCount(0);
   await expect(table).toHaveCSS("table-layout", "fixed");
   const widthsBeforeSort = await table.locator("thead th").evaluateAll((headers) => headers.map((header) => header.getBoundingClientRect().width));
@@ -300,15 +308,26 @@ test("model table headers cycle sorting across the complete filtered dataset", a
   await expect.poll(() => new URL(page.url()).search).toBe("");
   await expect(modelHeader).toHaveAttribute("aria-sort", "none");
 
+  await table.getByRole("link", { name: "排序 发布时间: 正序" }).click();
+  await expect.poll(() => new URL(page.url()).searchParams.get("sort")).toBe("released");
+  await expect(table.getByRole("columnheader", { name: /排序 发布时间/ })).toHaveAttribute("aria-sort", "ascending");
+  const releasedValues = (await table.locator("tbody tr td:nth-child(2)").allTextContents()).filter((value) => value !== "-").map((value) => {
+    const [year, month, day = "1"] = value.split("-");
+    return Date.UTC(Number(year), Number(month) - 1, Number(day));
+  });
+  expect(releasedValues).toEqual([...releasedValues].sort((left, right) => left - right));
+
   await table.getByRole("link", { name: "排序 供应商数: 正序" }).click();
-  const firstPageCounts = (await table.locator("tbody tr td:nth-child(3)").allTextContents()).map(Number);
+  await expect.poll(() => new URL(page.url()).searchParams.get("sort")).toBe("providers");
+  await expect.poll(() => new URL(page.url()).searchParams.get("order")).toBe("asc");
+  const firstPageCounts = (await table.locator("tbody tr td:nth-child(4)").allTextContents()).map(Number);
   const pageTwo = page.getByRole("navigation", { name: "Pagination" }).getByRole("link", { name: "2", exact: true });
   await expect(pageTwo).toHaveAttribute("href", /sort=providers/);
   await expect(pageTwo).toHaveAttribute("href", /order=asc/);
   await pageTwo.click();
-  const secondPageCounts = (await table.locator("tbody tr td:nth-child(3)").allTextContents()).map(Number);
-  expect(Math.max(...firstPageCounts)).toBeLessThanOrEqual(Math.min(...secondPageCounts));
   await expect.poll(() => new URL(page.url()).searchParams.get("page")).toBe("2");
+  const secondPageCounts = (await table.locator("tbody tr td:nth-child(4)").allTextContents()).map(Number);
+  expect(Math.max(...firstPageCounts)).toBeLessThanOrEqual(Math.min(...secondPageCounts));
   await page.screenshot({ path: path.join(evidenceRoot, `${testInfo.project.name}-model-global-sort.png`), fullPage: true });
   await table.evaluate((element) => { if (element.parentElement) element.parentElement.scrollLeft = element.parentElement.scrollWidth; });
   await page.screenshot({ path: path.join(evidenceRoot, `${testInfo.project.name}-model-global-sort-end.png`), fullPage: true });
