@@ -7,9 +7,14 @@ import { resolveCanonicalModelId } from "@/lib/model-aliases";
 
 describe("catalog view model", () => {
   it("groups channel records by canonicalId without mutating source data", () => {
+    const expectedChannelIds = catalog.models.map((model) => model.id).sort();
+    const actualChannelIds = canonicalModels.flatMap((model) => model.channels.map((channel) => channel.id)).sort();
+
     expect(canonicalModels.length).toBe(new Set(catalog.models.map((model) => resolveCanonicalModelId(model.canonicalId))).size);
-    expect(canonicalModels.reduce((count, model) => count + model.channels.length, 0)).toBe(catalog.models.length);
-    expect(modelByCanonicalId.get("moonshotai/kimi-k2.6")?.channels.length).toBe(26);
+    expect(actualChannelIds).toEqual(expectedChannelIds);
+    expect(canonicalModels.every((model) =>
+      model.channels.every((channel) => resolveCanonicalModelId(channel.canonicalId) === model.canonicalId)
+    )).toBe(true);
   });
 
   it("preserves native currency absence", () => {
