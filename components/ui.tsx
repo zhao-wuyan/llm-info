@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowUp, ChevronLeft, ChevronRight, ChevronsUpDown, Search } from "lucide-react";
+import { ArrowDown, ArrowUp, ChevronLeft, ChevronRight, ChevronsUpDown, ExternalLink, Search } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import type { CanonicalDisplayPrice, Currency, DisplayPrice } from "@/lib/types";
@@ -33,9 +33,14 @@ function sortAction(locale: Locale, label: string, subtitle: string | undefined,
   return `${msg(locale, "sortBy")} ${label}${subtitle ? ` ${subtitle}` : ""}: ${msg(locale, next)}`;
 }
 
-export function SortableHeader({ label, subtitle, direction, href, locale }: { label: string; subtitle?: string; direction: SortOrder | null; href: string; locale: Locale }) {
+export function SortableHeader({ label, subtitle, direction, href, locale, sourceUrl, sourceLabel }: { label: string; subtitle?: string; direction: SortOrder | null; href: string; locale: Locale; sourceUrl?: string; sourceLabel?: string }) {
   const action = sortAction(locale, label, subtitle, direction);
-  return <th aria-sort={direction === "asc" ? "ascending" : direction === "desc" ? "descending" : "none"}><Link className={`sortable-header${direction ? " active" : ""}`} href={href} aria-label={action} title={action}><SortHeaderContent label={label} subtitle={subtitle} direction={direction} /></Link></th>;
+  return <th aria-sort={direction === "asc" ? "ascending" : direction === "desc" ? "descending" : "none"}>
+    <span className="header-stack">
+      <Link className={`sortable-header${direction ? " active" : ""}`} href={href} aria-label={action} title={action}><SortHeaderContent label={label} subtitle={subtitle} direction={direction} /></Link>
+      {sourceUrl && <a className="header-source" href={sourceUrl} target="_blank" rel="noreferrer" title={`${msg(locale, "viewSource")}: ${sourceLabel ?? sourceUrl}`} aria-label={`${msg(locale, "viewSource")}: ${sourceLabel ?? sourceUrl}`}><ExternalLink size={12} aria-hidden /></a>}
+    </span>
+  </th>;
 }
 
 export function SortableButtonHeader({ label, subtitle, direction, onSort, locale }: { label: string; subtitle?: string; direction: SortOrder | null; onSort: () => void; locale: Locale }) {

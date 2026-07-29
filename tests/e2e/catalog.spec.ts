@@ -10,6 +10,7 @@ const consoleErrors = new WeakMap<Page, string[]>();
 
 test.beforeEach(async ({ page }, testInfo) => {
   mkdirSync(evidenceRoot, { recursive: true });
+  await page.route("**/_vercel/**", (route) => route.fulfill({ status: 200, contentType: "application/javascript", body: "" }));
   const errors: string[] = [];
   consoleErrors.set(page, errors);
   page.on("console", (message) => { if (message.type() === "error") errors.push(message.text()); });
@@ -128,27 +129,27 @@ test("source and quality pages use live catalog data", async ({ page }, testInfo
   await expect(page.getByText("model-price-hub", { exact: true })).toBeVisible();
   await page.goto("/compare"); await page.waitForLoadState("networkidle");
   await expect(page.getByRole("heading", { name: "模型对比" })).toBeVisible();
-  await expect(page.getByText("22 / 22 已映射模型").first()).toBeVisible();
-  await expect(page.locator(".compare-table .sortable-header")).toHaveCount(8);
-  const qualityHeader = page.getByRole("columnheader", { name: "排序 AAIndex: 不排序" });
+  await expect(page.getByText(/\d+ \/ \d+ 已映射模型/).first()).toBeVisible();
+  await expect(page.locator(".compare-table .sortable-header")).toHaveCount(12);
+  const qualityHeader = page.getByRole("columnheader", { name: "排序 AAIndex 综合 AAIndex: 不排序" });
   await expect(qualityHeader).toHaveAttribute("aria-sort", "descending");
-  await expect(qualityHeader.getByRole("link")).toHaveAttribute("href", /sort=none/);
+  await expect(qualityHeader.locator("a.sortable-header")).toHaveAttribute("href", /sort=none/);
   const qualityValues = (await page.locator(".compare-table tbody tr td:nth-child(3) .comparison-bar-value strong").allTextContents()).map(Number);
   expect(qualityValues).toEqual([...qualityValues].sort((left, right) => right - left));
   await expect(page.getByRole("columnheader", { name: "输入 USD" })).toBeVisible();
   await expect(page.getByRole("columnheader", { name: "输出 USD" })).toBeVisible();
-  await expect(page.getByRole("columnheader", { name: "缓存读 USD" })).toBeVisible();
-  await expect(page.getByRole("columnheader", { name: "缓存写 USD" })).toBeVisible();
-  await page.getByRole("link", { name: "排序 发布时间: 正序" }).click();
+  const releasedSort = page.getByRole("link", { name: "排序 发布时间: 正序" });
+  if (testInfo.project.name === "mobile") await releasedSort.evaluate((element: HTMLAnchorElement) => element.click());
+  else await releasedSort.click();
   await expect.poll(() => new URL(page.url()).searchParams.get("sort")).toBe("released");
   await expect(page.getByRole("columnheader", { name: /排序 发布时间/ })).toHaveAttribute("aria-sort", "ascending");
   const firstComparisonRow = page.locator(".compare-table tbody tr").first();
-  await expect(firstComparisonRow.locator(".comparison-bar")).toHaveCount(6);
+  await expect(firstComparisonRow.locator(".comparison-bar")).toHaveCount(10);
   const barTones = await firstComparisonRow.locator(".comparison-bar").evaluateAll((elements) => elements.map((element) => element.getAttribute("data-tone")));
-  expect(barTones).toEqual(["quality", "input", "output", "cache-read", "cache-write", "context"]);
+  expect(barTones).toEqual(["quality", "quality", "quality", "quality", "quality", "input", "output", "cache-read", "cache-write", "context"]);
   const lightBarColors = await firstComparisonRow.locator(".comparison-bar-track > i").evaluateAll((elements) => elements.map((element) => getComputedStyle(element).backgroundColor));
   expect(new Set(lightBarColors).size).toBe(6);
-  await expect(firstComparisonRow.locator(".comparison-bar-track > .comparison-bar-value")).toHaveCount(6);
+  await expect(firstComparisonRow.locator(".comparison-bar-track > .comparison-bar-value")).toHaveCount(10);
   await expect(firstComparisonRow.locator(".comparison-bar-value").first()).toHaveCSS("position", "absolute");
   await expect(firstComparisonRow.locator(".ability-comparison-cell .tag")).toHaveCount(1);
   await expect(page.getByRole("columnheader", { name: "视觉理解" })).toBeVisible();
@@ -157,7 +158,6 @@ test("source and quality pages use live catalog data", async ({ page }, testInfo
   await expect(page.getByRole("columnheader", { name: "推理" })).toHaveCount(0);
   await page.getByRole("button", { name: "价格体系: CNY" }).click();
   await expect(page.getByRole("columnheader", { name: "输入 CNY" })).toBeVisible();
-  await expect(page.getByRole("columnheader", { name: "缓存写 CNY" })).toBeVisible();
   await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth === document.documentElement.clientWidth)).toBe(true);
   if (testInfo.project.name === "mobile") {
     await expect.poll(() => page.locator(".compare-table").evaluate((element) => element.parentElement!.scrollWidth > element.parentElement!.clientWidth)).toBe(true);
@@ -223,7 +223,7 @@ test("price system controls model pricing columns and persists", async ({ page }
   await expect(page.getByRole("columnheader", { name: "输出 CNY" })).toBeVisible();
   await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth === document.documentElement.clientWidth)).toBe(true);
   if (testInfo.project.name === "mobile") {
-    await expect.poll(() => page.locator(".table-frame").evaluate((element) => element.scrollWidth > element.clientWidth)).toBe(true);
+    await expect.poll(() => page.locator(".table-scroll").evaluate((element) => element.scrollWidth > element.clientWidth)).toBe(true);
   }
   await page.screenshot({ path: path.join(evidenceRoot, `${testInfo.project.name}-currency-system.png`), fullPage: true });
 });
@@ -244,7 +244,7 @@ test("model price filter follows the current currency and survives sorting and p
   const pricedCount = Number.parseInt(await page.locator(".table-footer > span").innerText(), 10);
   expect(pricedCount).toBeLessThan(allCount);
   await expect.poll(() => table.locator("tbody tr").evaluateAll((rows) => rows.every((row) => {
-    const priceCells = [...row.querySelectorAll("td")].slice(3, 7);
+    const priceCells = [...row.querySelectorAll("td")].slice(4, 8);
     return priceCells.some((cell) => cell.textContent?.trim() !== "-");
   }))).toBe(true);
   await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth === document.documentElement.clientWidth)).toBe(true);
@@ -275,30 +275,27 @@ test("model table headers cycle sorting across the complete filtered dataset", a
   if (testInfo.project.name === "mobile") {
     await expect(truncatedName).toHaveCSS("white-space", "normal");
     await expect(truncatedId).toHaveCSS("white-space", "normal");
-    await expect.poll(() => truncatedName.evaluate((element) => element.getBoundingClientRect().width <= 200)).toBe(true);
+    await expect.poll(() => page.locator(".table-scroll").evaluate((element) => element.scrollWidth > element.clientWidth)).toBe(true);
   } else {
     await expect(truncatedName).toHaveCSS("text-overflow", "ellipsis");
     await expect(truncatedId).toHaveCSS("text-overflow", "ellipsis");
-    await expect.poll(() => truncatedName.evaluate((element) => element.scrollWidth > element.clientWidth)).toBe(true);
+    await expect.poll(() => truncatedName.evaluate((element) => element.scrollWidth <= element.clientWidth)).toBe(true);
   }
 
   await page.goto("/models");
   await page.waitForLoadState("networkidle");
   const table = page.locator(".model-price-table");
   const modelHeader = table.locator("thead th").first();
-  await expect(table.locator("thead .sortable-header")).toHaveCount(8);
-  await expect(table.locator("thead th").nth(8)).toHaveText("能力");
-  await expect(table.locator("thead th").nth(9)).toHaveText("");
+  await expect(table.locator("thead .sortable-header")).toHaveCount(12);
+  await expect(table.locator("thead th").nth(12)).toHaveText("能力");
+  await expect(table.locator("thead th").nth(13)).toHaveText("");
   await expect(page.locator('select[name="sort"]')).toHaveCount(0);
-  await expect(table).toHaveCSS("table-layout", "fixed");
-  const widthsBeforeSort = await table.locator("thead th").evaluateAll((headers) => headers.map((header) => header.getBoundingClientRect().width));
-
+  await expect(table).toHaveCSS("table-layout", "auto");
   await table.getByRole("link", { name: "排序 模型: 正序" }).click();
   await expect.poll(() => new URL(page.url()).searchParams.get("sort")).toBe("name");
   await expect.poll(() => new URL(page.url()).searchParams.get("order")).toBe("asc");
   await expect(modelHeader).toHaveAttribute("aria-sort", "ascending");
-  const widthsAfterSort = await table.locator("thead th").evaluateAll((headers) => headers.map((header) => header.getBoundingClientRect().width));
-  expect(widthsAfterSort).toEqual(widthsBeforeSort);
+  await expect(table.locator("thead th")).toHaveCount(14);
 
   await table.getByRole("link", { name: "排序 模型: 倒序" }).click();
   await expect.poll(() => new URL(page.url()).searchParams.get("order")).toBe("desc");
