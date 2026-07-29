@@ -1,0 +1,91 @@
+scripts/generate-model-index.js
+  s_ea73a0a327601b::t_94ea7354d89661 1-64
+components/model-cells.tsx
+  s_ea73a0a327601b::t_2ab6a820cbd4ac 1-70
+components/column-picker.tsx
+  s_ea73a0a327601b::t_9fd656525b7485 34
+  s_ea73a0a327601b::t_7254c6bc436f08 1-33,35-71
+test/model-index.test.js
+  s_ea73a0a327601b::t_d70471ac1f90a1 1-145
+.github/workflows/update-model-data.yml
+  s_ea73a0a327601b::t_911c9a5942f291 46-48,53-55,75,108-110
+tests/e2e/catalog.spec.ts
+  s_ea73a0a327601b::t_c86993c9675a5e 13,132-134,136
+  s_ea73a0a327601b::t_91d70bb48c1a29 141-143,147,149,152,226,247,278,298
+  s_ea73a0a327601b::t_ea4a37ed16963f 282
+  s_ea73a0a327601b::t_69098545ab03fc 289-291,293
+tests/e2e/accessibility.spec.ts
+  s_ea73a0a327601b::t_c675def78507dc 6
+app/globals.css
+  s_ea73a0a327601b::t_34db8aaafb2f20 62
+  s_ea73a0a327601b::t_a7f3ddbcdc0012 140-176
+.github/workflows/validate-model-update.yml
+  s_ea73a0a327601b::t_0e98570700755e 54,60-67,82-84
+lib/model-index.ts
+  s_ea73a0a327601b::t_dbcfcd6539fc16 1-106
+tests/model-columns.test.ts
+  s_ea73a0a327601b::t_cc825763de100b 1-74
+src/model-index/build.js
+  s_ea73a0a327601b::t_3c242cadf6d297 1-19,26-106
+  s_ea73a0a327601b::t_a3af552c808173 20-25
+src/model-index/hugging-face.js
+  s_ea73a0a327601b::t_a66eee19c7962e 1-44
+lib/model-columns.ts
+  s_ea73a0a327601b::t_fb1f05be29d2bd 1-124
+components/ui.tsx
+  s_ea73a0a327601b::t_c50cefe733b532 1,36,38-43
+src/model-index/boards.js
+  s_ea73a0a327601b::t_326d83ddc92799 1-62,65-67,69-123
+  s_ea73a0a327601b::t_296383ca032cd4 63-64,68
+app/models/page.tsx
+  s_ea73a0a327601b::t_d63b72c7f9fbab 5-6,8,10,14,16,21-23,31,33,38-40,45,49-51,53-61,66,72-73,85-86,97-102,113-117,122,129-130,134-152,155,158-160,162,164-165
+  s_ea73a0a327601b::t_87ac6517db422b 13,34-36,163
+app/compare/page.tsx
+  s_ea73a0a327601b::t_9e7fc53b45d176 4,10-11,20,28-41,63-64,67-68,70-98,101-103,110,115,117,122-123,131-158,165-168,170,176-185,187,191-193,195-201
+app/models/[...canonicalId]/page.tsx
+  s_ea73a0a327601b::t_b30dab2f144f6f 12,29-34,56,68,70-75,77-85
+  s_ea73a0a327601b::t_c5e1da12a63139 2,69,76
+src/fetch.js
+  s_ea73a0a327601b::t_6652d66c8dae54 60-98
+lib/i18n.ts
+  s_ea73a0a327601b::t_d4604569b0087b 23-29,45,50-56
+  s_ea73a0a327601b::t_458cfbd3869ab4 18
+components/auto-submit-form.tsx
+  s_ea73a0a327601b::t_e630f8898bca5d 5-8,11-13
+src/model-index/match.js
+  s_ea73a0a327601b::t_14340e39c7e170 37-45,89,91-95,99,105,107
+  s_ea73a0a327601b::t_ec4be5ad71bb08 17-19
+  s_ea73a0a327601b::t_0f5e978e90eeca 1-16,20-36,46-68,72-88,90,96-98,100-104,106,108-141
+  s_ea73a0a327601b::t_14ef04ef199e32 69-71
+src/model-index/config.js
+  s_ea73a0a327601b::t_637f6c3ba1aabd 1-74,76-85
+  s_ea73a0a327601b::t_b56bd933ace254 75
+src/model-index/parse.js
+  s_ea73a0a327601b::t_01bcacb4f28e15 1-73
+scripts/validate-model-index.js
+  s_ea73a0a327601b::t_2bc46a8c385c39 1-14
+data/model-index.json
+  s_ea73a0a327601b::t_a6f379a4e97255 1
+next-env.d.ts
+  s_ea73a0a327601b::t_b1f8e0abd2c5c7 3
+package.json
+  s_ea73a0a327601b::t_ab7fb69595d524 17-19
+tsconfig.json
+  s_ea73a0a327601b::t_1f16fcec4a0e9c 18
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "319ffe3f6635923b945ed1207111d8b49188bd8c",
+  "prompts": {},
+  "sessions": {
+    "s_ea73a0a327601b": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "019fad21-9061-7fcb-927b-5fd3884a38fd",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "zhao-wuyan <zhao-wuyan@exampl.com>"
+    }
+  }
+}
