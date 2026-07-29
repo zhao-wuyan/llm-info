@@ -14,7 +14,9 @@
     "test:data": "node --test test/*.test.js",
     "test:ui": "vitest run",
     "test:e2e": "playwright test",
-    "validate": "node scripts/validate-models.js"
+    "validate": "node scripts/validate-models.js",
+    "generate:index": "node scripts/generate-model-index.js",
+    "validate:index": "node scripts/validate-model-index.js"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",

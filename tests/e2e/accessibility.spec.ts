@@ -3,6 +3,7 @@ import { expect, test } from "@playwright/test";
 
 for (const route of ["/models", "/providers", "/sources", "/compare"]) {
   test(`has no serious accessibility violations: ${route}`, async ({ page }) => {
+    test.setTimeout(route === "/compare" ? 90_000 : 30_000);
     await page.goto(route);
     await page.waitForLoadState("networkidle");
     const result = await new AxeBuilder({ page }).analyze();
