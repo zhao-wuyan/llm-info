@@ -147,6 +147,8 @@ export function mergeCatalogs(catalogs, generatedAt = new Date().toISOString()) 
         sourceUnmappedCount + [...qualities.keys()].filter((canonicalId) => !matchedQualityIds.has(canonicalId)).length,
       automaticModelAliases: discoveredAliases.automatic.length,
       modelAliasCandidates: discoveredAliases.candidates.length,
+      lifecycleModels: mergedModels.filter((model) => model.deprecationDate || model.deprecated).length,
+      modelsWithDeprecationDate: mergedModels.filter((model) => model.deprecationDate).length,
     },
     modelAliases,
     modelAliasCandidates: discoveredAliases.candidates,

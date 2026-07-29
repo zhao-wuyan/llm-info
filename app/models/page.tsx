@@ -5,8 +5,10 @@ import { AutoSubmitForm } from "@/components/auto-submit-form";
 import { TableRowLink } from "@/components/table-row-link";
 import { EmptyState, EntityText, MetricStrip, PageHeader, Pagination, PriceValue, SearchField, SortableHeader } from "@/components/ui";
 import { canonicalModels, catalog, modelMatches } from "@/lib/catalog";
-import { compactNumber, formatReleaseDate } from "@/lib/format";
+import { compactNumber, deprecationDayDistance, formatReleaseDate } from "@/lib/format";
 import { abilityMsg, msg } from "@/lib/i18n";
+import { isRecentOpenWeights } from "@/lib/lifecycle";
+import type { Lifecycle } from "@/lib/types";
 import { modelHref } from "@/lib/links";
 import { parseModelSortKey, parseModelSortOrder, sortCanonicalModels, type ModelSortKey } from "@/lib/model-sort";
 import { getCurrency, getLocale } from "@/lib/server-i18n";
@@ -21,6 +23,10 @@ export default async function ModelsPage({ searchParams }: { searchParams: Param
   const q = one(params.q);
   const ability = one(params.ability);
   const onlyPriced = one(params.priced) === "1";
+  const onlyActive = one(params.active) === "1";
+  const recentOpen = one(params["recent-open"]) === "1";
+  const showDeprecation = one(params["col-deprecation"]) === "1";
+  const snapshot = new Date(catalog.generatedAt);
   const rawSort = one(params.sort);
   const sort = parseModelSortKey(rawSort);
   const order = sort ? parseModelSortOrder(one(params.order), rawSort) : null;
@@ -32,7 +38,9 @@ export default async function ModelsPage({ searchParams }: { searchParams: Param
   const filtered = canonicalModels.filter((model) =>
     modelMatches(model, q)
     && (!ability || model.abilities[ability])
-    && (!onlyPriced || model.displayPrices[priceCurrency] !== null),
+    && (!onlyPriced || model.displayPrices[priceCurrency] !== null)
+    && (!onlyActive || model.lifecycle.status === "active")
+    && (!recentOpen || isRecentOpenWeights(model, snapshot)),
   );
   const sorted = sortCanonicalModels(filtered, sort, order, priceCurrency);
 
@@ -44,6 +52,9 @@ export default async function ModelsPage({ searchParams }: { searchParams: Param
     if (q) copy.set("q", q);
     if (ability) copy.set("ability", ability);
     if (onlyPriced) copy.set("priced", "1");
+    if (onlyActive) copy.set("active", "1");
+    if (recentOpen) copy.set("recent-open", "1");
+    if (showDeprecation) copy.set("col-deprecation", "1");
     if (includeSort && sort && order) {
       copy.set("sort", sort);
       copy.set("order", order);
@@ -56,6 +67,12 @@ export default async function ModelsPage({ searchParams }: { searchParams: Param
     return `/models?${copy}`;
   };
   const directionFor = (key: ModelSortKey) => sort === key ? order : null;
+  const lifecycleCell = (lifecycle: Lifecycle) => {
+    if (!lifecycle.deprecationDate) return <td className="mono"><span className="missing">-</span></td>;
+    const days = deprecationDayDistance(lifecycle.deprecationDate, snapshot);
+    const relative = days === null ? "" : days >= 0 ? `${days} ${msg(locale, "deprecatingIn")}` : `${-days} ${msg(locale, "deprecatedDaysAgo")}`;
+    return <td className="mono"><span className={`tag${lifecycle.status === "sunset" ? " warning" : ""}`} title={relative}>{lifecycle.deprecationDate}</span></td>;
+  };
   const sortLinkFor = (key: ModelSortKey) => {
     const direction = directionFor(key);
     const nextOrder = direction === null ? "asc" : direction === "asc" ? "desc" : null;
@@ -81,6 +98,23 @@ export default async function ModelsPage({ searchParams }: { searchParams: Param
           <input type="checkbox" name="priced" value="1" defaultChecked={onlyPriced} />
           {msg(locale, "onlyPriced")}
         </label>
+        <label className="check-control">
+          <input type="checkbox" name="active" value="1" defaultChecked={onlyActive} />
+          {msg(locale, "onlyActive")}
+        </label>
+        <label className="check-control">
+          <input type="checkbox" name="recent-open" value="1" defaultChecked={recentOpen} />
+          {msg(locale, "recentOpenWeights")}
+        </label>
+        <details className="column-customizer">
+          <summary className="text-button">{msg(locale, "customColumns")}</summary>
+          <div className="column-customizer-panel">
+            <label className="check-control">
+              <input type="checkbox" name="col-deprecation" value="1" defaultChecked={showDeprecation} />
+              {msg(locale, "deprecationDate")}
+            </label>
+          </div>
+        </details>
         {sort && order && <><input type="hidden" name="sort" value={sort} /><input type="hidden" name="order" value={order} /></>}
         <Link href="/models" className="text-button">{msg(locale, "reset")}</Link>
       </AutoSubmitForm>
@@ -92,7 +126,7 @@ export default async function ModelsPage({ searchParams }: { searchParams: Param
       ]} />
       <div className="table-frame">
         {rows.length ? (
-          <table className="data-table model-price-table">
+          <table className={`data-table model-price-table${showDeprecation ? " with-deprecation" : ""}`}>
             <thead><tr>
               <SortableHeader label={msg(locale, "model")} direction={directionFor("name")} href={sortLinkFor("name")} locale={locale} />
               <SortableHeader label={msg(locale, "releasedAt")} direction={directionFor("released")} href={sortLinkFor("released")} locale={locale} />
@@ -103,6 +137,7 @@ export default async function ModelsPage({ searchParams }: { searchParams: Param
               <SortableHeader label={msg(locale, "cacheReadPrice")} subtitle={priceCurrency} direction={directionFor("cacheRead")} href={sortLinkFor("cacheRead")} locale={locale} />
               <SortableHeader label={msg(locale, "cacheCreationPrice")} subtitle={priceCurrency} direction={directionFor("cacheWrite")} href={sortLinkFor("cacheWrite")} locale={locale} />
               <th>{msg(locale, "ability")}</th>
+              {showDeprecation && <th>{msg(locale, "deprecationDate")}</th>}
               <th />
             </tr></thead>
             <tbody>{rows.map((model) => {
@@ -118,6 +153,7 @@ export default async function ModelsPage({ searchParams }: { searchParams: Param
                   <td><PriceValue price={price} rate="textInput_cacheRead" currency={priceCurrency} locale={locale} /></td>
                   <td><PriceValue price={price} rate="textInput_cacheWrite" currency={priceCurrency} locale={locale} /></td>
                   <td><div className="tag-list">{Object.entries(model.abilities).filter(([, value]) => value).slice(0, 3).map(([key]) => <span className="tag" key={key}>{abilityMsg(locale, key)}</span>)}</div></td>
+                  {showDeprecation && lifecycleCell(model.lifecycle)}
                   <td><ChevronRight size={15} /></td>
                 </TableRowLink>
               );
