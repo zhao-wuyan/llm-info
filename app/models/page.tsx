@@ -9,6 +9,7 @@ import { EmptyState, EntityText, MetricStrip, PageHeader, Pagination, SearchFiel
 import { canonicalModels, catalog, modelMatches } from "@/lib/catalog";
 import { compactNumber } from "@/lib/format";
 import { abilityMsg, msg } from "@/lib/i18n";
+import { recentOpenWeightModelIds } from "@/lib/lifecycle";
 import { modelHref } from "@/lib/links";
 import { buildModelColumns, columnSortValue, isSortableColumn, parseVisibleColumns, serializeColumns } from "@/lib/model-columns";
 import { boards, indexedModelCount, indexFor } from "@/lib/model-index";
@@ -28,7 +29,10 @@ export default async function ModelsPage({ searchParams }: { searchParams: Param
   const q = one(params.q);
   const ability = one(params.ability);
   const onlyPriced = one(params.priced) === "1";
+  const onlyActive = one(params.active) === "1";
+  const recentOpen = one(params["recent-open"]) !== "0";
   const weights = one(params.weights);
+  const snapshot = new Date(catalog.generatedAt);
   const rawSort = one(params.sort);
   const sort = isSortableColumn(rawSort, columns) ? rawSort : null;
   const numericDefaultOrder = (key: string) => key === "name" || key === "license" ? "asc" : "desc";
@@ -43,10 +47,16 @@ export default async function ModelsPage({ searchParams }: { searchParams: Param
   ))].sort();
 
   const isOpenWeight = (canonicalId: string, fallback?: boolean) => Boolean(indexFor(canonicalId).openWeights) || Boolean(fallback);
+  const recentOpenIds = recentOpenWeightModelIds(canonicalModels.map((model) => ({
+    ...model,
+    openWeights: isOpenWeight(model.canonicalId, model.openWeights),
+  })), snapshot);
   const filtered = canonicalModels.filter((model) =>
     modelMatches(model, q)
     && (!ability || model.abilities[ability])
     && (!onlyPriced || model.displayPrices[priceCurrency] !== null)
+    && (!onlyActive || model.lifecycle.status === "active")
+    && (!recentOpen || recentOpenIds.has(model.canonicalId))
     && (!weights
       || (weights === "open" ? isOpenWeight(model.canonicalId, model.openWeights) : !isOpenWeight(model.canonicalId, model.openWeights))),
   );
@@ -69,6 +79,8 @@ export default async function ModelsPage({ searchParams }: { searchParams: Param
     if (q) copy.set("q", q);
     if (ability) copy.set("ability", ability);
     if (onlyPriced) copy.set("priced", "1");
+    if (onlyActive) copy.set("active", "1");
+    if (!recentOpen) copy.set("recent-open", "0");
     if (weights) copy.set("weights", weights);
     if (serializedColumns) copy.set("cols", serializedColumns);
     if (includeSort && sort && order) {
@@ -118,6 +130,15 @@ export default async function ModelsPage({ searchParams }: { searchParams: Param
         <label className="check-control">
           <input type="checkbox" name="priced" value="1" defaultChecked={onlyPriced} />
           {msg(locale, "onlyPriced")}
+        </label>
+        <label className="check-control">
+          <input type="checkbox" name="active" value="1" defaultChecked={onlyActive} />
+          {msg(locale, "onlyActive")}
+        </label>
+        <label className="check-control">
+          <input type="checkbox" name="recent-open" value="1" defaultChecked={recentOpen} />
+          {msg(locale, "recentOpenWeights")}
+          <input type="hidden" name="recent-open" value="0" />
         </label>
         <ColumnPicker columns={columns} visible={visibleColumnIds} locale={locale} currency={priceCurrency} resetHref={resetColumnsHref()} />
         {sort && order && <><input type="hidden" name="sort" value={sort} /><input type="hidden" name="order" value={order} /></>}

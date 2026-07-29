@@ -21,6 +21,13 @@ export function formatReleaseDate(value?: string | null) {
   return releaseDateValue(value) == null ? "-" : value ?? "-";
 }
 
+// 距离下线日期的整数天数：正数=未来下线，负数=已下线，null=无下线日期或日期非法。
+export function deprecationDayDistance(value?: string | null, now: Date = new Date()) {
+  const timestamp = releaseDateValue(value);
+  if (timestamp == null) return null;
+  return Math.ceil((timestamp - now.getTime()) / 86_400_000);
+}
+
 export function formatDate(value?: string | null) {
   if (!value) return "-";
   return new Intl.DateTimeFormat("en-CA", { dateStyle: "medium", timeStyle: "short", timeZone: "UTC" }).format(new Date(value));
