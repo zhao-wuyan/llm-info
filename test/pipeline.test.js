@@ -2,11 +2,12 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { adaptAidy } from "../src/adapters/aidy.js";
 import { adaptAiPricing } from "../src/adapters/ai-pricing.js";
+import { adaptHuggingFace } from "../src/adapters/huggingface.js";
 import { adaptLiteLlm } from "../src/adapters/litellm.js";
 import { adaptPriceHub } from "../src/adapters/price-hub.js";
 import { hasMeaningfulChanges } from "../src/database-change.js";
-import { fetchGitHubJsonSource, fetchGitHubLicense } from "../src/fetch.js";
-import { mergeCatalogs } from "../src/merge.js";
+import { fetchGitHubJsonSource, fetchGitHubLicense, fetchHuggingFaceModels } from "../src/fetch.js";
+import { attachWeightsEvidence, mergeCatalogs } from "../src/merge.js";
 import { discoverModelAliases } from "../src/model-alias-discovery.js";
 import { validateDatabase } from "../src/validate.js";
 
@@ -512,6 +513,188 @@ test("resolves a GitHub ref before downloading and hashing source JSON", async (
     assert.match(result.provenance.contentSha256, /^[0-9a-f]{64}$/);
     assert.equal(calls[0], "https://api.github.com/repos/example/repo/commits/main");
     assert.equal(calls[1], `https://raw.githubusercontent.com/example/repo/${sha}/data/models.json`);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+const hfFixture = [
+  {
+    id: "deepseek-ai/DeepSeek-Chat",
+    private: false,
+    cardData: { license: "mit", license_link: "https://huggingface.co/deepseek-ai/DeepSeek-Chat/blob/main/LICENSE" },
+    tags: ["transformers", "license:mit"],
+    downloads: 1200,
+    likes: 34,
+    trendingScore: 7,
+    safetensors: { total: 685_000_000_000 },
+    gated: false,
+    pipeline_tag: "text-generation",
+    sha: "c".repeat(40),
+    lastModified: "2026-07-20T00:00:00Z",
+  },
+  {
+    id: "meta-llama/Llama-4-Scout",
+    private: false,
+    cardData: { license: "llama4" },
+    tags: ["license:llama4"],
+    downloads: 900,
+    likes: 12,
+    gated: "auto",
+    sha: "d".repeat(40),
+    lastModified: "2026-07-19T00:00:00Z",
+  },
+  { id: "Qwen/Qwen-Unlabeled", private: false, tags: ["transformers"], downloads: null, likes: 3 },
+  { id: "Qwen/Qwen-Other-License", private: false, cardData: { license: "other" }, tags: [], downloads: 5, likes: 1 },
+];
+
+const hfMeta = { observedAt: "2026-07-20T00:00:00Z" };
+
+function withHuggingFaceProvenance(catalog) {
+  return {
+    configKey: "huggingface",
+    ...catalog,
+    meta: { ...catalog.meta, contentSha256: "e".repeat(64), authors: ["deepseek-ai", "meta-llama", "Qwen"] },
+  };
+}
+
+test("cross-checks Hugging Face licenses against the SPDX list", () => {
+  const catalog = adaptHuggingFace(hfFixture, hfMeta);
+  const byRepo = new Map(catalog.weights.map((record) => [record.repoId, record]));
+
+  assert.deepEqual(
+    { license: byRepo.get("deepseek-ai/DeepSeek-Chat").license, licenseType: byRepo.get("deepseek-ai/DeepSeek-Chat").licenseType },
+    { license: "MIT", licenseType: "spdx" },
+  );
+  assert.deepEqual(
+    { license: byRepo.get("meta-llama/Llama-4-Scout").license, licenseType: byRepo.get("meta-llama/Llama-4-Scout").licenseType },
+    { license: "llama4", licenseType: "custom" },
+  );
+  assert.deepEqual(
+    { license: byRepo.get("Qwen/Qwen-Unlabeled").license, licenseType: byRepo.get("Qwen/Qwen-Unlabeled").licenseType },
+    { license: null, licenseType: "unknown" },
+  );
+  assert.equal(byRepo.get("Qwen/Qwen-Other-License").licenseType, "unknown");
+  assert.equal(byRepo.get("deepseek-ai/DeepSeek-Chat").parameters, 685_000_000_000);
+  assert.equal(byRepo.get("meta-llama/Llama-4-Scout").gated, true);
+  assert.equal(byRepo.get("deepseek-ai/DeepSeek-Chat").gated, false);
+  assert.equal(catalog.meta.repoCount, hfFixture.length);
+  assert.equal(catalog.models.length, 0);
+  assert.equal(catalog.providers.length, 0);
+});
+
+test("attaches open weights evidence to matching canonical models only", () => {
+  const database = mergeCatalogs(
+    [
+      withSourceProvenance({ configKey: "aidy", ...adaptAidy(aidyFixture) }),
+      withHuggingFaceProvenance(adaptHuggingFace(hfFixture, hfMeta)),
+    ],
+    "2026-07-20T00:00:00Z",
+  );
+
+  const model = database.models.find((item) => item.canonicalId === "deepseek/deepseek-chat");
+  assert.equal(model.weights.repoId, "deepseek-ai/DeepSeek-Chat");
+  assert.equal(model.weights.repoUrl, "https://huggingface.co/deepseek-ai/DeepSeek-Chat");
+  assert.equal(model.weights.matchKind, "author");
+  assert.equal(model.weights.downloads, 1200);
+  assert.ok(model.sourceRefs.some((ref) => ref.source === "huggingface" && ref.id === "deepseek-ai/DeepSeek-Chat"));
+  assert.equal(database.stats.weightsModels, 1);
+  assert.equal(database.stats.weightsListings, 1);
+  assert.equal(database.stats.spdxLicensedModels, 1);
+  assert.equal(database.stats.unmatchedWeightsRepos, 3);
+  assert.equal(database.stats.unmatchedQualityModels, 0);
+  assert.deepEqual(validateDatabase(database), []);
+});
+
+test("matches open weights repos through separator equivalence but never through separator removal", () => {
+  const canonicalIds = new Set(["zai-org/glm-5-2", "qwen/qwen3-8b"]);
+  const { weights, unmatchedRepos } = attachWeightsEvidence(
+    [
+      { repoId: "zai-org/GLM-5.2", candidateCanonicalIds: ["zai-org/glm-5.2"], downloads: 10, matchKind: "author" },
+      { repoId: "Qwen/Qwen3-8B-GGUF", candidateCanonicalIds: ["qwen/qwen3-8b-gguf"], downloads: 90, matchKind: "author" },
+      { repoId: "Qwen/Qwen38B", candidateCanonicalIds: ["qwen/qwen38b"], downloads: 90, matchKind: "author" },
+    ],
+    canonicalIds,
+  );
+
+  assert.equal(weights.get("zai-org/glm-5-2").repoId, "zai-org/GLM-5.2");
+  assert.deepEqual(unmatchedRepos, ["Qwen/Qwen3-8B-GGUF", "Qwen/Qwen38B"]);
+});
+
+test("prefers explicit mappings and the most downloaded repo for one canonical model", () => {
+  const canonicalIds = new Set(["qwen/qwen3-8b"]);
+  const { weights } = attachWeightsEvidence(
+    [
+      { repoId: "Qwen/Qwen3-8B-mirror", candidateCanonicalIds: ["qwen/qwen3-8b"], downloads: 5000, matchKind: "author" },
+      { repoId: "Qwen/Qwen3-8B", candidateCanonicalIds: ["qwen/qwen3-8b"], downloads: 10, matchKind: "explicit" },
+    ],
+    canonicalIds,
+  );
+  assert.equal(weights.get("qwen/qwen3-8b").repoId, "Qwen/Qwen3-8B");
+});
+
+test("keeps open weights popularity changes meaningful but ignores trending noise", () => {
+  const base = mergeCatalogs(
+    [
+      withSourceProvenance({ configKey: "aidy", ...adaptAidy(aidyFixture) }),
+      withHuggingFaceProvenance(adaptHuggingFace(hfFixture, hfMeta)),
+    ],
+    "2026-07-20T00:00:00Z",
+  );
+  const trendingOnly = structuredClone(base);
+  for (const model of trendingOnly.models) if (model.weights) model.weights.trendingScore = 999;
+  assert.equal(hasMeaningfulChanges(base, trendingOnly), false);
+
+  const downloadsChanged = structuredClone(base);
+  for (const model of downloadsChanged.models) if (model.weights) model.weights.downloads = 4242;
+  assert.equal(hasMeaningfulChanges(base, downloadsChanged), true);
+});
+
+test("requires api source provenance without a Git revision", () => {
+  const database = mergeCatalogs(
+    [
+      withSourceProvenance({ configKey: "aidy", ...adaptAidy(aidyFixture) }),
+      {
+        configKey: "huggingface",
+        ...adaptHuggingFace(hfFixture, hfMeta),
+        meta: { observedAt: hfMeta.observedAt, contentSha256: "e".repeat(64), authors: ["Qwen"] },
+      },
+    ],
+    "2026-07-20T00:00:00Z",
+  );
+  assert.deepEqual(validateDatabase(database), []);
+
+  const withoutAuthors = structuredClone(database);
+  withoutAuthors.sources.find((source) => source.id === "huggingface").authors = [];
+  assert.deepEqual(validateDatabase(withoutAuthors), ["missing api source query scope: huggingface"]);
+});
+
+test("follows Hugging Face cursor pagination and hashes the collected payload", async () => {
+  const originalFetch = globalThis.fetch;
+  const calls = [];
+  try {
+    globalThis.fetch = async (url) => {
+      calls.push(String(url));
+      if (calls.length === 1) {
+        return new Response(JSON.stringify([{ id: "Qwen/Qwen3-8B", lastModified: "2026-07-18T00:00:00Z" }]), {
+          status: 200,
+          headers: { "Content-Type": "application/json", Link: '<https://huggingface.co/api/models?cursor=next>; rel="next"' },
+        });
+      }
+      return new Response(JSON.stringify([{ id: "Qwen/Qwen3-32B", lastModified: "2026-07-19T00:00:00Z" }]), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
+    };
+
+    const result = await fetchHuggingFaceModels(["Qwen"]);
+    assert.deepEqual(result.records.map((record) => record.id), ["Qwen/Qwen3-32B", "Qwen/Qwen3-8B"]);
+    assert.equal(result.provenance.observedAt, "2026-07-19T00:00:00Z");
+    assert.deepEqual(result.provenance.authors, ["Qwen"]);
+    assert.match(result.provenance.contentSha256, /^[0-9a-f]{64}$/);
+    assert.match(calls[0], /^https:\/\/huggingface\.co\/api\/models\?author=Qwen/);
+    assert.match(calls[0], /expand%5B%5D=downloads/);
+    assert.equal(calls[1], "https://huggingface.co/api/models?cursor=next");
   } finally {
     globalThis.fetch = originalFetch;
   }

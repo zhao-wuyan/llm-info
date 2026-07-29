@@ -46,6 +46,8 @@ jobs:
         run: npm run generate
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # 可选：仅用于提高 Hugging Face Hub 公开 API 的限额
+          HUGGINGFACE_TOKEN: ${{ secrets.HUGGINGFACE_TOKEN }}
 
       - name: Validate generated data
         run: npm run validate

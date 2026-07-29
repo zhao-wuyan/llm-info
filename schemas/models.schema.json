@@ -34,13 +34,27 @@
     },
     "source": {
       "type": "object",
-      "required": ["id", "name", "role", "url", "repository", "license", "recordCount", "revision", "revisionUrl", "contentSha256", "commitVerified", "commitVerificationReason"],
+      "required": ["id", "name", "role", "url", "repository", "license", "recordCount", "contentSha256", "kind"],
+      "allOf": [
+        {
+          "if": { "properties": { "kind": { "const": "github" } }, "required": ["kind"] },
+          "then": { "required": ["revision", "revisionUrl", "commitVerified", "commitVerificationReason"] }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "api" } }, "required": ["kind"] },
+          "then": { "required": ["observedAt", "authors"] }
+        }
+      ],
       "properties": {
         "id": { "type": "string" },
         "name": { "type": "string" },
-        "role": { "enum": ["usd-baseline", "cny-primary", "channel-validation", "quality-evidence"] },
+        "kind": { "enum": ["github", "api"] },
+        "role": { "enum": ["usd-baseline", "cny-primary", "channel-validation", "quality-evidence", "open-weights-evidence"] },
         "url": { "type": "string" },
         "repository": { "type": "string" },
+        "authors": { "type": "array", "items": { "type": "string" } },
+        "repoCount": { "type": "integer", "minimum": 0 },
+        "unmappedRepoCount": { "type": "integer", "minimum": 0 },
         "license": { "type": "string" },
         "licenseLabel": { "type": "string" },
         "licenseFile": { "type": "boolean" },
@@ -118,6 +132,29 @@
         "revision": { "type": "string" }
       }
     },
+    "weights": {
+      "type": "object",
+      "required": ["source", "repoId", "repoUrl", "license", "licenseType", "downloads", "likes", "gated", "observedAt", "matchKind"],
+      "properties": {
+        "source": { "const": "huggingface" },
+        "matchKind": { "enum": ["explicit", "author"] },
+        "repoId": { "type": "string", "pattern": "^[^/]+/.+$" },
+        "repoUrl": { "type": "string" },
+        "license": { "type": ["string", "null"] },
+        "licenseType": { "enum": ["spdx", "custom", "unknown"] },
+        "licenseUrl": { "type": ["string", "null"] },
+        "licenseName": { "type": ["string", "null"] },
+        "downloads": { "type": ["integer", "null"], "minimum": 0 },
+        "likes": { "type": ["integer", "null"], "minimum": 0 },
+        "trendingScore": { "type": ["integer", "null"], "minimum": 0 },
+        "parameters": { "type": ["integer", "null"], "minimum": 0 },
+        "gated": { "type": "boolean" },
+        "pipelineTag": { "type": ["string", "null"] },
+        "revision": { "type": ["string", "null"] },
+        "lastModified": { "type": ["string", "null"] },
+        "observedAt": { "type": "string" }
+      }
+    },
     "model": {
       "type": "object",
       "required": ["id", "providerId", "ownerId", "modelId", "canonicalId", "name", "sourceRefs", "pricing", "displayPrices"],
@@ -130,6 +167,7 @@
         "name": { "type": "string" },
         "description": { "type": "string" },
         "quality": { "$ref": "#/$defs/quality" },
+        "weights": { "$ref": "#/$defs/weights" },
         "sourceRefs": { "type": "array", "items": { "$ref": "#/$defs/sourceRef" } },
         "pricing": { "type": "array", "items": { "$ref": "#/$defs/price" } },
         "displayPrices": {

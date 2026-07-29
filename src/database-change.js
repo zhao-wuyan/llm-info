@@ -6,12 +6,17 @@ function withoutVolatileMetadata(database) {
     source.observedAt = null;
     if ("revision" in source) source.revision = null;
     if ("licenseCheckedAt" in source) source.licenseCheckedAt = null;
+    if (source.kind === "api" && "contentSha256" in source) source.contentSha256 = null;
   }
   for (const model of comparable.models || []) {
     for (const price of model.pricing || []) price.observedAt = null;
     if (model.quality) {
       model.quality.observedAt = null;
       model.quality.revision = null;
+    }
+    if (model.weights) {
+      model.weights.observedAt = null;
+      model.weights.trendingScore = null;
     }
   }
   return comparable;
@@ -55,8 +60,21 @@ function stableQuality(model) {
   return quality;
 }
 
+function stableWeights(model) {
+  if (!model.weights) return null;
+  const { observedAt: _observedAt, trendingScore: _trendingScore, ...weights } = model.weights;
+  return weights;
+}
+
 function modelMetadata(model) {
-  const { pricing: _pricing, displayPrices: _displayPrices, quality: _quality, sourceRefs: _sourceRefs, ...metadata } = model;
+  const {
+    pricing: _pricing,
+    displayPrices: _displayPrices,
+    quality: _quality,
+    weights: _weights,
+    sourceRefs: _sourceRefs,
+    ...metadata
+  } = model;
   return metadata;
 }
 
@@ -90,17 +108,20 @@ export function summarizeDatabaseChanges(
   const removedListingIds = difference(previousListingIds, currentListingIds);
   const priceChangedListingIds = changedKeys(previousModels, currentModels, (model) => stablePricing(model));
   const qualityChangedListingIds = changedKeys(previousModels, currentModels, stableQuality);
+  const weightsChangedListingIds = changedKeys(previousModels, currentModels, stableWeights);
   const metadataChangedListingIds = changedKeys(previousModels, currentModels, modelMetadata);
   const addedModels = difference(currentCanonicalIds, previousCanonicalIds);
   const removedModels = difference(previousCanonicalIds, currentCanonicalIds);
   const priceChangedModels = canonicalIdsForListings(priceChangedListingIds, currentById);
   const qualityChangedModels = canonicalIdsForListings(qualityChangedListingIds, currentById);
+  const weightsChangedModels = canonicalIdsForListings(weightsChangedListingIds, currentById);
   const metadataChangedModels = canonicalIdsForListings(metadataChangedListingIds, currentById);
   const affectedModels = uniqueSorted([
     ...addedModels,
     ...removedModels,
     ...priceChangedModels,
     ...qualityChangedModels,
+    ...weightsChangedModels,
     ...metadataChangedModels,
   ]);
   const baseline = Math.max(previousCanonicalIds.length, 1);
@@ -123,6 +144,7 @@ export function summarizeDatabaseChanges(
     removedModels,
     priceChangedModels,
     qualityChangedModels,
+    weightsChangedModels,
     metadataChangedModels,
     addedListings: canonicalIdsForListings(addedListingIds, currentById),
     removedListings: canonicalIdsForListings(removedListingIds, previousById),
@@ -157,7 +179,7 @@ export function renderChangeSummaryMarkdown(summary, { limit = DEFAULT_SUMMARY_L
   const lines = [
     "## 数据更新摘要",
     "",
-    "自动汇总 LiteLLM、aidy-models、model-price-hub 和 ai-pricing 的最新模型、价格与 Quality 数据。",
+    "自动汇总 LiteLLM、aidy-models、model-price-hub、ai-pricing 和 Hugging Face Hub 的最新模型、价格、Quality 与开源权重数据。",
     "",
     "| 指标 | 更新前 | 更新后 | 变化 |",
     "| --- | ---: | ---: | ---: |",
@@ -185,6 +207,7 @@ export function renderChangeSummaryMarkdown(summary, { limit = DEFAULT_SUMMARY_L
     ["移除模型", summary.removedModels],
     ["价格变动", summary.priceChangedModels],
     ["Quality 变动", summary.qualityChangedModels],
+    ["开源权重/许可证/热度变动", summary.weightsChangedModels],
     ["其他模型字段变动", summary.metadataChangedModels],
     ["新增供应商", summary.addedProviders],
     ["移除供应商", summary.removedProviders],

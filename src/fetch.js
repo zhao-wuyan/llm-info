@@ -57,6 +57,84 @@ export async function fetchGitHubJsonSource(source, { timeoutMs = 30_000, header
   };
 }
 
+const HUGGINGFACE_API = "https://huggingface.co/api/models";
+const HUGGINGFACE_EXPAND_FIELDS = [
+  "cardData",
+  "downloads",
+  "gated",
+  "lastModified",
+  "likes",
+  "pipeline_tag",
+  "private",
+  "safetensors",
+  "sha",
+  "tags",
+  "trendingScore",
+];
+
+function nextLinkUrl(header) {
+  if (!header) return null;
+  for (const part of header.split(",")) {
+    const match = /<([^>]+)>\s*;\s*rel="?next"?/.exec(part.trim());
+    if (match) return match[1];
+  }
+  return null;
+}
+
+function huggingFaceListUrl(author, pageSize) {
+  const params = new URLSearchParams({ author, limit: String(pageSize), sort: "downloads", direction: "-1" });
+  for (const field of HUGGINGFACE_EXPAND_FIELDS) params.append("expand[]", field);
+  return `${HUGGINGFACE_API}?${params}`;
+}
+
+/**
+ * 读取 Hugging Face Hub 公开 API 的模型仓库列表（免费、无需鉴权，可选 HUGGINGFACE_TOKEN 提高限额）。
+ * 每个 author 按下载量倒序翻页，返回原始记录与可追溯的内容哈希。
+ */
+export async function fetchHuggingFaceModels(
+  authors,
+  { timeoutMs = 30_000, headers = {}, pageSize = 500, maxPages = 4 } = {},
+) {
+  if (!Array.isArray(authors) || authors.length === 0) throw new Error("huggingface: at least one author is required");
+
+  const records = [];
+  const seen = new Set();
+  for (const author of authors) {
+    let url = huggingFaceListUrl(author, pageSize);
+    for (let page = 0; page < maxPages && url; page += 1) {
+      const response = await fetch(url, {
+        headers: { Accept: "application/json", "User-Agent": "llm-info-data-pipeline", ...headers },
+        signal: AbortSignal.timeout(timeoutMs),
+      });
+      if (!response.ok) throw new Error(`HTTP ${response.status} while fetching ${url}`);
+      const pageRecords = await response.json();
+      if (!Array.isArray(pageRecords)) throw new Error(`huggingface: unexpected payload for author ${author}`);
+      for (const record of pageRecords) {
+        if (typeof record?.id !== "string" || seen.has(record.id)) continue;
+        seen.add(record.id);
+        records.push(record);
+      }
+      url = nextLinkUrl(response.headers.get("link"));
+    }
+  }
+
+  records.sort((left, right) => left.id.localeCompare(right.id));
+  const observedAt = records.reduce(
+    (latest, record) =>
+      typeof record.lastModified === "string" && (!latest || record.lastModified > latest) ? record.lastModified : latest,
+    null,
+  );
+  return {
+    records,
+    provenance: {
+      url: HUGGINGFACE_API,
+      authors: [...authors],
+      contentSha256: createHash("sha256").update(JSON.stringify(records)).digest("hex"),
+      observedAt: observedAt || new Date().toISOString(),
+    },
+  };
+}
+
 function detectLicenseSpdx(content) {
   const checks = [
     ["MIT", /MIT License[\s\S]*Permission is hereby granted/i],

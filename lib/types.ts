@@ -51,6 +51,26 @@ export interface Quality {
   revision: string;
 }
 
+export interface WeightsEvidence {
+  source: "huggingface";
+  matchKind: "explicit" | "author";
+  repoId: string;
+  repoUrl: string;
+  license: string | null;
+  licenseType: "spdx" | "custom" | "unknown";
+  licenseUrl: string | null;
+  licenseName: string | null;
+  downloads: number | null;
+  likes: number | null;
+  trendingScore: number | null;
+  parameters: number | null;
+  gated: boolean;
+  pipelineTag: string | null;
+  revision: string | null;
+  lastModified: string | null;
+  observedAt: string;
+}
+
 export interface Model {
   id: string;
   providerId: string;
@@ -72,6 +92,7 @@ export interface Model {
   pricing: Price[];
   displayPrices: Record<Currency, DisplayPrice | null>;
   quality?: Quality;
+  weights?: WeightsEvidence;
   deprecated?: boolean;
 }
 
@@ -95,6 +116,7 @@ export interface DataSource {
   id: string;
   name: string;
   role: string;
+  kind?: "github" | "api";
   url: string;
   repository: string;
   license: string;
@@ -110,6 +132,9 @@ export interface DataSource {
   commitVerified?: boolean;
   commitVerificationReason?: string;
   unmappedCount?: number;
+  authors?: string[];
+  repoCount?: number;
+  unmatchedRepoCount?: number;
 }
 
 export interface ModelAliasEvidence {
@@ -159,6 +184,7 @@ export interface CanonicalModel {
   maxOutput?: number;
   modalities?: Model["modalities"];
   quality?: Quality;
+  weights?: WeightsEvidence;
   channels: Model[];
   providerCount: number;
   displayPrices: Record<Currency, CanonicalDisplayPrice | null>;

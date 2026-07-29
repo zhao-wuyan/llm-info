@@ -1,0 +1,138 @@
+{
+  "authors": {
+    "01-ai": [
+      "01-ai",
+      "yi"
+    ],
+    "ai21labs": [
+      "ai21",
+      "ai21labs"
+    ],
+    "allenai": [
+      "allenai"
+    ],
+    "baidu": [
+      "baidu",
+      "wenxin",
+      "ernie"
+    ],
+    "ByteDance-Seed": [
+      "bytedance",
+      "seed",
+      "doubao"
+    ],
+    "CohereLabs": [
+      "cohere",
+      "coherelabs"
+    ],
+    "deepseek-ai": [
+      "deepseek",
+      "deepseek-ai"
+    ],
+    "google": [
+      "google",
+      "gemma"
+    ],
+    "HuggingFaceTB": [
+      "huggingfacetb",
+      "smollm"
+    ],
+    "ibm-granite": [
+      "ibm",
+      "ibm-granite",
+      "granite"
+    ],
+    "inclusionAI": [
+      "inclusionai",
+      "ant",
+      "ling"
+    ],
+    "internlm": [
+      "internlm"
+    ],
+    "LiquidAI": [
+      "liquid",
+      "liquidai"
+    ],
+    "meta-llama": [
+      "meta-llama",
+      "meta",
+      "llama"
+    ],
+    "microsoft": [
+      "microsoft",
+      "phi"
+    ],
+    "MiniMaxAI": [
+      "minimax",
+      "minimaxai"
+    ],
+    "mistralai": [
+      "mistral",
+      "mistralai"
+    ],
+    "moonshotai": [
+      "moonshotai",
+      "moonshot",
+      "kimi"
+    ],
+    "nvidia": [
+      "nvidia"
+    ],
+    "openai": [
+      "openai"
+    ],
+    "openbmb": [
+      "openbmb",
+      "minicpm"
+    ],
+    "perplexity-ai": [
+      "perplexity",
+      "perplexity-ai"
+    ],
+    "Qwen": [
+      "qwen",
+      "alibaba",
+      "aliyun"
+    ],
+    "rednote-hilab": [
+      "rednote-hilab",
+      "rednote"
+    ],
+    "Skywork": [
+      "skywork"
+    ],
+    "stepfun-ai": [
+      "stepfun",
+      "step"
+    ],
+    "tencent": [
+      "tencent",
+      "hunyuan"
+    ],
+    "THUDM": [
+      "thudm"
+    ],
+    "upstage": [
+      "upstage",
+      "solar"
+    ],
+    "XiaomiMiMo": [
+      "xiaomi",
+      "mimo",
+      "xiaomimimo"
+    ],
+    "zai-org": [
+      "zai-org",
+      "zai",
+      "zhipuai",
+      "glm"
+    ]
+  },
+  "models": {
+    "nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-BF16": [
+      "nvidia/nemotron-3-ultra-550b-a55b",
+      "nvidia/nvidia-nemotron-3-ultra-550b-a55b"
+    ]
+  }
+}

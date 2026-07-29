@@ -1,5 +1,10 @@
 import { SCHEMA_VERSION, SOURCE_CONFIG } from "./config.js";
-import { createAliasResolver, discoverModelAliases, explicitModelAliases } from "./model-alias-discovery.js";
+import {
+  canonicalMatchKey,
+  createAliasResolver,
+  discoverModelAliases,
+  explicitModelAliases,
+} from "./model-alias-discovery.js";
 
 function definedEntries(object) {
   return Object.fromEntries(Object.entries(object).filter(([, value]) => value !== undefined));
@@ -78,15 +83,66 @@ export function selectDisplayPrice(pricing, currency) {
   };
 }
 
+function compareWeightsEvidence(left, right) {
+  const kindScore = (record) => (record.matchKind === "explicit" ? 1 : 0);
+  return (
+    kindScore(right) - kindScore(left) ||
+    (right.downloads ?? -1) - (left.downloads ?? -1) ||
+    (right.likes ?? -1) - (left.likes ?? -1) ||
+    left.repoId.localeCompare(right.repoId)
+  );
+}
+
+/**
+ * 把 Hugging Face 开源权重证据挂到已存在的 canonicalId 上。
+ * 先用精确 canonicalId 匹配，再退到项目已有的严格分隔符等价规则（不允许插入或删除分隔符）。
+ */
+export function attachWeightsEvidence(records, canonicalIds, resolveAlias = (value) => value) {
+  const byMatchKey = new Map();
+  for (const canonicalId of [...canonicalIds].sort()) {
+    const key = canonicalMatchKey(canonicalId);
+    if (!byMatchKey.has(key)) byMatchKey.set(key, canonicalId);
+  }
+
+  const weights = new Map();
+  const unmatchedRepos = [];
+  for (const record of records) {
+    const matched = [
+      ...new Set(
+        (record.candidateCanonicalIds || [])
+          .map((candidate) => {
+            const resolved = resolveAlias(candidate);
+            if (canonicalIds.has(resolved)) return resolved;
+            return byMatchKey.get(canonicalMatchKey(resolved)) || null;
+          })
+          .filter(Boolean),
+      ),
+    ];
+    if (matched.length === 0) {
+      unmatchedRepos.push(record.repoId);
+      continue;
+    }
+    const { candidateCanonicalIds: _candidates, ...evidence } = record;
+    for (const canonicalId of matched) {
+      const current = weights.get(canonicalId);
+      if (!current || compareWeightsEvidence(evidence, current) < 0) weights.set(canonicalId, evidence);
+    }
+  }
+
+  return { weights, unmatchedRepos: unmatchedRepos.sort() };
+}
+
 export function mergeCatalogs(catalogs, generatedAt = new Date().toISOString()) {
   const providers = new Map();
   const models = new Map();
   const qualityRecords = [];
+  const weightsRecords = [];
 
   for (const catalog of catalogs) {
     for (const provider of catalog.providers) providers.set(provider.id, mergeProvider(providers.get(provider.id), provider));
     for (const model of catalog.models) models.set(model.id, mergeModel(models.get(model.id), model));
     qualityRecords.push(...(catalog.qualities || []));
+    weightsRecords.push(...(catalog.weights || []));
   }
 
   const discoveredAliases = discoverModelAliases([...models.values()], [...providers.values()]);
@@ -98,21 +154,29 @@ export function mergeCatalogs(catalogs, generatedAt = new Date().toISOString()) 
       return [canonicalId, { ...quality, canonicalId }];
     }),
   );
+  const resolvedCanonicalIds = new Set([...models.values()].map((model) => resolveDiscoveredAlias(model.canonicalId)));
+  const { weights: weightsByCanonicalId, unmatchedRepos } = attachWeightsEvidence(
+    weightsRecords,
+    resolvedCanonicalIds,
+    resolveDiscoveredAlias,
+  );
 
   const mergedModels = [...models.values()]
     .map((model) => {
       const canonicalId = resolveDiscoveredAlias(model.canonicalId);
       const quality = qualities.get(canonicalId);
       const { canonicalId: _canonicalId, ...qualityEvidence } = quality || {};
+      const weights = weightsByCanonicalId.get(canonicalId);
+      const evidenceRefs = [
+        ...(quality ? [{ source: quality.source, id: quality.sourceModel }] : []),
+        ...(weights ? [{ source: weights.source, id: weights.repoId }] : []),
+      ];
       return {
         ...model,
         canonicalId,
-        ...(quality
-          ? {
-              quality: qualityEvidence,
-              sourceRefs: mergeSourceRefs(model.sourceRefs, [{ source: quality.source, id: quality.sourceModel }]),
-            }
-          : {}),
+        ...(quality ? { quality: qualityEvidence } : {}),
+        ...(weights ? { weights } : {}),
+        ...(evidenceRefs.length > 0 ? { sourceRefs: mergeSourceRefs(model.sourceRefs, evidenceRefs) } : {}),
         pricing: [...model.pricing].sort((a, b) => a.id.localeCompare(b.id)),
         displayPrices: {
           USD: selectDisplayPrice(model.pricing, "USD"),
@@ -127,7 +191,9 @@ export function mergeCatalogs(catalogs, generatedAt = new Date().toISOString()) 
 
   const sourceList = catalogs.map((catalog) => {
     const { github: _github, ...source } = SOURCE_CONFIG[catalog.configKey];
-    return { ...source, ...catalog.meta };
+    const merged = { ...source, ...catalog.meta };
+    if ((catalog.weights || []).length === 0) return merged;
+    return { ...merged, recordCount: weightsByCanonicalId.size, unmatchedRepoCount: unmatchedRepos.length };
   });
 
   return {
@@ -143,6 +209,10 @@ export function mergeCatalogs(catalogs, generatedAt = new Date().toISOString()) 
       dualCurrencyModels: mergedModels.filter((model) => model.displayPrices.USD && model.displayPrices.CNY).length,
       qualityModels: matchedQualityIds.size,
       qualityListings: mergedModels.filter((model) => model.quality).length,
+      weightsModels: weightsByCanonicalId.size,
+      weightsListings: mergedModels.filter((model) => model.weights).length,
+      spdxLicensedModels: [...weightsByCanonicalId.values()].filter((weights) => weights.licenseType === "spdx").length,
+      unmatchedWeightsRepos: unmatchedRepos.length,
       unmatchedQualityModels:
         sourceUnmappedCount + [...qualities.keys()].filter((canonicalId) => !matchedQualityIds.has(canonicalId)).length,
       automaticModelAliases: discoveredAliases.automatic.length,

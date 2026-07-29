@@ -3,11 +3,12 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { adaptAidy } from "../src/adapters/aidy.js";
 import { adaptAiPricing } from "../src/adapters/ai-pricing.js";
+import { adaptHuggingFace, HUGGINGFACE_AUTHORS } from "../src/adapters/huggingface.js";
 import { adaptLiteLlm } from "../src/adapters/litellm.js";
 import { adaptPriceHub } from "../src/adapters/price-hub.js";
 import { SOURCE_CONFIG } from "../src/config.js";
 import { hasMeaningfulChanges } from "../src/database-change.js";
-import { fetchGitHubJsonSource, fetchGitHubLicense } from "../src/fetch.js";
+import { fetchGitHubJsonSource, fetchGitHubLicense, fetchHuggingFaceModels } from "../src/fetch.js";
 import { mergeCatalogs } from "../src/merge.js";
 import { validateDatabase } from "../src/validate.js";
 
@@ -15,21 +16,23 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const outputPath = resolve(root, process.argv[2] || "data/models.json");
 const generatedAt = new Date().toISOString();
 
-console.log("Fetching LiteLLM, aidy-models, model-price-hub, and ai-pricing...");
+console.log("Fetching LiteLLM, aidy-models, model-price-hub, ai-pricing, and Hugging Face Hub...");
 const githubHeaders = process.env.GITHUB_TOKEN ? { Authorization: `Bearer ${process.env.GITHUB_TOKEN}` } : {};
-const [sourceEntries, sourceLicenseEntries] = await Promise.all([
+const huggingFaceHeaders = process.env.HUGGINGFACE_TOKEN
+  ? { Authorization: `Bearer ${process.env.HUGGINGFACE_TOKEN}` }
+  : {};
+const githubSources = Object.entries(SOURCE_CONFIG).filter(([, source]) => source.kind !== "api");
+const [sourceEntries, sourceLicenseEntries, huggingFace] = await Promise.all([
   Promise.all(
-    Object.entries(SOURCE_CONFIG).map(async ([configKey, source]) => [
-      configKey,
-      await fetchGitHubJsonSource(source, { headers: githubHeaders }),
-    ]),
+    githubSources.map(async ([configKey, source]) => [configKey, await fetchGitHubJsonSource(source, { headers: githubHeaders })]),
   ),
   Promise.all(
-    Object.entries(SOURCE_CONFIG).map(async ([configKey, source]) => [
+    githubSources.map(async ([configKey, source]) => [
       configKey,
       await fetchGitHubLicense(source.repository, { headers: githubHeaders }),
     ]),
   ),
+  fetchHuggingFaceModels(HUGGINGFACE_AUTHORS, { headers: huggingFaceHeaders }),
 ]);
 
 const sources = Object.fromEntries(sourceEntries);
@@ -40,10 +43,12 @@ const withProvenance = (configKey, catalog) => ({
   meta: {
     ...catalog.meta,
     ...sourceLicenses[configKey],
-    ...sources[configKey].provenance,
+    ...sources[configKey]?.provenance,
     licenseCheckedAt: generatedAt,
   },
 });
+
+const huggingFaceCatalog = adaptHuggingFace(huggingFace.records, { observedAt: huggingFace.provenance.observedAt });
 
 const database = mergeCatalogs(
   [
@@ -57,6 +62,11 @@ const database = mergeCatalogs(
         revision: sources.aiPricing.provenance.revision,
       }),
     ),
+    {
+      configKey: "huggingface",
+      ...huggingFaceCatalog,
+      meta: { ...huggingFaceCatalog.meta, ...huggingFace.provenance, licenseCheckedAt: generatedAt },
+    },
   ],
   generatedAt,
 );

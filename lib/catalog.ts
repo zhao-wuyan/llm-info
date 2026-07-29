@@ -10,6 +10,10 @@ function completeness(model: Model) {
   return [model.description, model.contextWindow, model.abilities, model.quality, model.releasedAt].filter(Boolean).length;
 }
 
+function openWeightsFlag(model: Model) {
+  return model.weights ? true : model.openWeights;
+}
+
 function lowestPrice(channels: Model[], currency: Currency): DisplayPrice | null {
   return channels
     .map((model) => model.displayPrices[currency])
@@ -30,12 +34,13 @@ for (const model of catalog.models) {
       family: model.family,
       releasedAt: model.releasedAt,
       knowledgeCutoff: model.knowledgeCutoff,
-      openWeights: model.openWeights,
+      openWeights: openWeightsFlag(model),
       abilities: model.abilities ?? {},
       contextWindow: model.contextWindow,
       maxOutput: model.maxOutput,
       modalities: model.modalities,
       quality: model.quality,
+      weights: model.weights,
       channels: [model],
       providerCount: 1,
       displayPrices: { USD: null, CNY: null },
@@ -46,12 +51,15 @@ for (const model of catalog.models) {
   }
   current.channels.push(model);
   current.providerCount = new Set(current.channels.map((item) => item.providerId)).size;
+  current.weights = current.weights ?? model.weights;
+  current.openWeights = current.openWeights || openWeightsFlag(model);
   current.sourceRefs = [...new Map([...current.sourceRefs, ...model.sourceRefs].map((ref) => [`${ref.source}:${ref.id}`, ref])).values()];
   if (completeness(model) > completeness(current.channels[0])) {
     Object.assign(current, {
       name: model.name, description: model.description, family: model.family, releasedAt: model.releasedAt,
-      knowledgeCutoff: model.knowledgeCutoff, openWeights: model.openWeights, abilities: model.abilities ?? current.abilities,
+      knowledgeCutoff: model.knowledgeCutoff, openWeights: current.openWeights || openWeightsFlag(model), abilities: model.abilities ?? current.abilities,
       contextWindow: model.contextWindow, maxOutput: model.maxOutput, modalities: model.modalities, quality: model.quality ?? current.quality,
+      weights: model.weights ?? current.weights,
     });
   }
 }
@@ -80,5 +88,5 @@ export function providerStats(provider: Provider) {
 
 export function modelMatches(model: CanonicalModel, query: string) {
   const value = query.trim().toLowerCase();
-  return !value || [model.name, model.canonicalId, model.ownerId, model.family].some((item) => item?.toLowerCase().includes(value));
+  return !value || [model.name, model.canonicalId, model.ownerId, model.family, model.weights?.repoId, model.weights?.license].some((item) => item?.toLowerCase().includes(value));
 }

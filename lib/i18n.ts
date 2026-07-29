@@ -19,6 +19,9 @@ export const messages = {
     sourceDescription: "自动核对上游角色、记录量、观测时间与 License 状态。",
     providerDescription: "浏览直接厂商与第三方渠道，并下钻查看其模型目录。",
     modelDescription: "按 canonicalId 聚合模型，并保留各供应商原生报价。",
+    openWeights: "开源权重", modelLicense: "许可证", downloads: "下载量", likes: "点赞", parameters: "参数量",
+    popularity: "热度", customColumns: "自定义列", columnsHint: "勾选需要显示的列，表格支持横向滚动。", weightsEvidence: "开源权重证据",
+    weightsModels: "开源权重模型", spdxLicense: "SPDX 许可证", customLicense: "自定义协议", gatedRepo: "需申请授权",
     unknown: "未标注", system: "跟随系统", light: "浅色", dark: "深色",
   },
   en: {
@@ -39,6 +42,9 @@ export const messages = {
     sourceDescription: "Audit upstream roles, record counts, observation times, and license status.",
     providerDescription: "Browse first-party and third-party channels, then inspect their model catalogs.",
     modelDescription: "Models grouped by canonicalId with native provider quotes preserved.",
+    openWeights: "Open weights", modelLicense: "License", downloads: "Downloads", likes: "Likes", parameters: "Parameters",
+    popularity: "Popularity", customColumns: "Columns", columnsHint: "Pick the columns to display; the table scrolls horizontally.", weightsEvidence: "Open weights evidence",
+    weightsModels: "Open weights models", spdxLicense: "SPDX license", customLicense: "Custom license", gatedRepo: "Gated access",
     unknown: "Unlabeled", system: "System", light: "Light", dark: "Dark",
   },
 } as const;

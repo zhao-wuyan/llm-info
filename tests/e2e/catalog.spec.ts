@@ -234,7 +234,7 @@ test("model price filter follows the current currency and survives sorting and p
   await page.getByRole("button", { name: "价格体系: CNY" }).click();
   await expect(page.getByRole("columnheader", { name: "输入 CNY" })).toBeVisible();
 
-  const table = page.locator(".model-price-table");
+  const table = page.locator(".model-catalog-table");
   const onlyPriced = page.getByRole("checkbox", { name: "只看有报价" });
   const allCount = Number.parseInt(await page.locator(".table-footer > span").innerText(), 10);
   await onlyPriced.check();
@@ -244,7 +244,7 @@ test("model price filter follows the current currency and survives sorting and p
   const pricedCount = Number.parseInt(await page.locator(".table-footer > span").innerText(), 10);
   expect(pricedCount).toBeLessThan(allCount);
   await expect.poll(() => table.locator("tbody tr").evaluateAll((rows) => rows.every((row) => {
-    const priceCells = [...row.querySelectorAll("td")].slice(3, 7);
+    const priceCells = [...row.querySelectorAll("td")].slice(4, 8);
     return priceCells.some((cell) => cell.textContent?.trim() !== "-");
   }))).toBe(true);
   await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth === document.documentElement.clientWidth)).toBe(true);
@@ -268,8 +268,8 @@ test("model price filter follows the current currency and survives sorting and p
 test("model table headers cycle sorting across the complete filtered dataset", async ({ page }, testInfo) => {
   await page.goto("/models?q=512-x-512");
   await page.waitForLoadState("networkidle");
-  const truncatedName = page.locator(".model-price-table .entity-title").first();
-  const truncatedId = page.locator(".model-price-table .entity-name small").first();
+  const truncatedName = page.locator(".model-catalog-table .entity-title").first();
+  const truncatedId = page.locator(".model-catalog-table .entity-name small").first();
   await expect(truncatedName).toHaveAttribute("title", /512-x-512/);
   await expect(truncatedId).toHaveAttribute("title", /512-x-512/);
   if (testInfo.project.name === "mobile") {
@@ -284,11 +284,12 @@ test("model table headers cycle sorting across the complete filtered dataset", a
 
   await page.goto("/models");
   await page.waitForLoadState("networkidle");
-  const table = page.locator(".model-price-table");
+  const table = page.locator(".model-catalog-table");
   const modelHeader = table.locator("thead th").first();
-  await expect(table.locator("thead .sortable-header")).toHaveCount(8);
-  await expect(table.locator("thead th").nth(8)).toHaveText("能力");
-  await expect(table.locator("thead th").nth(9)).toHaveText("");
+  await expect(table.locator("thead .sortable-header")).toHaveCount(10);
+  await expect(table.locator("thead th").nth(8)).toHaveText("开源权重");
+  await expect(table.locator("thead th").nth(11)).toHaveText("能力");
+  await expect(table.locator("thead th").nth(12)).toHaveText("");
   await expect(page.locator('select[name="sort"]')).toHaveCount(0);
   await expect(table).toHaveCSS("table-layout", "fixed");
   const widthsBeforeSort = await table.locator("thead th").evaluateAll((headers) => headers.map((header) => header.getBoundingClientRect().width));
@@ -340,4 +341,41 @@ test("mobile navigation and tables remain usable", async ({ page }, testInfo) =>
   await page.getByRole("button", { name: "打开导航" }).click();
   await expect(page.getByRole("dialog").getByRole("navigation", { name: "主导航" })).toBeVisible();
   await page.screenshot({ path: path.join(evidenceRoot, "mobile-navigation.png"), fullPage: true });
+});
+
+test("open weights columns are customizable and traceable", async ({ page }, testInfo) => {
+  await page.goto("/models?sort=downloads&order=desc");
+  await page.waitForLoadState("networkidle");
+  const table = page.locator(".model-catalog-table");
+  await expect(page.getByRole("columnheader", { name: /排序 下载量/ })).toHaveAttribute("aria-sort", "descending");
+  const downloads = await table.locator("tbody tr td:nth-child(11)").evaluateAll((cells) =>
+    cells.map((cell) => cell.querySelector("[title]")?.getAttribute("title")).map((value) => (value ? Number(value) : null)),
+  );
+  expect(downloads.every((value) => value !== null)).toBe(true);
+  expect(downloads).toEqual([...downloads].sort((left, right) => Number(right) - Number(left)));
+
+  const repoLink = table.locator("tbody tr").first().locator("td:nth-child(9) a");
+  await expect(repoLink).toHaveAttribute("href", /^https:\/\/huggingface\.co\//);
+  await expect(repoLink).toHaveAttribute("target", "_blank");
+  await expect(table.locator("tbody tr").first().locator("td:nth-child(10) .tag")).toBeVisible();
+  await expect.poll(() => page.locator(".table-frame").evaluate((element) => element.scrollWidth > element.clientWidth)).toBe(true);
+  await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth === document.documentElement.clientWidth)).toBe(true);
+
+  await page.locator(".column-picker > summary").click();
+  await page.locator('.column-picker-panel input[value="license"]').uncheck();
+  await expect.poll(() => new URL(page.url()).searchParams.getAll("cols")).not.toContain("license");
+  await expect(page.getByRole("columnheader", { name: /许可证/ })).toHaveCount(0);
+  await expect(page.getByRole("columnheader", { name: /开源权重/ })).toBeVisible();
+
+  await page.locator(".column-picker > summary").click();
+  await page.locator('.column-picker-panel input[value="parameters"]').check();
+  await expect(page.getByRole("columnheader", { name: /参数量/ })).toBeVisible();
+  await page.screenshot({ path: path.join(evidenceRoot, `${testInfo.project.name}-model-open-weights.png`), fullPage: true });
+
+  await page.locator('.toolbar > label input[name="weights"]').check();
+  await expect.poll(() => new URL(page.url()).searchParams.get("weights")).toBe("1");
+  await expect.poll(() => table.locator("tbody tr").evaluateAll((rows) => rows.every((row) => {
+    const cell = row.querySelector("td:nth-child(9)");
+    return cell?.textContent?.trim() !== "-";
+  }))).toBe(true);
 });

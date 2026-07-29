@@ -83,6 +83,10 @@ function evidenceSummary(evidence) {
   };
 }
 
+export function canonicalMatchKey(value) {
+  return automaticAliasKey(value);
+}
+
 export function explicitModelAliases() {
   return Object.entries(explicitAliases)
     .map(([alias, value]) => ({
