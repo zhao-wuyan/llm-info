@@ -1,0 +1,47 @@
+app/compare/page.tsx
+  s_dab98818530411::t_4c84267ccefd1b 5-6,10-11,18-28,39-43,79,86-88,90,93-97,101-117,119-123,125-127,130-132,134-136,155-159,174-181,183,185-186,192,195,197,199,201,215,219,235-238,241-244
+app/globals.css
+  s_dab98818530411::t_ae0edc82ae5e4e 68,81,164,170,172-183
+app/layout.tsx
+  s_dab98818530411::t_a17492f58fbba0 13
+app/models/page.tsx
+  s_dab98818530411::t_e211196aa0de09 6,9,15,43-46,48,119-123,139-140,142
+app/providers/page.tsx
+  s_dab98818530411::t_e6388e6569c183 6,67
+app/sources/page.tsx
+  s_dab98818530411::t_b045e295647c43 4,45
+components/app-shell.tsx
+  s_dab98818530411::t_f3d3b0c9334b99 5,11
+components/auto-submit-form.tsx
+  s_dab98818530411::t_f1e1de6f94dca1 1-2,5-10
+components/ui.tsx
+  s_dab98818530411::t_9572aedf7926e0 1,10-18
+lib/catalog.ts
+  s_dab98818530411::t_41900ec7ae38bc 47,69
+lib/i18n.ts
+  s_dab98818530411::t_42156f0e3937ea 8,25-26,29,31,37,54-55,58,60
+next-env.d.ts
+  s_dab98818530411::t_64a98fce499192 3
+tests/catalog.test.ts
+  s_dab98818530411::t_6cbec4dec456a4 78,80-83,85-94
+tests/e2e/accessibility.spec.ts
+  s_dab98818530411::t_e53be663c161b2 15-34,43-188
+tests/e2e/catalog.spec.ts
+  s_dab98818530411::t_08f58d95b9d84a 123,132-136,138-139,185-257,318-320,323,326,328,332,346,348,351,356-419,441-444,447-451,462-463,478,484,499-699
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "dba2a5196642186528ec94ffbf614f1a5c97e195",
+  "prompts": {},
+  "sessions": {
+    "s_dab98818530411": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f75f5-5414-7d92-8c36-efc80d388bd8",
+        "model": "unknown"
+      },
+      "human_author": "zhao-wuyan <zhao-wuyan@exampl.com>"
+    }
+  }
+}
