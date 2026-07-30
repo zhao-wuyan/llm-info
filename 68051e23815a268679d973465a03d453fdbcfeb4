@@ -1,0 +1,83 @@
+app/models/[...canonicalId]/page.tsx
+  s_7f5a8c89d84905::t_d5e0a0e7e48d7c 62
+lib/catalog.ts
+  s_7f5a8c89d84905::t_c6ca2891edd7ce 13-16,37,43,54-55,60,62
+  s_7f5a8c89d84905::t_5958b1b7520edd 91
+app/models/page.tsx
+  s_7f5a8c89d84905::t_f2bf421678f238 5,8,13,16-17,22-54,62-64,76-77,89-91,115,130-134,143,147-152,155-164,167-173
+lib/model-sort.ts
+  s_7f5a8c89d84905::t_e1a39a0cb5d70d 5-18,30-31,40,43,47-49,59-60
+  s_7f5a8c89d84905::t_f9d71c73e979bf 61
+src/validate.js
+  s_7f5a8c89d84905::t_0242949c387f7e 2-28,42-49,88
+scripts/generate-models.js
+  s_7f5a8c89d84905::t_e5e8b1394d8764 6,11,19,21-25,27,30,35,46,65-66,69
+  s_7f5a8c89d84905::t_6140f7577416f9 51-52,67-68
+src/config.js
+  s_7f5a8c89d84905::t_89196f6d591853 10,24,34,44,48-59
+src/database-change.js
+  s_7f5a8c89d84905::t_b835c8377d088b 9,17-20,63-68,70-77,111,117,124,147,182,210
+src/model-alias-discovery.js
+  s_7f5a8c89d84905::t_46ea6d19648bfa 86-89
+tests/model-columns.test.ts
+  s_7f5a8c89d84905::t_c2eb17058d9738 1-67
+components/weights-cells.tsx
+  s_7f5a8c89d84905::t_24206714a4a8d8 29-35,37-38
+  s_7f5a8c89d84905::t_301648550937ec 1-28,36,39-53
+src/merge.js
+  s_7f5a8c89d84905::t_934ae060fb9ad8 2-7,86-109,122-125,130-134,139,145,157-162,169-173,177-179,212-215
+  s_7f5a8c89d84905::t_d70cc8d295d94a 110-121,126-129
+  s_7f5a8c89d84905::t_82def04a5ab226 194-196
+components/column-picker.tsx
+  s_7f5a8c89d84905::t_e48bdc401edab9 1-30
+src/spdx-licenses.json
+  s_7f5a8c89d84905::t_8cff4b3208724d 1-49
+lib/types.ts
+  s_7f5a8c89d84905::t_b150273c73dacb 54-73,95,119,135-137,187
+schemas/models.schema.json
+  s_7f5a8c89d84905::t_2c75adad2bba0e 37-47,51-52,55-57,135-157,170
+lib/model-columns.ts
+  s_7f5a8c89d84905::t_c0a9805bf86ec6 1-47
+src/adapters/huggingface.js
+  s_7f5a8c89d84905::t_2988c801c1c4f9 45,48,50,54
+  s_7f5a8c89d84905::t_8c86b1a8b83081 1-44,46-47,49,51-53,55-74,76-108
+  s_7f5a8c89d84905::t_7220fcfc0f1209 75
+src/huggingface-models.json
+  s_7f5a8c89d84905::t_e77548871cca3c 1-36
+  s_7f5a8c89d84905::t_9964cb0c9620bc 37-138
+src/fetch.js
+  s_7f5a8c89d84905::t_6fdba332e5f25b 60-109,113-137
+  s_7f5a8c89d84905::t_aa5d4475777a44 110-112
+.github/workflows/update-model-data.yml
+  s_7f5a8c89d84905::t_f883941e0cc9f8 49-50
+README.md
+  s_7f5a8c89d84905::t_68014e028ed23c 10-11,39,43-55,63-69,81,98,204-245,267,277,281,290,293,295,305,307-309
+app/globals.css
+  s_7f5a8c89d84905::t_67715e5644b5d1 61,91,93,107,125-143
+app/sources/page.tsx
+  s_7f5a8c89d84905::t_fc2993ab5ce330 46
+data/models.json
+  s_7f5a8c89d84905::t_60de52baedb827 1
+lib/i18n.ts
+  s_7f5a8c89d84905::t_c112ccc51e84f6 22-24,45-47
+test/pipeline.test.js
+  s_7f5a8c89d84905::t_113917cb2a9d24 5,9-10,520-701
+tests/e2e/catalog.spec.ts
+  s_7f5a8c89d84905::t_13396a072f2772 237,247,271-272,287,289-292,345-381
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "68051e23815a268679d973465a03d453fdbcfeb4",
+  "prompts": {},
+  "sessions": {
+    "s_7f5a8c89d84905": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "019fad23-053f-7aa8-a287-fb010866df96",
+        "model": "claude-opus-5"
+      },
+      "human_author": "zhao-wuyan <zhao-wuyan@exampl.com>"
+    }
+  }
+}

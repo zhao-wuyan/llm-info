@@ -1,0 +1,70 @@
+src/adapters/litellm.js
+  s_221592beb67210::t_33ab9bd88590ab 97
+  s_221592beb67210::t_ef6128f64c6728 50-64
+lib/lifecycle.ts
+  s_221592beb67210::t_7455d3fa0b545a 1-69,145
+  s_57f7851f2f4177::t_5f5ad3b30491da 70-79,81-144
+  s_57f7851f2f4177::t_1fad98ab15be20 80
+src/validate.js
+  s_221592beb67210::t_5aa5bf12149fe0 45-47
+app/models/[...canonicalId]/page.tsx
+  s_221592beb67210::t_e72c27c6ec2af3 8-9,47-52,93
+  s_57f7851f2f4177::t_6853683ec9cf6e 15,63
+tests/lifecycle.test.ts
+  s_221592beb67210::t_a7206d19059521 1-5,7-112,114,132-133,146-147,151-152
+  s_57f7851f2f4177::t_745aa1890c4b2b 115
+  s_57f7851f2f4177::t_3217c7fc11ea21 6,113,116-131,134-145,148-150
+test/pipeline.test.js
+  s_221592beb67210::t_300b9aa85aab10 407-436
+src/merge.js
+  s_221592beb67210::t_17125e76611dd1 150-151
+lib/types.ts
+  s_221592beb67210::t_b80eb83ec65940 177
+  s_221592beb67210::t_9d6bded35087df 54-62,85
+lib/catalog.ts
+  s_221592beb67210::t_bab16c9c3c4b01 5,9-10
+  s_221592beb67210::t_fe6282257552bd 47,69
+lib/format.ts
+  s_221592beb67210::t_63b2c87d4dbc7a 24-30
+app/models/page.tsx
+  s_221592beb67210::t_c5b35a28b54c86 32,35,57-58,82,142
+  s_221592beb67210::t_8c7cd2ac39ff74 134-140
+  s_57f7851f2f4177::t_8a540c158d8f9c 12,33,50-53,59,83,141
+tests/catalog.test.ts
+  s_221592beb67210::t_cc582e03231464 77-90
+lib/i18n.ts
+  s_57f7851f2f4177::t_77ca147196eac8 12-13,41-42
+lib/model-columns.ts
+  s_57f7851f2f4177::t_2f14c308e2dacd 2,114
+  s_57f7851f2f4177::t_4e519c5f94bb76 33
+components/model-cells.tsx
+  s_57f7851f2f4177::t_ccb2a00cbd882f 46-52
+tests/model-columns.test.ts
+  s_57f7851f2f4177::t_89aff2a07f02cc 13,16,37
+schemas/models.schema.json
+  s_57f7851f2f4177::t_522799987d9dbe 142-144
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "0dd1c9b041b958d91989fcaf8d29829b2d0c254a",
+  "prompts": {},
+  "sessions": {
+    "s_221592beb67210": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "019fad23-2f38-7c04-8460-22ce5de8d2ef",
+        "model": "glm-5.2"
+      },
+      "human_author": "全栈工程师【中级】 <agent@multica.local>"
+    },
+    "s_57f7851f2f4177": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "019fad96-6945-73c3-8c3f-f2861d3bb02d",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "全栈工程师【中级】 <agent@multica.local>"
+    }
+  }
+}

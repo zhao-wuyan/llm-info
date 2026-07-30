@@ -1,0 +1,54 @@
+src/adapters/litellm.js
+  s_221592beb67210::t_33ab9bd88590ab 97
+  s_221592beb67210::t_ef6128f64c6728 50-64
+lib/lifecycle.ts
+  s_221592beb67210::t_1ba044c73bf21a 71-72
+  s_221592beb67210::t_7455d3fa0b545a 1-70,73-79
+src/validate.js
+  s_221592beb67210::t_5aa5bf12149fe0 45-47
+app/globals.css
+  s_221592beb67210::t_cce6e04e529b4f 56,62
+app/models/[...canonicalId]/page.tsx
+  s_221592beb67210::t_e72c27c6ec2af3 7-8,12,39-44,55,67
+tests/lifecycle.test.ts
+  s_221592beb67210::t_a7206d19059521 1-132
+test/pipeline.test.js
+  s_221592beb67210::t_300b9aa85aab10 407-436
+schemas/models.schema.json
+  s_221592beb67210::t_937bb5f4088d42 1
+src/merge.js
+  s_221592beb67210::t_17125e76611dd1 150-151
+lib/types.ts
+  s_221592beb67210::t_b80eb83ec65940 177
+  s_221592beb67210::t_9d6bded35087df 54-62,85
+lib/catalog.ts
+  s_221592beb67210::t_bab16c9c3c4b01 5,9-10
+  s_221592beb67210::t_fe6282257552bd 47,69
+lib/format.ts
+  s_221592beb67210::t_63b2c87d4dbc7a 24-30
+lib/i18n.ts
+  s_221592beb67210::t_e3c055a6f41824 34
+  s_221592beb67210::t_42fffb4a0c5851 12
+  s_221592beb67210::t_100180652e663e 13,35
+app/models/page.tsx
+  s_221592beb67210::t_c5b35a28b54c86 8,10,26-29,41-43,55-57,108
+  s_221592beb67210::t_8c7cd2ac39ff74 11,70-75,101-107,109-117,129,140,156
+tests/catalog.test.ts
+  s_221592beb67210::t_cc582e03231464 77-90
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "b35d31ff49805dddb84b9194c6cb047394a24130",
+  "prompts": {},
+  "sessions": {
+    "s_221592beb67210": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "019fad23-2f38-7c04-8460-22ce5de8d2ef",
+        "model": "glm-5.2"
+      },
+      "human_author": "全栈工程师【中级】 <agent@multica.local>"
+    }
+  }
+}
