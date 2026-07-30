@@ -43,6 +43,13 @@ export function ModelCell({ column, model, locale, currency }: { column: ColumnD
       return <td className="mono">{compactNumber(model.maxOutput)}</td>;
     case "providers":
       return <td className="mono">{model.providerCount}</td>;
+    case "lifecycle": {
+      const statusKey = model.lifecycle.status === "active" ? "lifecycleActive" : model.lifecycle.status === "deprecated" ? "lifecycleDeprecated" : "lifecycleSunset";
+      return <td><div className="tag-list">
+        <span className={`tag${model.lifecycle.status === "active" ? " success" : model.lifecycle.status === "sunset" ? " warning" : ""}`}>{msg(locale, statusKey)}</span>
+        {model.lifecycle.deprecationDate && <span className="mono">{model.lifecycle.deprecationDate}</span>}
+      </div></td>;
+    }
     case "weights":
       return <td>{facts || model.openWeights
         ? <span className="tag success" title={facts?.repoId}>{msg(locale, "openWeightsLabel")}{facts?.gated ? ` · ${msg(locale, "gated")}` : ""}</span>

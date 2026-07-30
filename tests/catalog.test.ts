@@ -74,4 +74,18 @@ describe("catalog view model", () => {
     expect(priceRate(model?.displayPrices.USD ?? null, "textInput")).toBe(5);
     expect(priceRate(model?.minPrices.USD ?? null, "textInput")).toBe(4.2929);
   });
+
+  it("derives a lifecycle status for every canonical model", () => {
+    const statuses = new Set(canonicalModels.map((model) => model.lifecycle.status));
+    // The merged dataset has LiteLLM deprecation dates, so at least one model must be marked deprecated or sunset.
+    const nonActive = canonicalModels.filter((model) => model.lifecycle.status !== "active");
+    expect(nonActive.length).toBeGreaterThan(0);
+    expect(canonicalModels.every((model) => ["active", "deprecated", "sunset"].includes(model.lifecycle.status))).toBe(true);
+    // Models that report a deprecation date must not be marked active.
+    for (const model of canonicalModels) {
+      if (model.lifecycle.deprecationDate) {
+        expect(model.lifecycle.status).not.toBe("active");
+      }
+    }
+  });
 });
