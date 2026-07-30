@@ -1,0 +1,19 @@
+data/models.json
+  s_6804bd222a267c::t_891fc91c8ea079 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "f80f28bdd615de424ae68215e9c66ef938f02c47",
+  "prompts": {},
+  "sessions": {
+    "s_6804bd222a267c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f7a98-3eae-7ff0-bea9-a70a69dde4dd",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "zhao-wuyan <zhao-wuyan@exampl.com>"
+    }
+  }
+}
