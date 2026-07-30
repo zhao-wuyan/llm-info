@@ -1,0 +1,501 @@
+{
+  "schema_version": "artifacts/1.0",
+  "revision": 5,
+  "artifacts": {
+    "ART-001-001": {
+      "kind": "findings",
+      "role": "evidence",
+      "producer_run_id": "20260730-001-analyze",
+      "relative_path": "runs/20260730-001-analyze/outputs/findings.json",
+      "media_type": "application/json",
+      "schema_version": "findings/1.0",
+      "content_hash": "a56b9961c0c26d2d35330549b58379cf4ba5508f431c016a7145ff2cb2b6e64f",
+      "size": 21833,
+      "status": "sealed",
+      "derived_from": [],
+      "replaces": null
+    },
+    "ART-001-002": {
+      "kind": "priors",
+      "role": "attachment",
+      "producer_run_id": "20260730-001-analyze",
+      "relative_path": "runs/20260730-001-analyze/outputs/priors.json",
+      "media_type": "application/json",
+      "schema_version": "priors/1.0",
+      "content_hash": "9e93b77c0ba7f52845a7a3c6ca2f5368351a42ada1be57216c5145fa7e99dd5c",
+      "size": 3172,
+      "status": "sealed",
+      "derived_from": [],
+      "replaces": null
+    },
+    "ART-001-003": {
+      "kind": "risk-matrix",
+      "role": "evidence",
+      "producer_run_id": "20260730-001-analyze",
+      "relative_path": "runs/20260730-001-analyze/outputs/risk-matrix.json",
+      "media_type": "application/json",
+      "schema_version": "risk-matrix/1.0",
+      "content_hash": "ab45f88e424ea3f25595517708dd81a39909bc88f13df50604b4456c1262a82f",
+      "size": 6438,
+      "status": "sealed",
+      "derived_from": [],
+      "replaces": null
+    },
+    "ART-002-001": {
+      "kind": "collision-report",
+      "role": "evidence",
+      "producer_run_id": "20260730-002-plan",
+      "relative_path": "runs/20260730-002-plan/outputs/collision-report.json",
+      "media_type": "application/json",
+      "schema_version": "collision-report/1.0",
+      "content_hash": "229569fce72302debed07098a6d5d89d2f3f026f6827476435cb594ee387b090",
+      "size": 2981,
+      "status": "sealed",
+      "derived_from": [
+        "ART-001-001",
+        "ART-001-002"
+      ],
+      "replaces": null
+    },
+    "ART-002-002": {
+      "kind": "dependency-graph",
+      "role": "evidence",
+      "producer_run_id": "20260730-002-plan",
+      "relative_path": "runs/20260730-002-plan/outputs/dependency-graph.json",
+      "media_type": "application/json",
+      "schema_version": "dependency-graph/1.0",
+      "content_hash": "e54a390ddce661c46c3734f0fd88d10db083a80fe42455d293013e54bdae0afb",
+      "size": 1305,
+      "status": "sealed",
+      "derived_from": [
+        "ART-001-001",
+        "ART-001-002"
+      ],
+      "replaces": null
+    },
+    "ART-002-003": {
+      "kind": "plan-check",
+      "role": "evidence",
+      "producer_run_id": "20260730-002-plan",
+      "relative_path": "runs/20260730-002-plan/outputs/plan-check.json",
+      "media_type": "application/json",
+      "schema_version": "plan-check/1.0",
+      "content_hash": "c675e31d53524a9557f4c4db20ad58290cda969cc0de3258d0e56e136e7ce0cb",
+      "size": 2536,
+      "status": "sealed",
+      "derived_from": [
+        "ART-001-001",
+        "ART-001-002"
+      ],
+      "replaces": null
+    },
+    "ART-002-004": {
+      "kind": "plan",
+      "role": "evidence",
+      "producer_run_id": "20260730-002-plan",
+      "relative_path": "runs/20260730-002-plan/outputs/plan.json",
+      "media_type": "application/json",
+      "schema_version": "plan/1.0",
+      "content_hash": "4cd8ad3ebdcd5f815f945cbb330b3f51f1159ab2327a0dd2fb2a03ff219e3fca",
+      "size": 2859,
+      "status": "superseded",
+      "derived_from": [
+        "ART-001-001",
+        "ART-001-002"
+      ],
+      "replaces": null
+    },
+    "ART-002-005": {
+      "kind": "plan-task",
+      "role": "attachment",
+      "producer_run_id": "20260730-002-plan",
+      "relative_path": "runs/20260730-002-plan/outputs/tasks/TASK-001.json",
+      "media_type": "application/json",
+      "schema_version": "plan-task/1.0",
+      "content_hash": "d24e095778ae533470e758b325d8b593bc7feea13c831472d2336829d33a3602",
+      "size": 2812,
+      "status": "sealed",
+      "derived_from": [
+        "ART-001-001",
+        "ART-001-002"
+      ],
+      "replaces": null
+    },
+    "ART-002-006": {
+      "kind": "plan-task",
+      "role": "attachment",
+      "producer_run_id": "20260730-002-plan",
+      "relative_path": "runs/20260730-002-plan/outputs/tasks/TASK-002.json",
+      "media_type": "application/json",
+      "schema_version": "plan-task/1.0",
+      "content_hash": "1a9ec4c088fbf83c81675847666eb557493f383107c48c3f43745c1041144f4a",
+      "size": 2040,
+      "status": "sealed",
+      "derived_from": [
+        "ART-001-001",
+        "ART-001-002"
+      ],
+      "replaces": null
+    },
+    "ART-002-007": {
+      "kind": "plan-task",
+      "role": "attachment",
+      "producer_run_id": "20260730-002-plan",
+      "relative_path": "runs/20260730-002-plan/outputs/tasks/TASK-003.json",
+      "media_type": "application/json",
+      "schema_version": "plan-task/1.0",
+      "content_hash": "90e0dc6e829f9adad450631368683b10196c2d90bf6eefb759c202666f67b8ff",
+      "size": 3003,
+      "status": "sealed",
+      "derived_from": [
+        "ART-001-001",
+        "ART-001-002"
+      ],
+      "replaces": null
+    },
+    "ART-002-008": {
+      "kind": "plan-task",
+      "role": "attachment",
+      "producer_run_id": "20260730-002-plan",
+      "relative_path": "runs/20260730-002-plan/outputs/tasks/TASK-004.json",
+      "media_type": "application/json",
+      "schema_version": "plan-task/1.0",
+      "content_hash": "cdef924fb364cf572eec9a94ccb92fa4b7171e120274aa9ade1e0009cd340d83",
+      "size": 2508,
+      "status": "sealed",
+      "derived_from": [
+        "ART-001-001",
+        "ART-001-002"
+      ],
+      "replaces": null
+    },
+    "ART-002-009": {
+      "kind": "plan-task",
+      "role": "attachment",
+      "producer_run_id": "20260730-002-plan",
+      "relative_path": "runs/20260730-002-plan/outputs/tasks/TASK-005.json",
+      "media_type": "application/json",
+      "schema_version": "plan-task/1.0",
+      "content_hash": "3ca129159d1d9ec6ae836b3288bc2a234a792e43b4c97e3c6402ea9c3192611e",
+      "size": 3027,
+      "status": "sealed",
+      "derived_from": [
+        "ART-001-001",
+        "ART-001-002"
+      ],
+      "replaces": null
+    },
+    "ART-002-010": {
+      "kind": "plan-task",
+      "role": "attachment",
+      "producer_run_id": "20260730-002-plan",
+      "relative_path": "runs/20260730-002-plan/outputs/tasks/TASK-006.json",
+      "media_type": "application/json",
+      "schema_version": "plan-task/1.0",
+      "content_hash": "e03a626106603add7ba788d47e1d7015bc05457bc97a72562d7b3e113ed8ea7e",
+      "size": 1909,
+      "status": "sealed",
+      "derived_from": [
+        "ART-001-001",
+        "ART-001-002"
+      ],
+      "replaces": null
+    },
+    "ART-002-011": {
+      "kind": "plan-task",
+      "role": "attachment",
+      "producer_run_id": "20260730-002-plan",
+      "relative_path": "runs/20260730-002-plan/outputs/tasks/TASK-007.json",
+      "media_type": "application/json",
+      "schema_version": "plan-task/1.0",
+      "content_hash": "2b3e6a21f72a4db7b008b507a32cb1aa8d1d98bb1d27a4f920d7130da92df7ee",
+      "size": 2997,
+      "status": "sealed",
+      "derived_from": [
+        "ART-001-001",
+        "ART-001-002"
+      ],
+      "replaces": null
+    },
+    "ART-002-012": {
+      "kind": "plan-task",
+      "role": "attachment",
+      "producer_run_id": "20260730-002-plan",
+      "relative_path": "runs/20260730-002-plan/outputs/tasks/TASK-008.json",
+      "media_type": "application/json",
+      "schema_version": "plan-task/1.0",
+      "content_hash": "73243aa590eb95a6ec3bc2e7cfa0336dc29ddb9265b84cc85ead659ffb328722",
+      "size": 3101,
+      "status": "sealed",
+      "derived_from": [
+        "ART-001-001",
+        "ART-001-002"
+      ],
+      "replaces": null
+    },
+    "ART-002-013": {
+      "kind": "plan-task",
+      "role": "attachment",
+      "producer_run_id": "20260730-002-plan",
+      "relative_path": "runs/20260730-002-plan/outputs/tasks/TASK-009.json",
+      "media_type": "application/json",
+      "schema_version": "plan-task/1.0",
+      "content_hash": "11a4f8985a4f71d33ec1a301bb95747ebcbfcf8dd14d5aa1d335d49964cc3d07",
+      "size": 2839,
+      "status": "sealed",
+      "derived_from": [
+        "ART-001-001",
+        "ART-001-002"
+      ],
+      "replaces": null
+    },
+    "ART-002-014": {
+      "kind": "execution-waves",
+      "role": "attachment",
+      "producer_run_id": "20260730-002-plan",
+      "relative_path": "runs/20260730-002-plan/outputs/waves.json",
+      "media_type": "application/json",
+      "schema_version": "execution-waves/1.0",
+      "content_hash": "b3fbc2956e5180c343233fbce5db7f9a92ce379334e1234867983eaa1c16fce4",
+      "size": 1809,
+      "status": "sealed",
+      "derived_from": [
+        "ART-001-001",
+        "ART-001-002"
+      ],
+      "replaces": null
+    },
+    "ART-003-001": {
+      "kind": "change-manifest",
+      "role": "evidence",
+      "producer_run_id": "20260730-003-execute",
+      "relative_path": "runs/20260730-003-execute/outputs/change-manifest.json",
+      "media_type": "application/json",
+      "schema_version": "change-manifest/1.0",
+      "content_hash": "7b8348a3f52fcb0f4b950af2437254c4c202fea99e384e16d067fce5c6e47ea6",
+      "size": 1096,
+      "status": "sealed",
+      "derived_from": [
+        "ART-002-004"
+      ],
+      "replaces": null
+    },
+    "ART-003-002": {
+      "kind": "execution",
+      "role": "evidence",
+      "producer_run_id": "20260730-003-execute",
+      "relative_path": "runs/20260730-003-execute/outputs/execution.json",
+      "media_type": "application/json",
+      "schema_version": "execution/1.0",
+      "content_hash": "18d02d84d9f0e2b3945afef413c2821e1c69d7b59c1ba456aa8b853d2486a681",
+      "size": 1116,
+      "status": "sealed",
+      "derived_from": [
+        "ART-002-004"
+      ],
+      "replaces": null
+    },
+    "ART-003-003": {
+      "kind": "self-check",
+      "role": "evidence",
+      "producer_run_id": "20260730-003-execute",
+      "relative_path": "runs/20260730-003-execute/outputs/self-check.json",
+      "media_type": "application/json",
+      "schema_version": "self-check/1.0",
+      "content_hash": "f04cdfa571d295ea3c09123387453f4aa9f5f131b6bd72ad012e98f3f1c86103",
+      "size": 1052,
+      "status": "sealed",
+      "derived_from": [
+        "ART-002-004"
+      ],
+      "replaces": null
+    },
+    "ART-003-004": {
+      "kind": "task-results",
+      "role": "evidence",
+      "producer_run_id": "20260730-003-execute",
+      "relative_path": "runs/20260730-003-execute/outputs/task-results.json",
+      "media_type": "application/json",
+      "schema_version": "task-results/1.0",
+      "content_hash": "0d6d06c1575a060cec6ebf2e20aff240e5fee2e64b2e2d4c5b6160ee1f038034",
+      "size": 1534,
+      "status": "sealed",
+      "derived_from": [
+        "ART-002-004"
+      ],
+      "replaces": null
+    },
+    "ART-004-001": {
+      "kind": "issue-candidates",
+      "role": "evidence",
+      "producer_run_id": "20260730-004-review",
+      "relative_path": "runs/20260730-004-review/outputs/issue-candidates.json",
+      "media_type": "application/json",
+      "schema_version": "issue-candidates/1.0",
+      "content_hash": "f46cdfb9320b15906ce33b3491f7ae5a232fdad0c958c2b2bc00b014dd1da8a2",
+      "size": 142,
+      "status": "sealed",
+      "derived_from": [
+        "ART-003-002"
+      ],
+      "replaces": null
+    },
+    "ART-004-002": {
+      "kind": "review-findings",
+      "role": "evidence",
+      "producer_run_id": "20260730-004-review",
+      "relative_path": "runs/20260730-004-review/outputs/review-findings.json",
+      "media_type": "application/json",
+      "schema_version": "review-findings/1.0",
+      "content_hash": "1b54c29ab611a415b3dd3a8e66d804d12844e61bec8c9a2d4e7e07023e75bfc3",
+      "size": 1133,
+      "status": "sealed",
+      "derived_from": [
+        "ART-003-002"
+      ],
+      "replaces": null
+    },
+    "ART-004-003": {
+      "kind": "spec-conflicts",
+      "role": "evidence",
+      "producer_run_id": "20260730-004-review",
+      "relative_path": "runs/20260730-004-review/outputs/spec-conflicts.json",
+      "media_type": "application/json",
+      "schema_version": "spec-conflicts/1.0",
+      "content_hash": "389067d35ad2094d11387e2b9131555b5a6529b61ac6bdf87bc6fad541e3b6c2",
+      "size": 135,
+      "status": "sealed",
+      "derived_from": [
+        "ART-003-002"
+      ],
+      "replaces": null
+    },
+    "ART-005-001": {
+      "kind": "acceptance",
+      "role": "evidence",
+      "producer_run_id": "20260730-005-test",
+      "relative_path": "runs/20260730-005-test/outputs/acceptance.json",
+      "media_type": "application/json",
+      "schema_version": "acceptance/1.0",
+      "content_hash": "c9951d5031cc5f8c77912942c7689a44d2cb443e6778f790fe1de6ae9743dd66",
+      "size": 1274,
+      "status": "sealed",
+      "derived_from": [
+        "ART-002-004",
+        "ART-003-002",
+        "ART-004-002"
+      ],
+      "replaces": null
+    },
+    "ART-005-002": {
+      "kind": "coverage",
+      "role": "evidence",
+      "producer_run_id": "20260730-005-test",
+      "relative_path": "runs/20260730-005-test/outputs/coverage.json",
+      "media_type": "application/json",
+      "schema_version": "coverage/1.0",
+      "content_hash": "c3c696251b29b08657924dde47529efe563962078d64219a2b784616c31137ee",
+      "size": 564,
+      "status": "sealed",
+      "derived_from": [
+        "ART-002-004",
+        "ART-003-002",
+        "ART-004-002"
+      ],
+      "replaces": null
+    },
+    "ART-005-003": {
+      "kind": "e2e-results",
+      "role": "evidence",
+      "producer_run_id": "20260730-005-test",
+      "relative_path": "runs/20260730-005-test/outputs/e2e-results.json",
+      "media_type": "application/json",
+      "schema_version": "e2e-results/1.0",
+      "content_hash": "4bb1f33c2611c8a4a5664f34f2e07d68cc3b874735532b8f9bc46e029916a166",
+      "size": 523,
+      "status": "sealed",
+      "derived_from": [
+        "ART-002-004",
+        "ART-003-002",
+        "ART-004-002"
+      ],
+      "replaces": null
+    },
+    "ART-005-004": {
+      "kind": "issue-candidates",
+      "role": "evidence",
+      "producer_run_id": "20260730-005-test",
+      "relative_path": "runs/20260730-005-test/outputs/issue-candidates.json",
+      "media_type": "application/json",
+      "schema_version": "issue-candidates/1.0",
+      "content_hash": "f46cdfb9320b15906ce33b3491f7ae5a232fdad0c958c2b2bc00b014dd1da8a2",
+      "size": 142,
+      "status": "sealed",
+      "derived_from": [
+        "ART-002-004",
+        "ART-003-002",
+        "ART-004-002"
+      ],
+      "replaces": null
+    },
+    "ART-005-005": {
+      "kind": "test-plan",
+      "role": "evidence",
+      "producer_run_id": "20260730-005-test",
+      "relative_path": "runs/20260730-005-test/outputs/test-plan.json",
+      "media_type": "application/json",
+      "schema_version": "test-plan/1.0",
+      "content_hash": "a2e939cc41f07e845259cdb88175502c97e59d88634f2d1b328b0b4a7d29761b",
+      "size": 607,
+      "status": "sealed",
+      "derived_from": [
+        "ART-002-004",
+        "ART-003-002",
+        "ART-004-002"
+      ],
+      "replaces": "ART-002-004"
+    },
+    "ART-005-006": {
+      "kind": "test-results",
+      "role": "evidence",
+      "producer_run_id": "20260730-005-test",
+      "relative_path": "runs/20260730-005-test/outputs/test-results.json",
+      "media_type": "application/json",
+      "schema_version": "test-results/1.0",
+      "content_hash": "9b394e7e1f893869802a5678d656ea40ea0e73041b3f94a7275c599ebe9d39cc",
+      "size": 706,
+      "status": "sealed",
+      "derived_from": [
+        "ART-002-004",
+        "ART-003-002",
+        "ART-004-002"
+      ],
+      "replaces": null
+    },
+    "ART-005-007": {
+      "kind": "uat",
+      "role": "evidence",
+      "producer_run_id": "20260730-005-test",
+      "relative_path": "runs/20260730-005-test/outputs/uat.md",
+      "media_type": "text/markdown",
+      "schema_version": "uat/1.0",
+      "content_hash": "b6fac91351f2a85b6c6ead7c6f4a1f2f82ed182888bdedd65fca5dca49d50ad1",
+      "size": 677,
+      "status": "sealed",
+      "derived_from": [
+        "ART-002-004",
+        "ART-003-002",
+        "ART-004-002"
+      ],
+      "replaces": null
+    }
+  },
+  "aliases": {
+    "current-analysis": "ART-001-001",
+    "session-priors": "ART-001-002",
+    "current-plan": "ART-005-005",
+    "current-execution": "ART-003-002",
+    "latest-review": "ART-004-002",
+    "latest-test": "ART-005-006"
+  }
+}

@@ -14,11 +14,14 @@
     "test:data": "node --test test/*.test.js",
     "test:ui": "vitest run",
     "test:e2e": "playwright test",
-    "validate": "node scripts/validate-models.js"
+    "validate": "node scripts/validate-models.js",
+    "generate:index": "node scripts/generate-model-index.js",
+    "validate:index": "node scripts/validate-model-index.js"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
+    "hyparquet": "^1.27.0",
     "lucide-react": "^1.25.0",
     "next": "^16.2.10",
     "next-themes": "^0.4.4",

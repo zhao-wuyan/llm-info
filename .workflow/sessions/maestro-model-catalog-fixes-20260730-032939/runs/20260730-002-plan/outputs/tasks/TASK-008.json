@@ -1,0 +1,28 @@
+{
+  "_meta": { "kind": "plan-task", "schema": "plan-task/1.0", "role": "attachment" },
+  "id": "TASK-008",
+  "title": "T8 Bind model-index validation to the catalog snapshot and regenerate",
+  "description": "Require exact catalog timestamp identity at generation and standalone validation, then regenerate only model-index.json after T7 and T9 correctness work.",
+  "requirement_refs": ["T8", "spec:project:architecture-constraints-003", "knowhow-tip-20260730-board-variant-matching"],
+  "deps": ["TASK-007", "TASK-009"],
+  "files": ["src/model-index/build.js", "scripts/generate-model-index.js", "scripts/validate-model-index.js", "data/model-index.json", "test/model-index.test.js", "test/pipeline.test.js"],
+  "read_first": ["src/model-index/build.js", "scripts/generate-model-index.js", "scripts/validate-model-index.js", "package.json", ".github/workflows/update-model-data.yml", ".github/workflows/validate-model-update.yml", "test/model-index.test.js", "test/pipeline.test.js", "data/models.json", "data/model-index.json"],
+  "symbols": ["validateModelIndex", "buildModelIndex", "catalogGeneratedAt", "generatedAt"],
+  "action": "Change validateModelIndex(index, catalog) to require exact index.catalogGeneratedAt === catalog.generatedAt while retaining all existing schema, board-reference, score, coverage, and open-weight validation. Generation passes catalog before writing; standalone validation loads optional index path then optional catalog path defaulting to data/models.json. Keep package and workflow commands unchanged.",
+  "implementation": [
+    "Add exact-match, one-character mismatch, missing catalog/generatedAt, malformed board-reference, and pipeline snapshot tests after source changes.",
+    "Demonstrate pre-regeneration npm run validate:index rejects catalog 2026-07-29T10:58:23.602Z versus index 2026-07-28T11:37:25.935Z.",
+    "After TASK-007 and TASK-009, run npm run generate:index exactly once to regenerate only data/model-index.json from data/models.json; never hand-edit records.",
+    "Run standalone validation and focused data tests, then inspect generated evidence for corrected E1-E3 mappings, gpt-5 effort maximum scores, and retained schema/revision/source/unmatched/openWeights fields."
+  ],
+  "convergence_criteria": [
+    "A one-character generatedAt mismatch returns a validation error and exact equality passes when all other index facts are valid.",
+    "Pre-regeneration validate:index rejects the known 2026-07-29T10:58:23.602Z / 2026-07-28T11:37:25.935Z pair.",
+    "data/model-index.json catalogGeneratedAt exactly equals data/models.json generatedAt after npm run generate:index.",
+    "Generated index excludes E1-E3 wrong mappings, includes gpt-5 effort matches selected by maximum score, and retains schemaVersion, board metadata/revisions, sourceModel/sourceUrl/match evidence, unmatched tracking, and openWeights.",
+    "package.json and both .github workflow files are not modified."
+  ],
+  "verify": ["node --test test/model-index.test.js test/pipeline.test.js", "npm run validate:index"],
+  "status": "pending",
+  "wave": "WAVE-002"
+}

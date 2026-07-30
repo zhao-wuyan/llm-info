@@ -1,0 +1,29 @@
+{
+  "_meta": { "kind": "collision-report", "schema": "collision-report/1.0", "role": "evidence" },
+  "status": "clear",
+  "scope": "Declared task files write sets only; read_first paths excluded.",
+  "same_wave_collisions": [],
+  "resolved_collisions": [
+    { "files": ["tests/e2e/catalog.spec.ts"], "tasks": ["TASK-009", "TASK-001", "TASK-002", "TASK-003", "TASK-004", "TASK-005", "TASK-006"], "resolution": "Serialized by WAVE-001 through WAVE-007 and explicit dependency chain; preserve accumulated behavior." },
+    { "files": ["lib/model-columns.ts", "tests/model-columns.test.ts"], "tasks": ["TASK-002", "TASK-003"], "resolution": "TASK-002 precedes TASK-003 so exact defaults remain while none persistence is added." },
+    { "files": ["app/models/page.tsx"], "tasks": ["TASK-001", "TASK-003", "TASK-004"], "resolution": "Filter picker, then persistence, then reset href/control." },
+    { "files": ["app/compare/page.tsx"], "tasks": ["TASK-003", "TASK-004", "TASK-005", "TASK-006"], "resolution": "Persistence, reset, pagination/precomputation, then banner deletion." },
+    { "files": ["tests/e2e/accessibility.spec.ts"], "tasks": ["TASK-001", "TASK-003", "TASK-004", "TASK-005"], "resolution": "Serialized with the UI dependency chain." },
+    { "files": ["app/globals.css", "lib/i18n.ts"], "tasks": ["TASK-001", "TASK-006"], "resolution": "TASK-001 additions land before TASK-006 deletes only banner-specific selectors/keys." },
+    { "files": ["src/model-index/build.js", "test/model-index.test.js", "test/pipeline.test.js"], "tasks": ["TASK-007", "TASK-008"], "resolution": "TASK-008 depends on TASK-007 and preserves matcher regressions while adding snapshot validation." }
+  ],
+  "exclusive_outputs": [
+    { "path": "data/model-index.json", "owner": "TASK-008", "rule": "Regenerate exactly once through npm run generate:index after TASK-007 and TASK-009; no hand edits." }
+  ],
+  "protected_paths": [
+    { "path": "next-env.d.ts", "writers": [], "status": "protected user change" },
+    { "path": ".workflow/state.json", "writers": [], "status": "protected user/runtime change" },
+    { "path": "data/models.json", "writers": [], "status": "authoritative read-only input" },
+    { "path": "package.json", "writers": [], "status": "read-only integration boundary" },
+    { "path": ".github/workflows/update-model-data.yml", "writers": [], "status": "unchanged invocation" },
+    { "path": ".github/workflows/validate-model-update.yml", "writers": [], "status": "unchanged invocation" },
+    { "path": ".workflow/sessions/maestro-model-catalog-fixes-20260730-032939/session.json", "writers": [], "status": "Runtime-owned" },
+    { "path": ".workflow/sessions/maestro-model-catalog-fixes-20260730-032939/runs/20260730-002-plan/run.json", "writers": [], "status": "Runtime-owned" }
+  ],
+  "checks": { "all_declared_files_compared": true, "same_wave_write_sets_disjoint": true, "generated_output_single_owner": true, "protected_paths_absent_from_write_sets": true }
+}

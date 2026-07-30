@@ -74,4 +74,23 @@ describe("catalog view model", () => {
     expect(priceRate(model?.displayPrices.USD ?? null, "textInput")).toBe(5);
     expect(priceRate(model?.minPrices.USD ?? null, "textInput")).toBe(4.2929);
   });
+
+  it("derives selected-channel lifecycle states for mixed canonical models", () => {
+    const statuses = new Set(canonicalModels.map((model) => model.lifecycle.status));
+    const deepSeekR1 = modelByCanonicalId.get("deepseek-ai/deepseek-r1");
+    const grok3 = modelByCanonicalId.get("xai/grok-3");
+
+    expect(statuses).toEqual(new Set(["active", "deprecated", "sunset"]));
+    expect(canonicalModels.every((model) => ["active", "deprecated", "sunset"].includes(model.lifecycle.status))).toBe(true);
+    expect(deepSeekR1?.channels.some((channel) => channel.deprecated)).toBe(true);
+    expect(deepSeekR1?.channels.some((channel) => !channel.deprecated && !channel.deprecationDate)).toBe(true);
+    expect(deepSeekR1?.lifecycle).toEqual({ status: "active" });
+    expect(grok3?.channels.some((channel) => channel.providerId === "xai" && channel.deprecationDate)).toBe(true);
+    expect(grok3?.channels.some((channel) => channel.providerId !== "xai" && !channel.deprecationDate)).toBe(true);
+    expect(grok3?.lifecycle).toEqual({
+      status: "sunset",
+      deprecationDate: "2026-05-15",
+      source: "litellm",
+    });
+  });
 });

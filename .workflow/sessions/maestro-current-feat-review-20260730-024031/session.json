@@ -1,0 +1,309 @@
+{
+  "session_id": "maestro-current-feat-review-20260730-024031",
+  "intent": "审核当前分支最近两个 feat 提交并确认问题清单",
+  "status": "sealed",
+  "identity_revision": 3,
+  "activity_revision": 3,
+  "active_run_id": null,
+  "latest_completed_run_id": "20260730-001-odyssey-review",
+  "boundary_contract": {
+    "in_scope": [
+      "提交 319ffe3f6635923b945ed1207111d8b49188bd8c",
+      "提交 2cc78549265f1570da9d864de0e23be35452adfe",
+      "模型目录筛选栏与默认列",
+      "列选择持久化与重置筛选",
+      "模型对比排序性能与榜单模型映射",
+      "模型对比页冗余来源统计栏"
+    ],
+    "out_of_scope": [
+      "修改源码",
+      "提交修复",
+      "与上述两个提交无关的全仓库重构"
+    ],
+    "constraints": [
+      "每个代码问题必须提供 file:line 证据",
+      "核对项目已有 UI、架构和数据映射规范",
+      "区分用户已发现问题与额外发现"
+    ],
+    "definition_of_done": "完成两个提交全部变更的正确性、安全、性能、架构和可维护性审核，逐项判断 7 个问题并列出额外发现，给出严重级别、影响和建议，供用户确认后再实施"
+  },
+  "orchestration": {
+    "engine": "coordinator",
+    "quality_mode": "standard",
+    "auto_mode": false,
+    "chain": [
+      {
+        "step_id": "step-000-odyssey-review",
+        "command": "odyssey-review",
+        "status": "sealed",
+        "run_id": "20260730-001-odyssey-review",
+        "inserted_by": "build",
+        "decision_ref": null,
+        "args": "HEAD~2..HEAD --skip-fix --skip-generalize",
+        "stage": "review",
+        "goal_ref": "G1",
+        "retry": {
+          "count": 0,
+          "max": 1
+        }
+      }
+    ],
+    "decision_points": [],
+    "position": null,
+    "decomposition": {
+      "execution_criteria": [
+        "覆盖 319ffe3 与 2cc7854 的全部变更文件",
+        "逐项回应用户列出的 7 个问题",
+        "所有新增代码发现均锚定 file:line",
+        "不修改源码"
+      ],
+      "goals": [
+        {
+          "id": "G1",
+          "goal": "产出当前分支最近两个 feat 提交的可确认审核清单",
+          "boundary": "仅审核 319ffe3 与 2cc7854 引入的变更及其直接调用链",
+          "done_when": "7 项问题均有结论，额外问题按严重级别列出并附代码证据",
+          "evidence": "Git diff、相关规范、源码调用链和必要的性能复现",
+          "lifecycle": [
+            "review"
+          ],
+          "status": "pending"
+        }
+      ],
+      "changelog": []
+    },
+    "lease": null,
+    "executor": {
+      "platform": "claude",
+      "cli_tool": "claude"
+    }
+  },
+  "lifecycle": {
+    "sealed_at": "2026-07-30T11:02:40+08:00",
+    "seal_summary": "Sealed with 1 Run(s)",
+    "promoted_spec_ids": [],
+    "promoted_knowhow_ids": [],
+    "forked_from": null
+  },
+  "refs": {
+    "gates": "gates.json",
+    "artifacts": "artifacts.json",
+    "evidence": "evidence.json"
+  },
+  "intent_identity": {
+    "schema_version": "intent-identity/1.0",
+    "normalization": "NFKC+unicode-lower+whitespace-collapse/1",
+    "workspace_id": "sha256:e8c909275bc02b1a22c0241b80e51c3b79ecfc53b6ab5611d38073cfcd03971b",
+    "command": "session",
+    "verbatim": "审核当前分支最近两个 feat 提交并确认问题清单",
+    "normalized": "审核当前分支最近两个 feat 提交并确认问题清单",
+    "normalized_length": 25,
+    "normalized_hash": "sha256:57f6dee56778c39b5a186457d71c367627f57160cad84692d2a04f56f94840af",
+    "revision": 1,
+    "source": "persisted",
+    "backfill_status": "native",
+    "empty": false
+  },
+  "provenance": {
+    "source": "native",
+    "forked_from": null,
+    "imported_from": [],
+    "created_by": "session-store"
+  },
+  "requests": [
+    {
+      "request_id": "req_52ecbdb8-f228-44cd-998f-5cb0bac11c69",
+      "type": "transition",
+      "status": "applied",
+      "payload": {
+        "schema_version": "transition-request/1.0",
+        "request_id": "req_52ecbdb8-f228-44cd-998f-5cb0bac11c69",
+        "operation": "complete",
+        "subject": {
+          "session_id": "maestro-current-feat-review-20260730-024031",
+          "run_id": "20260730-001-odyssey-review",
+          "chain_step_id": "step-000-odyssey-review"
+        },
+        "normalized_request_hash": "sha256:ed42d7cba0b64dbe0701f2a5648874f048d2900694730213c26a77d773c4ce65",
+        "requested_at": "2026-07-30T03:02:32.401Z",
+        "preconditions": {
+          "session_identity_revision": 2,
+          "session_activity_revision": 1,
+          "active_run_id": "20260730-001-odyssey-review",
+          "run_hash": "sha256:b88c292fc1fc55e9331b0cb3129e4cfb9225a84624350769cc20ff4663674843",
+          "artifact_registry_revision": 0
+        },
+        "payload": {
+          "run_id": "20260730-001-odyssey-review",
+          "notes": [
+            "等待用户确认生命周期聚合语义及修复范围"
+          ],
+          "extra_artifacts": [
+            "outputs/understanding.md",
+            "outputs/evidence.ndjson",
+            "outputs/explore.json"
+          ],
+          "summary_fallback": "审核最近两个 feat 提交，确认 7 项需求并发现 3 项 P1、3 项 P2",
+          "decisions": [
+            "榜单匹配采用按数据源收敛的变体归一化与官方 canonical 优先",
+            "模型对比采用服务端全量排序后分页并预计算行值"
+          ],
+          "chain_verdict": "done-with-concerns",
+          "chain_proposal": null,
+          "completion_input_snapshot": {
+            "schema_version": "complete-input-snapshot/1.0",
+            "files": [
+              {
+                "path": "outputs/evidence.ndjson",
+                "content_hash": "sha256:1a9a3285603f5eb9a7d8a739702707db1eedb36f45f2fea79f1875c6556ea2f6"
+              },
+              {
+                "path": "outputs/explore.json",
+                "content_hash": "sha256:0cb641265ff7b3eae9be7bbf58e493982bee3e7e1b2c9b07b1e40c4bb04cf407"
+              },
+              {
+                "path": "outputs/session.json",
+                "content_hash": "sha256:a8913052de27aa881e4fcb85ef971644f12d8a4b688929b28e6942953417a710"
+              },
+              {
+                "path": "outputs/understanding.md",
+                "content_hash": "sha256:0a1dadbeb6e0de489f440399be6c476f3721e916c5d3c33d8a44e6861c3ce101"
+              },
+              {
+                "path": "report.md",
+                "content_hash": "sha256:5527a6ffc63130a35f6cf410006c1a4f3a755882a4c364605a3b0dec2be1847a"
+              }
+            ],
+            "snapshot_hash": "sha256:e4d7fd481bb82ae9fe423818148f929af1c22c22ec6067730fc4fb228112547e"
+          },
+          "expected_identity_revision": 2,
+          "expected_activity_revision": 1,
+          "lease": {}
+        }
+      },
+      "claimed_by_run_id": "20260730-001-odyssey-review",
+      "outcome": {
+        "schema_version": "transition-outcome/1.0",
+        "transition_id": "tr_9b86dfa3-ccdd-4cc8-9ed6-421f65dd3466",
+        "request_id": "req_52ecbdb8-f228-44cd-998f-5cb0bac11c69",
+        "request_hash": "sha256:ed42d7cba0b64dbe0701f2a5648874f048d2900694730213c26a77d773c4ce65",
+        "operation": "complete",
+        "status": "applied",
+        "applied_at": "2026-07-30T03:02:32.417Z",
+        "subject": {
+          "session_id": "maestro-current-feat-review-20260730-024031",
+          "run_id": "20260730-001-odyssey-review",
+          "chain_step_id": "step-000-odyssey-review"
+        },
+        "postconditions": {
+          "session_identity_revision": 2,
+          "session_activity_revision": 2,
+          "active_run_id": null,
+          "run_hash": "sha256:a21c3539e88584657e3ef864bdda770533c640a2cc9bae9145b91c8cb2f82318",
+          "artifact_registry_revision": 1
+        },
+        "exit_code": 0,
+        "error_code": null,
+        "result_hash": "sha256:ea21b88d01582f63541475c20c57b006a69d139a7c4b46ace0b5a74cd3642971",
+        "result": {
+          "value": {
+            "session_id": "maestro-current-feat-review-20260730-024031",
+            "run_id": "20260730-001-odyssey-review",
+            "status": "sealed",
+            "gates": {
+              "passed": [
+                "GATE-001-02",
+                "GATE-001-03",
+                "GATE-001-04",
+                "GATE-001-05"
+              ],
+              "failed": [],
+              "skipped": [
+                "GATE-001-01",
+                "GATE-001-06",
+                "GATE-001-07",
+                "GATE-001-08"
+              ],
+              "blocking": []
+            },
+            "artifacts": [
+              {
+                "path": "runs/20260730-001-odyssey-review/outputs/evidence.ndjson",
+                "kind": "evidence",
+                "role": "attachment",
+                "alias": "review-evidence"
+              },
+              {
+                "path": "runs/20260730-001-odyssey-review/outputs/explore.json",
+                "kind": "exploration",
+                "role": "attachment",
+                "alias": "review-explore"
+              },
+              {
+                "path": "runs/20260730-001-odyssey-review/outputs/session.json",
+                "kind": "session",
+                "role": "attachment",
+                "alias": "review-session"
+              },
+              {
+                "path": "runs/20260730-001-odyssey-review/outputs/understanding.md",
+                "kind": "review-report",
+                "role": "attachment",
+                "alias": "review-understanding"
+              }
+            ],
+            "warnings": [
+              "outputs/evidence.ndjson: unsupported self-description; inferred kind=evidence",
+              "outputs/understanding.md: missing frontmatter kind; inferred kind=review-report"
+            ],
+            "errors": [],
+            "upstream": {},
+            "reuse_assessments": [],
+            "sealed": true,
+            "primary_artifact_id": null,
+            "artifact_ids": [
+              "ART-001-001",
+              "ART-001-002",
+              "ART-001-003",
+              "ART-001-004",
+              "ART-001-004",
+              "ART-001-001",
+              "ART-001-002"
+            ],
+            "next_action": {
+              "suggest_only": true,
+              "action": "seal_session",
+              "command": "maestro run seal-session maestro-current-feat-review-20260730-024031",
+              "reason": "all steps complete — seal the session",
+              "preconditions": [
+                "all Runs are sealed",
+                "all chain steps are terminal"
+              ]
+            },
+            "chain_transition": {
+              "step_id": "step-000-odyssey-review",
+              "index": 0,
+              "step_status": "sealed",
+              "retry": null
+            },
+            "chain_proposal": null
+          }
+        }
+      }
+    }
+  ],
+  "ralph_authority": null,
+  "schema_version": "session/1.3",
+  "topic_identity": {
+    "schema_version": "topic-identity/1.0",
+    "normalization": "NFKC+unicode-lower+whitespace-collapse/1",
+    "workspace_id": "sha256:e8c909275bc02b1a22c0241b80e51c3b79ecfc53b6ab5611d38073cfcd03971b",
+    "source": "explicit",
+    "verbatim": "审核当前分支最近两个 feat 提交并确认问题清单",
+    "normalized": "审核当前分支最近两个 feat 提交并确认问题清单",
+    "normalized_length": 25,
+    "normalized_hash": "sha256:1418dc1e8088589f473bf2e24e6517c27cca2478ecde330394c24e2891783e55",
+    "identity_hash": "sha256:8edb8749366a92060fe886eebb06478ff45cf612e6c9f9bc02d05c2886041031",
+    "revision": 1
+  }
+}

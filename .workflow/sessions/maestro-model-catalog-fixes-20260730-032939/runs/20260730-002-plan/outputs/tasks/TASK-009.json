@@ -1,0 +1,27 @@
+{
+  "_meta": { "kind": "plan-task", "schema": "plan-task/1.0", "role": "attachment" },
+  "id": "TASK-009",
+  "title": "T9 Aggregate canonical lifecycle official-first with any-active fallback",
+  "description": "Select direct official channels as authoritative when present; otherwise aggregate availability so any active wins, then deprecated, then all-sunset.",
+  "requirement_refs": ["T9"],
+  "deps": [],
+  "files": ["lib/lifecycle.ts", "lib/catalog.ts", "tests/lifecycle.test.ts", "tests/catalog.test.ts", "tests/e2e/catalog.spec.ts"],
+  "read_first": ["lib/lifecycle.ts", "lib/catalog.ts", "lib/types.ts", "lib/price-confidence.ts", "app/models/page.tsx", "tests/lifecycle.test.ts", "tests/catalog.test.ts", "tests/e2e/catalog.spec.ts", "data/models.json"],
+  "symbols": ["canonicalLifecycle", "channelLifecycle", "providerById", "snapshotDate", "isActivelySupported"],
+  "action": "Change canonicalLifecycle to receive provider metadata. Select direct official channels only from Provider.official plus canonical owner alignment; if any exist aggregate only them. Otherwise select active when any channel is active, deprecated when none active and any deprecated, and sunset only when all selected channels are sunset. Derive deprecationDate, deprecated, and source only from channels with the selected status.",
+  "implementation": [
+    "Keep channelLifecycle unchanged and update both lib/catalog.ts canonicalLifecycle callsites to pass providerById and existing snapshotDate.",
+    "Use deterministic earliest date within the selected status cohort and prevent reseller evidence from entering official results.",
+    "After implementation, replace worst-status tests with official-active/reseller-deprecated, official-sunset/reseller-active, no-official any-active, deprecated-over-sunset, all-sunset, and selected date/source cases; add catalog mixed-state/deepseek regression and onlyActive E2E evidence."
+  ],
+  "convergence_criteria": [
+    "An active direct official channel yields active despite deprecated/sunset reseller channels and returns no reseller date/source.",
+    "A sunset direct official channel yields sunset despite an active reseller and returns official date/source.",
+    "Without direct official evidence, any active yields active; otherwise deprecated outranks sunset; all-sunset yields sunset.",
+    "Current mixed-lifecycle canonical IDs, including deepseek-ai/deepseek-r1, satisfy the selected-channel algorithm.",
+    "[UI-observable] /models?active=1 retains an eligible mixed-lifecycle active canonical model and excludes a selected sunset model without UI presentation changes."
+  ],
+  "verify": ["npx vitest run tests/lifecycle.test.ts tests/catalog.test.ts", "npm run test:e2e -- tests/e2e/catalog.spec.ts --grep \"mixed lifecycle|only active\""],
+  "status": "pending",
+  "wave": "WAVE-001"
+}

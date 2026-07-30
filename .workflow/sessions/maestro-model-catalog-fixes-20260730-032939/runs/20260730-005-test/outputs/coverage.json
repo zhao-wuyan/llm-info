@@ -1,0 +1,14 @@
+{
+  "_meta": { "kind": "coverage", "schema": "coverage/1.0", "role": "evidence" },
+  "status": "met",
+  "requirements": { "total": 9, "passed": 9, "failed": 0 },
+  "platforms": { "desktop": "covered", "mobile": "covered" },
+  "dimensions": { "behavior": "covered", "accessibility": "covered", "persistence": "covered", "performance": "covered", "dataIntegrity": "covered", "localization": "covered" },
+  "boardCoverageClosure": {
+    "aaindex": true,
+    "lmarena-text": true,
+    "lmarena-vision": true,
+    "aider-polyglot": true,
+    "hf-downloads": true
+  }
+}

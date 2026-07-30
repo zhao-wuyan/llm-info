@@ -51,6 +51,15 @@ export interface Quality {
   revision: string;
 }
 
+export type LifecycleStatus = "active" | "deprecated" | "sunset";
+
+export interface Lifecycle {
+  status: LifecycleStatus;
+  deprecationDate?: string;
+  deprecated?: boolean;
+  source?: string;
+}
+
 export interface Model {
   id: string;
   providerId: string;
@@ -73,6 +82,7 @@ export interface Model {
   displayPrices: Record<Currency, DisplayPrice | null>;
   quality?: Quality;
   deprecated?: boolean;
+  deprecationDate?: string;
 }
 
 export interface Provider {
@@ -164,4 +174,5 @@ export interface CanonicalModel {
   displayPrices: Record<Currency, CanonicalDisplayPrice | null>;
   minPrices: Record<Currency, DisplayPrice | null>;
   sourceRefs: SourceRef[];
+  lifecycle: Lifecycle;
 }

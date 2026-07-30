@@ -1,0 +1,26 @@
+{
+  "_meta": { "kind": "plan-task", "schema": "plan-task/1.0", "role": "attachment" },
+  "id": "TASK-001",
+  "title": "T1 Consolidate model boolean filters into one checklist multi-select",
+  "description": "Replace the three independent Models boolean filter labels with one accessible checklist popover while preserving their exact URL and filtering semantics.",
+  "requirement_refs": ["T1", "spec:project:ui-conventions-019", "spec:project:ui-conventions-006"],
+  "deps": [],
+  "files": ["components/model-filter-picker.tsx", "app/models/page.tsx", "app/globals.css", "lib/i18n.ts", "tests/e2e/catalog.spec.ts", "tests/e2e/accessibility.spec.ts"],
+  "read_first": ["app/models/page.tsx", "components/auto-submit-form.tsx", "components/column-picker.tsx", "app/globals.css", "lib/i18n.ts", "tests/e2e/catalog.spec.ts", "tests/e2e/accessibility.spec.ts", ".workflow/specs/ui-conventions.md"],
+  "symbols": ["ModelFilterPicker", "ModelsPage", "AutoSubmitForm", "priced", "active", "recent-open"],
+  "action": "Add components/model-filter-picker.tsx using native details/summary and three labeled checkboxes named priced, active, and recent-open; checked priced/active emit 1, unchecked priced/active are omitted, and unchecked recent-open emits recent-open=0 through a hidden fallback. Integrate it into ModelsPage without carrying page, retaining q, ability, weights, valid sort/order, and cols.",
+  "implementation": [
+    "Create server-renderable ModelFilterPicker with localized summary text, selected count, native checkbox labels, visible focus, viewport-bounded local overflow, and existing 44px coarse-pointer sizing.",
+    "Replace only the three page-level checkbox labels in ModelsPage; keep current-currency predicates before full-set sort and page slicing and keep AutoSubmitForm immediate submission.",
+    "Update focused E2E and accessibility scenarios after implementation for independent/combined query states, recent-open=0, page omission, retained q/ability/weights/sort/order/cols, keyboard operation, mobile overflow, and axe results."
+  ],
+  "convergence_criteria": [
+    "[UI-observable] /models renders one checklist summary exposing independently operable priced, active, and recent-open options on desktop and mobile.",
+    "Changing an option from a URL containing page=2 removes page and retains q, ability, weights, sort, order, and cols.",
+    "Unchecked priced and active are absent from the query; unchecked recent-open produces recent-open=0.",
+    "Expanded picker has no document-level horizontal overflow and axe reports 0 serious or critical violations."
+  ],
+  "verify": ["npm run test:e2e -- tests/e2e/catalog.spec.ts --grep \"model filter\"", "npm run test:e2e -- tests/e2e/accessibility.spec.ts --grep \"model filter\""] ,
+  "status": "pending",
+  "wave": "WAVE-002"
+}

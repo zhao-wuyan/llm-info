@@ -1,0 +1,24 @@
+{
+  "_meta": { "kind": "plan-task", "schema": "plan-task/1.0", "role": "attachment" },
+  "id": "TASK-006",
+  "title": "T6 Remove only the Compare evidence banner",
+  "description": "Delete the redundant top evidence banner and only its dead CSS/i18n references while retaining board source cards and paginated footer evidence.",
+  "requirement_refs": ["T6"],
+  "deps": ["TASK-005"],
+  "files": ["app/compare/page.tsx", "app/globals.css", "lib/i18n.ts", "tests/e2e/catalog.spec.ts"],
+  "read_first": ["app/compare/page.tsx", "app/globals.css", "lib/i18n.ts", "tests/e2e/catalog.spec.ts"],
+  "symbols": ["ComparePage", "evidence-banner", "board-strip", "leaderboardEvidence", "boardsCount", "mappedModels"],
+  "action": "Remove only .evidence-banner JSX/CSS and banner-only leaderboardEvidence and boardsCount locale keys. Retain board-strip source cards and links, priceUnit, mappedModels, comparison bars, complete filtered/total and selected-column footer counts, and Pagination.",
+  "implementation": [
+    "Delete the banner JSX and any import made unused solely by it; remove only exact .evidence-banner selectors and the two dead locale keys in both locales.",
+    "After implementation, update focused Compare E2E assertions for banner absence, boards.length linked source cards, complete filtered counts, selected columns, and pagination."
+  ],
+  "convergence_criteria": [
+    "[UI-observable] Compare renders no .evidence-banner and still renders one linked board-strip source card per board.",
+    "app/globals.css contains no .evidence-banner selector and lib/i18n.ts contains no leaderboardEvidence or boardsCount key.",
+    "Footer retains complete filtered mapped/total count, selected-column count, and Pagination after banner deletion."
+  ],
+  "verify": ["npm run test:e2e -- tests/e2e/catalog.spec.ts --grep \"compare sources|evidence banner\""],
+  "status": "pending",
+  "wave": "WAVE-007"
+}

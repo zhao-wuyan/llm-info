@@ -1,0 +1,24 @@
+{
+  "_meta": { "kind": "plan-task", "schema": "plan-task/1.0", "role": "attachment" },
+  "id": "TASK-002",
+  "title": "T2 Set exactly nine default optional columns on Models",
+  "description": "Change only the Models registry defaults to the confirmed ordered nine-column set while retaining every opt-in column and all Compare defaults.",
+  "requirement_refs": ["T2", "spec:project:ui-conventions-017"],
+  "deps": ["TASK-001"],
+  "files": ["lib/model-columns.ts", "tests/model-columns.test.ts", "tests/e2e/catalog.spec.ts"],
+  "read_first": ["lib/model-columns.ts", "app/models/page.tsx", "app/compare/page.tsx", "tests/model-columns.test.ts", "tests/e2e/catalog.spec.ts", ".workflow/specs/ui-conventions.md"],
+  "symbols": ["modelColumns", "compareColumns", "buildModelColumns", "defaultColumnIds"],
+  "action": "Set Models defaultVisible IDs, in registry order, to released, context, input, output, cacheRead, cacheWrite, weights, parameters, and ability. Set providers, lifecycle, license, downloads, likes, maxOutput, and all board columns to opt-in without deleting definitions; do not change compareColumns.",
+  "implementation": [
+    "Update only defaultVisible flags in lib/model-columns.ts and preserve ability as the final titled data column after board columns.",
+    "After implementation, assert the exact ordered nine IDs in tests/model-columns.test.ts and assert clean /models and /compare defaults in catalog E2E coverage."
+  ],
+  "convergence_criteria": [
+    "defaultColumnIds(buildModelColumns(boards)) equals [released, context, input, output, cacheRead, cacheWrite, weights, parameters, ability].",
+    "[UI-observable] A clean /models shows exactly those nine optional columns, all other definitions remain selectable, and ability is the final titled data column.",
+    "A clean /compare retains its pre-change default columns."
+  ],
+  "verify": ["npx vitest run tests/model-columns.test.ts", "npm run test:e2e -- tests/e2e/catalog.spec.ts --grep \"default columns\""],
+  "status": "pending",
+  "wave": "WAVE-003"
+}

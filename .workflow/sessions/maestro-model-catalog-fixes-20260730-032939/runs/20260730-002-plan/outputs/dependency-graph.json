@@ -1,0 +1,18 @@
+{
+  "_meta": { "kind": "dependency-graph", "schema": "dependency-graph/1.0", "role": "evidence" },
+  "nodes": ["TASK-001", "TASK-002", "TASK-003", "TASK-004", "TASK-005", "TASK-006", "TASK-007", "TASK-008", "TASK-009"],
+  "edges": [
+    { "from": "TASK-001", "to": "TASK-002", "reason": "serializes tests/e2e/catalog.spec.ts" },
+    { "from": "TASK-002", "to": "TASK-003", "reason": "T3 extends T2 model-column defaults and shared tests" },
+    { "from": "TASK-003", "to": "TASK-004", "reason": "reset href consumes final cols persistence semantics" },
+    { "from": "TASK-004", "to": "TASK-005", "reason": "serializes Compare page and E2E writes" },
+    { "from": "TASK-005", "to": "TASK-006", "reason": "banner removal preserves final paginated footer" },
+    { "from": "TASK-007", "to": "TASK-008", "reason": "regeneration consumes final matcher semantics" },
+    { "from": "TASK-009", "to": "TASK-001", "reason": "serializes tests/e2e/catalog.spec.ts" },
+    { "from": "TASK-009", "to": "TASK-008", "reason": "confirmed data correctness precedes index regeneration" }
+  ],
+  "roots": ["TASK-007", "TASK-009"],
+  "leaves": ["TASK-006", "TASK-008"],
+  "acyclic": true,
+  "topological_order": ["TASK-007", "TASK-009", "TASK-001", "TASK-008", "TASK-002", "TASK-003", "TASK-004", "TASK-005", "TASK-006"]
+}

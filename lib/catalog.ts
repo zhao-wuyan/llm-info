@@ -2,9 +2,12 @@ import rawCatalog from "@/data/models.json";
 import type { CanonicalModel, Catalog, Currency, DisplayPrice, Model, Provider } from "./types";
 import { canonicalModelDisplayName, resolveCanonicalModelId } from "./model-aliases";
 import { selectCanonicalDisplayPrice } from "./price-confidence";
+import { canonicalLifecycle } from "./lifecycle";
 
 export const catalog = rawCatalog as unknown as Catalog;
 export const providerById = new Map(catalog.providers.map((provider) => [provider.id, provider]));
+// 与数据快照生成时刻对齐，避免 SSR/CSR 时间漂移导致「是否已下线」判断抖动。
+const snapshotDate = new Date(catalog.generatedAt);
 
 function completeness(model: Model) {
   return [model.description, model.contextWindow, model.abilities, model.quality, model.releasedAt].filter(Boolean).length;
@@ -41,6 +44,7 @@ for (const model of catalog.models) {
       displayPrices: { USD: null, CNY: null },
       minPrices: { USD: null, CNY: null },
       sourceRefs: [...model.sourceRefs],
+      lifecycle: canonicalLifecycle([model], providerById, snapshotDate),
     });
     continue;
   }
@@ -62,6 +66,7 @@ for (const group of groups.values()) {
     USD: selectCanonicalDisplayPrice(group.channels, providerById, "USD", catalog.generatedAt),
     CNY: selectCanonicalDisplayPrice(group.channels, providerById, "CNY", catalog.generatedAt),
   };
+  group.lifecycle = canonicalLifecycle(group.channels, providerById, snapshotDate);
 }
 
 export const canonicalModels = [...groups.values()];

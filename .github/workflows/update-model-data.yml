@@ -43,12 +43,16 @@ jobs:
         run: cp data/models.json "$RUNNER_TEMP/models-before.json"
 
       - name: Generate model data
-        run: npm run generate
+        run: |
+          npm run generate
+          npm run generate:index
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Validate generated data
-        run: npm run validate
+        run: |
+          npm run validate
+          npm run validate:index
 
       - name: Build change summary
         id: changes
@@ -68,6 +72,7 @@ jobs:
         run: |
           mkdir -p "$RUNNER_TEMP/model-update/data"
           cp data/models.json "$RUNNER_TEMP/model-update/data/models.json"
+          cp data/model-index.json "$RUNNER_TEMP/model-update/data/model-index.json"
           cp "$RUNNER_TEMP/model-update-summary.md" "$RUNNER_TEMP/model-update/model-update-summary.md"
 
       - name: Upload generated artifact
@@ -100,7 +105,9 @@ jobs:
           path: ${{ runner.temp }}/model-update
 
       - name: Apply generated data
-        run: cp "$RUNNER_TEMP/model-update/data/models.json" data/models.json
+        run: |
+          cp "$RUNNER_TEMP/model-update/data/models.json" data/models.json
+          cp "$RUNNER_TEMP/model-update/data/model-index.json" data/model-index.json
 
       - name: Create update pull request
         id: cpr

@@ -1,0 +1,25 @@
+{
+  "_meta": { "kind": "review-findings", "schema": "review-findings/1.0", "role": "primary" },
+  "runId": "20260730-004-review",
+  "level": "standard",
+  "verdict": "ready",
+  "dimensions": {
+    "correctness": { "status": "reviewed", "findings": 0 },
+    "security": { "status": "reviewed", "findings": 0 },
+    "performance": { "status": "reviewed", "findings": 0 },
+    "architecture": { "status": "reviewed", "findings": 0 }
+  },
+  "findings": [],
+  "resolvedDuringReview": [
+    { "severity": "P2", "area": "column state", "resolution": "Separated applied hidden cols from unnamed picker draft; desktop/mobile regression added." },
+    { "severity": "P2", "area": "board coverage", "resolution": "Count every successful source match before winner selection and validate coverage closure." },
+    { "severity": "P2", "area": "priced E2E", "resolution": "Corrected price-cell range to input/output/cache read/cache write." }
+  ],
+  "evidence": {
+    "independentReviewers": 2,
+    "postFixReReview": "no remaining findings",
+    "unit": "92 passed",
+    "productionE2E": "87 passed, 1 expected skip",
+    "build": "passed"
+  }
+}

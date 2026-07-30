@@ -1,0 +1,69 @@
+{
+  "_meta": { "kind": "priors", "schema": "priors/1.0", "role": "attachment", "alias": "session-priors" },
+  "specs": [
+    {
+      "id": "spec:project:ui-conventions-006",
+      "title": "模型列表单币种价格体系",
+      "category": "ui",
+      "application": "T1/T2/T5 must retain current-currency price display, sorting, missing-value, and persistence semantics."
+    },
+    {
+      "id": "spec:project:ui-conventions-014",
+      "title": "系统数据表固定列宽与三态排序",
+      "category": "ui",
+      "application": "T5 must sort the complete filtered set before slicing and preserve stable widths/missing-last behavior."
+    },
+    {
+      "id": "spec:project:ui-conventions-017",
+      "title": "列表能力列统一置后",
+      "category": "ui",
+      "application": "T2 keeps ability as the final titled data column even though it belongs to the exact nine-column default set."
+    },
+    {
+      "id": "spec:project:ui-conventions-019",
+      "title": "模型目录当前币种报价筛选",
+      "category": "ui",
+      "application": "T1 changes the checkbox presentation to a multi-select but preserves current-currency, URL, filter-before-sort/page, and page-reset semantics."
+    },
+    {
+      "id": "spec:project:ui-conventions-020",
+      "title": "模型对比默认 AAIndex 倒序",
+      "category": "ui",
+      "application": "T5 pagination and T4 reset must preserve default quality-desc and explicit sort=none behavior."
+    },
+    {
+      "id": "spec:project:architecture-constraints-003",
+      "title": "Quality 数据源与模型映射边界",
+      "category": "arch",
+      "application": "T7/T8 preserve canonicalId mapping, external evidence fields, unmatched tracking, and non-overwrite boundaries."
+    }
+  ],
+  "doc_index": [],
+  "wiki": [
+    {
+      "id": "knowhow-tip-20260730-board-variant-matching",
+      "title": "榜单模型变体匹配必须按数据源收敛",
+      "application": "Primary matching rule for T7 and snapshot-binding rule for T8."
+    },
+    {
+      "id": "session-maestro-current-feat-review-20260730-024031",
+      "title": "审核当前分支最近两个 feat 提交并确认问题清单",
+      "application": "Sealed read-only source for the nine confirmed tasks and collision evidence."
+    },
+    {
+      "id": "session-run-maestro-current-feat-review-20260730-024031-20260730-001-odyssey-review",
+      "title": "odyssey-review 20260730-001-odyssey-review",
+      "application": "Provides evidence E1-E11, mapped-model counts, mixed lifecycle count, and stale snapshot timestamps."
+    },
+    {
+      "id": "session-run-20260719-maestro-impeccable-global-sort-20260719-001-maestro-impeccable",
+      "title": "模型列表三态全量排序 implementation knowledge",
+      "application": "Supports the existing full-sort-before-page and URL-state pattern used by T5."
+    },
+    {
+      "id": "session-run-20260719-maestro-impeccable-priced-filter-20260719-001-maestro-impeccable",
+      "title": "模型目录当前币种报价筛选 implementation knowledge",
+      "application": "Supports the existing priced=1 and pre-sort/pre-page contract retained by T1."
+    }
+  ]
+}

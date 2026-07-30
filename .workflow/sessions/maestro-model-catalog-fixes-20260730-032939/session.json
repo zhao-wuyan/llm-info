@@ -1,0 +1,1764 @@
+{
+  "session_id": "maestro-model-catalog-fixes-20260730-032939",
+  "intent": "实施已确认的模型目录与对比修复",
+  "status": "sealed",
+  "identity_revision": 3,
+  "activity_revision": 13,
+  "active_run_id": null,
+  "latest_completed_run_id": "20260730-005-test",
+  "boundary_contract": {
+    "in_scope": [
+      "模型目录三项布尔筛选合并为多选下拉",
+      "模型目录九个默认列和页面级列持久化",
+      "模型、对比、供应商、来源四页重置筛选按钮",
+      "模型对比五十条分页、行数据预计算和移除顶部统计栏",
+      "榜单变体受控归一化、owner 约束和官方 canonical 优先",
+      "模型索引快照强一致校验与重生成",
+      "官方优先且任一可用渠道保持 active 的 canonical 生命周期"
+    ],
+    "out_of_scope": [
+      "调整其他表格默认列",
+      "改变榜单原始分数",
+      "改变供应商详情中的渠道级生命周期事实",
+      "无关页面重设计"
+    ],
+    "constraints": [
+      "沿用现有安静、工具型 UI 和 8px 以内圆角",
+      "筛选、排序、分页均保留 URL 状态",
+      "列偏好按页面隔离，重置筛选不得清除列偏好",
+      "Base、Instruct、Thinking 语义变体不得被通用归一化合并",
+      "不覆盖用户已有工作区改动"
+    ],
+    "definition_of_done": "九项实施任务全部完成；专项单元测试通过；模型和对比页在桌面与移动端可操作、无重叠；刷新与跨页后列偏好保留；索引与目录快照一致；已知错配和漏配复现消失"
+  },
+  "orchestration": {
+    "engine": "coordinator",
+    "quality_mode": "standard",
+    "auto_mode": false,
+    "chain": [
+      {
+        "step_id": "step-000-analyze",
+        "command": "analyze",
+        "status": "sealed",
+        "run_id": "20260730-001-analyze",
+        "inserted_by": "build",
+        "decision_ref": null,
+        "args": "已确认的模型目录、模型对比、榜单映射、索引一致性和生命周期修复",
+        "stage": "analyze",
+        "goal_ref": "G0",
+        "retry": {
+          "count": 0,
+          "max": 1
+        }
+      },
+      {
+        "step_id": "step-001-plan",
+        "command": "plan",
+        "status": "sealed",
+        "run_id": "20260730-002-plan",
+        "inserted_by": "build",
+        "decision_ref": null,
+        "args": "已确认范围",
+        "stage": "plan",
+        "goal_ref": "G0",
+        "retry": {
+          "count": 0,
+          "max": 1
+        }
+      },
+      {
+        "step_id": "step-002-execute",
+        "command": "execute",
+        "status": "sealed",
+        "run_id": "20260730-003-execute",
+        "inserted_by": "build",
+        "decision_ref": null,
+        "args": "--method agent",
+        "stage": "execute",
+        "goal_ref": "G1",
+        "retry": {
+          "count": 0,
+          "max": 2
+        }
+      },
+      {
+        "step_id": "step-003-review",
+        "command": "review",
+        "status": "sealed",
+        "run_id": "20260730-004-review",
+        "inserted_by": "build",
+        "decision_ref": null,
+        "args": "--level standard",
+        "stage": "review",
+        "goal_ref": "G2",
+        "retry": {
+          "count": 0,
+          "max": 1
+        }
+      },
+      {
+        "step_id": "step-004-test",
+        "command": "test",
+        "status": "sealed",
+        "run_id": "20260730-005-test",
+        "inserted_by": "build",
+        "decision_ref": null,
+        "args": "模型目录与模型对比修复",
+        "stage": "test",
+        "goal_ref": "G2",
+        "retry": {
+          "count": 0,
+          "max": 1
+        }
+      }
+    ],
+    "decision_points": [],
+    "position": null,
+    "decomposition": {
+      "execution_criteria": [
+        "九项任务均完成且无兼容别名或临时绕过",
+        "专项测试覆盖持久化、分页、思考等级最高分、owner 拒绝、索引快照和混合生命周期",
+        "浏览器验证桌面与移动端的筛选、列选择、排序、分页和重置"
+      ],
+      "goals": [
+        {
+          "id": "G0",
+          "goal": "形成与已确认审核结论一致的可执行任务 DAG",
+          "boundary": "只规划已确认九项任务",
+          "done_when": "计划覆盖全部任务和测试证据且无写冲突",
+          "evidence": "plan artifacts",
+          "lifecycle": [
+            "analyze",
+            "plan"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "G1",
+          "goal": "完成九项源代码与数据修复",
+          "boundary": "已确认 in_scope",
+          "done_when": "实现完成并通过专项 smoke",
+          "evidence": "execution manifest and self-check",
+          "lifecycle": [
+            "execute"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "G2",
+          "goal": "证明修复正确且前端可用",
+          "boundary": "变更文件及直接行为",
+          "done_when": "代码审查无阻断，专项测试和桌面移动端浏览器验证通过",
+          "evidence": "review findings and verification",
+          "lifecycle": [
+            "review",
+            "test"
+          ],
+          "status": "pending"
+        }
+      ],
+      "changelog": []
+    },
+    "lease": null,
+    "executor": {
+      "platform": "claude",
+      "cli_tool": "claude"
+    }
+  },
+  "lifecycle": {
+    "sealed_at": "2026-07-30T16:48:36+08:00",
+    "seal_summary": "Sealed with 5 Run(s)",
+    "promoted_spec_ids": [],
+    "promoted_knowhow_ids": [],
+    "forked_from": null
+  },
+  "refs": {
+    "gates": "gates.json",
+    "artifacts": "artifacts.json",
+    "evidence": "evidence.json"
+  },
+  "intent_identity": {
+    "schema_version": "intent-identity/1.0",
+    "normalization": "NFKC+unicode-lower+whitespace-collapse/1",
+    "workspace_id": "sha256:e8c909275bc02b1a22c0241b80e51c3b79ecfc53b6ab5611d38073cfcd03971b",
+    "command": "session",
+    "verbatim": "实施已确认的模型目录与对比修复",
+    "normalized": "实施已确认的模型目录与对比修复",
+    "normalized_length": 15,
+    "normalized_hash": "sha256:32a39876060955e47fdbd3acbc514966b3108f7e6221dcb1895c6d3acd4a0303",
+    "revision": 1,
+    "source": "persisted",
+    "backfill_status": "native",
+    "empty": false
+  },
+  "provenance": {
+    "source": "native",
+    "forked_from": null,
+    "imported_from": [],
+    "created_by": "session-store"
+  },
+  "requests": [
+    {
+      "request_id": "req_bd7a510e-42b0-4a7d-bd0e-892148d136f5",
+      "type": "transition",
+      "status": "applied",
+      "payload": {
+        "schema_version": "transition-request/1.0",
+        "request_id": "req_bd7a510e-42b0-4a7d-bd0e-892148d136f5",
+        "operation": "complete",
+        "subject": {
+          "session_id": "maestro-model-catalog-fixes-20260730-032939",
+          "run_id": "20260730-001-analyze",
+          "chain_step_id": "step-000-analyze"
+        },
+        "normalized_request_hash": "sha256:8c89c1ddd0d7a1c77782325f5ebafbf84bcfb4daf9b6720e89ffa0a37df48e37",
+        "requested_at": "2026-07-30T03:44:06.888Z",
+        "preconditions": {
+          "session_identity_revision": 2,
+          "session_activity_revision": 1,
+          "active_run_id": "20260730-001-analyze",
+          "run_hash": "sha256:2b6c293b99e6175850e89db23019b12fb6b4186217869c4781aa21776ffffbfd",
+          "artifact_registry_revision": 0
+        },
+        "payload": {
+          "run_id": "20260730-001-analyze",
+          "notes": [],
+          "extra_artifacts": [
+            "outputs/findings.json",
+            "outputs/risk-matrix.json"
+          ],
+          "summary_fallback": "定位九项修复的文件、符号、测试和验收边界，并锁定 50 条分页",
+          "decisions": [
+            "列状态优先级为 URL、页面专属浏览器存储、默认值",
+            "模型对比完整排序后按 50 条分页"
+          ],
+          "chain_verdict": "done",
+          "chain_proposal": null,
+          "completion_input_snapshot": {
+            "schema_version": "complete-input-snapshot/1.0",
+            "files": [
+              {
+                "path": "outputs/findings.json",
+                "content_hash": "sha256:a56b9961c0c26d2d35330549b58379cf4ba5508f431c016a7145ff2cb2b6e64f"
+              },
+              {
+                "path": "outputs/priors.json",
+                "content_hash": "sha256:9e93b77c0ba7f52845a7a3c6ca2f5368351a42ada1be57216c5145fa7e99dd5c"
+              },
+              {
+                "path": "outputs/risk-matrix.json",
+                "content_hash": "sha256:ab45f88e424ea3f25595517708dd81a39909bc88f13df50604b4456c1262a82f"
+              },
+              {
+                "path": "report.md",
+                "content_hash": "sha256:85ab76e8d5b7a8ea2eac29539bcc040116133c2198c69088a4123f4a987b1205"
+              }
+            ],
+            "snapshot_hash": "sha256:e7d60f551f0eeef2b869e8d782a97d2f8a96b6dd80640b31fb90f87a9b8a9e1c"
+          },
+          "expected_identity_revision": 2,
+          "expected_activity_revision": 1,
+          "lease": {}
+        }
+      },
+      "claimed_by_run_id": "20260730-001-analyze",
+      "outcome": {
+        "schema_version": "transition-outcome/1.0",
+        "transition_id": "tr_0de48ffd-ca9b-4a59-8a42-1dd1b28e9cb6",
+        "request_id": "req_bd7a510e-42b0-4a7d-bd0e-892148d136f5",
+        "request_hash": "sha256:8c89c1ddd0d7a1c77782325f5ebafbf84bcfb4daf9b6720e89ffa0a37df48e37",
+        "operation": "complete",
+        "status": "applied",
+        "applied_at": "2026-07-30T03:44:06.901Z",
+        "subject": {
+          "session_id": "maestro-model-catalog-fixes-20260730-032939",
+          "run_id": "20260730-001-analyze",
+          "chain_step_id": "step-000-analyze"
+        },
+        "postconditions": {
+          "session_identity_revision": 2,
+          "session_activity_revision": 2,
+          "active_run_id": null,
+          "run_hash": "sha256:ce0a739382cab83ca378541ce3b80bcdb6707bb8db19f17027a104fbc2614980",
+          "artifact_registry_revision": 1
+        },
+        "exit_code": 0,
+        "error_code": null,
+        "result_hash": "sha256:74c8e19159f2e1ca58419484581e8bad4ca7176a1c28c683bd72a33d73988109",
+        "result": {
+          "value": {
+            "session_id": "maestro-model-catalog-fixes-20260730-032939",
+            "run_id": "20260730-001-analyze",
+            "status": "sealed",
+            "gates": {
+              "passed": [
+                "GATE-001-04",
+                "GATE-001-05",
+                "GATE-001-06"
+              ],
+              "failed": [],
+              "skipped": [
+                "GATE-001-01",
+                "GATE-001-02",
+                "GATE-001-03",
+                "GATE-001-07",
+                "GATE-001-08",
+                "GATE-001-09",
+                "GATE-001-10"
+              ],
+              "blocking": []
+            },
+            "artifacts": [
+              {
+                "path": "runs/20260730-001-analyze/outputs/findings.json",
+                "kind": "findings",
+                "role": "attachment",
+                "alias": "current-analysis"
+              },
+              {
+                "path": "runs/20260730-001-analyze/outputs/priors.json",
+                "kind": "priors",
+                "role": "attachment",
+                "alias": "session-priors"
+              },
+              {
+                "path": "runs/20260730-001-analyze/outputs/risk-matrix.json",
+                "kind": "risk-matrix",
+                "role": "attachment"
+              }
+            ],
+            "warnings": [],
+            "errors": [],
+            "upstream": {},
+            "reuse_assessments": [],
+            "sealed": true,
+            "primary_artifact_id": null,
+            "artifact_ids": [
+              "ART-001-001",
+              "ART-001-002",
+              "ART-001-003",
+              "ART-001-001",
+              "ART-001-003"
+            ],
+            "next_action": {
+              "suggest_only": true,
+              "action": "dispatch_next",
+              "command": "maestro run next --session maestro-model-catalog-fixes-20260730-032939",
+              "reason": "more pending steps — advance the chain",
+              "preconditions": [
+                "session_status=running",
+                "active_run_id=null",
+                "no earlier pending decision"
+              ]
+            },
+            "chain_transition": {
+              "step_id": "step-000-analyze",
+              "index": 0,
+              "step_status": "sealed",
+              "retry": null
+            },
+            "chain_proposal": null
+          }
+        }
+      }
+    },
+    {
+      "request_id": "accept-plan-findings-20260730",
+      "type": "transition",
+      "status": "applied",
+      "payload": {
+        "schema_version": "transition-request/1.0",
+        "request_id": "accept-plan-findings-20260730",
+        "operation": "accept-reuse",
+        "subject": {
+          "session_id": "maestro-model-catalog-fixes-20260730-032939",
+          "run_id": "20260730-002-plan",
+          "chain_step_id": "step-001-plan"
+        },
+        "normalized_request_hash": "sha256:b46f8165314eb498235cd7bc4862630906bd3f9c77168328e8afd998b4b9d622",
+        "requested_at": "2026-07-30T03:47:47.304Z",
+        "preconditions": {
+          "session_identity_revision": 2,
+          "session_activity_revision": 3,
+          "active_run_id": "20260730-002-plan",
+          "run_hash": "sha256:60d9fcacdbb81905f4e1d61ec2cee40b30101dea6dbe18d65e08a953dab510a0",
+          "artifact_registry_revision": 1
+        },
+        "payload": {
+          "run_id": "20260730-002-plan",
+          "assessment_hash": "sha256:fc579dc477b68f3475997f260a71c10807764f92697bd580e9ad354b71dd1577",
+          "artifact_id": "ART-001-001",
+          "source_fence": {
+            "schema_version": "reuse-source-fence/1.0",
+            "workspace_id": "sha256:e8c909275bc02b1a22c0241b80e51c3b79ecfc53b6ab5611d38073cfcd03971b",
+            "session_id": "maestro-model-catalog-fixes-20260730-032939",
+            "producer_run_id": "20260730-001-analyze",
+            "producer_run_hash": "sha256:ce0a739382cab83ca378541ce3b80bcdb6707bb8db19f17027a104fbc2614980",
+            "producer_status": "sealed",
+            "artifact_id": "ART-001-001",
+            "artifact_role": "evidence",
+            "artifact_status": "sealed",
+            "artifact_hash": "sha256:a56b9961c0c26d2d35330549b58379cf4ba5508f431c016a7145ff2cb2b6e64f",
+            "observed_artifact_hash": "sha256:a56b9961c0c26d2d35330549b58379cf4ba5508f431c016a7145ff2cb2b6e64f",
+            "artifact_schema": "findings/1.0",
+            "artifact_registry_revision": 1,
+            "producer_contract_hash": "sha256:522844e66c2df350a5b3a1698c773ae7b3f57a54c33809b692f9178c64a5e1fa"
+          },
+          "actor": "user",
+          "reason": "用户确认复用同一 Session 已封存且 hash 匹配的分析 findings",
+          "evidence": [
+            "chat:user-confirmed"
+          ],
+          "expected_identity_revision": 2,
+          "expected_activity_revision": 3,
+          "lease": {}
+        }
+      },
+      "claimed_by_run_id": "20260730-002-plan",
+      "outcome": {
+        "schema_version": "transition-outcome/1.0",
+        "transition_id": "tr_d39511a2-a849-4446-8d81-4936228ed33d",
+        "request_id": "accept-plan-findings-20260730",
+        "request_hash": "sha256:b46f8165314eb498235cd7bc4862630906bd3f9c77168328e8afd998b4b9d622",
+        "operation": "accept-reuse",
+        "status": "applied",
+        "applied_at": "2026-07-30T03:47:47.325Z",
+        "subject": {
+          "session_id": "maestro-model-catalog-fixes-20260730-032939",
+          "run_id": "20260730-002-plan",
+          "chain_step_id": "step-001-plan"
+        },
+        "postconditions": {
+          "session_identity_revision": 2,
+          "session_activity_revision": 4,
+          "active_run_id": "20260730-002-plan",
+          "run_hash": "sha256:acf8736405f426b168333d240e8f1ad3790b4c71755680527ff60da4f6f060aa",
+          "artifact_registry_revision": 1
+        },
+        "exit_code": 0,
+        "error_code": null,
+        "result_hash": "sha256:6987727eed1f0522ae11b254ae22d2c3d812de335b30b2bd4cad89b927c9b4ce",
+        "result": {
+          "acceptance": {
+            "run_id": "20260730-002-plan",
+            "assessment_hash": "sha256:fc579dc477b68f3475997f260a71c10807764f92697bd580e9ad354b71dd1577",
+            "artifact_id": "ART-001-001",
+            "source_fence": {
+              "schema_version": "reuse-source-fence/1.0",
+              "workspace_id": "sha256:e8c909275bc02b1a22c0241b80e51c3b79ecfc53b6ab5611d38073cfcd03971b",
+              "session_id": "maestro-model-catalog-fixes-20260730-032939",
+              "producer_run_id": "20260730-001-analyze",
+              "producer_run_hash": "sha256:ce0a739382cab83ca378541ce3b80bcdb6707bb8db19f17027a104fbc2614980",
+              "producer_status": "sealed",
+              "artifact_id": "ART-001-001",
+              "artifact_role": "evidence",
+              "artifact_status": "sealed",
+              "artifact_hash": "sha256:a56b9961c0c26d2d35330549b58379cf4ba5508f431c016a7145ff2cb2b6e64f",
+              "observed_artifact_hash": "sha256:a56b9961c0c26d2d35330549b58379cf4ba5508f431c016a7145ff2cb2b6e64f",
+              "artifact_schema": "findings/1.0",
+              "artifact_registry_revision": 1,
+              "producer_contract_hash": "sha256:522844e66c2df350a5b3a1698c773ae7b3f57a54c33809b692f9178c64a5e1fa"
+            },
+            "actor": "user",
+            "reason": "用户确认复用同一 Session 已封存且 hash 匹配的分析 findings",
+            "evidence": [
+              "chat:user-confirmed"
+            ]
+          },
+          "value": {
+            "session_id": "maestro-model-catalog-fixes-20260730-032939",
+            "run_id": "20260730-002-plan",
+            "artifact_id": "ART-001-001",
+            "assessment_hash": "sha256:fc579dc477b68f3475997f260a71c10807764f92697bd580e9ad354b71dd1577",
+            "run_status": "running",
+            "consumes": [
+              "ART-001-001"
+            ],
+            "entry_gates": {
+              "passed": [
+                "GATE-002-01"
+              ],
+              "failed": [],
+              "skipped": [
+                "GATE-002-02",
+                "GATE-002-03",
+                "GATE-002-04",
+                "GATE-002-05",
+                "GATE-002-06"
+              ],
+              "blocking": []
+            }
+          }
+        }
+      }
+    },
+    {
+      "request_id": "accept-plan-priors-20260730",
+      "type": "transition",
+      "status": "applied",
+      "payload": {
+        "schema_version": "transition-request/1.0",
+        "request_id": "accept-plan-priors-20260730",
+        "operation": "accept-reuse",
+        "subject": {
+          "session_id": "maestro-model-catalog-fixes-20260730-032939",
+          "run_id": "20260730-002-plan",
+          "chain_step_id": "step-001-plan"
+        },
+        "normalized_request_hash": "sha256:a3b7d590b2018f5116ba3582cc6d63099fc0db9e5fdd3d42bc5af6294765b6ca",
+        "requested_at": "2026-07-30T03:48:25.655Z",
+        "preconditions": {
+          "session_identity_revision": 2,
+          "session_activity_revision": 4,
+          "active_run_id": "20260730-002-plan",
+          "run_hash": "sha256:acf8736405f426b168333d240e8f1ad3790b4c71755680527ff60da4f6f060aa",
+          "artifact_registry_revision": 1
+        },
+        "payload": {
+          "run_id": "20260730-002-plan",
+          "assessment_hash": "sha256:de5dd40e242f1e9a5e9e5e35c43f3281f75674c0afe731aaa58b166966dfc642",
+          "artifact_id": "ART-001-002",
+          "source_fence": {
+            "schema_version": "reuse-source-fence/1.0",
+            "workspace_id": "sha256:e8c909275bc02b1a22c0241b80e51c3b79ecfc53b6ab5611d38073cfcd03971b",
+            "session_id": "maestro-model-catalog-fixes-20260730-032939",
+            "producer_run_id": "20260730-001-analyze",
+            "producer_run_hash": "sha256:ce0a739382cab83ca378541ce3b80bcdb6707bb8db19f17027a104fbc2614980",
+            "producer_status": "sealed",
+            "artifact_id": "ART-001-002",
+            "artifact_role": "attachment",
+            "artifact_status": "sealed",
+            "artifact_hash": "sha256:9e93b77c0ba7f52845a7a3c6ca2f5368351a42ada1be57216c5145fa7e99dd5c",
+            "observed_artifact_hash": "sha256:9e93b77c0ba7f52845a7a3c6ca2f5368351a42ada1be57216c5145fa7e99dd5c",
+            "artifact_schema": "priors/1.0",
+            "artifact_registry_revision": 1,
+            "producer_contract_hash": "sha256:522844e66c2df350a5b3a1698c773ae7b3f57a54c33809b692f9178c64a5e1fa"
+          },
+          "actor": "user",
+          "reason": "用户确认复用同一 Session 已封存且 hash 匹配的分析 priors",
+          "evidence": [
+            "chat:user-confirmed"
+          ],
+          "expected_identity_revision": 2,
+          "expected_activity_revision": 4,
+          "lease": {}
+        }
+      },
+      "claimed_by_run_id": "20260730-002-plan",
+      "outcome": {
+        "schema_version": "transition-outcome/1.0",
+        "transition_id": "tr_78ac02e2-64bf-4a69-b45d-77095078195a",
+        "request_id": "accept-plan-priors-20260730",
+        "request_hash": "sha256:a3b7d590b2018f5116ba3582cc6d63099fc0db9e5fdd3d42bc5af6294765b6ca",
+        "operation": "accept-reuse",
+        "status": "applied",
+        "applied_at": "2026-07-30T03:48:25.676Z",
+        "subject": {
+          "session_id": "maestro-model-catalog-fixes-20260730-032939",
+          "run_id": "20260730-002-plan",
+          "chain_step_id": "step-001-plan"
+        },
+        "postconditions": {
+          "session_identity_revision": 2,
+          "session_activity_revision": 5,
+          "active_run_id": "20260730-002-plan",
+          "run_hash": "sha256:16f29a548da2657295c4e7be855d15c4c83abf8bc6df8f7d5aaa6b0081d3d789",
+          "artifact_registry_revision": 1
+        },
+        "exit_code": 0,
+        "error_code": null,
+        "result_hash": "sha256:1aaca426d6b00026cba69e5f7d43574460cfa357960fe3f9635bc8ad395714c5",
+        "result": {
+          "acceptance": {
+            "run_id": "20260730-002-plan",
+            "assessment_hash": "sha256:de5dd40e242f1e9a5e9e5e35c43f3281f75674c0afe731aaa58b166966dfc642",
+            "artifact_id": "ART-001-002",
+            "source_fence": {
+              "schema_version": "reuse-source-fence/1.0",
+              "workspace_id": "sha256:e8c909275bc02b1a22c0241b80e51c3b79ecfc53b6ab5611d38073cfcd03971b",
+              "session_id": "maestro-model-catalog-fixes-20260730-032939",
+              "producer_run_id": "20260730-001-analyze",
+              "producer_run_hash": "sha256:ce0a739382cab83ca378541ce3b80bcdb6707bb8db19f17027a104fbc2614980",
+              "producer_status": "sealed",
+              "artifact_id": "ART-001-002",
+              "artifact_role": "attachment",
+              "artifact_status": "sealed",
+              "artifact_hash": "sha256:9e93b77c0ba7f52845a7a3c6ca2f5368351a42ada1be57216c5145fa7e99dd5c",
+              "observed_artifact_hash": "sha256:9e93b77c0ba7f52845a7a3c6ca2f5368351a42ada1be57216c5145fa7e99dd5c",
+              "artifact_schema": "priors/1.0",
+              "artifact_registry_revision": 1,
+              "producer_contract_hash": "sha256:522844e66c2df350a5b3a1698c773ae7b3f57a54c33809b692f9178c64a5e1fa"
+            },
+            "actor": "user",
+            "reason": "用户确认复用同一 Session 已封存且 hash 匹配的分析 priors",
+            "evidence": [
+              "chat:user-confirmed"
+            ]
+          },
+          "value": {
+            "session_id": "maestro-model-catalog-fixes-20260730-032939",
+            "run_id": "20260730-002-plan",
+            "artifact_id": "ART-001-002",
+            "assessment_hash": "sha256:de5dd40e242f1e9a5e9e5e35c43f3281f75674c0afe731aaa58b166966dfc642",
+            "run_status": "running",
+            "consumes": [
+              "ART-001-001",
+              "ART-001-002"
+            ],
+            "entry_gates": {
+              "passed": [
+                "GATE-002-01",
+                "GATE-002-06"
+              ],
+              "failed": [],
+              "skipped": [
+                "GATE-002-02",
+                "GATE-002-03",
+                "GATE-002-04",
+                "GATE-002-05"
+              ],
+              "blocking": []
+            }
+          }
+        }
+      }
+    },
+    {
+      "request_id": "req_f21529fb-856c-48df-a9d3-5f655479d016",
+      "type": "transition",
+      "status": "applied",
+      "payload": {
+        "schema_version": "transition-request/1.0",
+        "request_id": "req_f21529fb-856c-48df-a9d3-5f655479d016",
+        "operation": "complete",
+        "subject": {
+          "session_id": "maestro-model-catalog-fixes-20260730-032939",
+          "run_id": "20260730-002-plan",
+          "chain_step_id": "step-001-plan"
+        },
+        "normalized_request_hash": "sha256:5620fca21a900630741591a39eabb7b07744b5819ef96a0d539e9bf889679b81",
+        "requested_at": "2026-07-30T04:05:11.406Z",
+        "preconditions": {
+          "session_identity_revision": 2,
+          "session_activity_revision": 5,
+          "active_run_id": "20260730-002-plan",
+          "run_hash": "sha256:16f29a548da2657295c4e7be855d15c4c83abf8bc6df8f7d5aaa6b0081d3d789",
+          "artifact_registry_revision": 1
+        },
+        "payload": {
+          "run_id": "20260730-002-plan",
+          "notes": [],
+          "extra_artifacts": [
+            "outputs/plan.json",
+            "outputs/plan-check.json"
+          ],
+          "summary_fallback": "将九项确认修复合成为 7 波、无同波写冲突的实施 DAG",
+          "decisions": [
+            "数据正确性先行，索引重生成依赖映射与生命周期修复",
+            "模型对比完整排序后固定每页 50 条"
+          ],
+          "chain_verdict": "done",
+          "chain_proposal": null,
+          "completion_input_snapshot": {
+            "schema_version": "complete-input-snapshot/1.0",
+            "files": [
+              {
+                "path": "outputs/collision-report.json",
+                "content_hash": "sha256:229569fce72302debed07098a6d5d89d2f3f026f6827476435cb594ee387b090"
+              },
+              {
+                "path": "outputs/dependency-graph.json",
+                "content_hash": "sha256:e54a390ddce661c46c3734f0fd88d10db083a80fe42455d293013e54bdae0afb"
+              },
+              {
+                "path": "outputs/plan-check.json",
+                "content_hash": "sha256:c675e31d53524a9557f4c4db20ad58290cda969cc0de3258d0e56e136e7ce0cb"
+              },
+              {
+                "path": "outputs/plan.json",
+                "content_hash": "sha256:4cd8ad3ebdcd5f815f945cbb330b3f51f1159ab2327a0dd2fb2a03ff219e3fca"
+              },
+              {
+                "path": "outputs/tasks/TASK-{NNN}.json",
+                "content_hash": null
+              },
+              {
+                "path": "outputs/tasks/TASK-001.json",
+                "content_hash": "sha256:d24e095778ae533470e758b325d8b593bc7feea13c831472d2336829d33a3602"
+              },
+              {
+                "path": "outputs/tasks/TASK-002.json",
+                "content_hash": "sha256:1a9ec4c088fbf83c81675847666eb557493f383107c48c3f43745c1041144f4a"
+              },
+              {
+                "path": "outputs/tasks/TASK-003.json",
+                "content_hash": "sha256:90e0dc6e829f9adad450631368683b10196c2d90bf6eefb759c202666f67b8ff"
+              },
+              {
+                "path": "outputs/tasks/TASK-004.json",
+                "content_hash": "sha256:cdef924fb364cf572eec9a94ccb92fa4b7171e120274aa9ade1e0009cd340d83"
+              },
+              {
+                "path": "outputs/tasks/TASK-005.json",
+                "content_hash": "sha256:3ca129159d1d9ec6ae836b3288bc2a234a792e43b4c97e3c6402ea9c3192611e"
+              },
+              {
+                "path": "outputs/tasks/TASK-006.json",
+                "content_hash": "sha256:e03a626106603add7ba788d47e1d7015bc05457bc97a72562d7b3e113ed8ea7e"
+              },
+              {
+                "path": "outputs/tasks/TASK-007.json",
+                "content_hash": "sha256:2b3e6a21f72a4db7b008b507a32cb1aa8d1d98bb1d27a4f920d7130da92df7ee"
+              },
+              {
+                "path": "outputs/tasks/TASK-008.json",
+                "content_hash": "sha256:73243aa590eb95a6ec3bc2e7cfa0336dc29ddb9265b84cc85ead659ffb328722"
+              },
+              {
+                "path": "outputs/tasks/TASK-009.json",
+                "content_hash": "sha256:11a4f8985a4f71d33ec1a301bb95747ebcbfcf8dd14d5aa1d335d49964cc3d07"
+              },
+              {
+                "path": "outputs/waves.json",
+                "content_hash": "sha256:b3fbc2956e5180c343233fbce5db7f9a92ce379334e1234867983eaa1c16fce4"
+              },
+              {
+                "path": "report.md",
+                "content_hash": "sha256:9b298b8c1c383bc695f0c9e9b1d43134529476dcb2ac3f53f16aeb57338ebaf3"
+              }
+            ],
+            "snapshot_hash": "sha256:3708f82f53d7823e27d6c06f9ca46696855852d00dad6e837bb23ce842fe99fa"
+          },
+          "expected_identity_revision": 2,
+          "expected_activity_revision": 5,
+          "lease": {}
+        }
+      },
+      "claimed_by_run_id": "20260730-002-plan",
+      "outcome": {
+        "schema_version": "transition-outcome/1.0",
+        "transition_id": "tr_ef8190bb-77ab-40c5-a727-113cfb2c1bb6",
+        "request_id": "req_f21529fb-856c-48df-a9d3-5f655479d016",
+        "request_hash": "sha256:5620fca21a900630741591a39eabb7b07744b5819ef96a0d539e9bf889679b81",
+        "operation": "complete",
+        "status": "applied",
+        "applied_at": "2026-07-30T04:05:11.447Z",
+        "subject": {
+          "session_id": "maestro-model-catalog-fixes-20260730-032939",
+          "run_id": "20260730-002-plan",
+          "chain_step_id": "step-001-plan"
+        },
+        "postconditions": {
+          "session_identity_revision": 2,
+          "session_activity_revision": 6,
+          "active_run_id": null,
+          "run_hash": "sha256:196f5670776ea550373cff1f4913ac0a9d17c371e5b2a81d2eedb87f51d7b222",
+          "artifact_registry_revision": 2
+        },
+        "exit_code": 0,
+        "error_code": null,
+        "result_hash": "sha256:cafbee45dfad90d80310d7240aeb73a04aba10b3497c2a1de493434f9fbc2849",
+        "result": {
+          "value": {
+            "session_id": "maestro-model-catalog-fixes-20260730-032939",
+            "run_id": "20260730-002-plan",
+            "status": "sealed",
+            "gates": {
+              "passed": [
+                "GATE-002-01",
+                "GATE-002-06",
+                "GATE-002-07",
+                "GATE-002-08",
+                "GATE-002-09",
+                "GATE-002-10",
+                "GATE-002-11",
+                "GATE-002-12"
+              ],
+              "failed": [],
+              "skipped": [
+                "GATE-002-02",
+                "GATE-002-03",
+                "GATE-002-04",
+                "GATE-002-05",
+                "GATE-002-13",
+                "GATE-002-14",
+                "GATE-002-15",
+                "GATE-002-16"
+              ],
+              "blocking": []
+            },
+            "artifacts": [
+              {
+                "path": "runs/20260730-002-plan/outputs/collision-report.json",
+                "kind": "collision-report",
+                "role": "evidence"
+              },
+              {
+                "path": "runs/20260730-002-plan/outputs/dependency-graph.json",
+                "kind": "dependency-graph",
+                "role": "evidence"
+              },
+              {
+                "path": "runs/20260730-002-plan/outputs/plan-check.json",
+                "kind": "plan-check",
+                "role": "evidence"
+              },
+              {
+                "path": "runs/20260730-002-plan/outputs/plan.json",
+                "kind": "plan",
+                "role": "primary",
+                "alias": "current-plan"
+              },
+              {
+                "path": "runs/20260730-002-plan/outputs/tasks/TASK-001.json",
+                "kind": "plan-task",
+                "role": "attachment"
+              },
+              {
+                "path": "runs/20260730-002-plan/outputs/tasks/TASK-002.json",
+                "kind": "plan-task",
+                "role": "attachment"
+              },
+              {
+                "path": "runs/20260730-002-plan/outputs/tasks/TASK-003.json",
+                "kind": "plan-task",
+                "role": "attachment"
+              },
+              {
+                "path": "runs/20260730-002-plan/outputs/tasks/TASK-004.json",
+                "kind": "plan-task",
+                "role": "attachment"
+              },
+              {
+                "path": "runs/20260730-002-plan/outputs/tasks/TASK-005.json",
+                "kind": "plan-task",
+                "role": "attachment"
+              },
+              {
+                "path": "runs/20260730-002-plan/outputs/tasks/TASK-006.json",
+                "kind": "plan-task",
+                "role": "attachment"
+              },
+              {
+                "path": "runs/20260730-002-plan/outputs/tasks/TASK-007.json",
+                "kind": "plan-task",
+                "role": "attachment"
+              },
+              {
+                "path": "runs/20260730-002-plan/outputs/tasks/TASK-008.json",
+                "kind": "plan-task",
+                "role": "attachment"
+              },
+              {
+                "path": "runs/20260730-002-plan/outputs/tasks/TASK-009.json",
+                "kind": "plan-task",
+                "role": "attachment"
+              },
+              {
+                "path": "runs/20260730-002-plan/outputs/waves.json",
+                "kind": "execution-waves",
+                "role": "attachment"
+              }
+            ],
+            "warnings": [],
+            "errors": [],
+            "upstream": {
+              "current-analysis": {
+                "artifact_id": "ART-001-001",
+                "path": "sessions/maestro-model-catalog-fixes-20260730-032939/runs/20260730-001-analyze/outputs/findings.json",
+                "kind": "findings",
+                "status": "sealed"
+              },
+              "session-priors": {
+                "artifact_id": "ART-001-002",
+                "path": "sessions/maestro-model-catalog-fixes-20260730-032939/runs/20260730-001-analyze/outputs/priors.json",
+                "kind": "priors",
+                "status": "sealed"
+              }
+            },
+            "reuse_assessments": [
+              {
+                "schema_version": "reuse-assessment/1.0",
+                "decision": "REVIEW",
+                "reason_codes": [
+                  "QUALITY_MEDIUM"
+                ],
+                "consumer": {
+                  "kind": "findings",
+                  "alias": "current-analysis",
+                  "schema": null,
+                  "role": null
+                },
+                "source_fence": {
+                  "schema_version": "reuse-source-fence/1.0",
+                  "workspace_id": "sha256:e8c909275bc02b1a22c0241b80e51c3b79ecfc53b6ab5611d38073cfcd03971b",
+                  "session_id": "maestro-model-catalog-fixes-20260730-032939",
+                  "producer_run_id": "20260730-001-analyze",
+                  "producer_run_hash": "sha256:ce0a739382cab83ca378541ce3b80bcdb6707bb8db19f17027a104fbc2614980",
+                  "producer_status": "sealed",
+                  "artifact_id": "ART-001-001",
+                  "artifact_role": "evidence",
+                  "artifact_status": "sealed",
+                  "artifact_hash": "sha256:a56b9961c0c26d2d35330549b58379cf4ba5508f431c016a7145ff2cb2b6e64f",
+                  "observed_artifact_hash": "sha256:a56b9961c0c26d2d35330549b58379cf4ba5508f431c016a7145ff2cb2b6e64f",
+                  "artifact_schema": "findings/1.0",
+                  "artifact_registry_revision": 1,
+                  "producer_contract_hash": "sha256:522844e66c2df350a5b3a1698c773ae7b3f57a54c33809b692f9178c64a5e1fa"
+                },
+                "assessment_hash": "sha256:fc579dc477b68f3475997f260a71c10807764f92697bd580e9ad354b71dd1577"
+              },
+              {
+                "schema_version": "reuse-assessment/1.0",
+                "decision": "REVIEW",
+                "reason_codes": [
+                  "QUALITY_MEDIUM"
+                ],
+                "consumer": {
+                  "kind": "priors",
+                  "alias": "session-priors",
+                  "schema": null,
+                  "role": null
+                },
+                "source_fence": {
+                  "schema_version": "reuse-source-fence/1.0",
+                  "workspace_id": "sha256:e8c909275bc02b1a22c0241b80e51c3b79ecfc53b6ab5611d38073cfcd03971b",
+                  "session_id": "maestro-model-catalog-fixes-20260730-032939",
+                  "producer_run_id": "20260730-001-analyze",
+                  "producer_run_hash": "sha256:ce0a739382cab83ca378541ce3b80bcdb6707bb8db19f17027a104fbc2614980",
+                  "producer_status": "sealed",
+                  "artifact_id": "ART-001-002",
+                  "artifact_role": "attachment",
+                  "artifact_status": "sealed",
+                  "artifact_hash": "sha256:9e93b77c0ba7f52845a7a3c6ca2f5368351a42ada1be57216c5145fa7e99dd5c",
+                  "observed_artifact_hash": "sha256:9e93b77c0ba7f52845a7a3c6ca2f5368351a42ada1be57216c5145fa7e99dd5c",
+                  "artifact_schema": "priors/1.0",
+                  "artifact_registry_revision": 1,
+                  "producer_contract_hash": "sha256:522844e66c2df350a5b3a1698c773ae7b3f57a54c33809b692f9178c64a5e1fa"
+                },
+                "assessment_hash": "sha256:de5dd40e242f1e9a5e9e5e35c43f3281f75674c0afe731aaa58b166966dfc642"
+              }
+            ],
+            "sealed": true,
+            "primary_artifact_id": null,
+            "artifact_ids": [
+              "ART-002-001",
+              "ART-002-002",
+              "ART-002-003",
+              "ART-002-004",
+              "ART-002-005",
+              "ART-002-006",
+              "ART-002-007",
+              "ART-002-008",
+              "ART-002-009",
+              "ART-002-010",
+              "ART-002-011",
+              "ART-002-012",
+              "ART-002-013",
+              "ART-002-014",
+              "ART-002-004",
+              "ART-002-003"
+            ],
+            "next_action": {
+              "suggest_only": true,
+              "action": "dispatch_next",
+              "command": "maestro run next --session maestro-model-catalog-fixes-20260730-032939",
+              "reason": "more pending steps — advance the chain",
+              "preconditions": [
+                "session_status=running",
+                "active_run_id=null",
+                "no earlier pending decision"
+              ]
+            },
+            "chain_transition": {
+              "step_id": "step-001-plan",
+              "index": 1,
+              "step_status": "sealed",
+              "retry": null
+            },
+            "chain_proposal": null
+          }
+        }
+      }
+    },
+    {
+      "request_id": "req_33bebfdb-299b-4e14-af1f-24f445478c59",
+      "type": "transition",
+      "status": "applied",
+      "payload": {
+        "schema_version": "transition-request/1.0",
+        "request_id": "req_33bebfdb-299b-4e14-af1f-24f445478c59",
+        "operation": "complete",
+        "subject": {
+          "session_id": "maestro-model-catalog-fixes-20260730-032939",
+          "run_id": "20260730-003-execute",
+          "chain_step_id": "step-002-execute"
+        },
+        "normalized_request_hash": "sha256:7e91223c2bffe0c16fa203bb7e11a5dd447e0246025252c2d4b0a09dcafda600",
+        "requested_at": "2026-07-30T08:41:11.118Z",
+        "preconditions": {
+          "session_identity_revision": 2,
+          "session_activity_revision": 7,
+          "active_run_id": "20260730-003-execute",
+          "run_hash": "sha256:8cb36b019281246904768066ce9278e09a0a6737726b8e9f8c99b3b81cb537d3",
+          "artifact_registry_revision": 2
+        },
+        "payload": {
+          "run_id": "20260730-003-execute",
+          "notes": [],
+          "extra_artifacts": [
+            "outputs/execution.json",
+            "outputs/task-results.json",
+            "outputs/change-manifest.json",
+            "outputs/self-check.json"
+          ],
+          "summary_fallback": "九项模型目录与对比修复全部完成；92 项 unit、validate/index/build、87+1 production E2E 与独立复核均通过。",
+          "decisions": [],
+          "chain_verdict": "done",
+          "chain_proposal": null,
+          "completion_input_snapshot": {
+            "schema_version": "complete-input-snapshot/1.0",
+            "files": [
+              {
+                "path": "outputs/change-manifest.json",
+                "content_hash": "sha256:7b8348a3f52fcb0f4b950af2437254c4c202fea99e384e16d067fce5c6e47ea6"
+              },
+              {
+                "path": "outputs/execution.json",
+                "content_hash": "sha256:18d02d84d9f0e2b3945afef413c2821e1c69d7b59c1ba456aa8b853d2486a681"
+              },
+              {
+                "path": "outputs/self-check.json",
+                "content_hash": "sha256:f04cdfa571d295ea3c09123387453f4aa9f5f131b6bd72ad012e98f3f1c86103"
+              },
+              {
+                "path": "outputs/task-results.json",
+                "content_hash": "sha256:0d6d06c1575a060cec6ebf2e20aff240e5fee2e64b2e2d4c5b6160ee1f038034"
+              },
+              {
+                "path": "report.md",
+                "content_hash": "sha256:cecdf587d0235266cea3f4f5a6af14b109ca9d89921bf7a6331b5708a68f7159"
+              }
+            ],
+            "snapshot_hash": "sha256:23f328b8f5dc42671094da1f253fd2151629a1c7468a3504d429d027d0f91d89"
+          },
+          "expected_identity_revision": 2,
+          "expected_activity_revision": 7,
+          "lease": {}
+        }
+      },
+      "claimed_by_run_id": "20260730-003-execute",
+      "outcome": {
+        "schema_version": "transition-outcome/1.0",
+        "transition_id": "tr_84547c5e-e2fd-444c-b228-d052b20ababd",
+        "request_id": "req_33bebfdb-299b-4e14-af1f-24f445478c59",
+        "request_hash": "sha256:7e91223c2bffe0c16fa203bb7e11a5dd447e0246025252c2d4b0a09dcafda600",
+        "operation": "complete",
+        "status": "applied",
+        "applied_at": "2026-07-30T08:41:11.153Z",
+        "subject": {
+          "session_id": "maestro-model-catalog-fixes-20260730-032939",
+          "run_id": "20260730-003-execute",
+          "chain_step_id": "step-002-execute"
+        },
+        "postconditions": {
+          "session_identity_revision": 2,
+          "session_activity_revision": 8,
+          "active_run_id": null,
+          "run_hash": "sha256:a7c4a93e059fb03076db8c682db4b77d70dc95ba3927db49e09416b6bfdd3b76",
+          "artifact_registry_revision": 3
+        },
+        "exit_code": 0,
+        "error_code": null,
+        "result_hash": "sha256:5cef7f506aeaa46a1295905ec7e9282d72b47ccb4a653902173f5645a7225f8b",
+        "result": {
+          "value": {
+            "session_id": "maestro-model-catalog-fixes-20260730-032939",
+            "run_id": "20260730-003-execute",
+            "status": "sealed",
+            "gates": {
+              "passed": [
+                "GATE-003-01",
+                "GATE-003-06",
+                "GATE-003-07",
+                "GATE-003-08",
+                "GATE-003-09"
+              ],
+              "failed": [],
+              "skipped": [
+                "GATE-003-02",
+                "GATE-003-03",
+                "GATE-003-04",
+                "GATE-003-05",
+                "GATE-003-10",
+                "GATE-003-11"
+              ],
+              "blocking": []
+            },
+            "artifacts": [
+              {
+                "path": "runs/20260730-003-execute/outputs/change-manifest.json",
+                "kind": "change-manifest",
+                "role": "evidence"
+              },
+              {
+                "path": "runs/20260730-003-execute/outputs/execution.json",
+                "kind": "execution",
+                "role": "primary",
+                "alias": "current-execution"
+              },
+              {
+                "path": "runs/20260730-003-execute/outputs/self-check.json",
+                "kind": "self-check",
+                "role": "evidence"
+              },
+              {
+                "path": "runs/20260730-003-execute/outputs/task-results.json",
+                "kind": "task-results",
+                "role": "attachment"
+              }
+            ],
+            "warnings": [],
+            "errors": [],
+            "upstream": {
+              "current-plan": {
+                "artifact_id": "ART-002-004",
+                "path": "sessions/maestro-model-catalog-fixes-20260730-032939/runs/20260730-002-plan/outputs/plan.json",
+                "kind": "plan",
+                "status": "sealed"
+              }
+            },
+            "reuse_assessments": [
+              {
+                "schema_version": "reuse-assessment/1.0",
+                "decision": "REUSE",
+                "reason_codes": [
+                  "REUSE_ELIGIBLE"
+                ],
+                "consumer": {
+                  "kind": "plan",
+                  "alias": "current-plan",
+                  "schema": null,
+                  "role": null
+                },
+                "source_fence": {
+                  "schema_version": "reuse-source-fence/1.0",
+                  "workspace_id": "sha256:e8c909275bc02b1a22c0241b80e51c3b79ecfc53b6ab5611d38073cfcd03971b",
+                  "session_id": "maestro-model-catalog-fixes-20260730-032939",
+                  "producer_run_id": "20260730-002-plan",
+                  "producer_run_hash": "sha256:196f5670776ea550373cff1f4913ac0a9d17c371e5b2a81d2eedb87f51d7b222",
+                  "producer_status": "sealed",
+                  "artifact_id": "ART-002-004",
+                  "artifact_role": "evidence",
+                  "artifact_status": "sealed",
+                  "artifact_hash": "sha256:4cd8ad3ebdcd5f815f945cbb330b3f51f1159ab2327a0dd2fb2a03ff219e3fca",
+                  "observed_artifact_hash": "sha256:4cd8ad3ebdcd5f815f945cbb330b3f51f1159ab2327a0dd2fb2a03ff219e3fca",
+                  "artifact_schema": "plan/1.0",
+                  "artifact_registry_revision": 2,
+                  "producer_contract_hash": "sha256:20aaddf346484e4b40df4fed19985bd76f29aaf48fb36cf0cf967f8e02931b41"
+                },
+                "assessment_hash": "sha256:1c6e49dde46b821567480dff6a24534e98e3788bc66281919f71e21eb7110dd0"
+              },
+              {
+                "schema_version": "reuse-assessment/1.0",
+                "decision": "REVIEW",
+                "reason_codes": [
+                  "QUALITY_MEDIUM"
+                ],
+                "consumer": {
+                  "kind": "priors",
+                  "alias": "session-priors",
+                  "schema": null,
+                  "role": null
+                },
+                "source_fence": {
+                  "schema_version": "reuse-source-fence/1.0",
+                  "workspace_id": "sha256:e8c909275bc02b1a22c0241b80e51c3b79ecfc53b6ab5611d38073cfcd03971b",
+                  "session_id": "maestro-model-catalog-fixes-20260730-032939",
+                  "producer_run_id": "20260730-001-analyze",
+                  "producer_run_hash": "sha256:ce0a739382cab83ca378541ce3b80bcdb6707bb8db19f17027a104fbc2614980",
+                  "producer_status": "sealed",
+                  "artifact_id": "ART-001-002",
+                  "artifact_role": "attachment",
+                  "artifact_status": "sealed",
+                  "artifact_hash": "sha256:9e93b77c0ba7f52845a7a3c6ca2f5368351a42ada1be57216c5145fa7e99dd5c",
+                  "observed_artifact_hash": "sha256:9e93b77c0ba7f52845a7a3c6ca2f5368351a42ada1be57216c5145fa7e99dd5c",
+                  "artifact_schema": "priors/1.0",
+                  "artifact_registry_revision": 2,
+                  "producer_contract_hash": "sha256:522844e66c2df350a5b3a1698c773ae7b3f57a54c33809b692f9178c64a5e1fa"
+                },
+                "assessment_hash": "sha256:6b514aec9bcf6eafae3eb21a5e69b9889a93ed9612cf02fa5a002c06908e30e0"
+              }
+            ],
+            "sealed": true,
+            "primary_artifact_id": null,
+            "artifact_ids": [
+              "ART-003-001",
+              "ART-003-002",
+              "ART-003-003",
+              "ART-003-004",
+              "ART-003-002",
+              "ART-003-004",
+              "ART-003-001",
+              "ART-003-003"
+            ],
+            "next_action": {
+              "suggest_only": true,
+              "action": "dispatch_next",
+              "command": "maestro run next --session maestro-model-catalog-fixes-20260730-032939",
+              "reason": "more pending steps — advance the chain",
+              "preconditions": [
+                "session_status=running",
+                "active_run_id=null",
+                "no earlier pending decision"
+              ]
+            },
+            "chain_transition": {
+              "step_id": "step-002-execute",
+              "index": 2,
+              "step_status": "sealed",
+              "retry": null
+            },
+            "chain_proposal": null
+          }
+        }
+      }
+    },
+    {
+      "request_id": "req_f8d218b0-0051-4842-80d6-2af21edfcaea",
+      "type": "transition",
+      "status": "applied",
+      "payload": {
+        "schema_version": "transition-request/1.0",
+        "request_id": "req_f8d218b0-0051-4842-80d6-2af21edfcaea",
+        "operation": "complete",
+        "subject": {
+          "session_id": "maestro-model-catalog-fixes-20260730-032939",
+          "run_id": "20260730-004-review",
+          "chain_step_id": "step-003-review"
+        },
+        "normalized_request_hash": "sha256:dc4927c8c3fdb9ac57adbf8447e293c718a2319741fa838a51cbe44b77aaea6e",
+        "requested_at": "2026-07-30T08:44:00.999Z",
+        "preconditions": {
+          "session_identity_revision": 2,
+          "session_activity_revision": 9,
+          "active_run_id": "20260730-004-review",
+          "run_hash": "sha256:c313ceb658bf4105d3a791a959480a3aa4cad944c49e323b8d0a7c37ca6b9269",
+          "artifact_registry_revision": 3
+        },
+        "payload": {
+          "run_id": "20260730-004-review",
+          "notes": [],
+          "extra_artifacts": [
+            "outputs/spec-conflicts.json",
+            "outputs/issue-candidates.json",
+            "outputs/review-findings.json"
+          ],
+          "summary_fallback": "标准四维审查完成；3 个 P2 已修复并复核关闭，当前无 actionable finding。",
+          "decisions": [],
+          "chain_verdict": "done",
+          "chain_proposal": null,
+          "completion_input_snapshot": {
+            "schema_version": "complete-input-snapshot/1.0",
+            "files": [
+              {
+                "path": "outputs/issue-candidates.json",
+                "content_hash": "sha256:f46cdfb9320b15906ce33b3491f7ae5a232fdad0c958c2b2bc00b014dd1da8a2"
+              },
+              {
+                "path": "outputs/review-findings.json",
+                "content_hash": "sha256:1b54c29ab611a415b3dd3a8e66d804d12844e61bec8c9a2d4e7e07023e75bfc3"
+              },
+              {
+                "path": "outputs/spec-conflicts.json",
+                "content_hash": "sha256:389067d35ad2094d11387e2b9131555b5a6529b61ac6bdf87bc6fad541e3b6c2"
+              },
+              {
+                "path": "report.md",
+                "content_hash": "sha256:5a2b58ed336c6773f8c29e40b725a82a2ac7624e8e6ad819407159a516efd54c"
+              }
+            ],
+            "snapshot_hash": "sha256:11936e44b08b33b06c94264f30f7e30ab7e983ac3c89189fcbb7bffc3964d2b5"
+          },
+          "expected_identity_revision": 2,
+          "expected_activity_revision": 9,
+          "lease": {}
+        }
+      },
+      "claimed_by_run_id": "20260730-004-review",
+      "outcome": {
+        "schema_version": "transition-outcome/1.0",
+        "transition_id": "tr_a0c3a990-6222-4773-97f6-11367a99b809",
+        "request_id": "req_f8d218b0-0051-4842-80d6-2af21edfcaea",
+        "request_hash": "sha256:dc4927c8c3fdb9ac57adbf8447e293c718a2319741fa838a51cbe44b77aaea6e",
+        "operation": "complete",
+        "status": "applied",
+        "applied_at": "2026-07-30T08:44:01.028Z",
+        "subject": {
+          "session_id": "maestro-model-catalog-fixes-20260730-032939",
+          "run_id": "20260730-004-review",
+          "chain_step_id": "step-003-review"
+        },
+        "postconditions": {
+          "session_identity_revision": 2,
+          "session_activity_revision": 10,
+          "active_run_id": null,
+          "run_hash": "sha256:c40acd12ae26ec7164fc76dfc0b114ad579277f7ddbc370e1f51b1bf2ba5b3de",
+          "artifact_registry_revision": 4
+        },
+        "exit_code": 0,
+        "error_code": null,
+        "result_hash": "sha256:19547060c4e91cf140c35e367cf6cec596719f59725f76d4db81a7701c275da0",
+        "result": {
+          "value": {
+            "session_id": "maestro-model-catalog-fixes-20260730-032939",
+            "run_id": "20260730-004-review",
+            "status": "sealed",
+            "gates": {
+              "passed": [
+                "GATE-004-01",
+                "GATE-004-04",
+                "GATE-004-05",
+                "GATE-004-06"
+              ],
+              "failed": [],
+              "skipped": [
+                "GATE-004-02",
+                "GATE-004-03",
+                "GATE-004-07",
+                "GATE-004-08"
+              ],
+              "blocking": []
+            },
+            "artifacts": [
+              {
+                "path": "runs/20260730-004-review/outputs/issue-candidates.json",
+                "kind": "issue-candidates",
+                "role": "attachment"
+              },
+              {
+                "path": "runs/20260730-004-review/outputs/review-findings.json",
+                "kind": "review-findings",
+                "role": "primary",
+                "alias": "latest-review"
+              },
+              {
+                "path": "runs/20260730-004-review/outputs/spec-conflicts.json",
+                "kind": "spec-conflicts",
+                "role": "evidence"
+              }
+            ],
+            "warnings": [],
+            "errors": [],
+            "upstream": {
+              "current-execution": {
+                "artifact_id": "ART-003-002",
+                "path": "sessions/maestro-model-catalog-fixes-20260730-032939/runs/20260730-003-execute/outputs/execution.json",
+                "kind": "execution",
+                "status": "sealed"
+              }
+            },
+            "reuse_assessments": [
+              {
+                "schema_version": "reuse-assessment/1.0",
+                "decision": "REUSE",
+                "reason_codes": [
+                  "REUSE_ELIGIBLE"
+                ],
+                "consumer": {
+                  "kind": "execution",
+                  "alias": "current-execution",
+                  "schema": null,
+                  "role": null
+                },
+                "source_fence": {
+                  "schema_version": "reuse-source-fence/1.0",
+                  "workspace_id": "sha256:e8c909275bc02b1a22c0241b80e51c3b79ecfc53b6ab5611d38073cfcd03971b",
+                  "session_id": "maestro-model-catalog-fixes-20260730-032939",
+                  "producer_run_id": "20260730-003-execute",
+                  "producer_run_hash": "sha256:a7c4a93e059fb03076db8c682db4b77d70dc95ba3927db49e09416b6bfdd3b76",
+                  "producer_status": "sealed",
+                  "artifact_id": "ART-003-002",
+                  "artifact_role": "evidence",
+                  "artifact_status": "sealed",
+                  "artifact_hash": "sha256:18d02d84d9f0e2b3945afef413c2821e1c69d7b59c1ba456aa8b853d2486a681",
+                  "observed_artifact_hash": "sha256:18d02d84d9f0e2b3945afef413c2821e1c69d7b59c1ba456aa8b853d2486a681",
+                  "artifact_schema": "execution/1.0",
+                  "artifact_registry_revision": 3,
+                  "producer_contract_hash": "sha256:2436a526e336e4e19317d15a7083360566ebe6d59467957d3d78d26cc19f298e"
+                },
+                "assessment_hash": "sha256:b5a50e71c8de49ed61b26901cf2ee1b06ce6c809a4a1f4bc6110646918cd434f"
+              }
+            ],
+            "sealed": true,
+            "primary_artifact_id": null,
+            "artifact_ids": [
+              "ART-004-001",
+              "ART-004-002",
+              "ART-004-003",
+              "ART-004-003",
+              "ART-004-001",
+              "ART-004-002"
+            ],
+            "next_action": {
+              "suggest_only": true,
+              "action": "dispatch_next",
+              "command": "maestro run next --session maestro-model-catalog-fixes-20260730-032939",
+              "reason": "more pending steps — advance the chain",
+              "preconditions": [
+                "session_status=running",
+                "active_run_id=null",
+                "no earlier pending decision"
+              ]
+            },
+            "chain_transition": {
+              "step_id": "step-003-review",
+              "index": 3,
+              "step_status": "sealed",
+              "retry": null
+            },
+            "chain_proposal": null
+          }
+        }
+      }
+    },
+    {
+      "request_id": "req_e9541222-5590-4422-b863-b79f49539f3c",
+      "type": "transition",
+      "status": "applied",
+      "payload": {
+        "schema_version": "transition-request/1.0",
+        "request_id": "req_e9541222-5590-4422-b863-b79f49539f3c",
+        "operation": "complete",
+        "subject": {
+          "session_id": "maestro-model-catalog-fixes-20260730-032939",
+          "run_id": "20260730-005-test",
+          "chain_step_id": "step-004-test"
+        },
+        "normalized_request_hash": "sha256:c7e8a216dd6bfe72b81509086edc54b87429aee776c7fc6bbf393dd27c1c6891",
+        "requested_at": "2026-07-30T08:47:56.368Z",
+        "preconditions": {
+          "session_identity_revision": 2,
+          "session_activity_revision": 11,
+          "active_run_id": "20260730-005-test",
+          "run_hash": "sha256:c68f3f241d1899abd6933e7e43e1e8422aad1f8c4e17020613baf070cdc4e9dd",
+          "artifact_registry_revision": 4
+        },
+        "payload": {
+          "run_id": "20260730-005-test",
+          "notes": [],
+          "extra_artifacts": [
+            "outputs/acceptance.json",
+            "outputs/coverage.json",
+            "outputs/uat.md",
+            "outputs/test-plan.json",
+            "outputs/issue-candidates.json",
+            "outputs/test-results.json",
+            "outputs/e2e-results.json"
+          ],
+          "summary_fallback": "9/9 验收条件通过；92 项 unit、production build、87+1 E2E 与 UAT 全绿。",
+          "decisions": [],
+          "chain_verdict": "done",
+          "chain_proposal": null,
+          "completion_input_snapshot": {
+            "schema_version": "complete-input-snapshot/1.0",
+            "files": [
+              {
+                "path": "outputs/acceptance.json",
+                "content_hash": "sha256:c9951d5031cc5f8c77912942c7689a44d2cb443e6778f790fe1de6ae9743dd66"
+              },
+              {
+                "path": "outputs/coverage.json",
+                "content_hash": "sha256:c3c696251b29b08657924dde47529efe563962078d64219a2b784616c31137ee"
+              },
+              {
+                "path": "outputs/e2e-results.json",
+                "content_hash": "sha256:4bb1f33c2611c8a4a5664f34f2e07d68cc3b874735532b8f9bc46e029916a166"
+              },
+              {
+                "path": "outputs/issue-candidates.json",
+                "content_hash": "sha256:f46cdfb9320b15906ce33b3491f7ae5a232fdad0c958c2b2bc00b014dd1da8a2"
+              },
+              {
+                "path": "outputs/test-plan.json",
+                "content_hash": "sha256:a2e939cc41f07e845259cdb88175502c97e59d88634f2d1b328b0b4a7d29761b"
+              },
+              {
+                "path": "outputs/test-results.json",
+                "content_hash": "sha256:9b394e7e1f893869802a5678d656ea40ea0e73041b3f94a7275c599ebe9d39cc"
+              },
+              {
+                "path": "outputs/uat.md",
+                "content_hash": "sha256:b6fac91351f2a85b6c6ead7c6f4a1f2f82ed182888bdedd65fca5dca49d50ad1"
+              },
+              {
+                "path": "report.md",
+                "content_hash": "sha256:b0cb4947a020fc8d7213d2547354e3f08f403872e33e1e2f5386f53bc92de406"
+              }
+            ],
+            "snapshot_hash": "sha256:e6d55adde46733caffc047919fe8a07ab85922a035f4cd2ae1b6c11c4d8cccd2"
+          },
+          "expected_identity_revision": 2,
+          "expected_activity_revision": 11,
+          "lease": {}
+        }
+      },
+      "claimed_by_run_id": "20260730-005-test",
+      "outcome": {
+        "schema_version": "transition-outcome/1.0",
+        "transition_id": "tr_d0e0d743-ec48-4db4-a109-d8363b8909d7",
+        "request_id": "req_e9541222-5590-4422-b863-b79f49539f3c",
+        "request_hash": "sha256:c7e8a216dd6bfe72b81509086edc54b87429aee776c7fc6bbf393dd27c1c6891",
+        "operation": "complete",
+        "status": "applied",
+        "applied_at": "2026-07-30T08:47:56.422Z",
+        "subject": {
+          "session_id": "maestro-model-catalog-fixes-20260730-032939",
+          "run_id": "20260730-005-test",
+          "chain_step_id": "step-004-test"
+        },
+        "postconditions": {
+          "session_identity_revision": 2,
+          "session_activity_revision": 12,
+          "active_run_id": null,
+          "run_hash": "sha256:7ebe2904365bc958e4f7e96a4eb7a10e35b08d92f2ab970ab6b6574bfe1dbb7d",
+          "artifact_registry_revision": 5
+        },
+        "exit_code": 0,
+        "error_code": null,
+        "result_hash": "sha256:8c11b88fe1dbdb6bd5f0b1e28c813101c87fa6f888189336ca2284435a711428",
+        "result": {
+          "value": {
+            "session_id": "maestro-model-catalog-fixes-20260730-032939",
+            "run_id": "20260730-005-test",
+            "status": "sealed",
+            "gates": {
+              "passed": [
+                "GATE-005-02",
+                "GATE-005-03",
+                "GATE-005-04",
+                "GATE-005-06",
+                "GATE-005-07",
+                "GATE-005-08",
+                "GATE-005-09",
+                "GATE-005-10",
+                "GATE-005-11",
+                "GATE-005-12"
+              ],
+              "failed": [],
+              "skipped": [
+                "GATE-005-01",
+                "GATE-005-05",
+                "GATE-005-13",
+                "GATE-005-14"
+              ],
+              "blocking": []
+            },
+            "artifacts": [
+              {
+                "path": "runs/20260730-005-test/outputs/acceptance.json",
+                "kind": "acceptance",
+                "role": "evidence"
+              },
+              {
+                "path": "runs/20260730-005-test/outputs/coverage.json",
+                "kind": "coverage",
+                "role": "evidence"
+              },
+              {
+                "path": "runs/20260730-005-test/outputs/e2e-results.json",
+                "kind": "e2e-results",
+                "role": "evidence"
+              },
+              {
+                "path": "runs/20260730-005-test/outputs/issue-candidates.json",
+                "kind": "issue-candidates",
+                "role": "attachment"
+              },
+              {
+                "path": "runs/20260730-005-test/outputs/test-plan.json",
+                "kind": "test-plan",
+                "role": "primary"
+              },
+              {
+                "path": "runs/20260730-005-test/outputs/test-results.json",
+                "kind": "test-results",
+                "role": "primary",
+                "alias": "latest-test"
+              },
+              {
+                "path": "runs/20260730-005-test/outputs/uat.md",
+                "kind": "uat-log",
+                "role": "attachment"
+              }
+            ],
+            "warnings": [
+              "outputs/uat.md: missing frontmatter kind; inferred kind=uat-log"
+            ],
+            "errors": [],
+            "upstream": {
+              "current-plan": {
+                "artifact_id": "ART-002-004",
+                "path": "sessions/maestro-model-catalog-fixes-20260730-032939/runs/20260730-002-plan/outputs/plan.json",
+                "kind": "plan",
+                "status": "sealed"
+              },
+              "current-execution": {
+                "artifact_id": "ART-003-002",
+                "path": "sessions/maestro-model-catalog-fixes-20260730-032939/runs/20260730-003-execute/outputs/execution.json",
+                "kind": "execution",
+                "status": "sealed"
+              },
+              "latest-review": {
+                "artifact_id": "ART-004-002",
+                "path": "sessions/maestro-model-catalog-fixes-20260730-032939/runs/20260730-004-review/outputs/review-findings.json",
+                "kind": "review-findings",
+                "status": "sealed"
+              }
+            },
+            "reuse_assessments": [
+              {
+                "schema_version": "reuse-assessment/1.0",
+                "decision": "REUSE",
+                "reason_codes": [
+                  "REUSE_ELIGIBLE"
+                ],
+                "consumer": {
+                  "kind": "plan",
+                  "alias": "current-plan",
+                  "schema": null,
+                  "role": null
+                },
+                "source_fence": {
+                  "schema_version": "reuse-source-fence/1.0",
+                  "workspace_id": "sha256:e8c909275bc02b1a22c0241b80e51c3b79ecfc53b6ab5611d38073cfcd03971b",
+                  "session_id": "maestro-model-catalog-fixes-20260730-032939",
+                  "producer_run_id": "20260730-002-plan",
+                  "producer_run_hash": "sha256:196f5670776ea550373cff1f4913ac0a9d17c371e5b2a81d2eedb87f51d7b222",
+                  "producer_status": "sealed",
+                  "artifact_id": "ART-002-004",
+                  "artifact_role": "evidence",
+                  "artifact_status": "sealed",
+                  "artifact_hash": "sha256:4cd8ad3ebdcd5f815f945cbb330b3f51f1159ab2327a0dd2fb2a03ff219e3fca",
+                  "observed_artifact_hash": "sha256:4cd8ad3ebdcd5f815f945cbb330b3f51f1159ab2327a0dd2fb2a03ff219e3fca",
+                  "artifact_schema": "plan/1.0",
+                  "artifact_registry_revision": 4,
+                  "producer_contract_hash": "sha256:20aaddf346484e4b40df4fed19985bd76f29aaf48fb36cf0cf967f8e02931b41"
+                },
+                "assessment_hash": "sha256:ff2dd30a69e36cca11f00337e1f76b7381dc5ead7c67f91c55a3f24ff5788f4e"
+              },
+              {
+                "schema_version": "reuse-assessment/1.0",
+                "decision": "REUSE",
+                "reason_codes": [
+                  "REUSE_ELIGIBLE"
+                ],
+                "consumer": {
+                  "kind": "execution",
+                  "alias": "current-execution",
+                  "schema": null,
+                  "role": null
+                },
+                "source_fence": {
+                  "schema_version": "reuse-source-fence/1.0",
+                  "workspace_id": "sha256:e8c909275bc02b1a22c0241b80e51c3b79ecfc53b6ab5611d38073cfcd03971b",
+                  "session_id": "maestro-model-catalog-fixes-20260730-032939",
+                  "producer_run_id": "20260730-003-execute",
+                  "producer_run_hash": "sha256:a7c4a93e059fb03076db8c682db4b77d70dc95ba3927db49e09416b6bfdd3b76",
+                  "producer_status": "sealed",
+                  "artifact_id": "ART-003-002",
+                  "artifact_role": "evidence",
+                  "artifact_status": "sealed",
+                  "artifact_hash": "sha256:18d02d84d9f0e2b3945afef413c2821e1c69d7b59c1ba456aa8b853d2486a681",
+                  "observed_artifact_hash": "sha256:18d02d84d9f0e2b3945afef413c2821e1c69d7b59c1ba456aa8b853d2486a681",
+                  "artifact_schema": "execution/1.0",
+                  "artifact_registry_revision": 4,
+                  "producer_contract_hash": "sha256:2436a526e336e4e19317d15a7083360566ebe6d59467957d3d78d26cc19f298e"
+                },
+                "assessment_hash": "sha256:7830f64ed97e3611d302c64e3857192a8b8f64235429c13122c37c5f732c86f1"
+              },
+              {
+                "schema_version": "reuse-assessment/1.0",
+                "decision": "REUSE",
+                "reason_codes": [
+                  "REUSE_ELIGIBLE"
+                ],
+                "consumer": {
+                  "kind": "review-findings",
+                  "alias": "latest-review",
+                  "schema": null,
+                  "role": null
+                },
+                "source_fence": {
+                  "schema_version": "reuse-source-fence/1.0",
+                  "workspace_id": "sha256:e8c909275bc02b1a22c0241b80e51c3b79ecfc53b6ab5611d38073cfcd03971b",
+                  "session_id": "maestro-model-catalog-fixes-20260730-032939",
+                  "producer_run_id": "20260730-004-review",
+                  "producer_run_hash": "sha256:c40acd12ae26ec7164fc76dfc0b114ad579277f7ddbc370e1f51b1bf2ba5b3de",
+                  "producer_status": "sealed",
+                  "artifact_id": "ART-004-002",
+                  "artifact_role": "evidence",
+                  "artifact_status": "sealed",
+                  "artifact_hash": "sha256:1b54c29ab611a415b3dd3a8e66d804d12844e61bec8c9a2d4e7e07023e75bfc3",
+                  "observed_artifact_hash": "sha256:1b54c29ab611a415b3dd3a8e66d804d12844e61bec8c9a2d4e7e07023e75bfc3",
+                  "artifact_schema": "review-findings/1.0",
+                  "artifact_registry_revision": 4,
+                  "producer_contract_hash": "sha256:cf5f15e03994559fa3b7543ab838fd95137ebcf53210769936be2ac032b55679"
+                },
+                "assessment_hash": "sha256:e21ced31698c0ea82be0d1a984d4f2b8960ef98aec8bb40ecd75ae9572ec714c"
+              }
+            ],
+            "sealed": true,
+            "primary_artifact_id": null,
+            "artifact_ids": [
+              "ART-005-001",
+              "ART-005-002",
+              "ART-005-003",
+              "ART-005-004",
+              "ART-005-005",
+              "ART-005-006",
+              "ART-005-007",
+              "ART-005-001",
+              "ART-005-002",
+              "ART-005-007",
+              "ART-005-005",
+              "ART-005-004",
+              "ART-005-006",
+              "ART-005-003"
+            ],
+            "next_action": {
+              "suggest_only": true,
+              "action": "seal_session",
+              "command": "maestro run seal-session maestro-model-catalog-fixes-20260730-032939",
+              "reason": "all steps complete — seal the session",
+              "preconditions": [
+                "all Runs are sealed",
+                "all chain steps are terminal"
+              ]
+            },
+            "chain_transition": {
+              "step_id": "step-004-test",
+              "index": 4,
+              "step_status": "sealed",
+              "retry": null
+            },
+            "chain_proposal": null
+          }
+        }
+      }
+    }
+  ],
+  "ralph_authority": null,
+  "schema_version": "session/1.3",
+  "topic_identity": {
+    "schema_version": "topic-identity/1.0",
+    "normalization": "NFKC+unicode-lower+whitespace-collapse/1",
+    "workspace_id": "sha256:e8c909275bc02b1a22c0241b80e51c3b79ecfc53b6ab5611d38073cfcd03971b",
+    "source": "explicit",
+    "verbatim": "实施已确认的模型目录与对比修复",
+    "normalized": "实施已确认的模型目录与对比修复",
+    "normalized_length": 15,
+    "normalized_hash": "sha256:2734177279d80b5ac50a0c8937251d5ce75603db85129b2b4ee87a5a1da26cc4",
+    "identity_hash": "sha256:45f7db901b5aad2d18017322abb58c1506e04b84c9694f295956c87e09bf2daa",
+    "revision": 1
+  }
+}

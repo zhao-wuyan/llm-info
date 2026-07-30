@@ -1,0 +1,38 @@
+{
+  "_meta": {
+    "kind": "session",
+    "schema": "session/1.0",
+    "role": "attachment",
+    "alias": "review-session"
+  },
+  "target": {
+    "range": "HEAD~2..HEAD",
+    "commits": [
+      "319ffe3f6635923b945ed1207111d8b49188bd8c",
+      "2cc78549265f1570da9d864de0e23be35452adfe"
+    ]
+  },
+  "mode": "read-only",
+  "skipFix": true,
+  "skipGeneralize": true,
+  "dimensions": [
+    "correctness",
+    "security",
+    "performance",
+    "architecture",
+    "maintainability"
+  ],
+  "verdict": "BLOCK",
+  "goals": [
+    {
+      "id": "G1",
+      "status": "done",
+      "result": "Seven requested items assessed and additional commit-scoped findings triaged with source anchors."
+    }
+  ],
+  "findingCounts": {
+    "P1": 3,
+    "P2": 3,
+    "P3": 0
+  }
+}
