@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { adaptAaIndexFromCatalog, adaptAiderPolyglot, adaptHuggingFace, adaptLmArenaCsv } from "../src/model-index/boards.js";
+import { adaptAaIndexFromCatalog, adaptAiderPolyglot, adaptHuggingFace, adaptLmArenaParquet } from "../src/model-index/boards.js";
 import { buildModelIndex, validateModelIndex } from "../src/model-index/build.js";
 import { canonicalIndexFromCatalog, createModelMatcher, looseKey, normalizeModelKey, ownersCompatible } from "../src/model-index/match.js";
 import { parseCsv, parseFlatYamlList } from "../src/model-index/parse.js";
@@ -92,6 +92,10 @@ test("keeps semantic repository variants distinct while score boards strip only 
   assert.equal(normalizeModelKey("gpt-5 (thinking budget: 32k tokens)", "coding"), "gpt-5");
   assert.equal(normalizeModelKey("gpt-5 (high)", "popularity"), "gpt-5-high");
   assert.equal(normalizeModelKey("Kimi-K2-Thinking", "arena"), "kimi-k2-thinking");
+  // LM Arena parquet 用连字符后缀标注推理强度，score board 剥离尾部 -high/-xhigh
+  assert.equal(normalizeModelKey("gpt-5.6-sol-xhigh", "arena"), "gpt-5-6-sol");
+  assert.equal(normalizeModelKey("gpt-5-high", "arena"), "gpt-5");
+  assert.equal(normalizeModelKey("gpt-5-high", "popularity"), "gpt-5-high");
 
   const matcher = createModelMatcher([
     { canonicalId: "deepseek-ai/deepseek-llm-67b-chat", ownerId: "deepseek-ai", name: "DeepSeek LLM 67B Chat" },
@@ -187,13 +191,30 @@ test("parses quoted CSV rows and the flat Aider YAML layout", () => {
   ]);
 });
 
+
 test("adapts arena, aider, hugging face, and AAIndex payloads", () => {
-  const arena = adaptLmArenaCsv(
-    "rank,model,arena_score,votes,95_pct_ci,organization,license\n1,DeepSeek V4 Pro,1470,26019,+5/-5,DeepSeek,MIT\n2,Unmatched Model,1400,10,+9/-9,Nobody,MIT\n",
+  const arena = adaptLmArenaParquet(
+    [
+      // 真实小数 rating/lower/upper，断言四舍五入取整（用户要求 Arena Elo 不保留小数）
+      { model_name: "DeepSeek V4 Pro", organization: "DeepSeek", license: "MIT", rating: 1470.4, rating_lower: 1464.6, rating_upper: 1475.4, vote_count: 26019, rank: 1, category: "overall", leaderboard_publish_date: "2026-07-27" },
+      { model_name: "Unmatched Model", organization: "Nobody", license: "MIT", rating: 1400.5, rating_lower: 1391.2, rating_upper: 1409.8, vote_count: 10, rank: 2, category: "overall", leaderboard_publish_date: "2026-07-27" },
+      { model_name: "Skipped Non-Overall", organization: "X", license: "MIT", rating: 1500, rating_lower: 1490, rating_upper: 1510, vote_count: 5, rank: 1, category: "coding", leaderboard_publish_date: "2026-07-27" },
+      // vision parquet 的 rank/vote_count 是 BigInt，必须被归一为普通 number，否则 JSON 序列化与比较出错
+      { model_name: "Vision BigInt Row", organization: "Y", license: "Proprietary", rating: 1300.49, rating_lower: 1290.5, rating_upper: 1310.3, vote_count: 99n, rank: 3n, category: "overall", leaderboard_publish_date: "2026-07-27" },
+    ],
     { boardId: "lmarena-text" },
   );
-  assert.equal(arena.entries.length, 2);
+  assert.equal(arena.entries.length, 3, "only overall rows are kept");
+  assert.equal(arena.entries[0].score, 1470, "rating rounds to integer");
+  assert.equal(arena.entries[0].metrics.arenaScore, 1470);
+  assert.equal(arena.entries[0].metrics.confidenceInterval, "1465-1475", "CI bounds round to integers");
   assert.equal(arena.entries[0].metrics.votes, 26019);
+  assert.equal(arena.entries[0].sourceModel, "DeepSeek V4 Pro");
+  assert.equal(typeof arena.entries[2].metrics.votes, "number", "BigInt vote_count becomes number");
+  assert.equal(arena.entries[2].metrics.votes, 99);
+  assert.equal(typeof arena.entries[2].rank, "number", "BigInt rank becomes number");
+  assert.equal(arena.entries[2].rank, 3);
+  assert.doesNotThrow(() => JSON.stringify(arena.entries), "all entries are JSON-serializable");
 
   const aider = adaptAiderPolyglot("- model: DeepSeek V4 Pro\n  pass_rate_2: 40\n- model: DeepSeek V4 Pro\n  pass_rate_2: 61.7\n", { boardId: "aider-polyglot" });
   assert.equal(aider.entries.length, 1, "keeps the best run per model");
@@ -214,8 +235,11 @@ test("adapts arena, aider, hugging face, and AAIndex payloads", () => {
 });
 
 test("builds a validated index keyed by canonicalId with blank cells for missing boards", () => {
-  const arena = adaptLmArenaCsv(
-    "rank,model,arena_score,votes,organization\n1,DeepSeek V4 Pro,1470,26019,DeepSeek\n2,Nonexistent Model,1400,10,Nobody\n",
+  const arena = adaptLmArenaParquet(
+    [
+      { model_name: "DeepSeek V4 Pro", organization: "DeepSeek", license: "MIT", rating: 1470, rating_lower: 1465, rating_upper: 1475, vote_count: 26019, rank: 1, category: "overall", leaderboard_publish_date: "2026-07-27" },
+      { model_name: "Nonexistent Model", organization: "Nobody", license: "MIT", rating: 1400, rating_lower: 1391, rating_upper: 1409, vote_count: 10, rank: 2, category: "overall", leaderboard_publish_date: "2026-07-27" },
+    ],
     { boardId: "lmarena-text" },
   );
   const index = buildModelIndex({
@@ -257,6 +281,7 @@ test("rejects missing catalog and generatedAt timestamps", () => {
   );
 });
 
+
 test("converges score-board effort variants and retains the maximum score source", () => {
   const catalog = {
     generatedAt: "2026-07-29T00:00:00Z",
@@ -272,6 +297,8 @@ test("converges score-board effort variants and retains the maximum score source
     ["gpt-5 (medium)", 120],
     ["gpt-5 (low)", 90],
     ["gpt-5 (xhigh)", 150],
+    ["gpt-5-high", 140],
+    ["gpt-5-xhigh", 160],
   ].map(([sourceModel, score], index) => ({
     sourceModel,
     organization: "OpenAI",
@@ -292,15 +319,31 @@ test("converges score-board effort variants and retains the maximum score source
   });
 
   assert.equal(index.unmapped.effort, undefined);
-  assert.deepEqual(index.boards[0].coverage, { entries: 5, matched: 5, unmatched: 0 });
+  assert.deepEqual(index.boards[0].coverage, { entries: 7, matched: 7, unmatched: 0 });
   assert.deepEqual(index.models["openai/gpt-5"].boards.effort, {
-    score: 150,
-    rank: 5,
-    metrics: { arenaScore: 150 },
-    sourceModel: "gpt-5 (xhigh)",
+    score: 160,
+    rank: 7,
+    metrics: { arenaScore: 160 },
+    sourceModel: "gpt-5-xhigh",
     sourceUrl: null,
     match: "exact",
   });
+});
+
+test("strips trailing effort suffix so an arena `gpt-5-high` row maps onto the base canonical", () => {
+  // 当前 catalog 不含 openai/gpt-5-high 独立 canonical；-high/-xhigh 对 Arena 是 effort annotation。
+  // 若将来引入 *-high 独立 canonical，score-board 剥离规则需重新评估（见 stripScoreAnnotations）。
+  const matcher = createModelMatcher([
+    { canonicalId: "openai/gpt-5", ownerId: "openai", name: "GPT-5" },
+  ]);
+  assert.equal(
+    matcher.match({ id: "gpt-5-high", organization: "openai", kind: "arena" })?.canonicalId,
+    "openai/gpt-5",
+  );
+  assert.equal(
+    matcher.match({ id: "gpt-5-xhigh", organization: "openai", kind: "arena" })?.canonicalId,
+    "openai/gpt-5",
+  );
 });
 
 test("rejects an index whose board reference or direction is broken", () => {

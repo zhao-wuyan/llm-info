@@ -1,8 +1,8 @@
 import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { fetchGitHubTextSource } from "../src/fetch.js";
-import { adaptAaIndexFromCatalog, adaptAiderPolyglot, adaptHuggingFace, adaptLmArenaCsv } from "../src/model-index/boards.js";
+import { fetchGitHubTextSource, fetchHfDatasetParquet } from "../src/fetch.js";
+import { adaptAaIndexFromCatalog, adaptAiderPolyglot, adaptHuggingFace, adaptLmArenaParquet } from "../src/model-index/boards.js";
 import { buildModelIndex, validateModelIndex } from "../src/model-index/build.js";
 import { MODEL_INDEX_BOARD_CONFIG } from "../src/model-index/config.js";
 import { crawlHuggingFace } from "../src/model-index/hugging-face.js";
@@ -24,9 +24,17 @@ async function githubBoard(configKey, adapt) {
   return { config, entries, provenance };
 }
 
+async function hfBoard(configKey, adapt) {
+  const config = MODEL_INDEX_BOARD_CONFIG[configKey];
+  const { rows, provenance } = await fetchHfDatasetParquet({ id: config.id, huggingface: config.huggingface });
+  const { entries } = adapt(rows, { boardId: config.id });
+  console.log(`${config.id}: ${entries.length} upstream rows @ ${provenance.revision.slice(0, 8)}`);
+  return { config, entries, provenance };
+}
+
 const [arenaText, arenaVision, aider, huggingFaceRepositories] = await Promise.all([
-  githubBoard("lmarena-text", adaptLmArenaCsv),
-  githubBoard("lmarena-vision", adaptLmArenaCsv),
+  hfBoard("lmarena-text", adaptLmArenaParquet),
+  hfBoard("lmarena-vision", adaptLmArenaParquet),
   githubBoard("aider-polyglot", adaptAiderPolyglot),
   crawlHuggingFace({ log: (message) => console.log(message) }),
 ]);

@@ -1,4 +1,4 @@
-import { numberOrNull, parseCsv, parseFlatYamlList } from "./parse.js";
+import { numberOrNull, parseFlatYamlList } from "./parse.js";
 
 /**
  * Board adapters turn a raw upstream payload into `{ entries, unmapped }`.
@@ -6,26 +6,37 @@ import { numberOrNull, parseCsv, parseFlatYamlList } from "./parse.js";
  * and the matcher maps it onto a canonicalId later.
  */
 
-export function adaptLmArenaCsv(text, { boardId }) {
-  const rows = parseCsv(text);
+/**
+ * 适配 LM Arena 官方 HuggingFace 数据集 parquet 行为榜单条目。
+ * 同一模型在源数据里按 category（overall/expert/coding/...）多行存在，
+ * 这里只保留 `category === "overall"`，避免同一 board 写入重复且 rank 冲突的记录。
+ * `rank` 与 `vote_count` 在 vision parquet 里是 BigInt，统一转 Number 归一。
+ */
+export function adaptLmArenaParquet(rows, { boardId }) {
   const entries = [];
   for (const row of rows) {
-    const score = numberOrNull(row.arena_score);
-    if (!row.model || score === null) continue;
+    if (row.category !== "overall") continue;
+    const rawRating = numberOrNull(row.rating);
+    if (!row.model_name || rawRating === null) continue;
+    // 旧 CSV 镜像是整数 Elo，新 parquet 是长小数；统一取整，保持 score 与 arenaScore 一致
+    const score = Math.round(rawRating);
+    const votes = numberOrNull(row.vote_count);
+    const lower = Number(row.rating_lower ?? NaN);
+    const upper = Number(row.rating_upper ?? NaN);
+    const ci = Number.isFinite(lower) && Number.isFinite(upper) ? `${Math.round(lower)}-${Math.round(upper)}` : null;
     entries.push({
       boardId,
-      sourceModel: row.model,
+      sourceModel: row.model_name,
       organization: row.organization || null,
       score,
       rank: numberOrNull(row.rank),
       metrics: {
         arenaScore: score,
-        votes: numberOrNull(row.votes),
-        confidenceInterval: row["95_pct_ci"] || null,
-        styleControlRank: numberOrNull(row.rank_stylectrl),
+        votes,
+        confidenceInterval: ci,
       },
       sourceLicense: row.license || null,
-      sourceUrl: row.url || null,
+      sourceUrl: null,
     });
   }
   return { entries };
