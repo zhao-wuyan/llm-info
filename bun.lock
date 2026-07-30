@@ -277,7 +277,7 @@
 
     "html-encoding-sniffer": ["html-encoding-sniffer@6.0.0", "", { "dependencies": { "@exodus/bytes": "^1.6.0" } }, "sha512-CV9TW3Y3f8/wT0BRFc1/KAVQ3TUHiXmaAb6VW9vtiMFf7SLoMd1PdAc4W3KFOFETBJUb90KatHqlsZMWV+R9Gg=="],
 
-    "hyparquet": ["hyparquet@1.27.0", "https://registry.npmjs.org/hyparquet/-/hyparquet-1.27.0.tgz", {}, "sha512-qE6u7MAKJbwEJspm0KtBxIgRMPT7eSxMLKf9J9IR905O8P0tpSwkr6SRpXcNHfD5m1hyVVLlLQTgS4bTEJaDJg=="],
+    "hyparquet": ["hyparquet@1.27.0", "", {}, "sha512-qE6u7MAKJbwEJspm0KtBxIgRMPT7eSxMLKf9J9IR905O8P0tpSwkr6SRpXcNHfD5m1hyVVLlLQTgS4bTEJaDJg=="],
 
     "indent-string": ["indent-string@4.0.0", "", {}, "sha512-EdDDZu4A2OyIK7Lr/2zG+w5jmbuk1DVBnEwREQvBzspBJkCEbRa8GxU1lghYcaGJCnRWibjDXlq779X1/y5xwg=="],
 
