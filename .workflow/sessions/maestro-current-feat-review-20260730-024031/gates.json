@@ -1,0 +1,163 @@
+{
+  "schema_version": "gates/1.0",
+  "revision": 4,
+  "gates": {
+    "GATE-001-01": {
+      "key": "consume-prior-session",
+      "title": "Resolve required session input",
+      "scope": "entry",
+      "run_id": "20260730-001-odyssey-review",
+      "required": false,
+      "blocking": false,
+      "applicable_modes": [],
+      "status": "skipped",
+      "check": {
+        "type": "artifact",
+        "kind": "session",
+        "alias": "prior-session"
+      },
+      "evidence_refs": [
+        "EVD-001-003"
+      ],
+      "waiver": null
+    },
+    "GATE-001-02": {
+      "key": "produce-session",
+      "title": "Produce session",
+      "scope": "exit",
+      "run_id": "20260730-001-odyssey-review",
+      "required": false,
+      "blocking": false,
+      "applicable_modes": [],
+      "status": "passed",
+      "check": {
+        "type": "artifact",
+        "kind": "session",
+        "alias": "review-session"
+      },
+      "evidence_refs": [
+        "EVD-001-004"
+      ],
+      "waiver": null
+    },
+    "GATE-001-03": {
+      "key": "produce-evidence",
+      "title": "Produce evidence",
+      "scope": "exit",
+      "run_id": "20260730-001-odyssey-review",
+      "required": false,
+      "blocking": false,
+      "applicable_modes": [],
+      "status": "passed",
+      "check": {
+        "type": "artifact",
+        "kind": "evidence",
+        "alias": "review-evidence"
+      },
+      "evidence_refs": [
+        "EVD-001-005"
+      ],
+      "waiver": null
+    },
+    "GATE-001-04": {
+      "key": "produce-exploration",
+      "title": "Produce exploration",
+      "scope": "exit",
+      "run_id": "20260730-001-odyssey-review",
+      "required": false,
+      "blocking": false,
+      "applicable_modes": [],
+      "status": "passed",
+      "check": {
+        "type": "artifact",
+        "kind": "exploration",
+        "alias": "review-explore"
+      },
+      "evidence_refs": [
+        "EVD-001-006"
+      ],
+      "waiver": null
+    },
+    "GATE-001-05": {
+      "key": "produce-review-report",
+      "title": "Produce review-report",
+      "scope": "exit",
+      "run_id": "20260730-001-odyssey-review",
+      "required": false,
+      "blocking": false,
+      "applicable_modes": [],
+      "status": "passed",
+      "check": {
+        "type": "artifact",
+        "kind": "review-report",
+        "alias": "review-understanding"
+      },
+      "evidence_refs": [
+        "EVD-001-007"
+      ],
+      "waiver": null
+    },
+    "GATE-001-06": {
+      "key": "discovery-complete",
+      "title": "discovery-complete",
+      "scope": "exit",
+      "run_id": "20260730-001-odyssey-review",
+      "required": false,
+      "blocking": false,
+      "applicable_modes": [],
+      "status": "skipped",
+      "check": {
+        "type": "manual",
+        "prompt": "discovery-complete"
+      },
+      "evidence_refs": [
+        "EVD-001-008"
+      ],
+      "waiver": null
+    },
+    "GATE-001-07": {
+      "key": "all-dimensions-reviewed",
+      "title": "all-dimensions-reviewed",
+      "scope": "exit",
+      "run_id": "20260730-001-odyssey-review",
+      "required": false,
+      "blocking": false,
+      "applicable_modes": [],
+      "status": "skipped",
+      "check": {
+        "type": "manual",
+        "prompt": "all-dimensions-reviewed"
+      },
+      "evidence_refs": [
+        "EVD-001-009"
+      ],
+      "waiver": null
+    },
+    "GATE-001-08": {
+      "key": "zero-remaining",
+      "title": "zero-remaining",
+      "scope": "exit",
+      "run_id": "20260730-001-odyssey-review",
+      "required": false,
+      "blocking": false,
+      "applicable_modes": [],
+      "status": "skipped",
+      "check": {
+        "type": "manual",
+        "prompt": "zero-remaining"
+      },
+      "evidence_refs": [
+        "EVD-001-010"
+      ],
+      "waiver": null
+    }
+  },
+  "summary": {
+    "total": 8,
+    "passed": 4,
+    "blocked": 0,
+    "failed": 0,
+    "active_gate_ids": [],
+    "blocking_run_id": null
+  }
+}

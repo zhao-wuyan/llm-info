@@ -1,0 +1,57 @@
+{
+  "_meta": {
+    "kind": "exploration",
+    "schema": "exploration/1.0",
+    "role": "attachment",
+    "alias": "review-explore"
+  },
+  "scope": {
+    "commitRange": "HEAD~2..HEAD",
+    "changedFiles": 42,
+    "commits": [
+      {
+        "hash": "319ffe3f6635923b945ed1207111d8b49188bd8c",
+        "subject": "feat: 添加模型开放信息与多元榜单"
+      },
+      {
+        "hash": "2cc78549265f1570da9d864de0e23be35452adfe",
+        "subject": "feat: 模型生命周期与下线日程 (LLM-6) (#22)"
+      }
+    ]
+  },
+  "pathsReviewed": [
+    "app/models/page.tsx",
+    "app/compare/page.tsx",
+    "app/providers/page.tsx",
+    "app/sources/page.tsx",
+    "components/column-picker.tsx",
+    "components/auto-submit-form.tsx",
+    "components/ui.tsx",
+    "lib/model-columns.ts",
+    "lib/model-index.ts",
+    "lib/catalog.ts",
+    "lib/lifecycle.ts",
+    "src/model-index/match.js",
+    "src/model-index/build.js",
+    "src/model-index/config.js",
+    "scripts/validate-model-index.js",
+    ".github/workflows/update-model-data.yml",
+    ".github/workflows/validate-model-update.yml"
+  ],
+  "dataChecks": {
+    "mappedModels": 402,
+    "boardScores": 508,
+    "mixedLifecycleCanonicalModels": 65,
+    "catalogGeneratedAt": "2026-07-29T10:58:23.602Z",
+    "indexCatalogGeneratedAt": "2026-07-28T11:37:25.935Z",
+    "canonicalModelCountBeforeSecondCommit": 7748,
+    "canonicalModelCountCurrent": 7792
+  },
+  "specsReviewed": [
+    "S-20260719-zuhr",
+    "S-20260719-para",
+    "S-20260719-ae0l",
+    "S-20260719-fpun",
+    "S-20260728-jpeg"
+  ]
+}

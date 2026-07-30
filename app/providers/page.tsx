@@ -3,7 +3,7 @@ import Link from "next/link";
 import { AppShell } from "@/components/app-shell";
 import { AutoSubmitForm } from "@/components/auto-submit-form";
 import { TableRowLink } from "@/components/table-row-link";
-import { EmptyState, EntityText, MetricStrip, PageHeader, Pagination, SearchField, SortableHeader } from "@/components/ui";
+import { EmptyState, EntityText, MetricStrip, PageHeader, Pagination, ResetFilterLink, SearchField, SortableHeader } from "@/components/ui";
 import { catalog, providerStats } from "@/lib/catalog";
 import { compactNumber } from "@/lib/format";
 import { msg } from "@/lib/i18n";
@@ -64,7 +64,7 @@ export default async function ProvidersPage({ searchParams }: { searchParams: Pa
       <select name="kind" defaultValue={kind} aria-label="Provider type"><option value="">{locale === "zh" ? "全部类型" : "All types"}</option><option value="official">{msg(locale, "officialProviders")}</option><option value="featured">{msg(locale, "featuredProviders")}</option></select>
       <select name="currency" defaultValue={currency} aria-label={msg(locale, "currency")}><option value="">{msg(locale, "allCurrencies")}</option><option>USD</option><option>CNY</option></select>
       {sort && order && <><input type="hidden" name="sort" value={sort} /><input type="hidden" name="order" value={order} /></>}
-      <Link href="/providers" className="text-button">{msg(locale, "reset")}</Link>
+      <ResetFilterLink href="/providers" locale={locale} />
     </AutoSubmitForm>
     <MetricStrip metrics={[{ value: catalog.providers.length, label: msg(locale, "providerCount") }, { value: catalog.providers.filter((provider) => provider.official).length, label: msg(locale, "officialProviders") }, { value: catalog.providers.filter((provider) => provider.enabled !== false).length, label: msg(locale, "enabledProviders") }, { value: catalog.providers.filter((provider) => provider.featured).length, label: msg(locale, "featuredProviders") }]} />
     <div className="table-frame">{rows.length ? <table className="data-table provider-catalog-table"><thead><tr>

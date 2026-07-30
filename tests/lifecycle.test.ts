@@ -5,7 +5,7 @@ import {
   deprecationTimestamp,
   recentOpenWeightModelIds,
 } from "@/lib/lifecycle";
-import type { Model } from "@/lib/types";
+import type { Model, Provider } from "@/lib/types";
 
 const baseModel = (overrides: Partial<Model> = {}): Model => ({
   id: "x/y",
@@ -77,36 +77,130 @@ describe("channelLifecycle", () => {
 
 describe("canonicalLifecycle", () => {
   const now = new Date(Date.UTC(2026, 6, 29));
-
-  test("aggregates to active when every channel is active", () => {
-    expect(canonicalLifecycle([baseModel(), baseModel({ id: "x/z" })], now)).toEqual({ status: "active" });
+  const provider = (id: string, official: boolean): Provider => ({
+    id,
+    name: id,
+    official,
+    sourceRefs: [],
   });
 
-  test("keeps the worst status across channels", () => {
+  test("aggregates to active when every channel is active", () => {
+    expect(canonicalLifecycle(
+      [baseModel(), baseModel({ id: "x/z" })],
+      new Map(),
+      now,
+    )).toEqual({ status: "active" });
+  });
+
+  test("uses an active direct official channel instead of deprecated and sunset resellers", () => {
     const channels = [
-      baseModel({ id: "openai/gpt-4-0613", deprecationDate: "2025-06-06" }),
-      baseModel({ id: "poe/gpt-4", deprecationDate: "2027-01-01" }),
+      baseModel({ id: "openai/gpt-4", providerId: "openai", ownerId: "openai" }),
+      baseModel({ id: "poe/gpt-4", providerId: "poe", ownerId: "openai", deprecationDate: "2027-01-01" }),
+      baseModel({ id: "openrouter/gpt-4", providerId: "openrouter", ownerId: "openai", deprecationDate: "2025-06-06" }),
     ];
-    const lifecycle = canonicalLifecycle(channels, now);
-    expect(lifecycle.status).toBe("sunset");
-    expect(lifecycle.deprecationDate).toBe("2025-06-06");
+    const lifecycle = canonicalLifecycle(
+      channels,
+      new Map([
+        ["openai", provider("openai", true)],
+        ["poe", provider("poe", false)],
+        ["openrouter", provider("openrouter", false)],
+      ]),
+      now,
+    );
+
+    expect(lifecycle.status).toBe("active");
+    expect(lifecycle.deprecationDate).toBeUndefined();
+    expect(lifecycle.deprecated).toBeUndefined();
+    expect(lifecycle.source).toBeUndefined();
+  });
+
+  test("uses a sunset direct official channel instead of an active reseller", () => {
+    const lifecycle = canonicalLifecycle(
+      [
+        baseModel({
+          id: "openai/gpt-4-0613",
+          providerId: "openai",
+          ownerId: "openai",
+          deprecationDate: "2025-06-06",
+        }),
+        baseModel({ id: "poe/gpt-4-0613", providerId: "poe", ownerId: "openai" }),
+      ],
+      new Map([
+        ["openai", provider("openai", true)],
+        ["poe", provider("poe", false)],
+      ]),
+      now,
+    );
+
+    expect(lifecycle).toEqual({
+      status: "sunset",
+      deprecationDate: "2025-06-06",
+      source: "litellm",
+    });
+  });
+
+  test("falls back to active when there is no direct official evidence", () => {
+    const lifecycle = canonicalLifecycle(
+      [
+        baseModel({ id: "poe/a", providerId: "poe", ownerId: "openai", deprecated: true }),
+        baseModel({ id: "openrouter/a", providerId: "openrouter", ownerId: "openai" }),
+      ],
+      new Map([
+        ["poe", provider("poe", true)],
+        ["openrouter", provider("openrouter", false)],
+      ]),
+      now,
+    );
+
+    expect(lifecycle).toEqual({ status: "active" });
+  });
+
+  test("selects deprecated over sunset when no selected channel is active", () => {
+    const lifecycle = canonicalLifecycle(
+      [
+        baseModel({ id: "poe/a", providerId: "poe", deprecationDate: "2027-01-01" }),
+        baseModel({ id: "openrouter/a", providerId: "openrouter", deprecationDate: "2025-06-06" }),
+      ],
+      new Map(),
+      now,
+    );
+
+    expect(lifecycle.status).toBe("deprecated");
+    expect(lifecycle.deprecationDate).toBe("2027-01-01");
     expect(lifecycle.source).toBe("litellm");
   });
 
-  test("picks the earliest deprecation date when several channels are sunsetting", () => {
-    const channels = [
-      baseModel({ id: "openai/a", deprecationDate: "2026-12-01" }),
-      baseModel({ id: "azure/b", deprecationDate: "2026-03-01" }),
-    ];
-    const lifecycle = canonicalLifecycle(channels, now);
-    expect(lifecycle.deprecationDate).toBe("2026-03-01");
+  test("selects sunset only when every selected channel is sunset", () => {
+    const lifecycle = canonicalLifecycle(
+      [
+        baseModel({ id: "poe/a", providerId: "poe", deprecationDate: "2025-06-06" }),
+        baseModel({ id: "openrouter/a", providerId: "openrouter", deprecationDate: "2024-01-01" }),
+      ],
+      new Map(),
+      now,
+    );
+
+    expect(lifecycle.status).toBe("sunset");
+    expect(lifecycle.deprecationDate).toBe("2024-01-01");
   });
 
-  test("upgrades to deprecated when a channel only carries the aidy flag", () => {
-    const channels = [baseModel({ id: "openai/a" }), baseModel({ id: "poe/b", deprecated: true })];
-    const lifecycle = canonicalLifecycle(channels, now);
-    expect(lifecycle.status).toBe("deprecated");
-    expect(lifecycle.deprecated).toBe(true);
+  test("derives date, source, and deprecated facts only from the selected status cohort", () => {
+    const lifecycle = canonicalLifecycle(
+      [
+        baseModel({ id: "reseller/sunset", providerId: "reseller", deprecationDate: "2024-01-01" }),
+        baseModel({ id: "reseller/dated", providerId: "reseller", deprecationDate: "2026-12-01" }),
+        baseModel({ id: "reseller/flagged", providerId: "reseller", deprecated: true }),
+      ],
+      new Map(),
+      now,
+    );
+
+    expect(lifecycle).toEqual({
+      status: "deprecated",
+      deprecationDate: "2026-12-01",
+      deprecated: true,
+      source: "litellm",
+    });
   });
 });
 

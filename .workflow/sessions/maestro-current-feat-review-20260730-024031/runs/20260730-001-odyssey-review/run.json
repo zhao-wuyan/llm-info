@@ -1,0 +1,200 @@
+{
+  "session_id": "maestro-current-feat-review-20260730-024031",
+  "run_id": "20260730-001-odyssey-review",
+  "sequence": 1,
+  "parent_run_id": null,
+  "command": {
+    "name": "odyssey-review",
+    "version": "1.0",
+    "source_path": "../../../../Users/xinghe_zwy/.maestro/prepare/odyssey-review.md",
+    "content_hash": "d1f7f873e7bdaf463393a10244702aff0f95ee02349f202c393b481f5a5cef7d",
+    "resolved_prompt_hash": "d1f7f873e7bdaf463393a10244702aff0f95ee02349f202c393b481f5a5cef7d",
+    "contract_hash": "2db2f67ad58f7f93142962a569ed5e855cb276021ffeedb1ce7acc84d9d26ed1"
+  },
+  "status": "sealed",
+  "gate_ids": [
+    "GATE-001-01",
+    "GATE-001-02",
+    "GATE-001-03",
+    "GATE-001-04",
+    "GATE-001-05",
+    "GATE-001-06",
+    "GATE-001-07",
+    "GATE-001-08"
+  ],
+  "output": {
+    "produces": [
+      "ART-001-001",
+      "ART-001-002",
+      "ART-001-003",
+      "ART-001-004",
+      "ART-001-004",
+      "ART-001-001",
+      "ART-001-002"
+    ],
+    "primary_artifact_id": null,
+    "verdict": "ready_with_concerns"
+  },
+  "handoff": {
+    "schema_version": "command-handoff/1.0",
+    "producer_run_id": "20260730-001-odyssey-review",
+    "command": "odyssey-review",
+    "verdict": "ready_with_concerns",
+    "summary": "审核两个 feat 提交并确认 7 项需求，发现榜单错配、索引快照滞后和生命周期聚合 3 项 P1。",
+    "constraints": [
+      {
+        "id": "read-only",
+        "text": "只读审核，未修改应用源码。",
+        "status": "locked"
+      },
+      {
+        "id": "commit-scope",
+        "text": "范围仅限 319ffe3、2cc7854 及直接调用链。",
+        "status": "locked"
+      }
+    ],
+    "decisions": [
+      {
+        "id": "typed-board-normalization",
+        "text": "榜单匹配必须按数据源做受控归一化，不能继续扩大通用模糊匹配。",
+        "status": "accepted"
+      },
+      {
+        "id": "paginated-server-sort",
+        "text": "对比排序优先采用服务端全量排序后分页，并预计算行值。",
+        "status": "accepted"
+      },
+      {
+        "id": "D-CLI-1",
+        "status": "accepted",
+        "text": "榜单匹配采用按数据源收敛的变体归一化与官方 canonical 优先"
+      },
+      {
+        "id": "D-CLI-2",
+        "status": "accepted",
+        "text": "模型对比采用服务端全量排序后分页并预计算行值"
+      }
+    ],
+    "concerns": [
+      "当前模型索引存在实际跨 owner、跨语义变体错配。",
+      "model-index 快照早于 models 快照，校验未阻断滞后索引。",
+      "65 个 canonical model 的渠道生命周期状态混合，当前最严重聚合会整体过滤。",
+      "等待用户确认生命周期聚合语义及修复范围"
+    ],
+    "artifact_refs": [
+      "ART-001-001",
+      "ART-001-002",
+      "ART-001-003",
+      "ART-001-004",
+      "ART-001-004",
+      "ART-001-001",
+      "ART-001-002"
+    ],
+    "next": [],
+    "details": {}
+  },
+  "started_at": "2026-07-30T10:42:32+08:00",
+  "completed_at": "2026-07-30T11:02:32+08:00",
+  "sealed_at": "2026-07-30T11:02:32+08:00",
+  "chain_step_id": "step-000-odyssey-review",
+  "resolved_platform": "claude",
+  "goal_binding": null,
+  "checkpoint_expectation": null,
+  "checkpoint": null,
+  "retry_fence": null,
+  "contract_snapshot": {
+    "schema_version": "contract-snapshot/1.0",
+    "contract_version": "command-contract/1.0",
+    "normalized": {
+      "contract_version": 1,
+      "consumes": [
+        {
+          "kind": "session",
+          "alias": "prior-session",
+          "required": false
+        }
+      ],
+      "produces": [
+        {
+          "kind": "session",
+          "primary": false,
+          "path": "outputs/session.json",
+          "alias": "review-session"
+        },
+        {
+          "kind": "evidence",
+          "primary": false,
+          "path": "outputs/evidence.ndjson",
+          "alias": "review-evidence"
+        },
+        {
+          "kind": "exploration",
+          "primary": false,
+          "path": "outputs/explore.json",
+          "alias": "review-explore"
+        },
+        {
+          "kind": "review-report",
+          "primary": false,
+          "path": "outputs/understanding.md",
+          "alias": "review-understanding"
+        }
+      ],
+      "gates": {
+        "entry": [],
+        "exit": [
+          "discovery-complete",
+          "all-dimensions-reviewed",
+          "zero-remaining"
+        ]
+      }
+    },
+    "snapshot_hash": "sha256:2db2f67ad58f7f93142962a569ed5e855cb276021ffeedb1ce7acc84d9d26ed1",
+    "parser_version": "maestro-command-contract/2",
+    "captured_at": "2026-07-30T02:42:32.267Z",
+    "warnings": [
+      "v1 produces[0].role is metadata-only; set contract_version: 2 to enforce it",
+      "v1 produces[1].role is metadata-only; set contract_version: 2 to enforce it",
+      "v1 produces[2].role is metadata-only; set contract_version: 2 to enforce it",
+      "v1 produces[3].role is metadata-only; set contract_version: 2 to enforce it"
+    ]
+  },
+  "guidance_snapshot": {
+    "schema_version": "guidance-snapshot/1.0",
+    "source_path": "../../../../Users/xinghe_zwy/.maestro/prepare/odyssey-review.md",
+    "content_hash": "sha256:d1f7f873e7bdaf463393a10244702aff0f95ee02349f202c393b481f5a5cef7d",
+    "resolved_prompt_hash": "sha256:d1f7f873e7bdaf463393a10244702aff0f95ee02349f202c393b481f5a5cef7d",
+    "prepare_hash": "sha256:d1f7f873e7bdaf463393a10244702aff0f95ee02349f202c393b481f5a5cef7d",
+    "workflow_hash": "sha256:74efae79f983aa39072d840000e5e5b36afd79e1e8026e5e3d3aa538dd9859a2",
+    "run_mode_hash": "sha256:84d0caceca5d919efda5a3d16df176752b4d18756db2cea2a5e08c649bee63bf"
+  },
+  "creation_decision": {
+    "schema_version": "creation-decision/1.0",
+    "decision_id": "dec_b3367e430fae5ec65fcaf62b",
+    "request_id": null,
+    "mode": "chain-next",
+    "authority": "chain-transition",
+    "decided_at": "2026-07-30T10:42:32+08:00",
+    "session_identity_revision": 2,
+    "session_activity_revision": 0,
+    "confirmation_token_hash": null
+  },
+  "creation_provenance": {
+    "schema_version": "creation-provenance/1.0",
+    "provenance": "native-v2",
+    "source_workspace_id": null,
+    "source_session_id": null,
+    "source_run_id": null,
+    "imported_artifact_hashes": []
+  },
+  "transition": null,
+  "schema_version": "command-run/1.3",
+  "input": {
+    "args": [
+      "HEAD~2..HEAD --skip-fix --skip-generalize"
+    ],
+    "consumes": [],
+    "context_identity_revision": 2,
+    "reuse_assessments": []
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "_meta": { "kind": "plan", "schema": "plan/1.0", "role": "primary", "alias": "current-plan" },
+  "objective": "Implement exactly the nine confirmed model catalog, compare, mapping, index, and lifecycle outcomes as a collision-free executable DAG, with focused automated and browser evidence after implementation.",
+  "requirement_refs": ["T1", "T2", "T3", "T4", "T5", "T6", "T7", "T8", "T9"],
+  "task_ids": ["TASK-001", "TASK-002", "TASK-003", "TASK-004", "TASK-005", "TASK-006", "TASK-007", "TASK-008", "TASK-009"],
+  "wave_ids": ["WAVE-001", "WAVE-002", "WAVE-003", "WAVE-004", "WAVE-005", "WAVE-006", "WAVE-007"],
+  "confidence": 0.96,
+  "constraints": [
+    "Scope is exactly upstream outcomes T1-T9; no new features or unrelated refactors.",
+    "Compare pagination uses a fixed PAGE_SIZE of 50 after full-set filtering, precomputation, sorting, and maxima calculation.",
+    "T7 and T9 data correctness complete before T8 validates and regenerates data/model-index.json.",
+    "data/models.json is authoritative and read-only; data/model-index.json is regenerated only by T8.",
+    "URL cols takes precedence over page-specific storage, which takes precedence over defaults; empty selection serializes as none.",
+    "Models and Compare use llm-info:models:columns:v1 and llm-info:compare:columns:v1 independently.",
+    "No task writes next-env.d.ts, .workflow/state.json, Runtime-owned session.json/run.json, package.json, or GitHub workflow files.",
+    "Focused tests and browser verification follow implementation; no formatter, lint, build, or full-suite command is required by a task."
+  ],
+  "acceptance_criteria": [
+    "Each of T1-T9 maps to exactly one TASK-001 through TASK-009 artifact.",
+    "Every task declares exact write files, symbols, concrete implementation steps, observable convergence criteria, and evidence commands.",
+    "No two tasks in one wave have intersecting write sets and the dependency graph is acyclic.",
+    "Compare renders at most 50 rows per page while preserving global sort, missing-last, maxima, filters, columns, and explicit sort=none.",
+    "T8 validator rejects stale catalogGeneratedAt and regenerated data/model-index.json exactly matches data/models.json.generatedAt.",
+    "Desktop and mobile browser evidence covers filter, column persistence, reset, sorting, pagination, overflow, keyboard access, and axe serious/critical results.",
+    "maestro run check 20260730-002-plan --session maestro-model-catalog-fixes-20260730-032939 exits 0 without completing the Run."
+  ],
+  "waves_path": "outputs/waves.json",
+  "dependency_graph_path": "outputs/dependency-graph.json",
+  "collision_report_path": "outputs/collision-report.json",
+  "plan_check_path": "outputs/plan-check.json",
+  "confirmation": { "status": "confirmed", "source": "user chat", "scope": "T1-T9 including Compare page size 50" }
+}

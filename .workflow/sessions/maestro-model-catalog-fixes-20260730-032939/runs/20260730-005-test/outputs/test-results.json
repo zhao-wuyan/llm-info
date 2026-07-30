@@ -1,0 +1,12 @@
+{
+  "_meta": { "kind": "test-results", "schema": "test-results/1.0", "role": "primary" },
+  "status": "passed",
+  "results": [
+    { "command": "npm test", "exitCode": 0, "passed": 92, "failed": 0 },
+    { "command": "npm run validate", "exitCode": 0, "status": "passed" },
+    { "command": "npm run validate:index", "exitCode": 0, "status": "passed", "boards": 5, "indexedModels": 355, "boardScores": 422 },
+    { "command": "npm run build", "exitCode": 0, "status": "passed", "staticGeneration": "7/7", "warnings": 0 },
+    { "command": "npm run test:e2e", "exitCode": 0, "passed": 87, "skipped": 1, "failed": 0 }
+  ],
+  "totals": { "automatedPassed": 179, "automatedFailed": 0, "expectedSkipped": 1 }
+}

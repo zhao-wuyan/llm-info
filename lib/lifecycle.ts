@@ -1,4 +1,4 @@
-import type { Lifecycle, LifecycleStatus, Model } from "./types";
+import type { Lifecycle, Model, Provider } from "./types";
 
 // 将 YYYY-MM-DD（或 releaseDateValue 支持的 YYYY-M/D 形态）解析为 UTC 0 点毫秒数。
 // 复用与发布日期一致的解析口径，保证下线阈值与列表排序口径统一。
@@ -15,7 +15,6 @@ export function deprecationTimestamp(value?: string | null): number | null {
   return timestamp;
 }
 
-const statusSeverity: Record<LifecycleStatus, number> = { active: 0, deprecated: 1, sunset: 2 };
 
 // 单个 channel 的生命周期：LiteLLM deprecation_date 已过视为已下线，未到但存在或 aidy deprecated 视为即将下线。
 export function channelLifecycle(model: Model, now: Date = new Date()): Lifecycle {
@@ -34,32 +33,45 @@ export function channelLifecycle(model: Model, now: Date = new Date()): Lifecycl
   return { status: "active" };
 }
 
-// 聚合到 canonical 层：取最严重状态，下线日期取所有 channel 中最早的一个。
-export function canonicalLifecycle(channels: readonly Model[], now: Date = new Date()): Lifecycle {
-  let worst: LifecycleStatus = "active";
-  let earliestDate: string | undefined;
-  let deprecated = false;
-  let source: string | undefined;
-  for (const channel of channels) {
-    const lifecycle = channelLifecycle(channel, now);
-    if (statusSeverity[lifecycle.status] > statusSeverity[worst]) {
-      worst = lifecycle.status;
-    }
-    if (lifecycle.deprecated) deprecated = true;
-    if (lifecycle.deprecationDate) {
-      const ts = deprecationTimestamp(lifecycle.deprecationDate);
-      const current = deprecationTimestamp(earliestDate);
-      if (ts !== null && (current === null || ts < current)) {
-        earliestDate = lifecycle.deprecationDate;
-        source = lifecycle.source;
-      }
-    }
-  }
+// 聚合到 canonical 层：直连官方渠道优先；无官方证据时，任一可用渠道即可保持在售。
+export function canonicalLifecycle(
+  channels: readonly Model[],
+  providerById: ReadonlyMap<string, Provider>,
+  now: Date = new Date(),
+): Lifecycle {
+  const officialChannels = channels.filter((channel) => {
+    const provider = providerById.get(channel.providerId);
+    const providerId = channel.providerId.toLowerCase().replace(/[^a-z0-9]+/g, "");
+    const ownerId = channel.ownerId.toLowerCase().replace(/[^a-z0-9]+/g, "");
+    return provider?.official === true && providerId === ownerId;
+  });
+  const selectedChannels = officialChannels.length > 0 ? officialChannels : channels;
+  const selected = selectedChannels.map((channel) => ({
+    channel,
+    lifecycle: channelLifecycle(channel, now),
+  }));
+  const status = selected.some(({ lifecycle }) => lifecycle.status === "active")
+    ? "active"
+    : selected.some(({ lifecycle }) => lifecycle.status === "deprecated")
+      ? "deprecated"
+      : "sunset";
+  const cohort = selected
+    .filter(({ lifecycle }) => lifecycle.status === status)
+    .sort((left, right) => left.channel.id.localeCompare(right.channel.id));
+  const dated = cohort
+    .filter(({ lifecycle }) => deprecationTimestamp(lifecycle.deprecationDate) !== null)
+    .sort((left, right) => {
+      const dateDifference = deprecationTimestamp(left.lifecycle.deprecationDate)!
+        - deprecationTimestamp(right.lifecycle.deprecationDate)!;
+      return dateDifference || left.channel.id.localeCompare(right.channel.id);
+    });
+  const evidence = dated[0] ?? cohort.find(({ lifecycle }) => lifecycle.source);
+
   return {
-    status: worst,
-    deprecationDate: earliestDate,
-    deprecated: deprecated || undefined,
-    source,
+    status,
+    deprecationDate: evidence?.lifecycle.deprecationDate,
+    deprecated: cohort.some(({ lifecycle }) => lifecycle.deprecated) || undefined,
+    source: evidence?.lifecycle.source,
   };
 }
 

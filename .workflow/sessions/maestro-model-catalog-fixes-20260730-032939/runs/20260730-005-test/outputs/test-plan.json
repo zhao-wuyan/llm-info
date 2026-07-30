@@ -1,0 +1,13 @@
+{
+  "_meta": { "kind": "test-plan", "schema": "test-plan/1.0", "role": "primary" },
+  "scope": "模型目录与模型对比修复",
+  "levels": ["unit", "data-validation", "index-validation", "production-build", "e2e", "visual-uat", "independent-review"],
+  "commands": ["npm test", "npm run validate", "npm run validate:index", "npm run build", "npm run test:e2e"],
+  "acceptance": [
+    "All nine task contracts pass",
+    "No test or build failure",
+    "No browser console or hydration error",
+    "Desktop and mobile retain local table overflow only",
+    "Generated board coverage counts close"
+  ]
+}

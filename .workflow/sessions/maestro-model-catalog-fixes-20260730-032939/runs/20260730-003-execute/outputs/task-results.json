@@ -1,0 +1,14 @@
+{
+  "_meta": { "kind": "task-results", "schema": "task-results/1.0", "role": "attachment" },
+  "results": [
+    { "id": "TASK-001", "status": "completed", "outcome": "Three model boolean filters share one multi-select Apply picker." },
+    { "id": "TASK-002", "status": "completed", "outcome": "Models defaults are released, context, input, output, cacheRead, cacheWrite, weights, parameters, ability." },
+    { "id": "TASK-003", "status": "completed", "outcome": "Models and Compare column selections persist independently with URL precedence, explicit none, and isolated reset." },
+    { "id": "TASK-004", "status": "completed", "outcome": "Models, Compare, Providers, and Sources use one localized accessible reset-filter control." },
+    { "id": "TASK-005", "status": "completed", "outcome": "Compare precomputes request-local rows, globally sorts/scales, and paginates at 50 rows." },
+    { "id": "TASK-006", "status": "completed", "outcome": "Compare evidence banner removed while source cards, footer counts, and pagination remain." },
+    { "id": "TASK-007", "status": "completed", "outcome": "Score variants converge on one canonical model with maximum score and strict owner/official preference." },
+    { "id": "TASK-008", "status": "completed", "outcome": "Generated index is regenerated and validation enforces exact catalog timestamp and closed coverage counts." },
+    { "id": "TASK-009", "status": "completed", "outcome": "Canonical lifecycle uses official-first selected channels and any-active aggregation." }
+  ]
+}

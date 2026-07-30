@@ -1,0 +1,26 @@
+{
+  "_meta": { "kind": "plan-task", "schema": "plan-task/1.0", "role": "attachment" },
+  "id": "TASK-004",
+  "title": "T4 Replace four page-level text resets with one icon control",
+  "description": "Add one server-safe accessible RotateCcw reset link and use it on Models, Compare, Providers, and Sources without conflating filter reset and column reset.",
+  "requirement_refs": ["T4", "spec:project:ui-conventions-020"],
+  "deps": ["TASK-003"],
+  "files": ["components/reset-filter-link.tsx", "app/models/page.tsx", "app/compare/page.tsx", "app/providers/page.tsx", "app/sources/page.tsx", "tests/e2e/catalog.spec.ts", "tests/e2e/accessibility.spec.ts"],
+  "read_first": ["app/models/page.tsx", "app/compare/page.tsx", "app/providers/page.tsx", "app/sources/page.tsx", "components/topbar.tsx", "app/globals.css", "lib/i18n.ts", "tests/e2e/catalog.spec.ts", "tests/e2e/accessibility.spec.ts"],
+  "symbols": ["ResetFilterLink", "RotateCcw", "ModelsPage", "ComparePage", "ProvidersPage", "SourcesPage"],
+  "action": "Create components/reset-filter-link.tsx as a server-safe Link using lucide-react RotateCcw, the existing icon-button class, localized reset aria-label/title, and aria-hidden icon. Replace exactly four page-level text reset links; leave ColumnPicker reset-columns unchanged.",
+  "implementation": [
+    "Models and Compare reset hrefs drop filter/search/sort/order/page while retaining active cols including none; Providers and Sources continue to target /providers and /sources.",
+    "Compare reset removes explicit sort=none or another sort so default AAIndex descending resumes without clearing its column preference.",
+    "After implementation, add four-page navigation assertions and keyboard, localized name/title, mobile target-size, and axe browser evidence."
+  ],
+  "convergence_criteria": [
+    "[UI-observable] Exactly four page toolbar resets share ResetFilterLink, RotateCcw, icon-button, localized aria-label, and title.",
+    "Models and Compare reset to page 1/default filters and sorting while retaining cols including none; Compare resumes AAIndex descending.",
+    "Providers and Sources navigate to their unfiltered roots.",
+    "Each reset is keyboard-operable, is at least 44px under coarse pointer, and produces 0 serious or critical axe violations."
+  ],
+  "verify": ["npm run test:e2e -- tests/e2e/catalog.spec.ts --grep \"reset filter\"", "npm run test:e2e -- tests/e2e/accessibility.spec.ts --grep \"reset filter\""],
+  "status": "pending",
+  "wave": "WAVE-005"
+}

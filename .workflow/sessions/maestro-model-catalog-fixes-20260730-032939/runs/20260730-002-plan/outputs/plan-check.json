@@ -1,0 +1,33 @@
+{
+  "_meta": { "kind": "plan-check", "schema": "plan-check/1.0", "role": "evidence" },
+  "status": "pass",
+  "checked_at": "2026-07-30T04:00:00.000Z",
+  "summary": { "tasks": 9, "requirements": 9, "waves": 7, "same_wave_collisions": 0, "cycles": 0, "critical_issues": 0, "warnings": 0 },
+  "checks": [
+    { "name": "requirements_coverage", "status": "pass", "evidence": "T1-T9 each occur in exactly one TASK-001 through TASK-009 requirement_refs." },
+    { "name": "task_quality", "status": "pass", "evidence": "Every task has files, read_first, symbols, action, implementation, convergence_criteria, verify, deps, and pending status." },
+    { "name": "dependency_correctness", "status": "pass", "evidence": "dependency-graph.json is acyclic with nine nodes and eight edges." },
+    { "name": "collision_safety", "status": "pass", "evidence": "waves.json has disjoint files write sets within each wave; all shared writes are dependency-serialized." },
+    { "name": "ui_observable_coverage", "status": "pass", "evidence": "Every wave containing a UI task has a [UI-observable] convergence criterion." },
+    { "name": "protected_paths", "status": "pass", "evidence": "No task files include next-env.d.ts, .workflow/state.json, data/models.json, session.json, or run.json." },
+    { "name": "fixed_compare_page_size", "status": "pass", "evidence": "TASK-005 action requires PAGE_SIZE = 50 and complete-set sort/maxima before slicing." },
+    { "name": "data_regeneration_order", "status": "pass", "evidence": "TASK-008 depends on TASK-007 and TASK-009." },
+    { "name": "confirmation", "status": "pass", "evidence": "User already confirmed all nine outcomes and fixed page size 50 in chat." }
+  ],
+  "confidence": {
+    "overall": 0.96,
+    "requirements_coverage": 1.0,
+    "task_quality": 0.95,
+    "dependency_correctness": 0.98,
+    "estimation_accuracy": 0.88,
+    "collision_safety": 1.0
+  },
+  "pressure_pass": {
+    "task_id": "TASK-005",
+    "status": "pass",
+    "evidence": "Exact 50-row constant, row-view-model symbols, complete-set sorting/maxima order, retained query keys, focused unit/E2E/accessibility commands, and observable cross-page criteria are explicit."
+  },
+  "scope_minimizer": "No task or file is outside confirmed T1-T9; package/workflow/data catalog files remain read-only except generated data/model-index.json.",
+  "devils_advocate": "Shared E2E files could cause lost edits; dependency waves serialize every writer and collision-report records accumulated-suite ownership.",
+  "residual_risks": []
+}

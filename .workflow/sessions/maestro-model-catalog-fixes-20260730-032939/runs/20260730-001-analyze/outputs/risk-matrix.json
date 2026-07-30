@@ -1,0 +1,114 @@
+{
+  "_meta": { "kind": "risk-matrix", "schema": "risk-matrix/1.0", "role": "attachment" },
+  "risks": [
+    {
+      "id": "R1",
+      "probability": "high",
+      "impact": "critical",
+      "tasks": ["T7"],
+      "risk": "A broad normalization rule can continue assigning scores across semantic variants or owners.",
+      "mitigation": "Select normalization by board kind, preserve architecture tokens, require compatible organization when supplied, prefer direct official canonical evidence, and add adversarial variant/owner fixtures.",
+      "evidence": ["src/model-index/match.js:3-44", "sealed-review:E1-E3"]
+    },
+    {
+      "id": "R2",
+      "probability": "high",
+      "impact": "high",
+      "tasks": ["T8"],
+      "risk": "The generated index can validate structurally while belonging to an older catalog snapshot.",
+      "mitigation": "Load the catalog in standalone validation, require exact generatedAt equality, update both validator call sites, and regenerate the index only after matching changes.",
+      "evidence": ["src/model-index/build.js:67-105", "scripts/validate-model-index.js:5-13", "sealed-review:E4"]
+    },
+    {
+      "id": "R3",
+      "probability": "high",
+      "impact": "high",
+      "tasks": ["T9"],
+      "risk": "Official-first lifecycle can be implemented with an over-broad official predicate or can retain dates from non-authoritative channels.",
+      "mitigation": "Use catalog provider metadata, select authoritative channels before aggregation, and derive status/date/source from the same selected status cohort.",
+      "evidence": ["lib/catalog.ts:7-10", "lib/lifecycle.ts:37-63", "sealed-review:E5"]
+    },
+    {
+      "id": "R4",
+      "probability": "medium",
+      "impact": "high",
+      "tasks": ["T3"],
+      "risk": "Browser persistence can fight explicit URLs, leak between pages, or make empty selection indistinguishable from defaults.",
+      "mitigation": "Lock URL > page-key > defaults precedence, version and separate keys, use none sentinel, and cover refresh/navigation/empty/reset behavior end to end.",
+      "evidence": ["components/column-picker.tsx:18-69", "lib/model-columns.ts:73-90"]
+    },
+    {
+      "id": "R5",
+      "probability": "medium",
+      "impact": "medium",
+      "tasks": ["T5"],
+      "risk": "Slicing before sorting or computing maxima from one page would make page order and bar scales inconsistent.",
+      "mitigation": "Precompute the full filtered row set, sort globally, compute full-filter maxima, then slice; reuse the existing Pagination contract.",
+      "evidence": ["app/compare/page.tsx:74-103", "components/ui.tsx:61-64", "spec:project:ui-conventions-014"]
+    },
+    {
+      "id": "R6",
+      "probability": "medium",
+      "impact": "medium",
+      "tasks": ["T1", "T3", "T4"],
+      "risk": "Reset or filter submissions can accidentally discard sort, column, currency, or explicit sort=none state.",
+      "mitigation": "Keep baseQuery as the single URL-state builder, distinguish page reset from column reset, and assert retained parameters on submit/pagination/reset.",
+      "evidence": ["app/models/page.tsx:77-114", "app/compare/page.tsx:110-135", "spec:project:ui-conventions-019", "spec:project:ui-conventions-020"]
+    },
+    {
+      "id": "R7",
+      "probability": "low",
+      "impact": "medium",
+      "tasks": ["T2", "T6"],
+      "risk": "Changing shared defaults or removing shared text/styles can unintentionally affect compare or source-card evidence.",
+      "mitigation": "Change only model registry defaultVisible flags, leave compareColumns defaults intact, and remove only evidence-banner resources after confirming no remaining use.",
+      "evidence": ["lib/model-columns.ts:28-46", "app/compare/page.tsx:32-41", "app/compare/page.tsx:176-201"]
+    },
+    {
+      "id": "R8",
+      "probability": "medium",
+      "impact": "high",
+      "tasks": ["T1", "T2", "T3", "T4", "T5", "T6", "T7", "T8", "T9"],
+      "risk": "Implementation or generation commands can overwrite unrelated user/Runtime worktree artifacts.",
+      "mitigation": "Do not touch next-env.d.ts, .workflow/state.json, sealed review sessions, or Runtime-owned run/session JSON; limit edits to mapped source/tests and the regenerated model index.",
+      "evidence": ["git-status: next-env.d.ts modified", "git-status: .workflow/state.json modified", "git-status: four untracked workflow paths"]
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "A1",
+      "statement": "The nine confirmed tasks are T1-T9 in findings.json and no additional feature is implicit.",
+      "confidence": "high",
+      "basis": "User target plus sealed review understanding and evidence E1-E11"
+    },
+    {
+      "id": "A2",
+      "statement": "Page-specific persistence means browser persistence across refresh/navigation, not server account synchronization.",
+      "confidence": "high",
+      "basis": "Confirmed requirement and absence of authentication/profile storage"
+    },
+    {
+      "id": "A3",
+      "statement": "Direct official lifecycle evidence is identified from catalog provider metadata and canonical owner alignment, not display-name heuristics.",
+      "confidence": "medium",
+      "basis": "lib/catalog.ts providerById and existing official-evidence pattern in lib/price-confidence.ts"
+    },
+    {
+      "id": "A4",
+      "statement": "The compare page size is fixed at 50 rows.",
+      "confidence": "high",
+      "basis": "Confirmed Session boundary: 模型对比五十条分页"
+    }
+  ],
+  "open_questions": [],
+  "pressure_test": {
+    "finding": "Typed leaderboard normalization fixes both misses and misassignments",
+    "evidence_demand": "Sealed reproductions demonstrate semantic variant collapse, owner fallback, and unmatched effort suffixes; source anchors identify the shared normalizer and candidate picker.",
+    "assumption_probe": "Simply removing base/instruct/thinking from NOISE_TOKENS is insufficient because effort suffixes still miss and owner fallback remains unsafe.",
+    "boundary_tradeoff": "Benchmark effort annotations may collapse, but repository and architectural identities must remain exact; this requires a strategy boundary rather than a larger global noise list.",
+    "root_cause": "The matcher models all upstream model strings as one identity grammar despite board-specific semantics.",
+    "result": "validated"
+  },
+  "recommendation": "go_with_conditions",
+  "overall_confidence": 0.94
+}

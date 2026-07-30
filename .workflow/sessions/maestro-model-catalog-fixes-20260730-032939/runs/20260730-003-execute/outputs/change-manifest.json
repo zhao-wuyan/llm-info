@@ -1,0 +1,12 @@
+{
+  "_meta": { "kind": "change-manifest", "schema": "change-manifest/1.0", "role": "evidence" },
+  "groups": {
+    "ui": ["app/compare/page.tsx", "app/globals.css", "app/layout.tsx", "app/models/page.tsx", "app/providers/page.tsx", "app/sources/page.tsx", "components/app-shell.tsx", "components/auto-submit-behavior.tsx", "components/auto-submit-form.tsx", "components/column-picker.tsx", "components/model-filter-picker.tsx", "components/ui.tsx", "lib/i18n.ts", "lib/model-columns.ts"],
+    "domain": ["lib/catalog.ts", "lib/lifecycle.ts", "src/model-index/build.js", "src/model-index/match.js"],
+    "generation": ["data/model-index.json", "scripts/generate-model-index.js", "scripts/validate-model-index.js"],
+    "tests": ["test/model-index.test.js", "test/pipeline.test.js", "tests/catalog.test.ts", "tests/e2e/accessibility.spec.ts", "tests/e2e/catalog.spec.ts", "tests/lifecycle.test.ts", "tests/model-columns.test.ts"]
+  },
+  "newFiles": ["components/auto-submit-behavior.tsx", "components/model-filter-picker.tsx"],
+  "deletedFiles": [],
+  "generatedFiles": ["data/model-index.json"]
+}

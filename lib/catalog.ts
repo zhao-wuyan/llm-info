@@ -44,7 +44,7 @@ for (const model of catalog.models) {
       displayPrices: { USD: null, CNY: null },
       minPrices: { USD: null, CNY: null },
       sourceRefs: [...model.sourceRefs],
-      lifecycle: canonicalLifecycle([model], snapshotDate),
+      lifecycle: canonicalLifecycle([model], providerById, snapshotDate),
     });
     continue;
   }
@@ -66,7 +66,7 @@ for (const group of groups.values()) {
     USD: selectCanonicalDisplayPrice(group.channels, providerById, "USD", catalog.generatedAt),
     CNY: selectCanonicalDisplayPrice(group.channels, providerById, "CNY", catalog.generatedAt),
   };
-  group.lifecycle = canonicalLifecycle(group.channels, snapshotDate);
+  group.lifecycle = canonicalLifecycle(group.channels, providerById, snapshotDate);
 }
 
 export const canonicalModels = [...groups.values()];

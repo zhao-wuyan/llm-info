@@ -3,15 +3,16 @@ import Link from "next/link";
 import { AppShell } from "@/components/app-shell";
 import { AutoSubmitForm } from "@/components/auto-submit-form";
 import { ColumnPicker } from "@/components/column-picker";
+import { ModelFilterPicker } from "@/components/model-filter-picker";
 import { ModelCell } from "@/components/model-cells";
 import { TableRowLink } from "@/components/table-row-link";
-import { EmptyState, EntityText, MetricStrip, PageHeader, Pagination, SearchField, SortableHeader } from "@/components/ui";
+import { EmptyState, EntityText, MetricStrip, PageHeader, Pagination, ResetFilterLink, SearchField, SortableHeader } from "@/components/ui";
 import { canonicalModels, catalog, modelMatches } from "@/lib/catalog";
 import { compactNumber } from "@/lib/format";
 import { abilityMsg, msg } from "@/lib/i18n";
 import { recentOpenWeightModelIds } from "@/lib/lifecycle";
 import { modelHref } from "@/lib/links";
-import { buildModelColumns, columnSortValue, isSortableColumn, parseVisibleColumns, serializeColumns } from "@/lib/model-columns";
+import { buildModelColumns, columnSortValue, defaultColumnIds, isSortableColumn, parseExplicitColumns, serializeColumns, toColumnPickerOptions } from "@/lib/model-columns";
 import { boards, indexedModelCount, indexFor } from "@/lib/model-index";
 import { getCurrency, getLocale } from "@/lib/server-i18n";
 import { compareNullable, stableSort } from "@/lib/table-sort";
@@ -39,9 +40,12 @@ export default async function ModelsPage({ searchParams }: { searchParams: Param
   const explicitOrder = one(params.order);
   const order = sort ? (explicitOrder === "asc" || explicitOrder === "desc" ? explicitOrder : numericDefaultOrder(sort)) : null;
   const page = Math.max(1, Number(one(params.page)) || 1);
-  const requestedColumns = many(params.cols).join(",");
-  const visibleColumnIds = parseVisibleColumns(requestedColumns, columns);
+  const colsParam = params.cols;
+  const hasUrlColumns = colsParam !== undefined;
+  const requestedColumns = many(colsParam).join(",");
+  const visibleColumnIds = hasUrlColumns ? parseExplicitColumns(requestedColumns, columns) : defaultColumnIds(columns);
   const visibleColumns = columns.filter((column) => visibleColumnIds.includes(column.id));
+  const columnOptions = toColumnPickerOptions(columns, locale, priceCurrency);
   const abilities = [...new Set(canonicalModels.flatMap((model) =>
     Object.entries(model.abilities).filter(([, value]) => value).map(([key]) => key),
   ))].sort();
@@ -112,6 +116,11 @@ export default async function ModelsPage({ searchParams }: { searchParams: Param
     const query = copy.toString();
     return query ? `/models?${query}` : "/models";
   };
+  const resetFiltersHref = () => {
+    const query = new URLSearchParams();
+    if (serializedColumns) query.set("cols", serializedColumns);
+    return query.size ? `/models?${query}` : "/models";
+  };
 
   return (
     <AppShell locale={locale} section={msg(locale, "models")}>
@@ -127,22 +136,10 @@ export default async function ModelsPage({ searchParams }: { searchParams: Param
           <option value="open">{msg(locale, "openWeightsLabel")}</option>
           <option value="closed">{msg(locale, "closedWeights")}</option>
         </select>
-        <label className="check-control">
-          <input type="checkbox" name="priced" value="1" defaultChecked={onlyPriced} />
-          {msg(locale, "onlyPriced")}
-        </label>
-        <label className="check-control">
-          <input type="checkbox" name="active" value="1" defaultChecked={onlyActive} />
-          {msg(locale, "onlyActive")}
-        </label>
-        <label className="check-control">
-          <input type="checkbox" name="recent-open" value="1" defaultChecked={recentOpen} />
-          {msg(locale, "recentOpenWeights")}
-          <input type="hidden" name="recent-open" value="0" />
-        </label>
-        <ColumnPicker columns={columns} visible={visibleColumnIds} locale={locale} currency={priceCurrency} resetHref={resetColumnsHref()} />
+        <ModelFilterPicker filters={{ priced: onlyPriced, active: onlyActive, recentOpen }} locale={locale} />
+        <ColumnPicker options={columnOptions} visible={visibleColumnIds} locale={locale} resetHref={resetColumnsHref()} storageKey="llm-info:models:columns:v1" hasUrlColumns={hasUrlColumns} />
         {sort && order && <><input type="hidden" name="sort" value={sort} /><input type="hidden" name="order" value={order} /></>}
-        <Link href="/models" className="text-button">{msg(locale, "reset")}</Link>
+        <ResetFilterLink href={resetFiltersHref()} locale={locale} />
       </AutoSubmitForm>
       <MetricStrip metrics={[
         { value: compactNumber(canonicalModels.length), label: msg(locale, "modelCount") },

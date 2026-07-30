@@ -13,7 +13,7 @@
   },
   "transition_history": [],
   "milestone_history": [],
-  "last_updated": "2026-07-20T19:41:08+08:00",
+  "last_updated": "2026-07-30T16:48:36+08:00",
   "sessions": [
     {
       "session_id": "20260718-grill-model-prototype",
@@ -286,7 +286,31 @@
       "depends_on": [],
       "roadmap_artifact_id": null,
       "seed_ref": null
+    },
+    {
+      "session_id": "maestro-recent-feat-review-20260730-023901",
+      "intent": "审核最近两个 feat 提交并确认问题清单",
+      "status": "sealed",
+      "depends_on": [],
+      "roadmap_artifact_id": null,
+      "seed_ref": null
+    },
+    {
+      "session_id": "maestro-current-feat-review-20260730-024031",
+      "intent": "审核当前分支最近两个 feat 提交并确认问题清单",
+      "status": "sealed",
+      "depends_on": [],
+      "roadmap_artifact_id": null,
+      "seed_ref": null
+    },
+    {
+      "session_id": "maestro-model-catalog-fixes-20260730-032939",
+      "intent": "实施已确认的模型目录与对比修复",
+      "status": "sealed",
+      "depends_on": [],
+      "roadmap_artifact_id": null,
+      "seed_ref": null
     }
   ],
-  "active_session_id": "20260720-companion-dependabot-ci"
+  "active_session_id": null
 }
