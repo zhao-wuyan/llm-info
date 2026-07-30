@@ -1,10 +1,13 @@
+"use client";
+
 import { Columns3, ExternalLink } from "lucide-react";
 import Link from "next/link";
-import type { ColumnDef, ColumnGroup } from "@/lib/model-columns";
-import { defaultColumnIds } from "@/lib/model-columns";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import type { ColumnGroup, ColumnPickerOption } from "@/lib/model-columns";
+import { defaultColumnIds, parseVisibleColumns, serializeColumns } from "@/lib/model-columns";
 import type { Locale, MessageKey } from "@/lib/i18n";
 import { msg } from "@/lib/i18n";
-import type { Currency } from "@/lib/types";
 
 const groupLabels: Record<ColumnGroup, MessageKey> = {
   base: "columnGroupBase",
@@ -16,22 +19,81 @@ const groupLabels: Record<ColumnGroup, MessageKey> = {
 const groupOrder: ColumnGroup[] = ["base", "price", "open", "board"];
 
 /**
- * Column customizer. Pure form controls so it works without client JS:
- * the surrounding form submits `cols` as a comma-joined list.
+ * Column customizer. Receives only serializable options so it can be rendered
+ * by a client component without passing functions across the RSC boundary.
+ * The picker is the only client persistence boundary:
+ * - Apply writes the ordered selection to the page-specific storage key and
+ *   navigates with a canonical `cols` value.
+ * - Reset removes only the current page key and removes `cols` from the URL.
+ * - On first client render, if no `cols` is present in the URL, the stored
+ *   selection is validated and applied via `router.replace`.
  */
 export function ColumnPicker({
-  columns, visible, locale, currency, resetHref,
+  options, visible, locale, resetHref, storageKey, hasUrlColumns,
 }: {
-  columns: readonly ColumnDef[];
+  options: readonly ColumnPickerOption[];
   visible: readonly string[];
   locale: Locale;
-  currency: Currency;
   resetHref: string;
+  storageKey: string;
+  hasUrlColumns: boolean;
 }) {
-  const selected = new Set(visible);
-  const changed = defaultColumnIds(columns).join(",") !== [...visible].join(",");
+  const router = useRouter();
+  const detailsRef = useRef<HTMLDetailsElement>(null);
+  const [draft, setDraft] = useState(() => new Set(visible));
+  const [reconciled, setReconciled] = useState(false);
+
+  useEffect(() => {
+    setDraft(new Set(visible));
+  }, [visible]);
+
+  useEffect(() => {
+    if (reconciled || hasUrlColumns || typeof window === "undefined") return;
+    const stored = localStorage.getItem(storageKey);
+    if (stored === null) {
+      setReconciled(true);
+      return;
+    }
+    const parsed = parseVisibleColumns(stored, options);
+    const defaults = defaultColumnIds(options);
+    if (parsed.join(",") !== defaults.join(",")) {
+      const next = new URLSearchParams(window.location.search);
+      next.delete("page");
+      const serialized = serializeColumns(parsed, options);
+      if (serialized) next.set("cols", serialized);
+      else next.delete("cols");
+      const query = next.toString();
+      router.replace(query ? `${window.location.pathname}?${query}` : window.location.pathname);
+    }
+    setReconciled(true);
+  }, [hasUrlColumns, options, storageKey, router, reconciled]);
+
+  const applyColumns = () => {
+    if (typeof window === "undefined") return;
+    const selectedIds = options.filter((option) => draft.has(option.id)).map((option) => option.id);
+    const serialized = serializeColumns(selectedIds, options);
+    localStorage.setItem(storageKey, serialized);
+    const next = new URLSearchParams(window.location.search);
+    next.delete("page");
+    if (serialized) next.set("cols", serialized);
+    else next.delete("cols");
+    const query = next.toString();
+    router.push(query ? `${window.location.pathname}?${query}` : window.location.pathname);
+    if (detailsRef.current) detailsRef.current.open = false;
+  };
+
+  const resetColumns = () => {
+    if (typeof window === "undefined") return;
+    localStorage.removeItem(storageKey);
+  };
+
+  const defaults = defaultColumnIds(options);
+  const changed = visible.join(",") !== defaults.join(",");
+  const serialized = serializeColumns(visible, options);
+
   return (
-    <details className="column-picker" data-manual-submit>
+    <details ref={detailsRef} className="column-picker" data-manual-submit>
+      {serialized && <input type="hidden" name="cols" value={serialized} />}
       <summary aria-label={msg(locale, "customizeColumns")}>
         <Columns3 size={15} aria-hidden />
         <span>{msg(locale, "columns")}</span>
@@ -39,20 +101,30 @@ export function ColumnPicker({
       </summary>
       <div className="column-picker-panel">
         {groupOrder.map((group) => {
-          const groupColumns = columns.filter((column) => column.group === group);
-          if (!groupColumns.length) return null;
+          const groupOptions = options.filter((option) => option.group === group);
+          if (!groupOptions.length) return null;
           return (
             <fieldset key={group}>
               <legend>{msg(locale, groupLabels[group])}</legend>
-              {groupColumns.map((column) => (
-                <label key={column.id} className="check-control">
-                  <input type="checkbox" name="cols" value={column.id} defaultChecked={selected.has(column.id)} />
+              {groupOptions.map((option) => (
+                <label key={option.id} className="check-control">
+                  <input
+                    type="checkbox"
+                    value={option.id}
+                    checked={draft.has(option.id)}
+                    onChange={(event) => {
+                      const next = new Set(draft);
+                      if (event.target.checked) next.add(option.id);
+                      else next.delete(option.id);
+                      setDraft(next);
+                    }}
+                  />
                   <span>
-                    {column.label(locale)}
-                    {column.subtitle && <small> {column.subtitle(currency)}</small>}
+                    {option.label}
+                    {option.subtitle && <small> {option.subtitle}</small>}
                   </span>
-                  {column.sourceUrl && (
-                    <a href={column.sourceUrl} target="_blank" rel="noreferrer" title={`${msg(locale, "viewSource")}: ${column.sourceLabel ?? column.sourceUrl}`} aria-label={`${msg(locale, "viewSource")}: ${column.sourceLabel ?? column.sourceUrl}`}>
+                  {option.sourceUrl && (
+                    <a href={option.sourceUrl} target="_blank" rel="noreferrer" title={`${msg(locale, "viewSource")}: ${option.sourceLabel ?? option.sourceUrl}`} aria-label={`${msg(locale, "viewSource")}: ${option.sourceLabel ?? option.sourceUrl}`}>
                       <ExternalLink size={12} aria-hidden />
                     </a>
                   )}
@@ -62,8 +134,8 @@ export function ColumnPicker({
           );
         })}
         <div className="column-picker-actions">
-          <button type="submit">{msg(locale, "applyColumns")}</button>
-          {changed && <Link className="text-button" href={resetHref}>{msg(locale, "resetColumns")}</Link>}
+          <button type="button" onClick={applyColumns}>{msg(locale, "applyColumns")}</button>
+          {changed && <Link className="text-button" href={resetHref} onClick={resetColumns}>{msg(locale, "resetColumns")}</Link>}
         </div>
       </div>
     </details>

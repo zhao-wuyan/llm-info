@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowUp, ChevronLeft, ChevronRight, ChevronsUpDown, ExternalLink, Search } from "lucide-react";
+import { ArrowDown, ArrowUp, ChevronLeft, ChevronRight, ChevronsUpDown, ExternalLink, RotateCcw, Search } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import type { CanonicalDisplayPrice, Currency, DisplayPrice } from "@/lib/types";
@@ -6,6 +6,15 @@ import { formatPrice, isExplicitlyFree, priceRate } from "@/lib/format";
 import type { Locale } from "@/lib/i18n";
 import { msg } from "@/lib/i18n";
 import type { SortOrder } from "@/lib/table-sort";
+
+export function ResetFilterLink({ href, locale }: { href: string; locale: Locale }) {
+  const label = msg(locale, "resetFilters");
+  return (
+    <a href={href} className="icon-button" aria-label={label} title={label}>
+      <RotateCcw size={16} aria-hidden />
+    </a>
+  );
+}
 
 export function PageHeader({ title, description, action }: { title: string; description: string; action?: ReactNode }) {
   return <header className="page-header"><div><h1>{title}</h1><p>{description}</p></div>{action}</header>;

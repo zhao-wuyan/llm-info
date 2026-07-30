@@ -53,7 +53,7 @@ const index = buildModelIndex({
   generatedAt,
 });
 
-const errors = validateModelIndex(index);
+const errors = validateModelIndex(index, catalog);
 if (errors.length > 0) throw new Error(`Generated model index is invalid:\n${errors.slice(0, 20).join("\n")}`);
 
 await mkdir(dirname(outputPath), { recursive: true });

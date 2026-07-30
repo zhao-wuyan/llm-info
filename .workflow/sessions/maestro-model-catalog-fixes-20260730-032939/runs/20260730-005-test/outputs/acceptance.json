@@ -1,0 +1,15 @@
+{
+  "_meta": { "kind": "acceptance", "schema": "acceptance/1.0", "role": "evidence" },
+  "status": "accepted",
+  "criteria": [
+    { "id": "T1", "status": "passed", "evidence": "Combined native three-checkbox picker; desktop/mobile behavior and axe pass." },
+    { "id": "T2", "status": "passed", "evidence": "Exact nine Models default columns asserted." },
+    { "id": "T3", "status": "passed", "evidence": "URL/localStorage/default/none/isolation/reset and external-select draft contracts pass." },
+    { "id": "T4", "status": "passed", "evidence": "Four native reset links pass desktop/mobile keyboard, localization, URL and target checks." },
+    { "id": "T5", "status": "passed", "evidence": "Compare global sort/maxima then 50-row slice; pagination tests pass." },
+    { "id": "T6", "status": "passed", "evidence": "No evidence banner; five linked source cards and footer/pagination retained." },
+    { "id": "T7", "status": "passed", "evidence": "Effort variants converge to maximum score with strict official owner selection." },
+    { "id": "T8", "status": "passed", "evidence": "Generated snapshot timestamp and coverage closure validation pass." },
+    { "id": "T9", "status": "passed", "evidence": "Official-first selected-channel lifecycle tests pass." }
+  ]
+}

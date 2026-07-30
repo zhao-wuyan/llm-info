@@ -1,0 +1,28 @@
+{
+  "_meta": { "kind": "plan-task", "schema": "plan-task/1.0", "role": "attachment" },
+  "id": "TASK-003",
+  "title": "T3 Persist Models and Compare columns independently",
+  "description": "Implement URL-first, page-isolated browser persistence for column selection, including an explicit empty selection.",
+  "requirement_refs": ["T3"],
+  "deps": ["TASK-002"],
+  "files": ["components/column-picker.tsx", "app/models/page.tsx", "app/compare/page.tsx", "lib/model-columns.ts", "tests/model-columns.test.ts", "tests/e2e/catalog.spec.ts", "tests/e2e/accessibility.spec.ts"],
+  "read_first": ["components/column-picker.tsx", "components/auto-submit-form.tsx", "components/topbar.tsx", "app/models/page.tsx", "app/compare/page.tsx", "lib/model-columns.ts", "tests/model-columns.test.ts", "tests/e2e/catalog.spec.ts", "tests/e2e/accessibility.spec.ts"],
+  "symbols": ["ColumnPicker", "parseVisibleColumns", "serializeColumns", "ModelsPage", "ComparePage"],
+  "action": "Define precedence as explicit URL cols > the current page storage key > page defaults. Use llm-info:models:columns:v1 only on Models and llm-info:compare:columns:v1 only on Compare. parseVisibleColumns('none') returns [], serializeColumns([]) returns 'none', default selection retains empty canonical serialization, and wholly unknown input falls back to defaults.",
+  "implementation": [
+    "Make ColumnPicker the only client persistence boundary with storageKey and explicit-URL-state props; validate stored values through the shared parser and canonicalize with router.replace only when URL cols is absent and stored selection differs from defaults.",
+    "Treat presence of cols as explicit even for cols=none or cols=; on apply persist ordered selection and navigate with cols, retaining page state but omitting page.",
+    "On reset-columns clear only the current storage key and cols, retain all page filters and sort including Compare sort=none, and leave the sibling key unchanged.",
+    "After implementation, add parser/serializer unit cases plus E2E precedence, refresh, away/back, empty, isolation, reset, hydration, keyboard, and axe evidence."
+  ],
+  "convergence_criteria": [
+    "parseVisibleColumns('none', registry) returns [] and serializeColumns([], registry) returns 'none'.",
+    "[UI-observable] Explicit URL cols wins over conflicting storage; absent URL uses only the page-specific key; absent URL and storage uses page defaults.",
+    "Empty selection survives apply, refresh, and navigation away/back on both pages.",
+    "Reset columns clears only the current page key and cols while preserving filters/sort and the other page key.",
+    "Hydrated picker keyboard flow completes with 0 serious or critical axe violations."
+  ],
+  "verify": ["npx vitest run tests/model-columns.test.ts", "npm run test:e2e -- tests/e2e/catalog.spec.ts --grep \"column persistence|reset columns\"", "npm run test:e2e -- tests/e2e/accessibility.spec.ts --grep \"column picker\""],
+  "status": "pending",
+  "wave": "WAVE-004"
+}

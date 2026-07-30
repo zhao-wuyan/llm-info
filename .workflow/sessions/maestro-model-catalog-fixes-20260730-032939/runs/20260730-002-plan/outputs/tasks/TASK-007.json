@@ -1,0 +1,28 @@
+{
+  "_meta": { "kind": "plan-task", "schema": "plan-task/1.0", "role": "attachment" },
+  "id": "TASK-007",
+  "title": "T7 Add board-typed matching, strict owners, and official preference",
+  "description": "Separate score-board annotation normalization from repository identity, hard-gate supplied owners, rank direct official canonical evidence, and retain maximum converged score.",
+  "requirement_refs": ["T7", "spec:project:architecture-constraints-003", "spec:project:architecture-constraints-005", "knowhow-tip-20260730-board-variant-matching"],
+  "deps": [],
+  "files": ["src/model-index/match.js", "src/model-index/build.js", "test/model-index.test.js", "test/pipeline.test.js"],
+  "read_first": ["src/model-index/config.js", "src/model-index/boards.js", "src/model-index/match.js", "src/model-index/build.js", "src/model-alias-discovery.js", "src/ids.js", "test/model-index.test.js", "test/pipeline.test.js", "data/models.json"],
+  "symbols": ["normalizeModelKey", "ownersCompatible", "canonicalIndexFromCatalog", "matchCanonicalModel", "buildModelIndex"],
+  "action": "Pass config.kind into matching. Score-board kinds may strip only parenthesized high|medium|low|xhigh effort and recognized thinking-token budgets; repository matching preserves Base, Instruct, Chat, Thinking, and architecture variants. If organization exists, filter incompatible owners before exact/owner/loose selection using separator equivalence, never startsWith; ownerRequired with no organization returns unmapped. Rank compatible direct official canonical evidence before deterministic completeness and canonicalId tie-breaks.",
+  "implementation": [
+    "Split identity and score annotation normalization and keep popularity/Hugging Face on repository identity.",
+    "Extend catalog candidate evidence from provider/channel metadata; direct official requires provider official metadata and canonical owner alignment, not display-name heuristics.",
+    "Preserve buildModelIndex's numerically highest-score replacement when effort variants converge.",
+    "After implementation, add adversarial fixtures for all effort levels, semantic variants, strict/missing owners, four known wrong mappings, official preference, and pipeline evidence."
+  ],
+  "convergence_criteria": [
+    "gpt-5 plus (high), (medium), (low), and (xhigh) map to one canonicalId and the stored record uses the maximum score and matching sourceModel.",
+    "deepseek-ai/deepseek-llm-67b-base never maps to chat and moonshotai/Kimi-K2-Instruct never maps to thinking.",
+    "Anthropic evidence cannot select 302ai ownership and a compatible direct official Anthropic canonical candidate wins deterministically.",
+    "openai-community/openai-gpt cannot map to openai/gpt-chat-latest; only separator-equivalent owners match.",
+    "HF Base, Instruct, Chat, and Thinking variants remain distinct and owner-strict."
+  ],
+  "verify": ["node --test test/model-index.test.js test/pipeline.test.js"],
+  "status": "pending",
+  "wave": "WAVE-001"
+}

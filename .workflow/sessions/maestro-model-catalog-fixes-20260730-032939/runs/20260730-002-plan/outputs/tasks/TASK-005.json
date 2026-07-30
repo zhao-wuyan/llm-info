@@ -1,0 +1,28 @@
+{
+  "_meta": { "kind": "plan-task", "schema": "plan-task/1.0", "role": "attachment" },
+  "id": "TASK-005",
+  "title": "T5 Paginate Compare at 50 rows after global sorting",
+  "description": "Create one request-local row model per filtered canonical model, sort and scale the complete filtered set, then clamp and slice a fixed 50-row page.",
+  "requirement_refs": ["T5", "spec:project:ui-conventions-006", "spec:project:ui-conventions-014", "spec:project:ui-conventions-020"],
+  "deps": ["TASK-004"],
+  "files": ["app/compare/page.tsx", "tests/e2e/catalog.spec.ts", "tests/e2e/accessibility.spec.ts"],
+  "read_first": ["app/compare/page.tsx", "app/models/page.tsx", "app/providers/page.tsx", "components/ui.tsx", "lib/table-sort.ts", "tests/model-sort.test.ts", "tests/table-sort.test.ts", "tests/e2e/catalog.spec.ts", "tests/e2e/accessibility.spec.ts", ".workflow/specs/ui-conventions.md"],
+  "symbols": ["ComparePage", "PAGE_SIZE", "Pagination", "compareNullable", "linkFor", "baseQuery"],
+  "action": "Set Compare-local PAGE_SIZE = 50. Build each filtered row once with identity, release/context, four current-currency prices, and board records; stable-sort the complete row array with missing numeric values last and name tie-break, compute maxima from that complete array, then clamp page and slice. Preserve default AAIndex-desc and explicit sort=none.",
+  "implementation": [
+    "Resolve index, price, and board data only during candidate/row construction; comparators, maxima, and cell rendering consume the row object and never repeat lookups.",
+    "Parse positive page, compute total pages, clamp it, render at most 50 rows, report complete filtered/total and selected-column counts, and render existing Pagination.",
+    "Build pagination hrefs retaining q, owner, board, ability, cols including none, and explicit sort=none or valid sort/order; all state-changing forms omit page.",
+    "After implementation, add focused cross-page ordering, missing-last, maxima, clamping, retention, desktop/mobile overflow, pagination accessibility, and axe browser evidence."
+  ],
+  "convergence_criteria": [
+    "[UI-observable] Compare tbody renders at most 50 rows and Pagination appears when filtered count exceeds 50.",
+    "Adjacent-page boundary assertions prove complete-set ascending and descending sorting before slicing, with missing numeric values last.",
+    "The same value has the same bar scale on different pages because maxima use the complete filtered row set.",
+    "Pagination retains q, owner, board, ability, cols, sort=none or sort/order and clamps invalid/oversized page values.",
+    "Desktop and mobile show local table overflow only, accessible pagination, and 0 serious or critical axe violations."
+  ],
+  "verify": ["npx vitest run tests/model-sort.test.ts tests/table-sort.test.ts", "npm run test:e2e -- tests/e2e/catalog.spec.ts --grep \"compare pagination\"", "npm run test:e2e -- tests/e2e/accessibility.spec.ts --grep \"compare pagination\""],
+  "status": "pending",
+  "wave": "WAVE-006"
+}

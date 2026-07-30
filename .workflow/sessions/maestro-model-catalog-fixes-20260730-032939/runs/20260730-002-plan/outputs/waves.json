@@ -1,0 +1,18 @@
+{
+  "_meta": { "kind": "execution-waves", "schema": "execution-waves/1.0", "role": "attachment" },
+  "waves": [
+    { "id": "WAVE-001", "task_ids": ["TASK-007", "TASK-009"], "depends_on": [], "purpose": "Parallel data correctness foundations with disjoint writes", "write_collision_free": true },
+    { "id": "WAVE-002", "task_ids": ["TASK-001", "TASK-008"], "depends_on": ["WAVE-001"], "purpose": "Parallel Models filter UI and exclusive index validation/regeneration", "write_collision_free": true },
+    { "id": "WAVE-003", "task_ids": ["TASK-002"], "depends_on": ["WAVE-002"], "purpose": "Exact Models default columns", "write_collision_free": true },
+    { "id": "WAVE-004", "task_ids": ["TASK-003"], "depends_on": ["WAVE-003"], "purpose": "Page-isolated column persistence", "write_collision_free": true },
+    { "id": "WAVE-005", "task_ids": ["TASK-004"], "depends_on": ["WAVE-004"], "purpose": "Shared four-page reset control", "write_collision_free": true },
+    { "id": "WAVE-006", "task_ids": ["TASK-005"], "depends_on": ["WAVE-005"], "purpose": "Compare row precomputation and fixed 50-row pagination", "write_collision_free": true },
+    { "id": "WAVE-007", "task_ids": ["TASK-006"], "depends_on": ["WAVE-006"], "purpose": "Remove banner after final Compare footer and pagination shape exists", "write_collision_free": true }
+  ],
+  "execution_rules": [
+    "A wave starts only after all depends_on waves complete with its focused evidence commands passing.",
+    "Tasks within WAVE-001 and WAVE-002 may run in parallel because their declared files arrays are disjoint.",
+    "data/model-index.json has one writer, TASK-008, and is regenerated once after TASK-007 and TASK-009.",
+    "Shared tests/e2e/catalog.spec.ts changes are serialized across TASK-009 then TASK-001 through TASK-006."
+  ]
+}

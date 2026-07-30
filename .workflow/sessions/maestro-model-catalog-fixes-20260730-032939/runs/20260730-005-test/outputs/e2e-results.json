@@ -1,0 +1,13 @@
+{
+  "_meta": { "kind": "e2e-results", "schema": "e2e-results/1.0", "role": "evidence" },
+  "environment": "Next.js production server on 127.0.0.1:3100",
+  "status": "passed",
+  "total": 88,
+  "passed": 87,
+  "skipped": 1,
+  "failed": 0,
+  "desktop": { "passed": 43, "skipped": 1, "failed": 0 },
+  "mobile": { "passed": 44, "skipped": 0, "failed": 0 },
+  "browserErrors": { "console": 0, "pageerror": 0, "hydration": 0, "scriptRendering": 0 },
+  "expectedSkip": "desktop project skips the mobile-navigation-only scenario"
+}

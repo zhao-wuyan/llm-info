@@ -1,3 +1,4 @@
+import { readFile } from "node:fs/promises";
 import assert from "node:assert/strict";
 import test from "node:test";
 import { adaptAidy } from "../src/adapters/aidy.js";
@@ -8,6 +9,8 @@ import { hasMeaningfulChanges } from "../src/database-change.js";
 import { fetchGitHubJsonSource, fetchGitHubLicense } from "../src/fetch.js";
 import { mergeCatalogs } from "../src/merge.js";
 import { discoverModelAliases } from "../src/model-alias-discovery.js";
+import { canonicalIndexFromCatalog, createModelMatcher } from "../src/model-index/match.js";
+import { validateModelIndex } from "../src/model-index/build.js";
 import { validateDatabase } from "../src/validate.js";
 
 const aidyFixture = {
@@ -352,6 +355,8 @@ test("automatically merges owner variants and model separator substitutions only
       name: "Grok 4.5",
       sourceRefs: [{ source: "aidy-models", id: "poe/x-ai/grok-4.5" }],
       pricing: [{ official: false }],
+      displayPrices: { USD: { rates: { textInput: 1 } }, CNY: null },
+      quality: { aaIndex: 1 },
     },
   ];
 
@@ -364,6 +369,16 @@ test("automatically merges owner variants and model separator substitutions only
     ],
   );
   assert.deepEqual(aliases.candidates, []);
+  const matcherCandidates = canonicalIndexFromCatalog({ models, providers });
+  assert.equal(matcherCandidates.find((model) => model.canonicalId === "xai/grok-4.5")?.directOfficial, true);
+  assert.equal(
+    createModelMatcher(matcherCandidates).match({
+      name: "Grok 4.5",
+      organization: "x_ai",
+      allowLoose: false,
+    })?.canonicalId,
+    "xai/grok-4.5",
+  );
   assert.equal(
     aliases.automatic.some(
       ({ alias, canonicalId }) =>
@@ -545,4 +560,14 @@ test("resolves a GitHub ref before downloading and hashing source JSON", async (
   } finally {
     globalThis.fetch = originalFetch;
   }
+});
+
+test("keeps the generated model index bound to the catalog snapshot", async () => {
+  const [catalog, index] = await Promise.all([
+    readFile(new URL("../data/models.json", import.meta.url), "utf8").then(JSON.parse),
+    readFile(new URL("../data/model-index.json", import.meta.url), "utf8").then(JSON.parse),
+  ]);
+
+  assert.equal(index.catalogGeneratedAt, catalog.generatedAt);
+  assert.deepEqual(validateModelIndex(index, catalog), []);
 });

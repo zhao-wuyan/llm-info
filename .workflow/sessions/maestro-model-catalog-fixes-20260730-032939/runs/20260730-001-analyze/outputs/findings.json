@@ -1,0 +1,333 @@
+{
+  "_meta": { "kind": "findings", "schema": "findings/1.0", "role": "attachment", "alias": "current-analysis" },
+  "mode": "macro",
+  "topic": "Confirmed model catalog, filter, compare, mapping, index, and lifecycle implementation scope",
+  "dimensions": [
+    {
+      "name": "feasibility",
+      "score": 4,
+      "confidence": 0.94,
+      "evidence": ["app/models/page.tsx:26-145", "app/compare/page.tsx:59-203", "src/model-index/build.js:9-105"]
+    },
+    {
+      "name": "impact",
+      "score": 5,
+      "confidence": 0.95,
+      "evidence": ["sealed-review:E1-E11", "app/models/page.tsx:54-75", "lib/lifecycle.ts:37-63"]
+    },
+    {
+      "name": "risk",
+      "score": 4,
+      "confidence": 0.94,
+      "evidence": ["src/model-index/match.js:3-44", "scripts/validate-model-index.js:5-13", "components/column-picker.tsx:18-69"]
+    },
+    {
+      "name": "complexity",
+      "score": 4,
+      "confidence": 0.92,
+      "evidence": ["lib/model-columns.ts:28-90", "app/compare/page.tsx:74-158", "lib/catalog.ts:23-70"]
+    },
+    {
+      "name": "dependencies",
+      "score": 3,
+      "confidence": 0.96,
+      "evidence": ["src/model-index/config.js:6-77", ".github/workflows/update-model-data.yml:54-55", ".github/workflows/validate-model-update.yml:83-84"]
+    },
+    {
+      "name": "alternatives",
+      "score": null,
+      "confidence": 0.91,
+      "evidence": ["components/auto-submit-form.tsx:5-15", "components/ui.tsx:61-64", "lib/price-confidence.ts:51-72"]
+    }
+  ],
+  "findings": [
+    {
+      "id": "T1",
+      "title": "Consolidate the three model boolean filters into one multi-select",
+      "priority": "P2",
+      "status": "confirmed",
+      "evidence": [
+        "app/models/page.tsx:30-33 parses priced, active, and recent-open independently",
+        "app/models/page.tsx:54-62 applies all three before sorting and pagination",
+        "app/models/page.tsx:119-142 renders three independent checkbox labels",
+        "components/auto-submit-form.tsx:5-15 auto-submits checkbox/select changes"
+      ],
+      "implementation": "Add one checklist-style filter popover for priced, active, and recent-open while retaining the existing URL names and predicates. Checkbox changes must continue to submit through AutoSubmitForm, omit false priced/active values, emit recent-open=0 when disabled, and reset page by omission. The requirement changes only the presentation of spec ui-conventions-019; its current-currency, pre-sort, pre-pagination, and URL-retention semantics remain binding.",
+      "tests": ["tests/e2e/catalog.spec.ts:231-265", "tests/e2e/accessibility.spec.ts"],
+      "acceptance": [
+        "One multi-select control exposes all three independently selectable options",
+        "Every combination maps to the same priced/active/recent-open query contract",
+        "Changing an option returns to page 1 and preserves search, ability, weights, sort, and columns"
+      ]
+    },
+    {
+      "id": "T2",
+      "title": "Set the model table default set to exactly nine columns",
+      "priority": "P2",
+      "status": "confirmed",
+      "evidence": [
+        "lib/model-columns.ts:28-46 currently defaults released, context, providers, four prices, weights, license, ability, AAIndex, and LMArena",
+        "lib/model-columns.ts:63-70 derives registry order and defaults",
+        "tests/model-columns.test.ts:10-32 asserts default parsing and serialization"
+      ],
+      "implementation": "Change defaultVisible only for the model registry so the default set is released, context, ability, input, output, cacheRead, cacheWrite, weights, and parameters. Keep all non-default columns available. Preserve registry ordering, including ability as the last titled data column per ui-conventions-017. Do not change compareColumns defaults.",
+      "tests": ["tests/model-columns.test.ts:10-32", "tests/e2e/catalog.spec.ts"],
+      "acceptance": [
+        "A clean /models URL shows exactly the requested nine optional columns",
+        "providers, lifecycle, license, downloads, likes, and all board columns are opt-in",
+        "Compare page defaults remain unchanged"
+      ]
+    },
+    {
+      "id": "T3",
+      "title": "Persist model and compare column selections independently",
+      "priority": "P2",
+      "status": "confirmed",
+      "evidence": [
+        "components/column-picker.tsx:18-69 is a server-rendered URL-only form control",
+        "lib/model-columns.ts:73-90 treats empty/unknown as defaults and serializes an empty set as an absent value",
+        "app/models/page.tsx:42-44 and app/compare/page.tsx:71-72 parse only cols",
+        "app/models/page.tsx:109-114 and app/compare/page.tsx:131-135 reset only the URL parameter"
+      ],
+      "implementation": "Use distinct browser keys llm-info:models:columns:v1 and llm-info:compare:columns:v1. Define precedence as explicit URL cols, then the page key, then page defaults. Add an explicit none sentinel to parseVisibleColumns/serializeColumns so zero selected columns round-trips. On apply, persist the ordered selection and navigate with cols while retaining page state; on reset-columns, clear only that page key and cols while preserving filters/sort. Never let the models key affect compare or vice versa.",
+      "tests": ["tests/model-columns.test.ts:19-32", "tests/e2e/catalog.spec.ts", "tests/e2e/accessibility.spec.ts"],
+      "acceptance": [
+        "Selections survive refresh and navigation away/back",
+        "An empty selection remains empty rather than restoring defaults",
+        "Models and compare store independent values",
+        "Reset columns affects only its table and does not reset filters"
+      ]
+    },
+    {
+      "id": "T4",
+      "title": "Replace four page-level text reset links with consistent reset controls",
+      "priority": "P3",
+      "status": "confirmed",
+      "evidence": [
+        "app/models/page.tsx:145 renders the shared reset text link",
+        "app/compare/page.tsx:174 renders the shared reset text link",
+        "app/providers/page.tsx:62-68 renders the shared reset text link",
+        "app/sources/page.tsx:46 renders the shared reset text link",
+        "lib/i18n.ts:8,37 defines 清除/Clear"
+      ],
+      "implementation": "Introduce one shared reset-link control using the Lucide RotateCcw icon, icon-button styling, and localized reset aria-label/title. Replace only the four page-level links and preserve their existing href semantics. Keep the column reset action separate because it clears a page-specific column preference rather than the whole page state.",
+      "tests": ["tests/e2e/catalog.spec.ts", "tests/e2e/accessibility.spec.ts"],
+      "acceptance": [
+        "Models, compare, providers, and sources expose the same reset icon control",
+        "Each control has an accessible localized name and tooltip",
+        "Each navigates to its page root and restores that page's defaults"
+      ]
+    },
+    {
+      "id": "T5",
+      "title": "Paginate compare after full-set sorting and precompute row values once",
+      "priority": "P2",
+      "status": "confirmed",
+      "evidence": [
+        "app/compare/page.tsx:74-97 filters and sorts all ranked models",
+        "app/compare/page.tsx:85-103 repeatedly resolves index and price values while sorting/maximizing",
+        "app/compare/page.tsx:187-201 renders the full rows array",
+        "components/ui.tsx:61-64 provides the existing server pagination pattern",
+        "app/models/page.tsx:63-95 and app/providers/page.tsx:33-50 sort the complete set before slicing"
+      ],
+      "implementation": "Build one request-local row view model per filtered canonical model containing model identity, release/context values, all visible price values, and board records. Sort the complete row array, compute bar maxima from the complete filtered set, then slice a 50-row page. Add page parsing, clamping, Pagination, and a link builder that retains q/owner/board/ability/cols plus explicit sort=none or sort/order. Do not move catalog data into a client bundle.",
+      "tests": ["tests/e2e/catalog.spec.ts", "tests/model-sort.test.ts", "tests/table-sort.test.ts"],
+      "acceptance": [
+        "Compare renders at most 50 rows per page",
+        "Sort order is global across pages and missing numeric values remain last",
+        "Pagination retains every filter, column, and sort state including sort=none",
+        "Index/price/board lookups are performed during row construction, not repeatedly per sort/cell"
+      ]
+    },
+    {
+      "id": "T6",
+      "title": "Remove the compare evidence banner without removing source cards",
+      "priority": "P3",
+      "status": "confirmed",
+      "evidence": [
+        "app/compare/page.tsx:176-180 renders the redundant evidence-banner",
+        "app/compare/page.tsx:181-185 renders the source board-strip that must remain",
+        "app/compare/page.tsx:201 already reports mapped and column counts",
+        "app/globals.css:68 defines evidence-banner styling"
+      ],
+      "implementation": "Delete only the top evidence-banner and its now-unused CSS/i18n references. Retain board-strip source links and keep mapped/column counts in the table footer, adjusted to the paginated full filtered count.",
+      "tests": ["tests/e2e/catalog.spec.ts", "tests/e2e/accessibility.spec.ts"],
+      "acceptance": [
+        "No .evidence-banner is rendered",
+        "Every board source card remains visible and linked",
+        "Mapped and selected-column counts remain available in the footer"
+      ]
+    },
+    {
+      "id": "T7",
+      "title": "Use board-typed normalization, strict owner evidence, official-canonical preference, and maximum score",
+      "priority": "P1",
+      "status": "confirmed",
+      "evidence": [
+        "src/model-index/match.js:3-27 globally removes semantic base/instruct/thinking suffixes",
+        "src/model-index/match.js:37-44 uses broad prefix owner compatibility",
+        "src/model-index/match.js:75-83 prefers channel/price/quality counts rather than direct official evidence",
+        "src/model-index/match.js:89-110 enforces owner only when ownerRequired is set",
+        "src/model-index/build.js:15-42 already retains the highest score after multiple rows map to one canonical ID",
+        "src/model-index/config.js:6-77 supplies board kind and per-board match policy"
+      ],
+      "implementation": "Replace universal semantic-token deletion with a strategy selected by board kind. Benchmark/quality strategies may strip only recognized effort annotations such as (high|medium|low|xhigh) and thinking-token budgets; repository matching must preserve Base/Instruct/Thinking and other architecture variants. When organization exists, reject incompatible owners for every strategy; owner equivalence must use the established strict separator rule rather than startsWith. Extend canonical matcher input with direct/official channel evidence and rank candidates by compatible owner, direct official canonical evidence, then deterministic completeness/tie-break data. Preserve buildModelIndex's maximum-score replacement when normalized variants converge.",
+      "tests": ["test/model-index.test.js:41-72", "test/model-index.test.js:87-134", "test/pipeline.test.js"],
+      "acceptance": [
+        "gpt-5 (high/medium/low/xhigh) variants converge and the maximum score wins",
+        "Base, Instruct, Chat, and Thinking architectures never collapse into each other",
+        "An organization hint can never fall back to an incompatible owner",
+        "Direct official canonical candidates win ambiguous compatible matches deterministically",
+        "HF derivative/repository matching remains owner-strict"
+      ]
+    },
+    {
+      "id": "T8",
+      "title": "Validate and regenerate the model index against the exact catalog snapshot",
+      "priority": "P1",
+      "status": "confirmed",
+      "evidence": [
+        "src/model-index/build.js:67-73 writes catalogGeneratedAt",
+        "src/model-index/build.js:83-105 validates shape but not snapshot identity",
+        "scripts/validate-model-index.js:5-13 loads only model-index.json",
+        "scripts/generate-model-index.js:56-57 calls validation without the catalog",
+        ".github/workflows/update-model-data.yml:54-55 and .github/workflows/validate-model-update.yml:83-84 invoke validate:index",
+        "sealed-review:E4 observed models.json 2026-07-29T10:58:23.602Z versus index 2026-07-28T11:37:25.935Z"
+      ],
+      "implementation": "Make validateModelIndex accept the catalog snapshot (or its generatedAt) and require exact equality with index.catalogGeneratedAt. Update both generation-time and standalone validation call sites; standalone validation must load data/models.json, with an optional explicit catalog path if needed. Regenerate data/model-index.json from the current models.json after matcher changes. Keep both CI workflow commands unchanged so the stronger validator runs automatically.",
+      "tests": ["test/model-index.test.js:113-145", "test/pipeline.test.js"],
+      "acceptance": [
+        "validate:index fails on a one-character catalogGeneratedAt mismatch",
+        "validate:index passes only after regenerating the index from the current catalog",
+        "Generated index schema, board references, scores, and open-weight facts remain valid"
+      ]
+    },
+    {
+      "id": "T9",
+      "title": "Aggregate canonical lifecycle with official-first and any-active semantics",
+      "priority": "P1",
+      "status": "confirmed",
+      "evidence": [
+        "lib/lifecycle.ts:18-34 correctly derives channel lifecycle",
+        "lib/lifecycle.ts:37-63 currently chooses the worst status across every channel",
+        "lib/catalog.ts:7-10 already has providerById and a snapshot-aligned date",
+        "lib/catalog.ts:23-70 invokes canonicalLifecycle during grouping and finalization",
+        "app/models/page.tsx:57-59 filters canonical lifecycle status",
+        "tests/lifecycle.test.ts:78-111 locks the current worst-channel behavior",
+        "sealed-review:E5 found 65 mixed active/deprecated or sunset canonical IDs"
+      ],
+      "implementation": "Pass provider metadata into canonicalLifecycle. If direct official channels exist, derive the canonical lifecycle only from those authoritative channels. Otherwise aggregate all channels by availability: any active channel makes the canonical model active; if none is active, a still-deprecated channel takes precedence over sunset, and only all-sunset channels yield sunset. Dates/source must come from the channels that determine the selected canonical status; channel-specific lifecycle remains available on each channel.",
+      "tests": ["tests/lifecycle.test.ts:78-111", "tests/catalog.test.ts", "tests/e2e/catalog.spec.ts"],
+      "acceptance": [
+        "An active official channel remains active despite a deprecated reseller",
+        "An official sunset overrides non-official reseller lifecycle evidence",
+        "Without official evidence, any active channel keeps the canonical model in onlyActive results",
+        "Without active channels, deprecated outranks sunset availability and all-sunset yields sunset"
+      ]
+    }
+  ],
+  "existing_patterns": [
+    {
+      "subsystem": "UI state and tables",
+      "patterns": [
+        "URL-first server state with baseQuery/linkFor retention in app/models/page.tsx:77-114, app/compare/page.tsx:110-135, and app/providers/page.tsx:42-58",
+        "Full filtered-set stable sort before page slicing in app/models/page.tsx:63-75, app/providers/page.tsx:33-41, and components/provider-models-dialog.tsx:44-54",
+        "Shared form/table controls in components/auto-submit-form.tsx:5-15, components/column-picker.tsx:18-69, and components/ui.tsx:61-64"
+      ]
+    },
+    {
+      "subsystem": "Model index and normalization",
+      "patterns": [
+        "Source-specific adapters normalize raw schemas in src/model-index/boards.js:9-123",
+        "Registry config carries board kind and match policy in src/model-index/config.js:6-77",
+        "Deterministic reduce-and-validate flow in src/model-index/build.js:9-105, including maximum score at lines 31-42"
+      ]
+    },
+    {
+      "subsystem": "Canonical ownership and lifecycle",
+      "patterns": [
+        "Channel facts are computed first and canonical facts second in lib/lifecycle.ts:20-63",
+        "Canonical grouping retains all channels and provider metadata in lib/catalog.ts:7-70",
+        "Official/direct evidence is already scored deterministically in lib/price-confidence.ts:51-72 and tested in tests/price-confidence.test.ts:46-83"
+      ]
+    }
+  ],
+  "collision_boundaries": [
+    "The worktree already contains user changes to next-env.d.ts and .workflow/state.json; implementation must not overwrite or normalize them.",
+    "The current run directory and sealed review directories are untracked Runtime/user artifacts; implementation may read but must not delete or rewrite them.",
+    "spec:project:ui-conventions-019 says checkbox, while the confirmed task changes presentation to one multi-select; retain every semantic clause and treat only the control shape as superseded.",
+    "Column reset and page reset are separate state domains: page reset may clear the page query, while reset-columns must preserve filters/sort and clear only one page-specific storage key.",
+    "Compare pagination must preserve spec:project:ui-conventions-020 explicit sort=none and default AAIndex-desc behavior.",
+    "Typed benchmark normalization must not leak into Hugging Face repository identity matching.",
+    "Lifecycle authority must use provider metadata already loaded by lib/catalog.ts; do not infer official status from display names alone.",
+    "Regenerating data/model-index.json is required implementation output, but data/models.json is the authoritative input and must not be regenerated or hand-edited for this fix."
+  ],
+  "decisions": [
+    {
+      "title": "Nine-task scope is closed",
+      "class": "locked",
+      "context": "User-confirmed implementation scope and sealed review evidence",
+      "options": ["Implement the nine mapped tasks", "Broaden into refactors/new features"],
+      "chosen": "Implement only T1-T9",
+      "reason": "Every requested UI/data correction has a direct integration point; broad refactors and new features are explicit non-goals"
+    },
+    {
+      "title": "Column persistence precedence and empty representation",
+      "class": "locked",
+      "context": "URL shareability plus browser persistence and empty-selection defect",
+      "options": ["URL > page storage > defaults with none sentinel", "Storage overrides URL", "Defaults on empty"],
+      "chosen": "URL > page storage > defaults; serialize empty as none",
+      "reason": "Preserves shareable URLs, page isolation, and a representable empty set"
+    },
+    {
+      "title": "Compare performance boundary",
+      "class": "locked",
+      "context": "402 mapped rows and repeated per-render lookups",
+      "options": ["Server pagination with request-local row models", "Ship full catalog to client", "Only optimize Array.sort"],
+      "chosen": "Server pagination after global sort with request-local precomputation",
+      "reason": "Reduces response/DOM cost while preserving server ownership and global ordering"
+    },
+    {
+      "title": "Leaderboard matching boundary",
+      "class": "locked",
+      "context": "Observed effort misses and semantic/owner misassignment",
+      "options": ["Typed strategies", "Expand universal fuzzy matcher", "Manual aliases only"],
+      "chosen": "Typed strategies with strict owner and official-canonical preference",
+      "reason": "Effort annotations are board noise; architecture variants and owners are identity"
+    },
+    {
+      "title": "Canonical lifecycle authority",
+      "class": "locked",
+      "context": "Mixed channel statuses remove still-available canonical models",
+      "options": ["Worst of every channel", "Official first, otherwise any active", "Ignore lifecycle"],
+      "chosen": "Official first, otherwise any active",
+      "reason": "Official evidence is authoritative and fallback aggregation represents canonical availability"
+    },
+    {
+      "title": "Internal component factoring",
+      "class": "free",
+      "context": "Implementation can reuse or add narrow shared UI helpers",
+      "options": ["Dedicated controls", "Small shared reset/filter components"],
+      "chosen": "Use the smallest existing-pattern-compatible factoring",
+      "reason": "Behavioral contracts are locked; internal naming and file placement can follow local conventions"
+    }
+  ],
+  "scope_verdict": "large",
+  "recommendation": "go_with_conditions",
+  "conditions": [
+    "Implement data correctness T7-T9 before regenerating the index and before UI acceptance verification.",
+    "Update focused unit/E2E contracts listed per task; do not encode implementation details in tests.",
+    "Preserve the identified worktree changes and page-specific state boundaries."
+  ],
+  "intent_coverage": [
+    { "intent": "Filter multi-select", "status": "addressed", "finding": "T1" },
+    { "intent": "Nine model defaults", "status": "addressed", "finding": "T2" },
+    { "intent": "Page-specific column persistence", "status": "addressed", "finding": "T3" },
+    { "intent": "Four reset controls", "status": "addressed", "finding": "T4" },
+    { "intent": "Compare pagination and precomputation", "status": "addressed", "finding": "T5" },
+    { "intent": "Banner removal", "status": "addressed", "finding": "T6" },
+    { "intent": "Typed mapping, owner/official preference, maximum score", "status": "addressed", "finding": "T7" },
+    { "intent": "Snapshot validation/regeneration", "status": "addressed", "finding": "T8" },
+    { "intent": "Canonical lifecycle official-first/any-active", "status": "addressed", "finding": "T9" }
+  ]
+}

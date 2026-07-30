@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 import { canonicalModels } from "@/lib/catalog";
 import {
-  buildModelColumns, columnSortValue, defaultColumnIds, isSortableColumn, parseVisibleColumns, serializeColumns,
+  buildModelColumns, columnSortValue, defaultColumnIds, isSortableColumn, parseExplicitColumns, parseVisibleColumns, serializeColumns, toColumnPickerOptions,
 } from "@/lib/model-columns";
 import { boards, indexFor, licenseTone, formatParameters } from "@/lib/model-index";
 
@@ -13,12 +13,32 @@ describe("model column registry", () => {
     for (const id of ["weights", "license", "parameters", "downloads", "likes", "lifecycle"]) {
       expect(columns.some((column) => column.id === id)).toBe(true);
     }
-    expect(columns.find((column) => column.id === "lifecycle")?.defaultVisible).toBe(false);
+    for (const id of ["providers", "lifecycle", "license", "downloads", "likes", "maxOutput"]) {
+      expect(columns.find((column) => column.id === id)?.defaultVisible).toBe(false);
+    }
+    for (const column of columns.filter((column) => column.group === "board")) {
+      expect(column.defaultVisible).toBe(false);
+    }
+  });
+
+  test("defaults to the exact ordered nine column set", () => {
+    expect(defaultColumnIds(columns)).toEqual([
+      "released",
+      "context",
+      "input",
+      "output",
+      "cacheRead",
+      "cacheWrite",
+      "weights",
+      "parameters",
+      "ability",
+    ]);
   });
 
   test("falls back to the default column set for empty or unknown selections", () => {
     const defaults = defaultColumnIds(columns);
     expect(parseVisibleColumns("", columns)).toEqual(defaults);
+    expect(parseVisibleColumns("none", columns)).toEqual([]);
     expect(parseVisibleColumns("does-not-exist", columns)).toEqual(defaults);
     expect(parseVisibleColumns("all", columns)).toEqual(columns.map((column) => column.id));
   });
@@ -29,6 +49,8 @@ describe("model column registry", () => {
     expect(visible).toEqual(columns.filter((column) => requested.split(",").includes(column.id)).map((column) => column.id));
     expect(parseVisibleColumns(serializeColumns(visible, columns), columns)).toEqual(visible);
     expect(serializeColumns(defaultColumnIds(columns), columns)).toBe("");
+    expect(serializeColumns([], columns)).toBe("none");
+    expect(parseVisibleColumns(serializeColumns([], columns), columns)).toEqual([]);
   });
 
   test("marks board and open-weight columns sortable", () => {
@@ -49,6 +71,32 @@ describe("model column registry", () => {
     const unscored = canonicalModels.find((model) => Object.keys(indexFor(model.canonicalId).boards).length === 0);
     expect(columnSortValue("board:aaindex", unscored!, { currency: "USD" })).toBeNull();
     expect(columnSortValue("providers", unscored!, { currency: "USD" })).toBe(unscored!.providerCount);
+  });
+});
+
+describe("column persistence sentinel", () => {
+  test("treats an explicit URL value of none or empty as the empty selection", () => {
+    expect(parseExplicitColumns("none", columns)).toEqual([]);
+    expect(parseExplicitColumns("", columns)).toEqual([]);
+    expect(parseExplicitColumns("none,", columns)).toEqual([]);
+  });
+
+  test("falls back to defaults for a wholly unknown explicit URL selection", () => {
+    const defaults = defaultColumnIds(columns);
+    expect(parseExplicitColumns("does-not-exist", columns)).toEqual(defaults);
+    expect(parseExplicitColumns("all", columns)).toEqual(columns.map((column) => column.id));
+  });
+
+  test("maps columns to serializable picker options with resolved labels and subtitles", () => {
+    const options = toColumnPickerOptions(columns, "zh", "CNY");
+    const input = options.find((option) => option.id === "input");
+    expect(input).toBeDefined();
+    expect(input!.label).toBe("输入");
+    expect(input!.subtitle).toBe("CNY");
+    expect(typeof input!.label).toBe("string");
+    expect("subtitle" in input! && typeof input!.subtitle === "string").toBe(true);
+    const weights = options.find((option) => option.id === "weights");
+    expect(weights?.sourceUrl).toBe("https://huggingface.co/models");
   });
 });
 

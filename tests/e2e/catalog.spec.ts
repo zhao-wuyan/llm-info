@@ -120,7 +120,7 @@ test("provider model dialog filters quoted models in the current currency", asyn
   await expect.poll(async () => Number.parseInt(await count.innerText(), 10)).toBe(allCount);
 });
 
-test("source and quality pages use live catalog data", async ({ page }, testInfo) => {
+test("compare sources and quality pages use live catalog data", async ({ page }, testInfo) => {
   await page.goto("/providers"); await page.waitForLoadState("networkidle");
   await expect(page.locator(".provider-catalog-table .sortable-header")).toHaveCount(5);
   await page.goto("/sources"); await page.waitForLoadState("networkidle");
@@ -129,7 +129,14 @@ test("source and quality pages use live catalog data", async ({ page }, testInfo
   await expect(page.getByText("model-price-hub", { exact: true })).toBeVisible();
   await page.goto("/compare"); await page.waitForLoadState("networkidle");
   await expect(page.getByRole("heading", { name: "模型对比" })).toBeVisible();
+  await expect(page.locator(".evidence-banner")).toHaveCount(0);
+  const boardCount = (await page.locator('select[name="board"] option').count()) - 1;
+  await expect(page.locator(".board-strip a")).toHaveCount(boardCount);
+  await expect(page.locator(".board-strip a").first()).toHaveAttribute("target", "_blank");
+  await expect(page.locator(".board-strip a").first()).toHaveAttribute("href", /^https?:\/\//);
   await expect(page.getByText(/\d+ \/ \d+ 已映射模型/).first()).toBeVisible();
+  await expect(page.getByText(/\d+\/\d+ 列/).first()).toBeVisible();
+  await expect(page.locator(".pagination")).toBeVisible();
   await expect(page.locator(".compare-table .sortable-header")).toHaveCount(12);
   const qualityHeader = page.getByRole("columnheader", { name: "排序 AAIndex 综合 AAIndex: 不排序" });
   await expect(qualityHeader).toHaveAttribute("aria-sort", "descending");
@@ -173,6 +180,79 @@ test("source and quality pages use live catalog data", async ({ page }, testInfo
   expect(new Set(darkBarColors).size).toBe(6);
   expect(darkBarColors).not.toEqual(lightBarColors);
   await page.screenshot({ path: path.join(evidenceRoot, `${testInfo.project.name}-compare-bars-dark.png`), fullPage: true });
+});
+
+test("compare pagination: name sorting remains global and retains sort state", async ({ page }) => {
+  await page.goto("/compare?sort=name&order=asc&cols=input");
+  await expect(page.locator(".compare-table tbody tr")).toHaveCount(50);
+  const firstPageNames = await page.locator(".compare-table tbody .entity-title").allTextContents();
+  const nextPage = page.getByRole("link", { name: "下一页 / Next page" });
+  await expect(nextPage).toHaveAttribute("href", /page=2/);
+  await expect(nextPage).toHaveAttribute("href", /sort=name/);
+  await expect(nextPage).toHaveAttribute("href", /order=asc/);
+  await expect(nextPage).toHaveAttribute("href", /cols=input/);
+  await Promise.all([
+    page.waitForURL((url) => url.searchParams.get("page") === "2"),
+    nextPage.click(),
+  ]);
+  await expect(page.locator(".compare-table tbody tr").first()).toBeVisible();
+  const secondPageNames = await page.locator(".compare-table tbody .entity-title").allTextContents();
+  const visibleNames = [...firstPageNames, ...secondPageNames];
+  expect(visibleNames).toEqual([...visibleNames].sort((left, right) => left.localeCompare(right)));
+});
+
+test("compare pagination: numeric sorting keeps missing prices last and uses global maxima", async ({ page }) => {
+  for (const order of ["asc", "desc"] as const) {
+    await page.goto(`/compare?sort=input&order=${order}&cols=input`);
+    const inputBars = page.locator(".compare-table tbody tr td:nth-child(3) .comparison-bar");
+    await expect(inputBars.first()).toBeVisible();
+    const firstPageWidths = await inputBars.locator(".comparison-bar-track > i").evaluateAll((elements) =>
+      elements.map((element) => (element as HTMLElement).style.width));
+    if (order === "asc") expect(firstPageWidths).not.toContain("100%");
+    else expect(firstPageWidths).toContain("100%");
+    expect(await page.locator(".compare-table tbody tr td:nth-child(3) .comparison-bar.is-missing").count()).toBe(0);
+
+    const lastPage = Math.max(...(await page.locator(".pagination a").allTextContents())
+      .map((value) => Number(value))
+      .filter((value) => Number.isFinite(value) && value > 0));
+    await page.goto(`/compare?sort=input&order=${order}&cols=input&page=${lastPage}`);
+    await expect(page.locator(".compare-table tbody tr").first()).toBeVisible();
+    const missing = await page.locator(".compare-table tbody tr td:nth-child(3) .comparison-bar")
+      .evaluateAll((elements) => elements.map((element) => element.classList.contains("is-missing")));
+    const firstMissing = missing.indexOf(true);
+    expect(firstMissing).toBeGreaterThanOrEqual(0);
+    expect(missing.slice(firstMissing).every(Boolean)).toBe(true);
+  }
+});
+
+test("compare pagination: clamps oversized pages, resets page state, and keeps overflow local", async ({ page }) => {
+  await page.goto("/compare?sort=none&cols=input&page=999");
+  await expect(page.locator(".pagination a[aria-current='page']")).toBeVisible();
+  const clampedPage = Math.max(...(await page.locator(".pagination a").allTextContents())
+    .map((value) => Number(value))
+    .filter((value) => Number.isFinite(value) && value > 0));
+  await expect(page.locator(".pagination a[aria-current='page']")).toHaveText(String(clampedPage));
+  expect(await page.locator(".compare-table tbody tr").count()).toBeLessThanOrEqual(50);
+  await expect(page.locator(".toolbar input[name='page']")).toHaveCount(0);
+  await expect(page.getByRole("columnheader", { name: /排序 模型/ }).locator("a")).not.toHaveAttribute("href", /page=/);
+  await page.locator(".column-picker summary").click();
+  await expect(page.locator(".column-picker").getByRole("link", { name: "恢复默认列" })).not.toHaveAttribute("href", /page=/);
+
+  const owner = await page.locator('select[name="owner"] option').nth(1).getAttribute("value")
+    ?? await page.locator('select[name="owner"] option').nth(1).textContent();
+  await page.goto(`/compare?q=a&owner=${encodeURIComponent(owner ?? "")}&board=aaindex&ability=reasoning&cols=input&sort=none&page=999`);
+  await page.locator(".column-picker summary").click();
+  const resetColumns = page.locator(".column-picker").getByRole("link", { name: "恢复默认列" });
+  await expect(resetColumns).toBeAttached();
+  for (const state of ["q=a", `owner=${encodeURIComponent(owner ?? "")}`, "board=aaindex", "ability=reasoning", "sort=none"]) {
+    await expect(resetColumns).toHaveAttribute("href", new RegExp(state));
+  }
+  await expect(resetColumns).not.toHaveAttribute("href", /page=/);
+
+  await page.goto("/compare");
+  await expect(page.locator(".table-scroll")).toBeVisible();
+  await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth === document.documentElement.clientWidth)).toBe(true);
+  await expect.poll(() => page.locator(".table-scroll").evaluate((element) => element.scrollWidth > element.clientWidth)).toBe(true);
 });
 
 test("locale and theme controls persist UI preferences", async ({ page }, testInfo) => {
@@ -235,16 +315,21 @@ test("model price filter follows the current currency and survives sorting and p
   await expect(page.getByRole("columnheader", { name: "输入 CNY" })).toBeVisible();
 
   const table = page.locator(".model-price-table");
-  const onlyPriced = page.getByRole("checkbox", { name: "只看有报价" });
+  const filterPicker = page.locator(".model-filter-picker");
+  await filterPicker.locator("summary").click();
+  const onlyPriced = filterPicker.getByRole("checkbox", { name: "只看有报价" });
   const allCount = Number.parseInt(await page.locator(".table-footer > span").innerText(), 10);
   await onlyPriced.check();
+  await filterPicker.getByRole("button", { name: "应用筛选" }).click();
 
   await expect.poll(() => new URL(page.url()).searchParams.get("priced")).toBe("1");
+  await filterPicker.locator("summary").click();
   await expect(onlyPriced).toBeChecked();
+  await filterPicker.locator("summary").click();
   const pricedCount = Number.parseInt(await page.locator(".table-footer > span").innerText(), 10);
   expect(pricedCount).toBeLessThan(allCount);
   await expect.poll(() => table.locator("tbody tr").evaluateAll((rows) => rows.every((row) => {
-    const priceCells = [...row.querySelectorAll("td")].slice(4, 8);
+    const priceCells = [...row.querySelectorAll("td")].slice(3, 7);
     return priceCells.some((cell) => cell.textContent?.trim() !== "-");
   }))).toBe(true);
   await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth === document.documentElement.clientWidth)).toBe(true);
@@ -258,11 +343,78 @@ test("model price filter follows the current currency and survives sorting and p
   await expect.poll(() => new URL(page.url()).searchParams.get("page")).toBe("2");
   await expect.poll(() => new URL(page.url()).searchParams.get("priced")).toBe("1");
 
+  await filterPicker.locator("summary").click();
   await onlyPriced.uncheck();
+  await filterPicker.getByRole("button", { name: "应用筛选" }).click();
   await expect.poll(() => new URL(page.url()).searchParams.get("priced")).toBeNull();
   await expect.poll(() => new URL(page.url()).searchParams.get("page")).toBeNull();
+  await filterPicker.locator("summary").click();
   await expect(onlyPriced).not.toBeChecked();
   await expect(page.locator(".table-footer > span")).toContainText(String(allCount));
+});
+
+test("model filter picker combines states, resets page and supports keyboard", async ({ page }, testInfo) => {
+  await page.goto("/models?q=test&page=2&sort=name&order=asc&cols=weights,license");
+  await page.waitForLoadState("networkidle");
+  const picker = page.locator(".model-filter-picker");
+  const summary = picker.locator("summary");
+  await summary.click();
+  const panel = picker.locator(".model-filter-picker-panel");
+  await expect(panel).toBeVisible();
+
+  const priced = picker.getByRole("checkbox", { name: "只看有报价" });
+  const active = picker.getByRole("checkbox", { name: "只看生命周期内" });
+  const recentOpen = picker.getByRole("checkbox", { name: "开源仅近 1 年或 2 代" });
+
+  await priced.check();
+  await active.check();
+  await recentOpen.uncheck();
+  await picker.getByRole("button", { name: "应用筛选" }).click();
+  await expect(panel).not.toBeVisible();
+
+  await expect.poll(() => new URL(page.url()).searchParams.get("priced")).toBe("1");
+  await expect.poll(() => new URL(page.url()).searchParams.get("active")).toBe("1");
+  await expect.poll(() => new URL(page.url()).searchParams.get("recent-open")).toBe("0");
+  await expect.poll(() => new URL(page.url()).searchParams.get("page")).toBeNull();
+  await expect.poll(() => new URL(page.url()).searchParams.get("q")).toBe("test");
+  await expect.poll(() => new URL(page.url()).searchParams.get("sort")).toBe("name");
+  await expect.poll(() => new URL(page.url()).searchParams.get("order")).toBe("asc");
+  await expect.poll(() => {
+    const values = new URL(page.url()).searchParams.getAll("cols");
+    return values.flatMap((value) => value.split(","));
+  }).toEqual(["weights", "license"]);
+  await expect(page.locator(".model-filter-picker")).toHaveCount(1);
+  const currentPicker = page.locator(".model-filter-picker");
+  const currentSummary = currentPicker.locator("summary");
+  await expect(currentSummary.locator("small")).toHaveText("2");
+  await expect(currentSummary).toBeVisible();
+
+  await currentSummary.focus();
+  await currentSummary.press("Enter");
+  await expect(currentPicker.locator(".model-filter-picker-panel")).toBeVisible();
+  await page.keyboard.press("Tab");
+  await expect(currentPicker.getByRole("checkbox", { name: "只看有报价" })).toBeFocused();
+  await currentSummary.focus();
+  await currentSummary.press("Enter");
+  await expect(currentPicker.locator(".model-filter-picker-panel")).not.toBeVisible();
+  await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth === document.documentElement.clientWidth)).toBe(true);
+  await page.screenshot({ path: path.join(evidenceRoot, `${testInfo.project.name}-model-filter-picker.png`), fullPage: true });
+});
+
+test("only active retains mixed lifecycle models and excludes selected sunset models", async ({ page }) => {
+  await page.goto("/models?q=deepseek-ai%2Fdeepseek-r1&active=1&recent-open=0");
+  await page.waitForLoadState("networkidle");
+  const picker = page.locator(".model-filter-picker");
+  await picker.locator("summary").click();
+  const active = picker.getByRole("checkbox", { name: "只看生命周期内" });
+  await expect(active).toBeChecked();
+  await expect(page.locator('a[href="/models/deepseek-ai/deepseek-r1"]')).toBeVisible();
+
+  await page.goto("/models?q=Grok+3&active=1&recent-open=0");
+  await page.waitForLoadState("networkidle");
+  await picker.locator("summary").click();
+  await expect(active).toBeChecked();
+  await expect(page.locator('a[href="/models/xai/grok-3"]')).toHaveCount(0);
 });
 
 test("model table headers cycle sorting across the complete filtered dataset", async ({ page }, testInfo) => {
@@ -286,23 +438,29 @@ test("model table headers cycle sorting across the complete filtered dataset", a
   await page.waitForLoadState("networkidle");
   const table = page.locator(".model-price-table");
   const modelHeader = table.locator("thead th").first();
-  await expect(table.locator("thead .sortable-header")).toHaveCount(12);
-  await expect(table.locator("thead th").nth(12)).toHaveText("能力");
-  await expect(table.locator("thead th").nth(13)).toHaveText("");
+  await expect(table.locator("thead .sortable-header")).toHaveCount(9);
+  await expect(table.locator("thead th")).toHaveCount(11);
+  await expect(table.locator("thead th").nth(9)).toHaveText("能力");
+  await expect(table.locator("thead th").nth(10)).toHaveText("");
   await expect(page.locator('select[name="sort"]')).toHaveCount(0);
   await expect(table).toHaveCSS("table-layout", "auto");
+
+  await page.goto("/models?cols=all");
+  await page.waitForLoadState("networkidle");
+  await expect(table.locator("thead .sortable-header")).toHaveCount(20);
+  await expect(table.locator("thead th")).toHaveCount(22);
   await table.getByRole("link", { name: "排序 模型: 正序" }).click();
   await expect.poll(() => new URL(page.url()).searchParams.get("sort")).toBe("name");
   await expect.poll(() => new URL(page.url()).searchParams.get("order")).toBe("asc");
   await expect(modelHeader).toHaveAttribute("aria-sort", "ascending");
-  await expect(table.locator("thead th")).toHaveCount(14);
 
   await table.getByRole("link", { name: "排序 模型: 倒序" }).click();
   await expect.poll(() => new URL(page.url()).searchParams.get("order")).toBe("desc");
   await expect(modelHeader).toHaveAttribute("aria-sort", "descending");
 
   await table.getByRole("link", { name: "排序 模型: 不排序" }).click();
-  await expect.poll(() => new URL(page.url()).search).toBe("");
+  await expect.poll(() => new URL(page.url()).searchParams.get("sort")).toBeNull();
+  await expect.poll(() => new URL(page.url()).searchParams.get("order")).toBeNull();
   await expect(modelHeader).toHaveAttribute("aria-sort", "none");
 
   await table.getByRole("link", { name: "排序 发布时间: 正序" }).click();
@@ -317,13 +475,13 @@ test("model table headers cycle sorting across the complete filtered dataset", a
   await table.getByRole("link", { name: "排序 供应商数: 正序" }).click();
   await expect.poll(() => new URL(page.url()).searchParams.get("sort")).toBe("providers");
   await expect.poll(() => new URL(page.url()).searchParams.get("order")).toBe("asc");
-  const firstPageCounts = (await table.locator("tbody tr td:nth-child(4)").allTextContents()).map(Number);
+  const firstPageCounts = (await table.locator("tbody tr td:nth-child(5)").allTextContents()).map(Number);
   const pageTwo = page.getByRole("navigation", { name: "Pagination" }).getByRole("link", { name: "2", exact: true });
   await expect(pageTwo).toHaveAttribute("href", /sort=providers/);
   await expect(pageTwo).toHaveAttribute("href", /order=asc/);
   await pageTwo.click();
   await expect.poll(() => new URL(page.url()).searchParams.get("page")).toBe("2");
-  const secondPageCounts = (await table.locator("tbody tr td:nth-child(4)").allTextContents()).map(Number);
+  const secondPageCounts = (await table.locator("tbody tr td:nth-child(5)").allTextContents()).map(Number);
   expect(Math.max(...firstPageCounts)).toBeLessThanOrEqual(Math.min(...secondPageCounts));
   await page.screenshot({ path: path.join(evidenceRoot, `${testInfo.project.name}-model-global-sort.png`), fullPage: true });
   await table.evaluate((element) => { if (element.parentElement) element.parentElement.scrollLeft = element.parentElement.scrollWidth; });
@@ -337,4 +495,205 @@ test("mobile navigation and tables remain usable", async ({ page }, testInfo) =>
   await page.getByRole("button", { name: "打开导航" }).click();
   await expect(page.getByRole("dialog").getByRole("navigation", { name: "主导航" })).toBeVisible();
   await page.screenshot({ path: path.join(evidenceRoot, "mobile-navigation.png"), fullPage: true });
+});
+
+test.describe("column persistence", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto("/models");
+    await page.waitForLoadState("networkidle");
+    await page.evaluate(() => {
+      localStorage.removeItem("llm-info:models:columns:v1");
+      localStorage.removeItem("llm-info:compare:columns:v1");
+    });
+  });
+
+  test("Models column picker persists and resets", async ({ page }) => {
+    const picker = page.locator(".column-picker");
+    await picker.locator("summary").click();
+    const panel = picker.locator(".column-picker-panel");
+    await expect(panel).toBeVisible();
+
+    await panel.locator('input[type="checkbox"][value="context"]').uncheck();
+    await panel.locator('input[type="checkbox"][value="maxOutput"]').check();
+    await panel.getByRole("button", { name: "应用" }).click();
+
+    await expect.poll(() => new URL(page.url()).searchParams.get("cols")).toBe("released,maxOutput,input,output,cacheRead,cacheWrite,weights,parameters,ability");
+    await expect(page.getByRole("columnheader", { name: "上下文" })).toHaveCount(0);
+    await expect(page.getByRole("columnheader", { name: "最大输出" })).toBeVisible();
+
+    await page.reload();
+    await page.waitForLoadState("networkidle");
+    await expect.poll(() => new URL(page.url()).searchParams.get("cols")).toBe("released,maxOutput,input,output,cacheRead,cacheWrite,weights,parameters,ability");
+    await expect(page.getByRole("columnheader", { name: "上下文" })).toHaveCount(0);
+
+    await page.goto("/providers");
+    await page.waitForLoadState("networkidle");
+    await page.goto("/models");
+    await page.waitForLoadState("networkidle");
+    await expect.poll(() => new URL(page.url()).searchParams.get("cols")).toBe("released,maxOutput,input,output,cacheRead,cacheWrite,weights,parameters,ability");
+    await expect(page.getByRole("columnheader", { name: "上下文" })).toHaveCount(0);
+
+    await picker.locator("summary").click();
+    await panel.getByRole("link", { name: "恢复默认列" }).click();
+    await expect.poll(() => new URL(page.url()).searchParams.get("cols")).toBeNull();
+    await expect(page.getByRole("columnheader", { name: "上下文" })).toBeVisible();
+    await expect(page.getByRole("columnheader", { name: "最大输出" })).toHaveCount(0);
+  });
+
+  test("Models empty column selection survives", async ({ page }) => {
+    const picker = page.locator(".column-picker");
+    await picker.locator("summary").click();
+    const panel = picker.locator(".column-picker-panel");
+    const checkboxes = panel.locator('input[type="checkbox"]');
+    const count = await checkboxes.count();
+    for (let i = 0; i < count; i++) await checkboxes.nth(i).uncheck();
+    await panel.getByRole("button", { name: "应用" }).click();
+
+    await expect.poll(() => new URL(page.url()).searchParams.get("cols")).toBe("none");
+    await expect(page.locator(".model-price-table thead th")).toHaveCount(2);
+
+    await page.reload();
+    await page.waitForLoadState("networkidle");
+    await expect.poll(() => new URL(page.url()).searchParams.get("cols")).toBe("none");
+    await expect(page.locator(".model-price-table thead th")).toHaveCount(2);
+  });
+
+  test("Models column storage is applied when URL cols are absent", async ({ page }) => {
+    await page.evaluate(() => {
+      localStorage.setItem("llm-info:models:columns:v1", "released,parameters");
+    });
+    await page.goto("/models");
+    await page.waitForLoadState("networkidle");
+    await expect.poll(() => new URL(page.url()).searchParams.get("cols")).toBe("released,parameters");
+    await expect(page.getByRole("columnheader", { name: "发布时间" })).toBeVisible();
+    await expect(page.getByRole("columnheader", { name: "参数量" })).toBeVisible();
+    await expect(page.getByRole("columnheader", { name: "上下文" })).toHaveCount(0);
+  });
+
+  test("URL columns win over stored columns", async ({ page }) => {
+    await page.evaluate(() => {
+      localStorage.setItem("llm-info:models:columns:v1", "context");
+    });
+    await page.goto("/models?cols=released");
+    await page.waitForLoadState("networkidle");
+    await expect.poll(() => new URL(page.url()).searchParams.get("cols")).toBe("released");
+    await expect(page.getByRole("columnheader", { name: "发布时间" })).toBeVisible();
+    await expect(page.getByRole("columnheader", { name: "上下文" })).toHaveCount(0);
+  });
+
+  test("Models and Compare column storage are isolated after applying", async ({ page }) => {
+    const modelPicker = page.locator(".column-picker");
+    await modelPicker.locator("summary").click();
+    await modelPicker.locator(".column-picker-panel").locator('input[type="checkbox"][value="context"]').uncheck();
+    await Promise.all([
+      page.waitForURL((url) => url.pathname === "/models" && url.searchParams.get("cols") === "released,input,output,cacheRead,cacheWrite,weights,parameters,ability"),
+      modelPicker.locator(".column-picker-panel").getByRole("button", { name: "应用" }).click(),
+    ]);
+    await expect(page.getByRole("columnheader", { name: "上下文" })).toHaveCount(0);
+
+    await page.goto("/compare");
+    await page.waitForLoadState("networkidle");
+    const comparePicker = page.locator(".column-picker");
+    await comparePicker.locator("summary").click();
+    await comparePicker.locator(".column-picker-panel").locator('input[type="checkbox"][value="context"]').uncheck();
+    await Promise.all([
+      page.waitForURL((url) => url.pathname === "/compare" && Boolean(url.searchParams.get("cols"))),
+      comparePicker.locator(".column-picker-panel").getByRole("button", { name: "应用" }).click(),
+    ]);
+    const compareCols = new URL(page.url()).searchParams.get("cols");
+    expect(compareCols).toBeTruthy();
+    await expect(page.getByRole("columnheader", { name: "上下文" })).toHaveCount(0);
+
+    const keys = await page.evaluate(() => Object.keys(localStorage));
+    expect(keys).toContain("llm-info:models:columns:v1");
+    expect(keys).toContain("llm-info:compare:columns:v1");
+    const values = await page.evaluate(() => ({
+      models: localStorage.getItem("llm-info:models:columns:v1"),
+      compare: localStorage.getItem("llm-info:compare:columns:v1"),
+    }));
+    expect(values.models).not.toBe(values.compare);
+  });
+
+  test("Models and Compare restore their own stored columns without cross contamination", async ({ page }) => {
+    await page.evaluate(() => {
+      localStorage.setItem("llm-info:models:columns:v1", "released,parameters");
+      localStorage.setItem("llm-info:compare:columns:v1", "context,vision");
+    });
+
+    await page.goto("/models");
+    await page.waitForLoadState("networkidle");
+    await expect.poll(() => new URL(page.url()).searchParams.get("cols")).toBe("released,parameters");
+    await expect(page.getByRole("columnheader", { name: "发布时间" })).toBeVisible();
+    await expect(page.getByRole("columnheader", { name: "参数量" })).toBeVisible();
+    await expect(page.getByRole("columnheader", { name: "上下文" })).toHaveCount(0);
+
+    await page.goto("/compare");
+    await page.waitForLoadState("networkidle");
+    await expect.poll(() => new URL(page.url()).searchParams.get("cols")).toBe("context,vision");
+    await expect(page.getByRole("columnheader", { name: "上下文" })).toBeVisible();
+    await expect(page.getByRole("columnheader", { name: "视觉理解" })).toBeVisible();
+  });
+
+  test("Models reset columns preserves filters and sort", async ({ page }) => {
+    await page.goto("/models?q=test&sort=name&order=asc&cols=license");
+    await page.waitForLoadState("networkidle");
+    await expect(page.getByRole("columnheader", { name: "模型许可" })).toBeVisible();
+    await expect(page.getByRole("columnheader", { name: "发布时间" })).toHaveCount(0);
+    const picker = page.locator(".column-picker");
+    await picker.locator("summary").click();
+    await picker.locator(".column-picker-panel").getByRole("link", { name: "恢复默认列" }).click();
+    await expect.poll(() => new URL(page.url()).searchParams.get("cols")).toBeNull();
+    await expect.poll(() => new URL(page.url()).searchParams.get("q")).toBe("test");
+    await expect.poll(() => new URL(page.url()).searchParams.get("sort")).toBe("name");
+    await expect.poll(() => new URL(page.url()).searchParams.get("order")).toBe("asc");
+    await expect(page.getByRole("columnheader", { name: "发布时间" })).toBeVisible();
+    await expect(page.getByRole("columnheader", { name: "模型许可" })).toHaveCount(0);
+  });
+
+  test("Compare reset columns preserves sort=none", async ({ page }) => {
+    await page.goto("/compare?sort=none&cols=input");
+    await page.waitForLoadState("networkidle");
+    await expect.poll(() => new URL(page.url()).searchParams.get("sort")).toBe("none");
+    const picker = page.locator(".column-picker");
+    await picker.locator("summary").click();
+    await picker.locator(".column-picker-panel").getByRole("link", { name: "恢复默认列" }).click();
+    await expect.poll(() => new URL(page.url()).searchParams.get("cols")).toBeNull();
+    await expect.poll(() => new URL(page.url()).searchParams.get("sort")).toBe("none");
+  });
+
+  test("column picker supports keyboard", async ({ page }) => {
+    const summary = page.locator(".column-picker summary");
+    await summary.focus();
+    await page.keyboard.press("Enter");
+    const panel = page.locator(".column-picker-panel");
+    await expect(panel).toBeVisible();
+    await page.keyboard.press("Tab");
+    await expect(panel.locator('input[type="checkbox"]').first()).toBeFocused();
+    await summary.focus();
+    await page.keyboard.press("Enter");
+    await expect(panel).not.toBeVisible();
+  });
+
+  test("toolbar select preserves applied cols and ignores unapplied draft", async ({ page }) => {
+    await page.goto("/models?cols=none");
+    await page.waitForLoadState("networkidle");
+    await expect.poll(() => new URL(page.url()).searchParams.get("cols")).toBe("none");
+    await expect(page.getByRole("columnheader", { name: "上下文" })).toHaveCount(0);
+    await expect(page.getByRole("columnheader", { name: "发布时间" })).toHaveCount(0);
+
+    const picker = page.locator(".column-picker");
+    await picker.locator("summary").click();
+    await picker.locator(".column-picker-panel").locator('input[type="checkbox"][value="context"]').check();
+    await picker.locator(".column-picker-panel").locator('input[type="checkbox"][value="released"]').check();
+
+    await Promise.all([
+      page.waitForURL((url) => url.pathname === "/models" && url.searchParams.get("cols") === "none" && url.searchParams.get("ability") === "reasoning"),
+      page.locator('select[name="ability"]').selectOption("reasoning"),
+    ]);
+
+    await expect.poll(() => new URL(page.url()).searchParams.get("cols")).toBe("none");
+    await expect.poll(() => new URL(page.url()).searchParams.get("ability")).toBe("reasoning");
+    await expect(page.getByRole("columnheader", { name: "上下文" })).toHaveCount(0);
+    await expect(page.getByRole("columnheader", { name: "发布时间" })).toHaveCount(0);
+  });
 });

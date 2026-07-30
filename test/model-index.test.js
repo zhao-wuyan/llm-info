@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { adaptAaIndexFromCatalog, adaptAiderPolyglot, adaptHuggingFace, adaptLmArenaCsv } from "../src/model-index/boards.js";
 import { buildModelIndex, validateModelIndex } from "../src/model-index/build.js";
-import { canonicalIndexFromCatalog, createModelMatcher, looseKey, matchKey, ownersCompatible } from "../src/model-index/match.js";
+import { canonicalIndexFromCatalog, createModelMatcher, looseKey, normalizeModelKey, ownersCompatible } from "../src/model-index/match.js";
 import { parseCsv, parseFlatYamlList } from "../src/model-index/parse.js";
 
 const catalogFixture = {
@@ -38,11 +38,28 @@ const catalogFixture = {
   ],
 };
 
+const timestampIndexFixture = {
+  schemaVersion: 1,
+  catalogGeneratedAt: catalogFixture.generatedAt,
+  boards: [{
+    id: "fixture",
+    name: "Fixture",
+    homepageUrl: "https://example.com/fixture",
+    direction: "higher",
+    coverage: { entries: 1, matched: 1, unmatched: 0 },
+  }],
+  models: {
+    "deepseek/deepseek-v4-pro": {
+      boards: { fixture: { score: 1 } },
+    },
+  },
+};
+
 test("normalizes model ids into provider-agnostic match keys", () => {
-  assert.equal(matchKey("openrouter/DeepSeek-V4-Pro"), "deepseek-v4-pro");
-  assert.equal(matchKey("Qwen/Qwen3-235B-A22B"), "qwen3-235b-a22b");
-  assert.equal(matchKey("Command R+ (04-2024)"), "command-r-plus-04-2024");
-  assert.equal(matchKey("gpt-4o-mini@2024-07-18"), "gpt-4o-mini");
+  assert.equal(normalizeModelKey("openrouter/DeepSeek-V4-Pro"), "deepseek-v4-pro");
+  assert.equal(normalizeModelKey("Qwen/Qwen3-235B-A22B"), "qwen3-235b-a22b");
+  assert.equal(normalizeModelKey("Command R+ (04-2024)"), "command-r-plus-04-2024");
+  assert.equal(normalizeModelKey("gpt-4o-mini@2024-07-18"), "gpt-4o-mini");
   assert.equal(looseKey("Command R+ (04-2024)"), "command-r-plus");
   assert.equal(looseKey("Grok-2-08-13"), "grok-2");
 });
@@ -60,15 +77,101 @@ test("keeps date-stamped upstream rows off a different stamped canonicalId", () 
   assert.equal(matcher.match({ id: "Command R+ (04-2024)" })?.canonicalId, "cohere/command-r-plus");
 });
 
-test("requires a compatible owner when the board demands it", () => {
+test("uses strict separator-equivalent owners as a hard compatibility gate", () => {
   const matcher = createModelMatcher(canonicalIndexFromCatalog(catalogFixture));
-  assert.equal(matcher.match({ id: "antirez/deepseek-v4-pro", organization: "antirez", ownerRequired: true, allowLoose: false }), null);
-  assert.equal(
-    matcher.match({ id: "deepseek-ai/deepseek-v4-pro", organization: "deepseek-ai", ownerRequired: true, allowLoose: false })?.canonicalId,
-    "deepseek/deepseek-v4-pro",
-  );
-  assert.equal(ownersCompatible("deepseek", "deepseek-ai"), true);
+  assert.equal(matcher.match({ id: "deepseek-v4-pro", organization: "antirez" }), null);
+  assert.equal(matcher.match({ id: "deepseek-v4-pro", organization: "deepseek-ai", ownerRequired: true, allowLoose: false }), null);
+  assert.equal(matcher.match({ id: "deepseek-v4-pro", ownerRequired: true, allowLoose: false }), null);
+  assert.equal(ownersCompatible("deepseek", "deepseek-ai"), false);
+  assert.equal(ownersCompatible("x-ai", "x_ai"), true);
   assert.equal(ownersCompatible("accounts/fireworks/models", "qwen"), false);
+});
+ 
+test("keeps semantic repository variants distinct while score boards strip only effort annotations", () => {
+  assert.equal(normalizeModelKey("gpt-5 (high)", "arena"), "gpt-5");
+  assert.equal(normalizeModelKey("gpt-5 (thinking budget: 32k tokens)", "coding"), "gpt-5");
+  assert.equal(normalizeModelKey("gpt-5 (high)", "popularity"), "gpt-5-high");
+  assert.equal(normalizeModelKey("Kimi-K2-Thinking", "arena"), "kimi-k2-thinking");
+
+  const matcher = createModelMatcher([
+    { canonicalId: "deepseek-ai/deepseek-llm-67b-chat", ownerId: "deepseek-ai", name: "DeepSeek LLM 67B Chat" },
+    { canonicalId: "moonshotai/kimi-k2-thinking", ownerId: "moonshotai", name: "Kimi K2 Thinking" },
+  ]);
+  assert.equal(
+    matcher.match({ id: "deepseek-ai/deepseek-llm-67b-base", organization: "deepseek-ai", kind: "popularity", ownerRequired: true }),
+    null,
+  );
+  assert.equal(
+    matcher.match({ id: "moonshotai/Kimi-K2-Instruct", organization: "moonshotai", kind: "popularity", ownerRequired: true }),
+    null,
+  );
+});
+
+test("keeps Hugging Face Base, Instruct, Chat, and Thinking repositories owner-strict", () => {
+  const variants = ["base", "instruct", "chat", "thinking"];
+  const matcher = createModelMatcher([
+    ...variants.map((variant) => ({
+      canonicalId: `acme/model-${variant}`,
+      ownerId: "acme",
+      name: `Model ${variant}`,
+    })),
+    { canonicalId: "openai/gpt-chat-latest", ownerId: "openai", name: "OpenAI GPT" },
+  ]);
+  for (const variant of variants) {
+    assert.equal(
+      matcher.match({
+        id: `acme/model-${variant}`,
+        organization: "acme",
+        kind: "popularity",
+        ownerRequired: true,
+        allowLoose: false,
+      })?.canonicalId,
+      `acme/model-${variant}`,
+    );
+  }
+  assert.equal(
+    matcher.match({
+      id: "openai-community/openai-gpt",
+      name: "OpenAI GPT",
+      organization: "openai-community",
+      kind: "popularity",
+      ownerRequired: true,
+      allowLoose: false,
+    }),
+    null,
+  );
+});
+
+test("rejects incompatible ownership and prefers compatible direct official canonical evidence", () => {
+  const catalog = {
+    providers: [
+      { id: "anthropic", official: true },
+      { id: "anth-ropic", official: false },
+      { id: "302ai", official: false },
+    ],
+    models: [
+      {
+        canonicalId: "302ai/claude-3-5-haiku-20241022", providerId: "302ai", ownerId: "302ai",
+        name: "Claude 3.5 Haiku", displayPrices: { USD: { rates: { textInput: 1 } }, CNY: null },
+      },
+      {
+        canonicalId: "anth-ropic/claude-haiku-reseller", providerId: "anth-ropic", ownerId: "anth-ropic",
+        name: "Claude 3.5 Haiku", displayPrices: { USD: { rates: { textInput: 1 } }, CNY: null },
+      },
+      {
+        canonicalId: "anthropic/claude-3-5-haiku-20241022", providerId: "anthropic", ownerId: "anthropic",
+        name: "Claude 3.5 Haiku", displayPrices: { USD: null, CNY: null },
+      },
+    ],
+  };
+  const candidates = canonicalIndexFromCatalog(catalog);
+  const matcher = createModelMatcher(candidates);
+  assert.equal(candidates.find((model) => model.canonicalId.startsWith("anthropic/"))?.directOfficial, true);
+  assert.equal(
+    matcher.match({ name: "Claude 3.5 Haiku", organization: "Anthropic", allowLoose: false })?.canonicalId,
+    "anthropic/claude-3-5-haiku-20241022",
+  );
+  assert.equal(matcher.match({ name: "Claude 3.5 Haiku", organization: "unrelated", allowLoose: false }), null);
 });
 
 test("parses quoted CSV rows and the flat Aider YAML layout", () => {
@@ -124,7 +227,7 @@ test("builds a validated index keyed by canonicalId with blank cells for missing
     ],
   });
 
-  assert.deepEqual(validateModelIndex(index), []);
+  assert.deepEqual(validateModelIndex(index, catalogFixture), []);
   assert.equal(index.models["deepseek/deepseek-v4-pro"].boards["lmarena-text"].score, 1470);
   assert.equal(index.models["deepseek/deepseek-v4-pro"].boards.aaindex.score, 51);
   assert.equal(index.models["qwen/qwen3-235b-a22b"], undefined, "models without any board stay out of the index");
@@ -133,13 +236,106 @@ test("builds a validated index keyed by canonicalId with blank cells for missing
   assert.equal(index.boards[1].revision, "b".repeat(40));
 });
 
+test("accepts an index generated from the exact catalog timestamp", () => {
+  assert.deepEqual(validateModelIndex(timestampIndexFixture, catalogFixture), []);
+});
+
+test("rejects a one-character catalog timestamp mismatch", () => {
+  const errors = validateModelIndex(timestampIndexFixture, {
+    ...catalogFixture,
+    generatedAt: "2026-07-29T00:00:01Z",
+  });
+  assert.deepEqual(errors, ["catalogGeneratedAt must exactly match catalog.generatedAt"]);
+});
+
+test("rejects missing catalog and generatedAt timestamps", () => {
+  assert.ok(validateModelIndex(timestampIndexFixture).includes("catalog.generatedAt must be a non-empty string"));
+  assert.ok(validateModelIndex(timestampIndexFixture, {}).includes("catalog.generatedAt must be a non-empty string"));
+  assert.ok(
+    validateModelIndex({ ...timestampIndexFixture, catalogGeneratedAt: undefined }, catalogFixture)
+      .includes("catalogGeneratedAt must be a non-empty string"),
+  );
+});
+
+test("converges score-board effort variants and retains the maximum score source", () => {
+  const catalog = {
+    generatedAt: "2026-07-29T00:00:00Z",
+    providers: [{ id: "openai", official: true }],
+    models: [{
+      canonicalId: "openai/gpt-5", providerId: "openai", ownerId: "openai", name: "GPT-5",
+      displayPrices: { USD: null, CNY: null },
+    }],
+  };
+  const entries = [
+    ["gpt-5", 100],
+    ["gpt-5 (high)", 130],
+    ["gpt-5 (medium)", 120],
+    ["gpt-5 (low)", 90],
+    ["gpt-5 (xhigh)", 150],
+  ].map(([sourceModel, score], index) => ({
+    sourceModel,
+    organization: "OpenAI",
+    score,
+    rank: index + 1,
+    metrics: { arenaScore: score },
+  }));
+  const index = buildModelIndex({
+    catalog,
+    generatedAt: "2026-07-29T10:00:00Z",
+    boards: [{
+      config: {
+        id: "effort", name: "Effort", kind: "arena", direction: "higher",
+        homepageUrl: "https://example.com/effort",
+      },
+      entries,
+    }],
+  });
+
+  assert.equal(index.unmapped.effort, undefined);
+  assert.deepEqual(index.boards[0].coverage, { entries: 5, matched: 5, unmatched: 0 });
+  assert.deepEqual(index.models["openai/gpt-5"].boards.effort, {
+    score: 150,
+    rank: 5,
+    metrics: { arenaScore: 150 },
+    sourceModel: "gpt-5 (xhigh)",
+    sourceUrl: null,
+    match: "exact",
+  });
+});
+
 test("rejects an index whose board reference or direction is broken", () => {
   const broken = {
     schemaVersion: 1,
-    boards: [{ id: "x", name: "X", homepageUrl: "https://example.com", direction: "sideways", coverage: { matched: 1 } }],
+    catalogGeneratedAt: catalogFixture.generatedAt,
+    boards: [{ id: "x", name: "X", homepageUrl: "https://example.com", direction: "sideways", coverage: { entries: 1, matched: 1, unmatched: 0 } }],
     models: { "a/b": { boards: { missing: { score: 1 } } } },
   };
-  const errors = validateModelIndex(broken);
+  const errors = validateModelIndex(broken, catalogFixture);
   assert.ok(errors.some((error) => error.includes("direction")));
   assert.ok(errors.some((error) => error.includes("unknown board")));
+});
+
+test("rejects malformed board coverage", () => {
+  const broken = {
+    ...timestampIndexFixture,
+    boards: [{
+      ...timestampIndexFixture.boards[0],
+      coverage: { entries: Infinity, matched: 1.5, unmatched: -1 },
+    }],
+  };
+  assert.deepEqual(validateModelIndex(broken, catalogFixture), [
+    "board fixture coverage.entries must be a finite nonnegative integer",
+    "board fixture coverage.matched must be a finite nonnegative integer",
+    "board fixture coverage.unmatched must be a finite nonnegative integer",
+  ]);
+  const inconsistent = {
+    ...timestampIndexFixture,
+    boards: [{
+      ...timestampIndexFixture.boards[0],
+      coverage: { entries: 2, matched: 1, unmatched: 0 },
+    }],
+  };
+  assert.deepEqual(validateModelIndex(inconsistent, catalogFixture), [
+    "board fixture coverage.entries must equal coverage.matched + coverage.unmatched",
+  ]);
 });

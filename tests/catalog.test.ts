@@ -75,17 +75,22 @@ describe("catalog view model", () => {
     expect(priceRate(model?.minPrices.USD ?? null, "textInput")).toBe(4.2929);
   });
 
-  it("derives a lifecycle status for every canonical model", () => {
+  it("derives selected-channel lifecycle states for mixed canonical models", () => {
     const statuses = new Set(canonicalModels.map((model) => model.lifecycle.status));
-    // The merged dataset has LiteLLM deprecation dates, so at least one model must be marked deprecated or sunset.
-    const nonActive = canonicalModels.filter((model) => model.lifecycle.status !== "active");
-    expect(nonActive.length).toBeGreaterThan(0);
+    const deepSeekR1 = modelByCanonicalId.get("deepseek-ai/deepseek-r1");
+    const grok3 = modelByCanonicalId.get("xai/grok-3");
+
+    expect(statuses).toEqual(new Set(["active", "deprecated", "sunset"]));
     expect(canonicalModels.every((model) => ["active", "deprecated", "sunset"].includes(model.lifecycle.status))).toBe(true);
-    // Models that report a deprecation date must not be marked active.
-    for (const model of canonicalModels) {
-      if (model.lifecycle.deprecationDate) {
-        expect(model.lifecycle.status).not.toBe("active");
-      }
-    }
+    expect(deepSeekR1?.channels.some((channel) => channel.deprecated)).toBe(true);
+    expect(deepSeekR1?.channels.some((channel) => !channel.deprecated && !channel.deprecationDate)).toBe(true);
+    expect(deepSeekR1?.lifecycle).toEqual({ status: "active" });
+    expect(grok3?.channels.some((channel) => channel.providerId === "xai" && channel.deprecationDate)).toBe(true);
+    expect(grok3?.channels.some((channel) => channel.providerId !== "xai" && !channel.deprecationDate)).toBe(true);
+    expect(grok3?.lifecycle).toEqual({
+      status: "sunset",
+      deprecationDate: "2026-05-15",
+      source: "litellm",
+    });
   });
 });
