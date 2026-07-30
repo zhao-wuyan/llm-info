@@ -1,0 +1,19 @@
+.workflow/kg-sync-worker.pid
+  s_5ce86c73c0af12::t_d3fbc01ebd129b 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "9d98d93573bf1c5c6b3e368de186d305ccdf3bfc",
+  "prompts": {},
+  "sessions": {
+    "s_5ce86c73c0af12": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "90185292-4dd3-4f81-b4f6-bb1af57dd0ee",
+        "model": "unknown"
+      },
+      "human_author": "zhao-wuyan <zhao-wuyan@exampl.com>"
+    }
+  }
+}
