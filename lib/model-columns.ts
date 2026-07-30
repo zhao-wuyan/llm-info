@@ -1,4 +1,5 @@
 import { priceRate, releaseDateValue } from "./format";
+import { deprecationTimestamp } from "./lifecycle";
 import type { BoardMeta } from "./model-index";
 import { boardLabel, indexFor } from "./model-index";
 import type { Locale } from "./i18n";
@@ -29,6 +30,7 @@ const BASE_COLUMNS: ColumnDef[] = [
   { id: "context", group: "base", label: translated("context"), defaultVisible: true, sortable: true, numeric: true },
   { id: "maxOutput", group: "base", label: translated("maxOutput"), defaultVisible: false, sortable: true, numeric: true },
   { id: "providers", group: "base", label: translated("channels"), defaultVisible: true, sortable: true, numeric: true },
+  { id: "lifecycle", group: "base", label: translated("lifecycleColumn"), defaultVisible: false, sortable: true, numeric: true },
   { id: "input", group: "price", label: translated("inputPrice"), subtitle: (currency) => currency, defaultVisible: true, sortable: true, numeric: true },
   { id: "output", group: "price", label: translated("outputPrice"), subtitle: (currency) => currency, defaultVisible: true, sortable: true, numeric: true },
   { id: "cacheRead", group: "price", label: translated("cacheReadPrice"), subtitle: (currency) => currency, defaultVisible: true, sortable: true, numeric: true },
@@ -109,6 +111,7 @@ export function columnSortValue(columnId: string, model: CanonicalModel, { curre
     case "context": return model.contextWindow ?? null;
     case "maxOutput": return model.maxOutput ?? null;
     case "providers": return model.providerCount;
+    case "lifecycle": return deprecationTimestamp(model.lifecycle.deprecationDate) ?? (model.lifecycle.status === "active" ? Number.POSITIVE_INFINITY : null);
     case "name": return model.name;
     case "weights": return facts ? 1 : model.openWeights ? 0.5 : 0;
     case "license": return facts?.license ?? null;

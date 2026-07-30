@@ -406,6 +406,36 @@ test("attaches Quality to every listing with the mapped canonicalId", () => {
   assert.deepEqual(validateDatabase(database), []);
 });
 
+test("extracts deprecation_date from LiteLLM while ignoring the sample_spec description string", () => {
+  const fixture = {
+    sample_spec: {
+      deprecation_date: "date when the model becomes deprecated in the format YYYY-MM-DD",
+      litellm_provider: "openai",
+      mode: "chat",
+    },
+    "gpt-4-0613": { litellm_provider: "openai", mode: "chat", deprecation_date: "2025-06-06" },
+    "gpt-4-1106-preview": { litellm_provider: "openai", mode: "chat", deprecation_date: "2026-03-26" },
+    "active-model": { litellm_provider: "openai", mode: "chat" },
+    "malformed-deprecation": { litellm_provider: "openai", mode: "chat", deprecation_date: "not-a-date" },
+  };
+  const catalog = adaptLiteLlm(fixture, "2026-07-29T00:00:00Z");
+  const byId = new Map(catalog.models.map((model) => [model.modelId, model]));
+  assert.equal(byId.get("gpt-4-0613").deprecationDate, "2025-06-06");
+  assert.equal(byId.get("gpt-4-1106-preview").deprecationDate, "2026-03-26");
+  assert.equal(byId.get("active-model").deprecationDate, undefined);
+  assert.equal(byId.get("malformed-deprecation").deprecationDate, undefined);
+  // sample_spec is skipped entirely, so it never contributes a model.
+  assert.equal(catalog.models.some((model) => model.modelId === "sample_spec"), false);
+
+  const database = mergeCatalogs(
+    [withSourceProvenance({ configKey: "litellm", ...catalog })],
+    "2026-07-29T00:00:00Z",
+  );
+  assert.equal(database.stats.modelsWithDeprecationDate, 2);
+  assert.equal(database.stats.lifecycleModels, 2);
+  assert.deepEqual(validateDatabase(database), []);
+});
+
 test("ignores generated and observed timestamps when detecting data changes", () => {
   const first = mergeCatalogs(
     [{ configKey: "litellm", ...adaptLiteLlm(litellmFixture, "2026-07-18T00:00:00Z") }],

@@ -42,6 +42,9 @@ export function validateDatabase(database) {
     if (modelIds.has(model.id)) errors.push(`duplicate model id: ${model.id}`);
     modelIds.add(model.id);
     if (!providerIds.has(model.providerId)) errors.push(`unknown provider ${model.providerId} for ${model.id}`);
+    if (model.deprecationDate && !/^\d{4}-\d{2}-\d{2}$/.test(model.deprecationDate)) {
+      errors.push(`invalid deprecation date for ${model.id}: ${model.deprecationDate}`);
+    }
     if (
       model.quality &&
       (model.quality.source !== "ai-pricing" ||

@@ -47,6 +47,21 @@ function rawCostFields(sourceModel) {
   );
 }
 
+// LiteLLM 暴露的 deprecation_date 形如 "2026-02-27"；sample_spec 里是描述性文字，需过滤。
+function parseDeprecationDate(value) {
+  if (typeof value !== "string") return undefined;
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value.trim());
+  if (!match) return undefined;
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  const day = Number(match[3]);
+  const date = new Date(Date.UTC(year, month - 1, day));
+  if (date.getUTCFullYear() !== year || date.getUTCMonth() !== month - 1 || date.getUTCDate() !== day) {
+    return undefined;
+  }
+  return `${match[1]}-${match[2]}-${match[3]}`;
+}
+
 export function adaptLiteLlm(data, fetchedAt) {
   if (!data || typeof data !== "object" || Array.isArray(data)) {
     throw new Error("LiteLLM: expected an object keyed by model id");
@@ -79,6 +94,7 @@ export function adaptLiteLlm(data, fetchedAt) {
         input: sourceModel.supported_modalities,
         output: sourceModel.supported_output_modalities,
       },
+      deprecationDate: parseDeprecationDate(sourceModel.deprecation_date),
     });
 
     const sourceRates = rawCostFields(sourceModel);

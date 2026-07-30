@@ -10,9 +10,10 @@ const columns = buildModelColumns(boards);
 describe("model column registry", () => {
   test("exposes one column per leaderboard plus the open-weight dimensions", () => {
     for (const board of boards) expect(columns.some((column) => column.id === `board:${board.id}`)).toBe(true);
-    for (const id of ["weights", "license", "parameters", "downloads", "likes"]) {
+    for (const id of ["weights", "license", "parameters", "downloads", "likes", "lifecycle"]) {
       expect(columns.some((column) => column.id === id)).toBe(true);
     }
+    expect(columns.find((column) => column.id === "lifecycle")?.defaultVisible).toBe(false);
   });
 
   test("falls back to the default column set for empty or unknown selections", () => {
@@ -33,6 +34,7 @@ describe("model column registry", () => {
   test("marks board and open-weight columns sortable", () => {
     expect(isSortableColumn("board:aaindex", columns)).toBe(true);
     expect(isSortableColumn("downloads", columns)).toBe(true);
+    expect(isSortableColumn("lifecycle", columns)).toBe(true);
     expect(isSortableColumn("ability", columns)).toBe(false);
     expect(isSortableColumn("nope", columns)).toBe(false);
   });
