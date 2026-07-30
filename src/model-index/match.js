@@ -14,7 +14,9 @@ function stripScoreAnnotations(value) {
     .replace(/\(\s*(?:high|medium|low|xhigh)\s*\)/gi, " ")
     .replace(/\((?=[^)]*\d)(?=[^)]*(?:thinking|tokens?|budget))[^)]*\)/gi, " ")
     .replace(/[-_\s]+thinking[-_\s]+(?:token[-_\s]+)?budget[-_\s]*\d+(?:\.\d+)?[km]?(?=$|[\s/])/gi, " ")
-    .replace(/[-_\s]+thinking[-_\s]+\d+(?:\.\d+)?[km]?(?:[-_\s]+tokens?)?(?=$|[\s/])/gi, " ");
+    .replace(/[-_\s]+thinking[-_\s]+\d+(?:\.\d+)?[km]?(?:[-_\s]+tokens?)?(?=$|[\s/])/gi, " ")
+    // LM Arena parquet 用连字符后缀标注推理强度，仅剥离行尾的 `-(xhigh|high|medium|low)`
+    .replace(/-(?:xhigh|high|medium|low)$/i, " ");
 }
 
 /** Normalize repository identity, with score-only annotations selected by board kind. */
