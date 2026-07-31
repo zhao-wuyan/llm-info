@@ -7,10 +7,11 @@ import { canonicalModels } from "@/lib/catalog";
 import { compactNumber, formatPrice, formatReleaseDate, isExplicitlyFree, priceRate, releaseDateValue } from "@/lib/format";
 import { abilityMsg, msg } from "@/lib/i18n";
 import { modelHref } from "@/lib/links";
-import { boardLabel, boards, indexFor, type ModelIndexRecord } from "@/lib/model-index";
+import { boardById, boardLabel, boards, indexFor, type ModelIndexRecord } from "@/lib/model-index";
 import { boardColumn, defaultColumnIds, parseExplicitColumns, serializeColumns, toColumnPickerOptions, type ColumnDef } from "@/lib/model-columns";
 import { getCurrency, getLocale } from "@/lib/server-i18n";
 import { compareNullable, stableSort, type SortOrder } from "@/lib/table-sort";
+import { formatScore } from "@/components/model-cells";
 
 type Params = Promise<Record<string, string | string[] | undefined>>;
 type PriceMetric = "textInput" | "textOutput" | "textInput_cacheRead" | "textInput_cacheWrite";
@@ -185,7 +186,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Para
       const score = row.boardRecords[column.boardId];
       const label = boardLabel(boards.find((item) => item.id === column.boardId)!, locale);
       return <td className="comparison-cell" key={column.id} title={score ? `${score.sourceModel}${score.rank ? ` · #${score.rank}` : ""}` : undefined}>
-        <MetricBar label={label} value={score?.score ?? null} max={maxima[`board:${column.boardId}`] ?? 0} display={score?.score != null ? String(score.score) : "-"} tone="quality" />
+        <MetricBar label={label} value={score?.score ?? null} max={maxima[`board:${column.boardId}`] ?? 0} display={score?.score != null ? formatScore(score.score, boardById.get(column.boardId)?.kind) : "-"} tone="quality" />
       </td>;
     }
     if (column.id === "context") {

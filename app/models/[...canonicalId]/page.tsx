@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { AppShell } from "@/components/app-shell";
 import { ComparisonDialog } from "@/components/comparison-dialog";
+import { formatScore } from "@/components/model-cells";
 import { EntityText, PriceValue, SortableHeader } from "@/components/ui";
 import { catalog, modelByCanonicalId, providerById } from "@/lib/catalog";
 import { compactNumber, deprecationDayDistance, formatDate, priceRate } from "@/lib/format";
@@ -76,7 +77,7 @@ export default async function ModelDetailPage({ params, searchParams }: { params
         ? <dl className="definition-list">{boardScores.map(({ board, score }) => <Fragment key={board.id}>
           <dt><a href={board.homepageUrl} target="_blank" rel="noreferrer" title={`${msg(locale, "viewSource")}: ${board.sourceName}`}>{boardLabel(board, locale)} <ExternalLink size={11} aria-hidden /></a></dt>
           <dd title={`${score.sourceModel}${score.match === "loose" ? ` · ${msg(locale, "looseMatch")}` : ""}`}>
-            <strong>{score.score ?? "-"}</strong>
+            <strong>{formatScore(score.score, board.kind)}</strong>
             {score.rank != null && <small className="mono"> #{score.rank}</small>}
             {typeof score.metrics.votes === "number" && <small className="mono"> · {compactNumber(score.metrics.votes)} {msg(locale, "votes")}</small>}
           </dd>
