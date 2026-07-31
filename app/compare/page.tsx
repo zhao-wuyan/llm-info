@@ -11,8 +11,8 @@ import { boardById, boardLabel, boards, indexFor, type ModelIndexRecord } from "
 import { boardColumn, defaultColumnIds, parseExplicitColumns, serializeColumns, toColumnPickerOptions, type ColumnDef } from "@/lib/model-columns";
 import { getCurrency, getLocale } from "@/lib/server-i18n";
 import { compareNullable, stableSort, type SortOrder } from "@/lib/table-sort";
-
 import { formatScore } from "@/components/model-cells";
+
 type Params = Promise<Record<string, string | string[] | undefined>>;
 type PriceMetric = "textInput" | "textOutput" | "textInput_cacheRead" | "textInput_cacheWrite";
 type MetricTone = "quality" | "input" | "output" | "cache-read" | "cache-write" | "context";
