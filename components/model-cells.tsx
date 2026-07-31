@@ -1,7 +1,7 @@
 import { compactNumber, formatReleaseDate } from "@/lib/format";
 import { abilityMsg, msg, type Locale } from "@/lib/i18n";
 import type { ColumnDef } from "@/lib/model-columns";
-import { formatParameters, indexFor, licenseTone } from "@/lib/model-index";
+import { boardById, formatParameters, indexFor, licenseTone } from "@/lib/model-index";
 import type { CanonicalModel, Currency } from "@/lib/types";
 import { PriceValue } from "@/components/ui";
 
@@ -24,7 +24,7 @@ export function ModelCell({ column, model, locale, currency }: { column: ColumnD
     if (!score || score.score == null) return <td className="mono board-cell">{missing}</td>;
     return (
       <td className="mono board-cell" title={`${score.sourceModel}${score.match === "loose" ? ` · ${msg(locale, "looseMatch")}` : ""}`}>
-        <strong>{formatScore(score.score)}</strong>
+        <strong>{formatScore(score.score, boardById.get(column.boardId)?.kind)}</strong>
         {score.rank != null && <small>#{score.rank}</small>}
       </td>
     );
@@ -71,7 +71,8 @@ export function ModelCell({ column, model, locale, currency }: { column: ColumnD
   }
 }
 
-export function formatScore(score: number) {
-  if (Number.isInteger(score)) return score >= 100_000 ? compactNumber(score) : String(score);
-  return score.toFixed(1);
+export function formatScore(score: number, kind?: string) {
+  const value = kind === "arena" ? Math.round(score) : score;
+  if (Number.isInteger(value)) return value >= 100_000 ? compactNumber(value) : String(value);
+  return value.toFixed(1);
 }

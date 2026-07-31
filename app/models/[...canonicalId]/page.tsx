@@ -5,6 +5,7 @@ import { notFound, redirect } from "next/navigation";
 import { AppShell } from "@/components/app-shell";
 import { ComparisonDialog } from "@/components/comparison-dialog";
 import { EntityText, PriceValue, SortableHeader } from "@/components/ui";
+import { formatScore } from "@/components/model-cells";
 import { catalog, modelByCanonicalId, providerById } from "@/lib/catalog";
 import { compactNumber, deprecationDayDistance, formatDate, priceRate } from "@/lib/format";
 import { abilityMsg, msg } from "@/lib/i18n";
@@ -75,8 +76,7 @@ export default async function ModelDetailPage({ params, searchParams }: { params
       <section className="panel"><header className="panel-header"><h2>{msg(locale, "leaderboards")}</h2><span className="mono">{boardScores.length}</span></header><div className="panel-body">{boardScores.length
         ? <dl className="definition-list">{boardScores.map(({ board, score }) => <Fragment key={board.id}>
           <dt><a href={board.homepageUrl} target="_blank" rel="noreferrer" title={`${msg(locale, "viewSource")}: ${board.sourceName}`}>{boardLabel(board, locale)} <ExternalLink size={11} aria-hidden /></a></dt>
-          <dd title={`${score.sourceModel}${score.match === "loose" ? ` · ${msg(locale, "looseMatch")}` : ""}`}>
-            <strong>{score.score ?? "-"}</strong>
+            <strong>{formatScore(score.score ?? 0, board.kind)}</strong>
             {score.rank != null && <small className="mono"> #{score.rank}</small>}
             {typeof score.metrics.votes === "number" && <small className="mono"> · {compactNumber(score.metrics.votes)} {msg(locale, "votes")}</small>}
           </dd>
