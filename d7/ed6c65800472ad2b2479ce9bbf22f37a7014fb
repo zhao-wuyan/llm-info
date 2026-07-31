@@ -1,0 +1,21 @@
+app/compare/page.tsx
+  s_ed4058e0146dd2::t_2af85262117689 10,14,189
+components/model-cells.tsx
+  s_ed4058e0146dd2::t_6482eb37526dcf 4,27,74-77
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "d7ed6c65800472ad2b2479ce9bbf22f37a7014fb",
+  "prompts": {},
+  "sessions": {
+    "s_ed4058e0146dd2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9eed93f1-5bfe-4f36-bbfe-c1653ae39f60",
+        "model": "unknown"
+      },
+      "human_author": "zhao-wuyan <zhao-wuyan@exampl.com>"
+    }
+  }
+}
