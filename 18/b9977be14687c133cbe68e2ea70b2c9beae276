@@ -1,0 +1,21 @@
+app/compare/page.tsx
+  s_dab98818530411::t_f6537ff66d52eb 10,15,189
+app/models/[...canonicalId]/page.tsx
+  s_dab98818530411::t_8212602eeca328 8,79
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "18b9977be14687c133cbe68e2ea70b2c9beae276",
+  "prompts": {},
+  "sessions": {
+    "s_dab98818530411": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f75f5-5414-7d92-8c36-efc80d388bd8",
+        "model": "unknown"
+      },
+      "human_author": "zhao-wuyan <zhao-wuyan@exampl.com>"
+    }
+  }
+}
