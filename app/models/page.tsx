@@ -35,7 +35,7 @@ export default async function ModelsPage({ searchParams }: { searchParams: Param
   const weights = one(params.weights);
   const snapshot = new Date(catalog.generatedAt);
   const rawSort = one(params.sort);
-  const sort = isSortableColumn(rawSort, columns) ? rawSort : null;
+  const sort = isSortableColumn(rawSort, columns) ? rawSort : "released";
   const numericDefaultOrder = (key: string) => key === "name" || key === "license" ? "asc" : "desc";
   const explicitOrder = one(params.order);
   const order = sort ? (explicitOrder === "asc" || explicitOrder === "desc" ? explicitOrder : numericDefaultOrder(sort)) : null;
