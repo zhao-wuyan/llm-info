@@ -1,0 +1,21 @@
+app/layout.tsx
+  s_dab98818530411::t_d29b2a1c5dc352 8-12
+tests/e2e/catalog.spec.ts
+  s_dab98818530411::t_9ca0c90d8a929d 29
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "b6fcec616d2aa0558d430e72ec4b3eece9c58b3e",
+  "prompts": {},
+  "sessions": {
+    "s_dab98818530411": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f75f5-5414-7d92-8c36-efc80d388bd8",
+        "model": "unknown"
+      },
+      "human_author": "zhao-wuyan <zhao-wuyan@exampl.com>"
+    }
+  }
+}
