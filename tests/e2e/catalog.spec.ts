@@ -26,6 +26,7 @@ test.afterEach(async ({ page }, testInfo) => {
 test("model discovery and provider comparison drill down", async ({ page }, testInfo) => {
   await page.goto("/models?q=Kimi+K2.6");
   await page.waitForLoadState("networkidle");
+  await expect(page.locator('head meta[name="darkreader-lock"]')).toHaveCount(1);
   await expect(page.getByRole("heading", { name: "模型目录" })).toBeVisible();
   await page.locator('a[href="/models/moonshotai/kimi-k2.6"]').click();
   await page.waitForURL("**/models/moonshotai/kimi-k2.6", { timeout: 15_000 });
