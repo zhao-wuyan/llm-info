@@ -1,7 +1,9 @@
 app/layout.tsx
   s_dab98818530411::t_8bd6796e658c3b 8-12
+  s_dab98818530411::t_d29b2a1c5dc352 8-12
 tests/e2e/catalog.spec.ts
   s_dab98818530411::t_39c555ed1a8ff3 29
+  s_dab98818530411::t_9ca0c90d8a929d 29
 ---
 {
   "schema_version": "authorship/3.0.0",
