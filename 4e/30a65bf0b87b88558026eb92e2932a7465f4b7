@@ -1,0 +1,59 @@
+.workflow/state.json
+  s_d00778e4670a6b::t_6a142aa41abfcd 4,16,313-320
+app/compare/page.tsx
+  s_ed4058e0146dd2::t_a8bab49ac6bb45 12-13,15,41,157
+app/globals.css
+  s_dab98818530411::t_f382c212a7becb 16-27,43,46,50-52,54-55,57,60,62,65-75,77-80,82-100,104,115,153-154,159,161,163,165,167,169-171,173,175,177,180,184-187
+app/models/[...canonicalId]/page.tsx
+  s_ed4058e0146dd2::t_860891bb286ec3 7,16-17,19,56,59-66
+app/models/page.tsx
+  s_dab98818530411::t_a9ab60e1e8f1a6 17,19,101
+app/providers/[id]/page.tsx
+  s_dab98818530411::t_d559b62b533059 5,12-13,15,38,41-46,49-56
+app/providers/page.tsx
+  s_dab98818530411::t_7b7f8d0e4f13a2 10,12,51
+app/sources/page.tsx
+  s_dab98818530411::t_944c450972f018 8,10,37
+components/comparison-dialog.tsx
+  s_dab98818530411::t_192b7a3ae68fb2 3-4,8,11-12,36-43
+components/provider-models-dialog.tsx
+  s_dab98818530411::t_bc5020c3dbf1a8 3-4,8,11-12,61-78,80-113
+components/topbar.tsx
+  s_dab98818530411::t_aa148562e38e17 23,30
+lib/catalog.ts
+  s_dab98818530411::t_165f94c98b1697 75-85,91-95
+next-env.d.ts
+  s_dab98818530411::t_f9b49ca8d0d363 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "4e30a65bf0b87b88558026eb92e2932a7465f4b7",
+  "prompts": {},
+  "sessions": {
+    "s_d00778e4670a6b": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "6bf4581f-377a-4efe-a1f8-b29862b2dc4f",
+        "model": "default"
+      },
+      "human_author": "zhao-wuyan <zhao-wuyan@exampl.com>"
+    },
+    "s_dab98818530411": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f75f5-5414-7d92-8c36-efc80d388bd8",
+        "model": "unknown"
+      },
+      "human_author": "zhao-wuyan <zhao-wuyan@exampl.com>"
+    },
+    "s_ed4058e0146dd2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9eed93f1-5bfe-4f36-bbfe-c1653ae39f60",
+        "model": "unknown"
+      },
+      "human_author": "zhao-wuyan <zhao-wuyan@exampl.com>"
+    }
+  }
+}
