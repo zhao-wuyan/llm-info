@@ -1,0 +1,19 @@
+app/models/page.tsx
+  s_dab98818530411::t_cbdf4df8ff388c 38
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "8c90e73cc3dffee0c2fa89888603f937f7c800fa",
+  "prompts": {},
+  "sessions": {
+    "s_dab98818530411": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f75f5-5414-7d92-8c36-efc80d388bd8",
+        "model": "unknown"
+      },
+      "human_author": "zhao-wuyan <zhao-wuyan@exampl.com>"
+    }
+  }
+}
