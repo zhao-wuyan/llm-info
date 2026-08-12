@@ -1,0 +1,279 @@
+components/detail.tsx
+  s_ca618e666caa46::t_a1d0e103564e42 1-11
+app/models/[...canonicalId]/page.tsx
+  s_ca618e666caa46::t_7911918a52132b 7
+  s_ca618e666caa46::t_767981d261f66d 59-66
+  s_ca618e666caa46::t_eb386c35cb61bf 56
+  s_ca618e666caa46::t_a6373090012af9 16-17,19
+app/compare/page.tsx
+  s_ca618e666caa46::t_54935d41eec09a 12-13,15
+  s_ca618e666caa46::t_5f120ac55d66bc 41
+  s_ca618e666caa46::t_0efad8f0f9a6d8 157
+.workflow/sessions/20260812-maestro-frontend-polish-20260812-101259/runs/20260812-002-plan/report.md
+  s_d00778e4670a6b::t_6d7486bb8e8ebd 1-2,28-29,31,33,38
+  s_923d30ca0cdec6::t_221f9aabc5b47b 3-27,30,32,34-37,39-100
+components/topbar.tsx
+  s_ca618e666caa46::t_11781d131760d8 23
+  s_ca618e666caa46::t_3a0a2078fbb4c5 30
+.workflow/sessions/20260812-maestro-frontend-polish-20260812-101259/runs/20260812-001-analyze/report.md
+  s_06195aa4813b9d::t_3ea094d3df5e82 5-10,12-17
+  s_06195aa4813b9d::t_cb3abff1ce2ae4 3-4,11,18-25,28,30,32,34-106
+  s_d00778e4670a6b::t_ba3a10dbc6d0e2 1-2,26-27,29,31,33
+.workflow/sessions/20260812-maestro-frontend-polish-20260812-101259/runs/20260812-001-analyze/run.json
+  s_d00778e4670a6b::t_ba3a10dbc6d0e2 1-5,147-242,244-250,252
+  s_06195aa4813b9d::t_7117bf85bbd7be 6-13,15-27,37,39,144,243,251
+  s_d00778e4670a6b::t_f258fd429750fe 14,28-36,38,40-143,145-146
+.workflow/sessions/20260812-maestro-frontend-polish-20260812-101259/runs/20260812-002-plan/outputs/tasks/TASK-006.json
+  s_923d30ca0cdec6::t_cdfcbfed87fda7 1-47
+.workflow/sessions/20260812-maestro-frontend-polish-20260812-101259/runs/20260812-003-execute/outputs/summaries/TASK-003.md
+  s_ca618e666caa46::t_a2f7ffa123f0b3 1-27
+.workflow/sessions/20260812-maestro-frontend-polish-20260812-101259/artifacts.json
+  s_d00778e4670a6b::t_f258fd429750fe 4-55,553-556,562
+  s_d00778e4670a6b::t_337cdd1dc7c8c2 1-2,563
+  s_d00778e4670a6b::t_ce27d9e631bbfe 3,468-552,560-561
+  s_d00778e4670a6b::t_ce7b1f29cb4915 56-263,557
+  s_d00778e4670a6b::t_4ab9873e5a1c6d 408-467,559
+  s_d00778e4670a6b::t_31fcf3d52d87c3 264-407,558
+.workflow/sessions/20260812-maestro-frontend-polish-20260812-101259/runs/20260812-002-plan/outputs/plan-check.json
+  s_923d30ca0cdec6::t_4f779780c29dbf 1-110
+.workflow/sessions/20260812-maestro-frontend-polish-20260812-101259/session.json
+  s_d00778e4670a6b::t_51fdb7f55a3091 4-6,260-261
+  s_d00778e4670a6b::t_337cdd1dc7c8c2 1-3,9-40,43-54,57-68,71-82,84-91,94-105,107-114,117-129,131-138,140-147,149-158,160-161,163-166,168-169,171-174,176-177,179-182,184-185,187-190,192-193,195-259,262-290,3228-3229,3242
+  s_d00778e4670a6b::t_8a72a78e655120 458-584,716-718
+  s_d00778e4670a6b::t_2a9bc6def40b1e 83,159,162,1636-1720,1722-1732
+  s_d00778e4670a6b::t_0b90842dca46a7 1189-1318
+  s_d00778e4670a6b::t_d20cec41599688 106,167,170,2098-2182,2184-2194
+  s_d00778e4670a6b::t_961d9e2d855d3c 2319-2448
+  s_d00778e4670a6b::t_ba3a10dbc6d0e2 42,3230-3241
+  s_d00778e4670a6b::t_8763ec13eaca8e 2450-2580
+  s_d00778e4670a6b::t_31fcf3d52d87c3 69,1319-1462,1465-1635
+  s_d00778e4670a6b::t_f93046d4ea378e 585-715
+  s_d00778e4670a6b::t_025cd3db7e242d 2195-2318,2449,2581,2729-2730,3019
+  s_d00778e4670a6b::t_4ab9873e5a1c6d 92,1857-1970,1972-1978,1980-2097
+  s_d00778e4670a6b::t_1c62bafd3fa448 1063-1188,1463-1464,1721
+  s_d00778e4670a6b::t_ce27d9e631bbfe 7-8,115,2582-2728,2731-2933
+  s_d00778e4670a6b::t_6d7486bb8e8ebd 56
+  s_d00778e4670a6b::t_af526c7d0657ed 116
+  s_d00778e4670a6b::t_d372f2e560173e 1733-1856,1971,1979,2183
+  s_d00778e4670a6b::t_88be55f6dd4106 93
+  s_d00778e4670a6b::t_3c96bde6da6673 70
+  s_d00778e4670a6b::t_028385daf7a567 130,175,178,2934-3018,3020-3030
+  s_d00778e4670a6b::t_1f4ba493bb12fe 139,183,186,3031-3126
+  s_d00778e4670a6b::t_a3c347932bf518 148,191,194,3127-3222
+  s_d00778e4670a6b::t_ce7b1f29cb4915 55,719-1062
+  s_d00778e4670a6b::t_f258fd429750fe 41,291-457,3223-3227
+.workflow/sessions/20260812-maestro-frontend-polish-20260812-101259/runs/20260812-001-analyze/outputs/findings.json
+  s_06195aa4813b9d::t_43084658c41c94 1-279
+.workflow/sessions/20260812-maestro-frontend-polish-20260812-101259/runs/20260812-003-execute/outputs/summaries/TASK-005.md
+  s_ca618e666caa46::t_a1f8f796249dab 1-23
+components/model-cells.tsx
+  s_ca618e666caa46::t_9f9b39446bc64d 5,9
+.workflow/sessions/20260812-maestro-frontend-polish-20260812-101259/runs/20260812-001-analyze/.check_clean
+  s_06195aa4813b9d::t_7117bf85bbd7be 1
+.workflow/sessions/20260812-maestro-frontend-polish-20260812-101259/runs/20260812-003-execute/outputs/summaries/TASK-004.md
+  s_ca618e666caa46::t_9d4f3a6fc90918 1-21
+lib/catalog.ts
+  s_ca618e666caa46::t_052a5c0b184e59 75-85,91-95
+.workflow/sessions/20260812-maestro-frontend-polish-20260812-101259/runs/20260812-002-plan/outputs/tasks/TASK-005.json
+  s_923d30ca0cdec6::t_0fbef3c4af0a5e 1-42
+.workflow/sessions/20260812-maestro-frontend-polish-20260812-101259/runs/20260812-001-analyze/outputs/priors.json
+  s_06195aa4813b9d::t_83dc25cbb22c8c 1-31
+.workflow/sessions/20260812-maestro-frontend-polish-20260812-101259/context.md
+  s_d00778e4670a6b::t_337cdd1dc7c8c2 1
+.workflow/sessions/20260812-maestro-frontend-polish-20260812-101259/runs/20260812-002-plan/outputs/plan.json
+  s_923d30ca0cdec6::t_31dba09bbf22e1 1-43
+app/providers/[id]/page.tsx
+  s_ca618e666caa46::t_815dae242c2f16 12-13,15
+  s_ca618e666caa46::t_74fe7c8059747d 38
+  s_ca618e666caa46::t_31a678b871cd42 5
+  s_ca618e666caa46::t_a6f1687662f442 41-46,49-56
+.workflow/sessions/20260812-maestro-frontend-polish-20260812-101259/runs/20260812-003-execute/outputs/summaries/TASK-001.md
+  s_ca618e666caa46::t_9446ece0152580 1-33
+app/models/page.tsx
+  s_ca618e666caa46::t_2d2666a7fdc021 17,19
+  s_ca618e666caa46::t_a775aaa29506a1 101
+lib/sort-links.ts
+  s_ca618e666caa46::t_6c4ae9c29afc73 1-22
+lib/search-params.ts
+  s_ca618e666caa46::t_cc89800e0a4f7f 1-2
+.workflow/perf/detail-sample-url.txt
+  s_ca618e666caa46::t_bf594e3724bf12 1
+app/sources/page.tsx
+  s_ca618e666caa46::t_35e1ef97be0b61 8,10
+  s_ca618e666caa46::t_9af0cc1be4137c 37
+.workflow/sessions/20260812-maestro-frontend-polish-20260812-101259/runs/20260812-002-plan/outputs/dependency-graph.json
+  s_923d30ca0cdec6::t_5ae590ab50755b 1-27
+app/providers/page.tsx
+  s_ca618e666caa46::t_5460313d5334bd 51
+  s_ca618e666caa46::t_10e593fb8b0dbd 10,12
+.workflow/sessions/20260812-maestro-frontend-polish-20260812-101259/runs/20260812-002-plan/run.json
+  s_d00778e4670a6b::t_f93046d4ea378e 316-317
+  s_d00778e4670a6b::t_ce7b1f29cb4915 14,34-51,53,55-178,180-181
+  s_d00778e4670a6b::t_8a72a78e655120 6-13,15-33,52,54,179,310,315,318,382
+  s_d00778e4670a6b::t_6d7486bb8e8ebd 1-5,182-309,311-314,319-381,383
+.workflow/sessions/20260812-maestro-frontend-polish-20260812-101259/runs/20260812-002-plan/outputs/tasks/TASK-004.json
+  s_923d30ca0cdec6::t_6a6005dfa87fe6 1-55
+components/provider-models-dialog.tsx
+  s_ca618e666caa46::t_fa806f02788d21 8
+  s_ca618e666caa46::t_a02be4058f351e 3-4,11-12,61-78,80-113
+.workflow/sessions/20260812-maestro-frontend-polish-20260812-101259/evidence.json
+  s_d00778e4670a6b::t_f258fd429750fe 4-369,2460-2463
+  s_d00778e4670a6b::t_ce27d9e631bbfe 3,1836-2459
+  s_d00778e4670a6b::t_ce7b1f29cb4915 370-1073
+  s_d00778e4670a6b::t_31fcf3d52d87c3 1074-1505
+  s_d00778e4670a6b::t_337cdd1dc7c8c2 1-2,2464
+  s_d00778e4670a6b::t_4ab9873e5a1c6d 1506-1835
+.workflow/sessions/20260812-maestro-frontend-polish-20260812-101259/runs/20260812-002-plan/outputs/tasks/TASK-007.json
+  s_923d30ca0cdec6::t_051ec4f9f666ec 1-40
+app/globals.css
+  s_ca618e666caa46::t_6e661fae6345a1 89-100
+  s_ca618e666caa46::t_3abf9e048a305e 16-27,43,46,50-52,54-55,57,60,62,65-72,74-75,77-79,82-88,104,153-154,159,161,163,165,167,169-171,173,175,177,180,184-187
+  s_ca618e666caa46::t_20e2c0fa3844b2 115
+  s_ca618e666caa46::t_98021055285e4e 80
+  s_ca618e666caa46::t_d2b6570dd3f819 73
+.workflow/sessions/20260812-maestro-frontend-polish-20260812-101259/runs/20260812-003-execute/report.md
+  s_754fce506891e6::t_b3b577c941b1e6 95
+  s_d00778e4670a6b::t_3c96bde6da6673 1-2,32-34,37,45,55,58,78,92-93
+  s_754fce506891e6::t_f832eed6608e47 3
+  s_754fce506891e6::t_18420b0e957f97 4-24,26-31,35-36,38-44,46-54,56-57,59-77,79-82,87-89,91,94,96-100
+  s_754fce506891e6::t_dae8142d3561eb 25
+  s_754fce506891e6::t_59a50127ad6a73 83-86,90
+.workflow/sessions/20260812-maestro-frontend-polish-20260812-101259/runs/20260812-002-plan/.check_clean
+  s_923d30ca0cdec6::t_ef1eedb5fcf0d6 1
+lib/price-metrics.ts
+  s_ca618e666caa46::t_c4a7c90362ae4d 1-2
+.workflow/sessions/20260812-maestro-frontend-polish-20260812-101259/runs/20260812-002-plan/outputs/tasks/TASK-003.json
+  s_923d30ca0cdec6::t_9d55f673d8e5e2 5
+  s_923d30ca0cdec6::t_fad55fef567b9c 35
+  s_923d30ca0cdec6::t_b1e459ab51ec28 46
+  s_923d30ca0cdec6::t_ef2c4d24b6e895 1-4,6-34,36-45,47-59
+.workflow/sessions/20260812-maestro-frontend-polish-20260812-101259/runs/20260812-002-plan/outputs/tasks/TASK-002.json
+  s_923d30ca0cdec6::t_080a99b9812a80 1-43
+.workflow/perf/lighthouse-baseline.md
+  s_ca618e666caa46::t_8078dd82650627 1-32
+.workflow/sessions/20260812-maestro-frontend-polish-20260812-101259/runs/20260812-001-analyze/outputs/risk-matrix.json
+  s_06195aa4813b9d::t_ab0beea8c33052 1-100
+.workflow/sessions/20260812-maestro-frontend-polish-20260812-101259/runs/20260812-003-execute/outputs/summaries/TASK-002.md
+  s_ca618e666caa46::t_46726e3737d010 1-20
+.workflow/sessions/20260812-maestro-frontend-polish-20260812-101259/runs/20260812-002-plan/outputs/waves.json
+  s_923d30ca0cdec6::t_54cf09c94c1168 1-40
+.workflow/sessions/20260812-maestro-frontend-polish-20260812-101259/runs/20260812-002-plan/outputs/collision-report.json
+  s_923d30ca0cdec6::t_6e0717005e781c 1-11
+.workflow/sessions/20260812-maestro-frontend-polish-20260812-101259/runs/20260812-003-execute/run.json
+  s_d00778e4670a6b::t_31fcf3d52d87c3 14,29-41,43,45-174,176-177
+  s_d00778e4670a6b::t_1c62bafd3fa448 6-13,15-28,42,44,175,286,290-291,358
+  s_d00778e4670a6b::t_3c96bde6da6673 1-5,178-285,287-289,294-357,359
+  s_d00778e4670a6b::t_0b90842dca46a7 292-293
+components/modal-shell.tsx
+  s_ca618e666caa46::t_0d3129bc809d7d 1-25
+.workflow/sessions/20260812-maestro-frontend-polish-20260812-101259/gates.json
+  s_06195aa4813b9d::t_7117bf85bbd7be 70,89,107
+  s_d00778e4670a6b::t_961d9e2d855d3c 940
+  s_d00778e4670a6b::t_af526c7d0657ed 893-907,911-920,922-926,930-939,941-945,949-958,960-964,968-983,987-996,998-1001,1005-1014,1016-1020,1024-1033,1035-1039,1043-1052,1054-1058,1062-1071,1073-1076,1080-1089,1091-1095,1099-1108,1110-1113,1117-1126,1128-1132,1136-1145,1147-1150,1154-1163,1165-1169,1173-1182,1184-1187,1191-1200,1202-1206,1210-1219,1221-1224,1228-1237,1239-1243,1247-1261,1265-1279,1283,1287,1291-1293,1295
+  s_d00778e4670a6b::t_f258fd429750fe 19-21,38-40,57-59,76-78,94-96,113-115,131-133,149-151,167-169,185-187
+  s_f3e86da3331fe0::t_e543078c3fa75d 997,1015,1146,1164,1183,1201,1220,1238,1294
+  s_70ff3bcf9d3f7e::t_8f96a879dd9c73 754,773,829,847
+  s_d00778e4670a6b::t_1c62bafd3fa448 493
+  s_d00778e4670a6b::t_8763ec13eaca8e 959
+  s_d00778e4670a6b::t_337cdd1dc7c8c2 1-2,1286,1289,1297-1298
+  s_d00778e4670a6b::t_6d7486bb8e8ebd 189-197,199-203,207-222,226-241,245-260,264-279,283-292,294-298,302-311,313-317,321-330,332-335,339-348,350-353,357-366,368-371,375-384,386-389,393-402,404-407,411-425,429-443,447-461,465-479,483
+  s_d00778e4670a6b::t_f93046d4ea378e 293
+  s_923d30ca0cdec6::t_ef1eedb5fcf0d6 312,331,349,367,385,403
+  s_d00778e4670a6b::t_ba3a10dbc6d0e2 4-18,22-37,41-56,60-69,71-75,79-88,90-93,97-106,108-112,116-130,134-148,152-166,170-184,188,1284-1285
+  s_d00778e4670a6b::t_31fcf3d52d87c3 499-501,518-520,537-539,556-558,575-577,594-596,612-614,630-632,648-650,666-668,684-686
+  s_d00778e4670a6b::t_d372f2e560173e 697
+  s_d00778e4670a6b::t_ce27d9e631bbfe 3,908-910,927-929,946-948,965-967,984-986,1002-1004,1021-1023,1040-1042,1059-1061,1077-1079,1096-1098,1114-1116,1133-1135,1151-1153,1170-1172,1188-1190,1207-1209,1225-1227,1244-1246,1262-1264,1280-1282
+  s_d00778e4670a6b::t_8a72a78e655120 198
+  s_d00778e4670a6b::t_ce7b1f29cb4915 204-206,223-225,242-244,261-263,280-282,299-301,318-320,336-338,354-356,372-374,390-392,408-410,426-428,444-446,462-464,480-482
+  s_d00778e4670a6b::t_0b90842dca46a7 569
+  s_d00778e4670a6b::t_88be55f6dd4106 688-696,698-702,706-721,725-740,744-753,755-759,763-772,774-778,782-791,793-796,800-809,811-815,819-828,830-833,837-846,848-852,856-870,874-888,892
+  s_70ff3bcf9d3f7e::t_1328ece0fe10fe 792,810
+  s_d00778e4670a6b::t_3c96bde6da6673 484-492,494-498,502-517,521-536,540-555,559-568,570-574,578-587,589-593,597-606,608-611,615-624,626-629,633-642,644-647,651-665,669-683,687
+  s_d00778e4670a6b::t_025cd3db7e242d 921
+  s_754fce506891e6::t_fa1f81834614cd 588,607,625,643
+  s_d00778e4670a6b::t_4ab9873e5a1c6d 703-705,722-724,741-743,760-762,779-781,797-799,816-818,834-836,853-855,871-873,889-891
+  s_f3e86da3331fe0::t_033d1f54f44993 1034,1053,1072,1090,1109,1127,1288,1290,1296
+components/comparison-dialog.tsx
+  s_ca618e666caa46::t_56e45af108a44e 8
+  s_ca618e666caa46::t_ccbded4f75af47 3-4,11-12,36-43
+.workflow/state.json
+  s_d00778e4670a6b::t_31fcf3d52d87c3 4
+  s_d00778e4670a6b::t_51fdb7f55a3091 16,317
+  s_d00778e4670a6b::t_ba3a10dbc6d0e2 313-316,318-320
+.workflow/sessions/20260812-maestro-frontend-polish-20260812-101259/runs/20260812-002-plan/outputs/tasks/TASK-001.json
+  s_923d30ca0cdec6::t_baa56a276c6b97 1-40
+next-env.d.ts
+  s_dab98818530411::t_8ca87b19ade895 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "3d21b5fa86146d87c15888955ea75454edb45c42",
+  "prompts": {},
+  "sessions": {
+    "s_06195aa4813b9d": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "a808135d-98b5-4980-84d5-56063e02ce26",
+        "model": "default"
+      },
+      "human_author": "zhao-wuyan <zhao-wuyan@exampl.com>"
+    },
+    "s_70ff3bcf9d3f7e": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "e8724175-83a2-41d5-8b06-3fc1e57eda65",
+        "model": "default"
+      },
+      "human_author": "zhao-wuyan <zhao-wuyan@exampl.com>"
+    },
+    "s_754fce506891e6": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "c90b0683-0a46-4a14-bafd-4f28a0fd32c0",
+        "model": "default"
+      },
+      "human_author": "zhao-wuyan <zhao-wuyan@exampl.com>"
+    },
+    "s_923d30ca0cdec6": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "a14c9808-00a7-4136-8c65-0c194382c318",
+        "model": "default"
+      },
+      "human_author": "zhao-wuyan <zhao-wuyan@exampl.com>"
+    },
+    "s_ca618e666caa46": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "54c58f0a-5866-4327-8012-cdbef271630e",
+        "model": "default"
+      },
+      "human_author": "zhao-wuyan <zhao-wuyan@exampl.com>"
+    },
+    "s_d00778e4670a6b": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "6bf4581f-377a-4efe-a1f8-b29862b2dc4f",
+        "model": "default"
+      },
+      "human_author": "zhao-wuyan <zhao-wuyan@exampl.com>"
+    },
+    "s_dab98818530411": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f75f5-5414-7d92-8c36-efc80d388bd8",
+        "model": "unknown"
+      },
+      "human_author": "zhao-wuyan <zhao-wuyan@exampl.com>"
+    },
+    "s_f3e86da3331fe0": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "eb73bb81-a785-4303-9650-69bca42b32c9",
+        "model": "default"
+      },
+      "human_author": "zhao-wuyan <zhao-wuyan@exampl.com>"
+    }
+  }
+}
