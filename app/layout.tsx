@@ -5,7 +5,11 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { getLocale } from "@/lib/server-i18n";
 import "./globals.css";
 
-export const metadata: Metadata = { title: { default: "LLM Info", template: "%s · LLM Info" }, description: "Canonical LLM models, providers, native pricing, and quality evidence." };
+export const metadata: Metadata = {
+  title: { default: "LLM Info", template: "%s · LLM Info" },
+  description: "Canonical LLM models, providers, native pricing, and quality evidence.",
+  other: { "darkreader-lock": "true" },
+};
 export const viewport: Viewport = { width: "device-width", initialScale: 1, viewportFit: "cover", colorScheme: "light dark" };
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
