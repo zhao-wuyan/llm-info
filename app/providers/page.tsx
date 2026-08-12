@@ -7,15 +7,15 @@ import { EmptyState, EntityText, MetricStrip, PageHeader, Pagination, ResetFilte
 import { catalog, providerStats } from "@/lib/catalog";
 import { compactNumber } from "@/lib/format";
 import { msg } from "@/lib/i18n";
+import { one } from "@/lib/search-params";
 import { getLocale } from "@/lib/server-i18n";
+import { createSortLinks } from "@/lib/sort-links";
 import { compareNullable, stableSort, type SortOrder } from "@/lib/table-sort";
 
 const PAGE_SIZE = 20;
 const sortKeys = ["name", "models", "usd", "cny", "quality"] as const;
 type ProviderSortKey = typeof sortKeys[number];
 type Params = Promise<Record<string, string | string[] | undefined>>;
-
-const one = (value: string | string[] | undefined) => Array.isArray(value) ? value[0] ?? "" : value ?? "";
 
 export default async function ProvidersPage({ searchParams }: { searchParams: Params }) {
   const [locale, params] = await Promise.all([getLocale(), searchParams]);
@@ -48,14 +48,7 @@ export default async function ProvidersPage({ searchParams }: { searchParams: Pa
     return query;
   };
   const linkFor = (next: number) => { const query = baseQuery(); query.set("page", String(next)); return `/providers?${query}`; };
-  const directionFor = (key: ProviderSortKey) => sort === key ? order : null;
-  const sortLinkFor = (key: ProviderSortKey) => {
-    const direction = directionFor(key);
-    const nextOrder = direction === null ? "asc" : direction === "asc" ? "desc" : null;
-    const query = baseQuery(false);
-    if (nextOrder) { query.set("sort", key); query.set("order", nextOrder); }
-    return query.size ? `/providers?${query}` : "/providers";
-  };
+  const { directionFor, sortLinkFor } = createSortLinks({ basePath: "/providers", sort, order, baseQuery });
 
   return <AppShell locale={locale} section={msg(locale, "providers")}>
     <PageHeader title={msg(locale, "providers")} description={msg(locale, "providerDescription")} />

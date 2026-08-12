@@ -1,0 +1,43 @@
+{
+  "_meta": { "kind": "plan", "schema": "plan/1.0" },
+  "objective": "前端优化三目标落地：G1 统一样式与组件（token 层补全 + 重复模式收敛，CSS 类名不变）、G2 克制动效（150-300ms 纯 CSS 微交互 + pending 反馈，受 prefers-reduced-motion 覆盖）、G3 加载性能（Lighthouse 基线测量 → 保守优化 → 复测验证 ≥ 90），全程保持现有测试套件（node --test / vitest / playwright e2e）通过。",
+  "scope": "standalone",
+  "requirement_refs": [
+    "G1: 统一样式与组件（findings F-G1-01/02/03）",
+    "G2: 克制动效 150-300ms + prefers-reduced-motion（findings F-G2-01/02/03；locked 决策 D3）",
+    "G3: 核心页面（/models、/models/[canonicalId]、/compare、/providers）生产构建 Lighthouse Performance ≥ 90（findings F-G3-01/02/03；locked 决策 D2）",
+    "L1: 优化范围 = 全部 11 页面（locked 决策 D1）",
+    "C3: e2e 硬锁定 CSS 类名/中文文案/URL 参数语义，类名保持不变（findings F-BOUNDARY-01；决策 D4 采纳方案 A）",
+    "C5: out of scope — scripts/ 数据管道、data/ 语义、新功能、路由变更、品牌重设计、CI/CD"
+  ],
+  "task_ids": ["TASK-001", "TASK-002", "TASK-003", "TASK-004", "TASK-005", "TASK-006", "TASK-007"],
+  "wave_ids": ["W1", "W2", "W3", "W4", "W5"],
+  "confidence": 86,
+  "constraints": [
+    "CSS 类名不可改名，只允许改规则内部与新增 token 引用（e2e 选择器锁定：tests/e2e/accessibility.spec.ts:29,47）",
+    "中文默认文案不可改（tests/e2e/catalog.spec.ts:29 锁定'模型目录'等）",
+    "URL 参数语义不可改（tests/e2e/accessibility.spec.ts:96-187 锁定 reset 链接参数行为）",
+    "动效仅用纯 CSS transition/animation，时长 150-300ms，不引入 framer-motion 等动画库；全部受 globals.css 既有 prefers-reduced-motion kill switch 覆盖",
+    "comparison-dialog 的入口位置（详情页 detail-actions）与比较范围（仅当前 canonicalId 渠道）受 arch spec 约束不可变（priors.json specs #2）",
+    "TASK-001 基线必须在任何代码改动之前完成（否则'改动前基线'产物失真），因此所有改码任务依赖 TASK-001",
+    "性能走保守路线 A（providerStats 预计算 + CSS 死代码清理）；静态化路线 B 仅作为基线/复测双双不达标时的升级候选，本轮不实施（决策 D5）"
+  ],
+  "acceptance_criteria": [
+    "全测试套件通过：node --test test/*.test.js exit 0、vitest run exit 0、npx playwright test exit 0",
+    "npm run build exit 0（生产构建健康）",
+    ".workflow/perf/lighthouse-baseline.md 与 .workflow/perf/lighthouse-after.md 存在，含 4 个核心页面 desktop+mobile Performance 分数对比",
+    "lighthouse-after.md 含 verdict: pass（4 核心页面 desktop Performance ≥ 90）；若 verdict: below-target 则必须含 next-step: escalate-to-static-route-B 及各页面差距明细，交由 post-execute 门禁决策",
+    "app/globals.css :root 含完整 token 层：--space-*/--radius-*/--font-size-*/--shadow-popover/--backdrop-*/--z-*/--motion-*（TASK-002 定义的精确名单）",
+    "重复模式收敛：app/ 与 components/ 中 one()/priceMetric/排序链接构造的内联重复为 0（收敛到 lib/search-params.ts、lib/price-metrics.ts、lib/sort-links.ts）；modal-layout 骨架仅存于 components/modal-shell.tsx",
+    "globals.css 中 transition 引用 var(--motion-*) 的交互选择器 ≥ 6 组，dialog/details 弹层有进场动效，语言/刷新操作有 pending 反馈"
+  ],
+  "deferred_exclusions": [
+    "error/not-found 页 i18n 补齐（findings deferred 决策：需要小架构决定，不阻塞主线，本轮排除）",
+    "next/font 品牌字体启用（findings deferred 决策：触及品牌视觉边界 out-of-scope，需用户表态，本轮排除）",
+    "providerStats 预计算在 findings 中原为条件性 deferred（'基线达标则不动'）；本 plan 依 session 规划指令将其纳入 G3 保守路线主线（TASK-006）：实施成本低（等价重构 + 已有单测覆盖）、对冷启动后首请求 CPU 纯正贡献、TASK-006 执行时 TASK-001 基线已知可在报告中记录实际必要性"
+  ],
+  "decision_rules": [
+    "基线路线分岔（TASK-001 产出，写入 lighthouse-baseline.md 固定行）：全部核心页面 desktop ≥ 90 → route-decision: A-conservative；存在 <90 且主因非 TTFB（unused CSS / render-blocking 等）→ route-decision: A-conservative-watch；存在 <90 且 server-response-time > 600ms 或 TTFB 为 LCP 最大分项 → route-decision: B-static-candidate",
+    "复测门禁（TASK-007 产出，写入 lighthouse-after.md 固定行）：4 核心页面 desktop ≥ 90 → verdict: pass；否则 verdict: below-target + next-step: escalate-to-static-route-B（post-execute 据此决定是否开新 plan 走静态化路线 B，本轮不实施）"
+  ]
+}

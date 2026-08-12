@@ -5,12 +5,13 @@ import { EmptyState, EntityText, MetricStrip, PageHeader, ResetFilterLink, Searc
 import { catalog } from "@/lib/catalog";
 import { compactNumber, formatDate } from "@/lib/format";
 import { msg } from "@/lib/i18n";
+import { one } from "@/lib/search-params";
 import { getLocale } from "@/lib/server-i18n";
+import { createSortLinks } from "@/lib/sort-links";
 import { compareNullable, stableSort, type SortOrder } from "@/lib/table-sort";
 
 type Params = Promise<Record<string, string | string[] | undefined>>;
 type SourceSortKey = "name" | "records";
-const one = (value: string | string[] | undefined) => Array.isArray(value) ? value[0] ?? "" : value ?? "";
 
 export default async function SourcesPage({ searchParams }: { searchParams: Params }) {
   const [locale, params] = await Promise.all([getLocale(), searchParams]);
@@ -33,14 +34,7 @@ export default async function SourcesPage({ searchParams }: { searchParams: Para
     if (includeSort && sort && order) { query.set("sort", sort); query.set("order", order); }
     return query;
   };
-  const directionFor = (key: SourceSortKey) => sort === key ? order : null;
-  const sortLinkFor = (key: SourceSortKey) => {
-    const direction = directionFor(key);
-    const nextOrder = direction === null ? "asc" : direction === "asc" ? "desc" : null;
-    const query = baseQuery(false);
-    if (nextOrder) { query.set("sort", key); query.set("order", nextOrder); }
-    return query.size ? `/sources?${query}` : "/sources";
-  };
+  const { directionFor, sortLinkFor } = createSortLinks({ basePath: "/sources", sort, order, baseQuery });
 
   return <AppShell locale={locale} section={msg(locale, "sources")}><PageHeader title={msg(locale, "sources")} description={msg(locale, "sourceDescription")} /><AutoSubmitForm className="toolbar"><SearchField defaultValue={one(params.q)} placeholder={msg(locale, "searchSources")} /><select name="role" defaultValue={role} aria-label={msg(locale, "roleCoverage")}><option value="">{msg(locale, "allRoles")}</option>{roles.map((value) => <option key={value}>{value}</option>)}</select><select name="license" defaultValue={license} aria-label={msg(locale, "license")}><option value="">{msg(locale, "allLicenses")}</option><option value="known">SPDX</option><option value="missing">NOASSERTION</option></select>{sort && order && <><input type="hidden" name="sort" value={sort} /><input type="hidden" name="order" value={order} /></>}<ResetFilterLink href="/sources" locale={locale} /></AutoSubmitForm><MetricStrip metrics={[{ value: catalog.sources.length, label: msg(locale, "sources") }, { value: compactNumber(total), label: msg(locale, "records") }, { value: catalog.sources.filter((source) => source.license !== "NOASSERTION").length, label: "SPDX License" }, { value: catalog.sources.filter((source) => source.license === "NOASSERTION").length, label: "NOASSERTION" }]} /><div className="table-frame">{rows.length ? <table className="data-table source-table"><thead><tr><SortableHeader label={msg(locale, "source")} direction={directionFor("name")} href={sortLinkFor("name")} locale={locale} /><th>{msg(locale, "roleCoverage")}</th><SortableHeader label={msg(locale, "records")} direction={directionFor("records")} href={sortLinkFor("records")} locale={locale} /><th>{msg(locale, "license")}</th><th>{msg(locale, "observedAt")}</th><th>{msg(locale, "repository")}</th></tr></thead><tbody>{rows.map((source) => <tr key={source.id}><td className="entity-cell"><span className="entity-name"><EntityText name={source.name} id={source.id} /></span></td><td><span className="tag">{source.role}</span></td><td className="mono">{compactNumber(source.recordCount)}</td><td>{source.license === "NOASSERTION" ? <span className="tag warning"><ShieldQuestion size={13} />{source.licenseLabel ?? source.license}</span> : <a className="tag success" href={source.licenseUrl ?? source.repository} target="_blank" rel="noreferrer"><ShieldCheck size={13} />{source.licenseLabel ?? source.license}</a>}</td><td className="mono">{formatDate(source.observedAt)}</td><td><a className="source-link" href={source.repository} target="_blank" rel="noreferrer">GitHub <ExternalLink size={13} /></a></td></tr>)}</tbody></table> : <EmptyState>{msg(locale, "noResults")}</EmptyState>}<div className="table-footer"><span>{rows.length} / {catalog.sources.length} {msg(locale, "sources")}</span></div></div></AppShell>;
 }

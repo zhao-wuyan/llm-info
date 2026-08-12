@@ -1,18 +1,19 @@
 "use client";
 
-import { ChevronLeft, ChevronRight, Search, X } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useMemo, useRef, useState } from "react";
+import { ChevronLeft, ChevronRight, Search } from "lucide-react";
+import { useMemo, useState } from "react";
 import { compactNumber, formatReleaseDate, priceRate, releaseDateValue } from "@/lib/format";
 import { abilityMsg, msg, type Locale } from "@/lib/i18n";
 import { modelHref } from "@/lib/links";
+import { priceMetric } from "@/lib/price-metrics";
 import { compareNullable, nextSortState, stableSort, type SortOrder } from "@/lib/table-sort";
 import type { Currency, Model } from "@/lib/types";
+import { ModalShell } from "./modal-shell";
+import { TableRowLink } from "./table-row-link";
 import { EntityText, PriceValue, SortableButtonHeader } from "./ui";
 
 const PAGE_SIZE = 10;
 type DialogSortKey = "name" | "released" | "context" | "input" | "output" | "cacheRead" | "cacheWrite";
-const priceMetric = { input: "textInput", output: "textOutput", cacheRead: "textInput_cacheRead", cacheWrite: "textInput_cacheWrite" } as const;
 
 interface ProviderModelsDialogProps {
   locale: Locale;
@@ -23,8 +24,6 @@ interface ProviderModelsDialogProps {
 }
 
 export function ProviderModelsDialog({ locale, currency, providerName, providerId, models }: ProviderModelsDialogProps) {
-  const dialog = useRef<HTMLDialogElement>(null);
-  const router = useRouter();
   const [query, setQuery] = useState("");
   const [ability, setAbility] = useState("");
   const [context, setContext] = useState("");
@@ -59,64 +58,57 @@ export function ProviderModelsDialog({ locale, currency, providerName, providerI
     setSort(next.key); setOrder(next.order); resetPage();
   };
 
-  return <>
-    <button className="secondary-button" onClick={() => dialog.current?.showModal()}>{msg(locale, "allProviderModels")}</button>
-    <dialog ref={dialog} className="modal">
-      <div className="modal-layout">
-        <header className="modal-header">
-          <div><h2>{providerName}</h2><p>{providerId} · {models.length} {msg(locale, "models")}</p></div>
-          <button className="icon-button" onClick={() => dialog.current?.close()} aria-label={msg(locale, "close")} title={msg(locale, "close")}><X size={18} /></button>
-        </header>
-        <div className="modal-toolbar">
-          <label className="search-field">
-            <span className="sr-only">{msg(locale, "searchModels")}</span><Search size={16} />
-            <input value={query} onChange={(event) => { setQuery(event.target.value); resetPage(); }} placeholder={msg(locale, "searchModels")} />
-          </label>
-          <select aria-label={msg(locale, "ability")} value={ability} onChange={(event) => { setAbility(event.target.value); resetPage(); }}>
-            <option value="">{msg(locale, "allAbilities")}</option>
-            {abilities.map((key) => <option key={key} value={key}>{abilityMsg(locale, key)}</option>)}
-          </select>
-          <select aria-label={msg(locale, "context")} value={context} onChange={(event) => { setContext(event.target.value); resetPage(); }}>
-            <option value="">{msg(locale, "context")}</option><option value="large">≥128K</option><option value="small">&lt;128K</option>
-          </select>
-          <label className="check-control">
-            <input type="checkbox" checked={onlyPriced} onChange={(event) => { setOnlyPriced(event.target.checked); resetPage(); }} />
-            {msg(locale, "onlyPriced")}
-          </label>
-        </div>
-        <div className="modal-content">
-          <table className="data-table provider-model-table">
-            <thead><tr>
-              <SortableButtonHeader label={msg(locale, "model")} direction={directionFor("name")} onSort={() => toggleSort("name")} locale={locale} />
-              <SortableButtonHeader label={msg(locale, "releasedAt")} direction={directionFor("released")} onSort={() => toggleSort("released")} locale={locale} />
-              <SortableButtonHeader label={msg(locale, "context")} direction={directionFor("context")} onSort={() => toggleSort("context")} locale={locale} />
-              <SortableButtonHeader label={msg(locale, "inputPrice")} subtitle={currency} direction={directionFor("input")} onSort={() => toggleSort("input")} locale={locale} /><SortableButtonHeader label={msg(locale, "outputPrice")} subtitle={currency} direction={directionFor("output")} onSort={() => toggleSort("output")} locale={locale} />
-              <SortableButtonHeader label={msg(locale, "cacheReadPrice")} subtitle={currency} direction={directionFor("cacheRead")} onSort={() => toggleSort("cacheRead")} locale={locale} /><SortableButtonHeader label={msg(locale, "cacheCreationPrice")} subtitle={currency} direction={directionFor("cacheWrite")} onSort={() => toggleSort("cacheWrite")} locale={locale} />
-              <th>{msg(locale, "ability")}</th>
-              <th aria-label={msg(locale, "details")} />
-            </tr></thead>
-            <tbody>{rows.map((model) => <tr key={model.id} role="link" tabIndex={0} onClick={() => router.push(modelHref(model.canonicalId))} onKeyDown={(event) => { if (event.key === "Enter") router.push(modelHref(model.canonicalId)); }}>
-              <td className="entity-cell"><span className="entity-name"><EntityText name={model.name} id={model.modelId} /></span></td>
-              <td className="mono release-date-cell">{formatReleaseDate(model.releasedAt)}</td>
-              <td className="mono">{compactNumber(model.contextWindow)}</td>
-              <td><PriceValue price={model.displayPrices[currency]} rate="textInput" currency={currency} locale={locale} /></td>
-              <td><PriceValue price={model.displayPrices[currency]} rate="textOutput" currency={currency} locale={locale} /></td>
-              <td><PriceValue price={model.displayPrices[currency]} rate="textInput_cacheRead" currency={currency} locale={locale} /></td>
-              <td><PriceValue price={model.displayPrices[currency]} rate="textInput_cacheWrite" currency={currency} locale={locale} /></td>
-              <td><div className="tag-list">{Object.entries(model.abilities ?? {}).filter(([, value]) => value).slice(0, 3).map(([key]) => <span className="tag" key={key}>{abilityMsg(locale, key)}</span>)}</div></td>
-              <td><ChevronRight size={15} aria-hidden /></td>
-            </tr>)}</tbody>
-          </table>
-        </div>
-        <footer className="modal-footer">
-          <span>{filtered.length} {msg(locale, "models")}</span>
-          <div className="pagination">
-            <button className="icon-button" disabled={currentPage <= 1} onClick={() => setPage((value) => Math.max(1, value - 1))} aria-label={locale === "zh" ? "上一页" : "Previous page"}><ChevronLeft size={15} /></button>
-            <span>{currentPage} / {pages}</span>
-            <button className="icon-button" disabled={currentPage >= pages} onClick={() => setPage((value) => Math.min(pages, value + 1))} aria-label={locale === "zh" ? "下一页" : "Next page"}><ChevronRight size={15} /></button>
-          </div>
-        </footer>
+  return <ModalShell triggerLabel={msg(locale, "allProviderModels")} triggerClassName="secondary-button" title={providerName} subtitle={`${providerId} · ${models.length} ${msg(locale, "models")}`} closeLabel={msg(locale, "close")}>
+    {() => <>
+      <div className="modal-toolbar">
+        <label className="search-field">
+          <span className="sr-only">{msg(locale, "searchModels")}</span><Search size={16} />
+          <input value={query} onChange={(event) => { setQuery(event.target.value); resetPage(); }} placeholder={msg(locale, "searchModels")} />
+        </label>
+        <select aria-label={msg(locale, "ability")} value={ability} onChange={(event) => { setAbility(event.target.value); resetPage(); }}>
+          <option value="">{msg(locale, "allAbilities")}</option>
+          {abilities.map((key) => <option key={key} value={key}>{abilityMsg(locale, key)}</option>)}
+        </select>
+        <select aria-label={msg(locale, "context")} value={context} onChange={(event) => { setContext(event.target.value); resetPage(); }}>
+          <option value="">{msg(locale, "context")}</option><option value="large">≥128K</option><option value="small">&lt;128K</option>
+        </select>
+        <label className="check-control">
+          <input type="checkbox" checked={onlyPriced} onChange={(event) => { setOnlyPriced(event.target.checked); resetPage(); }} />
+          {msg(locale, "onlyPriced")}
+        </label>
       </div>
-    </dialog>
-  </>;
+      <div className="modal-content">
+        <table className="data-table provider-model-table">
+          <thead><tr>
+            <SortableButtonHeader label={msg(locale, "model")} direction={directionFor("name")} onSort={() => toggleSort("name")} locale={locale} />
+            <SortableButtonHeader label={msg(locale, "releasedAt")} direction={directionFor("released")} onSort={() => toggleSort("released")} locale={locale} />
+            <SortableButtonHeader label={msg(locale, "context")} direction={directionFor("context")} onSort={() => toggleSort("context")} locale={locale} />
+            <SortableButtonHeader label={msg(locale, "inputPrice")} subtitle={currency} direction={directionFor("input")} onSort={() => toggleSort("input")} locale={locale} /><SortableButtonHeader label={msg(locale, "outputPrice")} subtitle={currency} direction={directionFor("output")} onSort={() => toggleSort("output")} locale={locale} />
+            <SortableButtonHeader label={msg(locale, "cacheReadPrice")} subtitle={currency} direction={directionFor("cacheRead")} onSort={() => toggleSort("cacheRead")} locale={locale} /><SortableButtonHeader label={msg(locale, "cacheCreationPrice")} subtitle={currency} direction={directionFor("cacheWrite")} onSort={() => toggleSort("cacheWrite")} locale={locale} />
+            <th>{msg(locale, "ability")}</th>
+            <th aria-label={msg(locale, "details")} />
+          </tr></thead>
+          <tbody>{rows.map((model) => <TableRowLink key={model.id} href={modelHref(model.canonicalId)} label={model.name}>
+            <td className="entity-cell"><span className="entity-name"><EntityText name={model.name} id={model.modelId} /></span></td>
+            <td className="mono release-date-cell">{formatReleaseDate(model.releasedAt)}</td>
+            <td className="mono">{compactNumber(model.contextWindow)}</td>
+            <td><PriceValue price={model.displayPrices[currency]} rate="textInput" currency={currency} locale={locale} /></td>
+            <td><PriceValue price={model.displayPrices[currency]} rate="textOutput" currency={currency} locale={locale} /></td>
+            <td><PriceValue price={model.displayPrices[currency]} rate="textInput_cacheRead" currency={currency} locale={locale} /></td>
+            <td><PriceValue price={model.displayPrices[currency]} rate="textInput_cacheWrite" currency={currency} locale={locale} /></td>
+            <td><div className="tag-list">{Object.entries(model.abilities ?? {}).filter(([, value]) => value).slice(0, 3).map(([key]) => <span className="tag" key={key}>{abilityMsg(locale, key)}</span>)}</div></td>
+            <td><ChevronRight size={15} aria-hidden /></td>
+          </TableRowLink>)}</tbody>
+        </table>
+      </div>
+      <footer className="modal-footer">
+        <span>{filtered.length} {msg(locale, "models")}</span>
+        <div className="pagination">
+          <button className="icon-button" disabled={currentPage <= 1} onClick={() => setPage((value) => Math.max(1, value - 1))} aria-label={locale === "zh" ? "上一页" : "Previous page"}><ChevronLeft size={15} /></button>
+          <span>{currentPage} / {pages}</span>
+          <button className="icon-button" disabled={currentPage >= pages} onClick={() => setPage((value) => Math.min(pages, value + 1))} aria-label={locale === "zh" ? "下一页" : "Next page"}><ChevronRight size={15} /></button>
+        </div>
+      </footer>
+    </>}
+  </ModalShell>;
 }

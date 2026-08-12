@@ -1,0 +1,59 @@
+{
+  "_meta": { "kind": "plan-task", "schema": "plan-task/1.0", "role": "attachment" },
+  "id": "TASK-003",
+  "title": "G1 纯函数/常量收敛（零 UI 风险批任务）：searchParams 工具、priceMetric 常量、排序链接 builder 三项抽取",
+  "description": "把 findings F-G1-03 确认的三类纯逻辑重复收敛到 lib/ 共享模块，页面与组件改为 import，渲染输出与 URL 生成结果逐字节不变。重复清单：[1] `one()` helper 逐字重复 6 处（app/models/page.tsx:22、app/models/[...canonicalId]/page.tsx:21、app/compare/page.tsx:31、app/providers/page.tsx:18、app/providers/[id]/page.tsx:16、app/sources/page.tsx:13），`many()` 重复 2 处（models、compare）；[2] `priceMetric` 映射常量逐字重复 4 处（app/models/[...canonicalId]/page.tsx:22、app/providers/[id]/page.tsx:17、components/comparison-dialog.tsx:14、components/provider-models-dialog.tsx:15；components/model-cells.tsx 若含等价映射一并收敛，以实读为准）+ 1 处同值变体：app/compare/page.tsx:40-45 的 `metricByColumn`（键值与 priceMetric 逐字相同，仅类型标注为 Partial<Record<string, PriceMetric>>），收敛方式为直接赋值引用 `const metricByColumn: Partial<Record<string, PriceMetric>> = priceMetric;`（compare 页本地 PriceMetric 类型与 priceMetrics 数组保留，属类型层非运行时重复）；[3] directionFor/sortLinkFor 排序链接构造重复 6 处，已核实全部页面的 nextOrder 状态机一致（null→asc→desc→null），唯二差异点：compare 页清除态写入 sort=none（app/compare/page.tsx:167）、各页空 query 时回落 basePath——用 onClear 回调与 basePath 参数吸收。铁律：URL 生成结果不可变（tests/e2e/accessibility.spec.ts:96-187 锁定 reset 链接参数语义），各页 baseQuery()（参数集合各不相同）保留在页面内不抽取。",
+  "requirement_refs": ["G1", "findings F-G1-03（重复模式清单）", "C3: URL 参数语义不可改（F-BOUNDARY-01）"],
+  "deps": ["TASK-001"],
+  "files": [
+    "lib/search-params.ts",
+    "lib/price-metrics.ts",
+    "lib/sort-links.ts",
+    "app/models/page.tsx",
+    "app/models/[...canonicalId]/page.tsx",
+    "app/compare/page.tsx",
+    "app/providers/page.tsx",
+    "app/providers/[id]/page.tsx",
+    "app/sources/page.tsx",
+    "components/comparison-dialog.tsx",
+    "components/provider-models-dialog.tsx",
+    "components/model-cells.tsx"
+  ],
+  "read_first": [
+    "app/models/page.tsx（one/many 与 baseQuery/linkFor/directionFor/sortLinkFor 的列表页完整形态，81-123 行）",
+    "app/compare/page.tsx（sortDisabled 分支与 onClear 差异点，145-182 行）",
+    "app/models/[...canonicalId]/page.tsx 与 app/providers/[id]/page.tsx（详情页无 baseQuery 的简化 sortLinkFor 形态）",
+    "app/providers/page.tsx 与 app/sources/page.tsx（列表页变体）",
+    "components/comparison-dialog.tsx、components/provider-models-dialog.tsx、components/model-cells.tsx（priceMetric 消费点；前两者是 client 组件，抽取后 import 路径用 @/lib/...）",
+    "lib/table-sort.ts（SortOrder 类型与 nextSortState 现有模式，新模块的类型来源）",
+    "tests/e2e/accessibility.spec.ts（96-187 行 URL 参数语义锁定，抽取后必须逐项通过）"
+  ],
+  "action": "新建 3 个模块：[1] lib/search-params.ts 内容逐字为：`export const one = (value: string | string[] | undefined) => Array.isArray(value) ? value[0] ?? \"\" : value ?? \"\";` 与 `export const many = (value: string | string[] | undefined) => Array.isArray(value) ? value : value ? [value] : [];`。[2] lib/price-metrics.ts 内容逐字为：`export const priceMetric = { input: \"textInput\", output: \"textOutput\", cacheRead: \"textInput_cacheRead\", cacheWrite: \"textInput_cacheWrite\" } as const;` 并附 `export type PriceMetricKey = keyof typeof priceMetric;`。[3] lib/sort-links.ts 导出工厂函数，签名逐字为：`export function createSortLinks<K extends string>({ basePath, sort, order, baseQuery, onClear }: { basePath: string; sort: K | null; order: SortOrder | null; baseQuery?: (includeSort?: boolean) => URLSearchParams; onClear?: (query: URLSearchParams) => void }): { directionFor: (key: K) => SortOrder | null; sortLinkFor: (key: K) => string }`，实现：directionFor = (key) => sort === key ? order : null；sortLinkFor = (key) => { const direction = directionFor(key); const nextOrder = direction === null ? \"asc\" : direction === \"asc\" ? \"desc\" : null; const query = baseQuery ? baseQuery(false) : new URLSearchParams(); if (nextOrder) { query.set(\"sort\", key); query.set(\"order\", nextOrder); } else onClear?.(query); return query.size ? `${basePath}?${query}` : basePath; }。然后 6 个页面 + 2 个 dialog + model-cells 改 import：删除本地 one/many/priceMetric 定义与本地 directionFor/sortLinkFor 实现，页面调用 createSortLinks({ basePath: \"/models\"（或 \"/compare\"、\"/providers\"、\"/sources\"、详情页动态路径）, sort, order, baseQuery })；compare 页额外传 onClear: (query) => query.set(\"sort\", \"none\")；两个详情页不传 baseQuery（等价原实现的无参数拼接，注意 models 详情页 basePath 为 `/models/${model.canonicalId.split(\"/\").map(encodeURIComponent).join(\"/\")}`，providers 详情页为 `/providers/${encodeURIComponent(provider.id)}`）。dialog 内 SortableButtonHeader 用的 toggleSort/nextSortState 客户端状态机不属于本次抽取范围，保持不动。",
+  "implementation": [
+    "1. 新建 lib/search-params.ts、lib/price-metrics.ts、lib/sort-links.ts，内容按 action 逐字写入（sort-links 从 ./table-sort import type SortOrder）",
+    "2. app/models/page.tsx：删除 22-23 行本地 one/many，import { one, many } from \"@/lib/search-params\"；删除 101-112 行 directionFor/sortLinkFor，改 `const { directionFor, sortLinkFor } = createSortLinks({ basePath: \"/models\", sort, order, baseQuery });`（linkFor/resetColumnsHref/resetFiltersHref 留在页面）",
+    "3. app/compare/page.tsx：同上并传 onClear: (query) => query.set(\"sort\", \"none\")；注意保留 sortDisabled 相关的 baseQuery 内部逻辑不变；另将 40-45 行 metricByColumn 字面量对象改为 `const metricByColumn: Partial<Record<string, PriceMetric>> = priceMetric;`（import { priceMetric } from \"@/lib/price-metrics\"）",
+    "4. app/providers/page.tsx、app/sources/page.tsx：同模式替换（basePath 分别为 \"/providers\"、\"/sources\"）",
+    "5. app/models/[...canonicalId]/page.tsx：删除本地 one（21 行）、priceMetric（22 行）、directionFor/sortLinkFor（54-60 行），改 import + createSortLinks({ basePath: 按 action 的动态路径, sort, order })；app/providers/[id]/page.tsx 同（16-17、36-42 行）",
+    "6. components/comparison-dialog.tsx（14 行）、components/provider-models-dialog.tsx（15 行）：删除本地 priceMetric，import { priceMetric } from \"@/lib/price-metrics\"；components/model-cells.tsx 实读后将等价映射收敛到同一 import",
+    "7. 验证：npx tsc --noEmit（类型无错）；npm run test（node --test + vitest）；npx playwright test（重点 accessibility.spec URL 语义断言）；npm run build",
+    "8. 单独 commit：'refactor: extract shared search-params/price-metrics/sort-links helpers (no behavior change)'"
+  ],
+  "convergence_criteria": [
+    "Select-String -Path lib/search-params.ts -Pattern 'export const one = \\(value: string \\| string\\[\\] \\| undefined\\)' 命中 1；-Path lib/price-metrics.ts -Pattern 'export const priceMetric = ' 命中 1；-Path lib/sort-links.ts -Pattern 'export function createSortLinks' 命中 1",
+    "(Get-ChildItem app -Recurse -Filter *.tsx | Select-String -Pattern 'const one = \\(value').Count 输出 0（6 处本地定义清零）",
+    "(Get-ChildItem components -Filter *.tsx | Select-String -Pattern 'const priceMetric = \\{').Count 输出 0 且 (Get-ChildItem app -Recurse -Filter *.tsx | Select-String -Pattern 'const priceMetric = \\{').Count 输出 0",
+    "(Select-String -Path app/compare/page.tsx -Pattern 'metricByColumn[^=]*= \\{').Count 输出 0 且 Select-String -Path app/compare/page.tsx -Pattern 'metricByColumn.*= priceMetric' 命中 1（同值变体收敛为引用）",
+    "(Get-ChildItem app -Recurse -Filter *.tsx | Select-String -Pattern 'createSortLinks').Count 输出 ≥ 6（6 个含排序表格的页面全部接入）",
+    "npm run test 以 exit 0 结束（node --test 3 个数据测试 + vitest 6 个 UI 单测）",
+    "[UI-observable] npx playwright test 以 exit 0 结束（accessibility.spec.ts 96-187 行 reset 链接 URL 参数语义断言全部通过，证明排序/分页/重置链接在页面上的实际 href 与重构前一致）"
+  ],
+  "verify": [
+    "npx tsc --noEmit",
+    "npm run test",
+    "npx playwright test",
+    "npm run build"
+  ],
+  "estimate_minutes": 45,
+  "status": "pending"
+}

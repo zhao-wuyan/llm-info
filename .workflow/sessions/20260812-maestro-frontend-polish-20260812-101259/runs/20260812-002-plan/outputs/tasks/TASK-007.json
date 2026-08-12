@@ -1,0 +1,40 @@
+{
+  "_meta": { "kind": "plan-task", "schema": "plan-task/1.0", "role": "attachment" },
+  "id": "TASK-007",
+  "title": "回归验证与 Lighthouse 复测：全测试套件 + 4 核心页面复测对比基线，产出 verdict 门禁行",
+  "description": "所有改动完成后的收口任务。[1] 全测试套件回归：node --test test/*.test.js、vitest run、npx playwright test 三层全绿（locked 约束 C3）。[2] Lighthouse 复测：与 TASK-001 完全相同的方法与环境（npm run build + npm start 本地生产模式，desktop+mobile 双预设，相同的 4 个 URL——详情页样本必须复用 lighthouse-baseline.md 中记录的同一 URL），产出 .workflow/perf/after/ 8 个 JSON 与 .workflow/perf/lighthouse-after.md 对比报告（基线分 vs 复测分并列表格）。[3] 门禁判定（post-execute 消费，与 plan.json decision_rules 一致）：4 核心页面 desktop Performance 全部 ≥ 90 → 写 `verdict: pass`；任一 < 90 → 写 `verdict: below-target` 且必须附 `next-step: escalate-to-static-route-B` 行与各未达标页面的分数差距、主导审计项（server-response-time / unused-css-rules / render-blocking-resources 等）明细，供 post-execute 决定是否开新 plan 实施静态化路线 B（本轮不实施）。注意：本任务只测量与判定，不做任何代码修改；若回归测试失败，修复责任回到对应前序任务（execute 阶段闭环），本任务不得以跳过测试的方式收口。",
+  "requirement_refs": ["G3", "L2: Lighthouse ≥ 90（locked 决策 D2）", "C3: 测试套件保持通过", "risk R3（验收僵局风险的闭环）", "plan.json decision_rules #2"],
+  "deps": ["TASK-002", "TASK-003", "TASK-004", "TASK-005", "TASK-006"],
+  "files": [".workflow/perf/lighthouse-after.md", ".workflow/perf/after/"],
+  "read_first": [
+    ".workflow/perf/lighthouse-baseline.md（TASK-001 产物：基线分数、详情页样本 URL、route-decision、测量环境参数——复测必须逐项复用）",
+    "package.json（test/test:ui/test:e2e/build/start 脚本定义）",
+    ".workflow/sessions/20260812-maestro-frontend-polish-20260812-101259/runs/20260812-002-plan/outputs/plan.json（decision_rules 与 acceptance_criteria 的判定依据）"
+  ],
+  "action": "顺序执行四段：[1] `npm run test`（node --test test/*.test.js && vitest run）预期 exit 0；[2] `npm run build` 预期 exit 0，然后 `npm start` 启动生产服务，`npx playwright test` 预期 exit 0（playwright.config 若自管 server 则按其配置执行）；[3] 对 lighthouse-baseline.md 中记录的同一组 4 个 URL 重跑 8 轮 Lighthouse（命令与 TASK-001 逐字相同，输出改为 .workflow/perf/after/<name>-<preset>.json）；[4] node 脚本汇总生成 .workflow/perf/lighthouse-after.md：对比表 `| route | desktop_before | desktop_after | delta | mobile_before | mobile_after | delta |`（before 值从 baseline JSON 读取），表后写测试套件三层结果（三行：`tests-data: pass|fail`、`tests-ui: pass|fail`、`tests-e2e: pass|fail`），末尾按 description 门禁规则写恰好一行 `verdict: pass` 或 `verdict: below-target`（below-target 时追加 `next-step: escalate-to-static-route-B` 行与未达标明细）。",
+  "implementation": [
+    "1. `npm run test` → 记录 exit code；任何失败中止本任务并把失败信息回报给对应前序任务修复（不得继续出 verdict）",
+    "2. `npm run build` && `npm start`（后台）；`npx playwright test` → 记录 exit code",
+    "3. `New-Item -ItemType Directory -Force .workflow/perf/after`；从 lighthouse-baseline.md 读取详情页样本 URL；8 轮 npx lighthouse（4 URL × desktop/mobile，参数与 TASK-001 逐字一致：--preset=desktop / 默认 mobile、--only-categories=performance、--chrome-flags=\"--headless=new\"）",
+    "4. node 汇总脚本读取 .workflow/perf/baseline/*.json 与 .workflow/perf/after/*.json，生成对比表与 delta 列，写 lighthouse-after.md（含测量时间戳与 Lighthouse 版本）",
+    "5. 按门禁规则写 verdict 行；below-target 时逐页面列出 `route / after 分数 / 距 90 差值 / top 审计项(numericValue)` 并写 next-step 行",
+    "6. 停止 npm start；将 lighthouse-after.md 关键结论（verdict 行 + delta 摘要）写入最终 commit message 或 run 汇报"
+  ],
+  "convergence_criteria": [
+    "npm run test 以 exit 0 结束（node --test 3 个数据管道测试 + vitest 6 个 UI 单测全绿）",
+    "npx playwright test 以 exit 0 结束（catalog.spec + accessibility.spec 全绿：类名选择器、中文文案、URL 语义、aria-sort、无横向滚动、axe、console error 零容忍）",
+    "(Get-ChildItem .workflow/perf/after/*.json).Count 输出 8",
+    "Test-Path .workflow/perf/lighthouse-after.md 输出 True 且 Select-String -Pattern 'desktop_before' 命中 ≥ 1（对比表存在）",
+    "Select-String -Path .workflow/perf/lighthouse-after.md -Pattern '^tests-(data|ui|e2e): pass$' 命中 3 行",
+    "Select-String -Path .workflow/perf/lighthouse-after.md -Pattern '^verdict: (pass|below-target)$' 命中恰好 1 行；若为 below-target 则 -Pattern '^next-step: escalate-to-static-route-B$' 命中 1 行",
+    "[UI-observable] e2e 套件全绿本身即全站 UI 可观察回归证明；且 lighthouse-after.md 的 8 项分数全部非空（node 校验脚本 exit 0），证明改造后 4 核心页面在生产模式下真实可渲染可测量"
+  ],
+  "verify": [
+    "npm run test",
+    "npx playwright test",
+    "(Get-ChildItem .workflow/perf/after/*.json).Count",
+    "Select-String -Path .workflow/perf/lighthouse-after.md -Pattern 'verdict:'"
+  ],
+  "estimate_minutes": 45,
+  "status": "pending"
+}

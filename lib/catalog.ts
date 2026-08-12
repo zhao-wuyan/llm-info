@@ -72,15 +72,27 @@ for (const group of groups.values()) {
 export const canonicalModels = [...groups.values()];
 export const modelByCanonicalId = groups;
 
-export function providerStats(provider: Provider) {
-  const models = catalog.models.filter((model) => model.providerId === provider.id);
-  return {
+// 模块加载时一次性分组预计算，移除 O(providers×models) 的每请求全量扫描；
+// 分组按 catalog.models 原序 push，与原 filter 实现保序等价，数值字段计算式逐字未变。
+const modelsByProvider = new Map<string, Model[]>();
+for (const model of catalog.models) {
+  const list = modelsByProvider.get(model.providerId);
+  if (list) list.push(model);
+  else modelsByProvider.set(model.providerId, [model]);
+}
+const providerStatsById = new Map(catalog.providers.map((provider): [string, { models: Model[]; modelCount: number; usdCount: number; cnyCount: number; qualityCount: number }] => {
+  const models = modelsByProvider.get(provider.id) ?? [];
+  return [provider.id, {
     models,
     modelCount: new Set(models.map((model) => resolveCanonicalModelId(model.canonicalId))).size,
     usdCount: models.filter((model) => model.displayPrices.USD).length,
     cnyCount: models.filter((model) => model.displayPrices.CNY).length,
     qualityCount: new Set(models.filter((model) => model.quality).map((model) => resolveCanonicalModelId(model.canonicalId))).size,
-  };
+  }];
+}));
+
+export function providerStats(provider: Provider) {
+  return providerStatsById.get(provider.id) ?? { models: [], modelCount: 0, usdCount: 0, cnyCount: 0, qualityCount: 0 };
 }
 
 export function modelMatches(model: CanonicalModel, query: string) {

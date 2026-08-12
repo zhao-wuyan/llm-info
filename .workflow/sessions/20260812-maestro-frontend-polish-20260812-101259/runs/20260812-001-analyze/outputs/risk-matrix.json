@@ -1,0 +1,100 @@
+{
+  "_meta": { "kind": "risk-matrix", "schema": "risk-matrix/1.0" },
+  "risks": [
+    {
+      "id": "R1",
+      "risk": "样式重构改动 CSS 类名或 DOM 结构导致 e2e 断言失败（类名选择器、aria 行为、无横向滚动断言被硬锁定）",
+      "probability": "high",
+      "impact": "medium",
+      "evidence": "tests/e2e/accessibility.spec.ts:29,47（.model-filter-picker/.column-picker 选择器）；tests/e2e/catalog.spec.ts:33-44（sortable-header 数量与 aria-sort）",
+      "mitigation": "锁定'保留类名，只改规则'策略（findings.decisions[3]）；每个执行任务后跑 npm run test:e2e 关键流程"
+    },
+    {
+      "id": "R2",
+      "risk": "性能静态化改造（路线 B）破坏 cookie 驱动的 locale/currency 切换语义，e2e 语言/币种测试与 SEO 元数据回归",
+      "probability": "medium",
+      "impact": "high",
+      "evidence": "lib/server-i18n.ts:5-13（cookies 强制动态）；tests/e2e/accessibility.spec.ts:84-94（locale 切换后英文文案断言）；app/layout.tsx:12（html lang 由 cookie locale 决定）",
+      "mitigation": "默认走保守路线 A；升级路线 B 前必须先有 Lighthouse 基线证明 A 不够；B 方案需保持 URL 不变、lang 属性语义不变"
+    },
+    {
+      "id": "R3",
+      "risk": "Lighthouse ≥ 90 验收线在当前环境未实测基线，可能出现'优化完成但差几分'的验收僵局",
+      "probability": "medium",
+      "impact": "medium",
+      "evidence": "build 输出 8/8 路由 ƒ Dynamic（terminals/592080.txt:28-39）；本 run 未执行 Lighthouse（无既定测量脚本，headless Chrome 环境未验证）",
+      "mitigation": "plan 阶段第一个任务：next build + next start + Lighthouse CLI 对 /models、/models/[id]、/compare、/providers 建基线，之后每个性能任务带前后对比"
+    },
+    {
+      "id": "R4",
+      "risk": "Vercel serverless 冷启动解析 11.4MB models.json 造成尾延迟，本地 Lighthouse 达标但线上偶发不达标",
+      "probability": "medium",
+      "impact": "medium",
+      "evidence": "data/models.json = 11,446.9KB；lib/catalog.ts:1 顶层 import + :23-72 模块加载时聚合；package.json:22-23 @vercel/analytics+speed-insights 暗示 Vercel 部署",
+      "mitigation": "验收以约定的可复现环境（生产构建本地或指定部署）为准并写入 plan；可选优化：页面级衍生数据裁剪、providerStats 预计算减少冷启动后首请求 CPU"
+    },
+    {
+      "id": "R5",
+      "risk": "globals.css 死代码清理误删仍被引用的规则（nth-child 列宽规则对部分表格是死代码、对另一部分仍生效），引发视觉回归",
+      "probability": "medium",
+      "impact": "medium",
+      "evidence": "app/globals.css:140-149 动态列模式只覆盖 model-price-table/compare-table；provider-model-table/provider-preview-price-table/source-table（globals.css:75-76,97）仍依赖 nth-child 固定宽度",
+      "mitigation": "逐表甄别 + e2e 截图对比（catalog.spec.ts 已有 screenshot 基建）；死代码删除单独成 commit 便于回滚"
+    },
+    {
+      "id": "R6",
+      "risk": "新增动效引入 axe serious 违规或与 reduced-motion 冲突",
+      "probability": "low",
+      "impact": "low",
+      "evidence": "globals.css:77 全局 kill switch 已覆盖 transition/animation；e2e accessibility.spec 全路由 axe 扫描兜底",
+      "mitigation": "纯 CSS 方案自动被 kill switch 覆盖；避免 opacity:0 起始态导致内容对 axe 不可见"
+    },
+    {
+      "id": "R7",
+      "risk": "外部 CLI delegate 交叉验证不可用，个别推断性结论（冷启动耗时量级、Lighthouse 变量权重）未经第二模型独立复核",
+      "probability": "low",
+      "impact": "low",
+      "evidence": "本环境无 cli-explore-agent/CLI delegate（W001 降级，见 report.md concerns）；核心事实类结论均有直接代码/构建证据支撑，推断类结论已标注 confidence ≤ 0.85",
+      "mitigation": "plan/execute 阶段以实测数据（Lighthouse 基线、profile）验证推断类结论后再投入大改动"
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "A1",
+      "assumption": "验收用 Lighthouse 测量在生产构建（next build + next start）下进行，网络/CPU 条件按 Lighthouse 默认桌面或移动预设，具体预设在 plan 阶段与用户对齐",
+      "basis": "锁定决策 2 只写了'生产构建核心页面'，未指定桌面/移动预设与部署环境"
+    },
+    {
+      "id": "A2",
+      "assumption": "当前数据规模（models.json 11.4MB、canonicalModels 聚合）在分析有效期内不会数量级增长",
+      "basis": "boundary contract 将 data/ 语义变更列为 out of scope，数据由 scripts/ 管道独立演进"
+    },
+    {
+      "id": "A3",
+      "assumption": "核心页面指 /models、/models/[canonicalId]、/compare、/providers（e2e 与 axe 扫描覆盖的主路由集合）",
+      "basis": "tests/e2e/accessibility.spec.ts:4 的路由列表与 sidebar 主导航（components/sidebar.tsx:10-15）一致"
+    },
+    {
+      "id": "A4",
+      "assumption": "Next 16.2.10 Turbopack 构建行为稳定，CSS 单文件输出与 chunk 划分在样式重构后保持相同模式",
+      "basis": "本次 build 实测（17.6s，exit 0）；无自定义 webpack/turbopack 配置（next.config.ts:3-6 仅 2 项配置）"
+    }
+  ],
+  "open_questions": [
+    {
+      "id": "OQ-1",
+      "question": "核心页面当前 Lighthouse Performance 基线分是多少？（决定性能路线 A 保守 / B 静态化的分岔点）",
+      "suggested_resolution": "plan 首任务建基线：npx lighthouse http://localhost:3000/models --preset=desktop 及移动预设各一轮"
+    },
+    {
+      "id": "OQ-2",
+      "question": "验收的 Lighthouse 预设（desktop vs mobile）与运行环境（本地 vs Vercel preview）以哪个为准？",
+      "suggested_resolution": "plan 阶段向用户确认一次；建议桌面+移动双预设都测，验收线绑定其中之一"
+    },
+    {
+      "id": "OQ-3",
+      "question": "排序/筛选点击后的整页 RSC 往返（F-G2-03）要不要引入乐观 UI 或 loading 指示？涉及动效与性能的交叉设计",
+      "suggested_resolution": "plan 阶段作为 G2 任务的设计点，用 useLinkStatus 或顶部进度条等轻量方案评估"
+    }
+  ]
+}

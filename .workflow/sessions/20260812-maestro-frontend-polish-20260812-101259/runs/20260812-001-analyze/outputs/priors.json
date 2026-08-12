@@ -1,0 +1,31 @@
+{
+  "_meta": { "kind": "priors", "schema": "priors/1.0" },
+  "specs": [
+    {
+      "title": "规范模型目录边界",
+      "category": "arch",
+      "gist": "模型列表页 MUST 以 canonicalId 聚合后的规范模型为主要展示对象；供应商渠道 MUST 在详情页和对比弹框中展开。",
+      "relevance": "样式/组件统一不得改变列表页以规范模型为主体、渠道在详情/弹框展开的信息架构；抽取 ModalShell 等组件时保持该展示层级"
+    },
+    {
+      "title": "详情内供应商对比边界",
+      "category": "arch",
+      "gist": "多供应商对比弹框 MUST 从规范模型详情页进入，且 MUST 只比较当前 canonicalId 下的渠道；MUST NOT 混入跨模型能力对比。",
+      "relevance": "重构 comparison-dialog.tsx 时入口位置（详情页 detail-actions）与比较范围不可变"
+    },
+    {
+      "title": "Quality 数据源与模型映射边界",
+      "category": "arch",
+      "gist": "对比默认集合 MUST 取含 AAIndex 记录与本地 canonicalId 交集并去重；AAIndex 作为外部证据附着，不得覆盖本地字段；证据保留 sourceModel/sourceDeveloper/observedAt/revision。",
+      "relevance": "compare 页（app/compare/page.tsx:94-96 ranked 过滤逻辑）与 quality 证据展示（详情页 panel-muted）样式改造时数据语义与溯源信息展示不可删减"
+    },
+    {
+      "title": "模型 alias 严格分隔符边界",
+      "category": "arch",
+      "gist": "canonical ID alias 识别规则：owner 分隔符可等价变换，model ID 只允许等量替换；目标 ID 优先官方直连证据。",
+      "relevance": "与前端改造无直接冲突；models/[...canonicalId] 路由的 resolveCanonicalModelId redirect 行为（page.tsx:27-28）不可破坏"
+    }
+  ],
+  "doc_index": [],
+  "wiki": []
+}

@@ -1,0 +1,40 @@
+{
+  "_meta": { "kind": "execution-waves", "schema": "execution-waves/1.0" },
+  "waves": [
+    {
+      "id": "W1",
+      "name": "基线测量（改码前快照）",
+      "tasks": ["TASK-001"],
+      "rationale": "Lighthouse 基线必须在任何代码改动之前测得，否则'改动前基线'产物失真；故单独成 wave，所有改码任务列其下游。",
+      "ui_observable": true
+    },
+    {
+      "id": "W2",
+      "name": "G1 地基：token 层 + 纯函数收敛（并行）",
+      "tasks": ["TASK-002", "TASK-003"],
+      "rationale": "TASK-002 只写 app/globals.css，TASK-003 写 lib/*.ts 与页面/组件 tsx，files[] 零交集可安全并行；两者都是'视觉/行为零变化'的地基性重构。",
+      "ui_observable": true
+    },
+    {
+      "id": "W3",
+      "name": "G1 组件统一 + G2 动效层（并行）",
+      "tasks": ["TASK-004", "TASK-005"],
+      "rationale": "TASK-004 写 components/detail.tsx、modal-shell.tsx、两详情页、两 dialog；TASK-005 写 app/globals.css 与 components/topbar.tsx——files[] 零交集。TASK-004 依赖 TASK-003（同组页面文件串行化+工具已就位），TASK-005 依赖 TASK-002（消费 --motion-* tokens）。",
+      "ui_observable": true
+    },
+    {
+      "id": "W4",
+      "name": "G3 保守性能优化",
+      "tasks": ["TASK-006"],
+      "rationale": "TASK-006 写 app/globals.css（与 W3 的 TASK-005 同文件，必须后置串行）与 lib/catalog.ts；死代码清理放在动效层落定后进行，避免同文件交叉编辑。",
+      "ui_observable": true
+    },
+    {
+      "id": "W5",
+      "name": "回归验证与复测收口",
+      "tasks": ["TASK-007"],
+      "rationale": "全部改动完成后统一回归 + Lighthouse 复测对比基线，产出 verdict 门禁行；依赖 W2-W4 全部任务。",
+      "ui_observable": true
+    }
+  ]
+}
