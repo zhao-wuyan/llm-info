@@ -1,0 +1,47 @@
+{
+  "_meta": { "kind": "plan-task", "schema": "plan-task/1.0", "role": "attachment" },
+  "id": "TASK-006",
+  "title": "G3 保守性能优化：providerStats 模块级预计算 + globals.css 动态列表格死代码清理（逐表甄别）",
+  "description": "性能保守路线 A 的两个实施点（findings 决策 D5 + F-G3-02 + F-G1-02）。[1] providerStats 预计算：lib/catalog.ts:75-84 现状每次调用对 catalog.models（万级渠道）全量 filter，app/providers/page.tsx:31 对列表页每个 provider 各调一次 = O(providers×models) 每请求；改为模块加载时一次性分组预计算 Map，导出函数签名 providerStats(provider: Provider) 保持不变（零调用方改动），行为逐字段等价（分组保持 catalog.models 原序）。providerStats 在 findings 中原为条件性 deferred，本 plan 已将其解除条件纳入主线（理由见 plan.json deferred_exclusions；执行时须在 commit message 记录 TASK-001 基线中 /providers 的 TTFB 实测值供事后评估）。[2] CSS 死代码清理：globals.css 中 .model-price-table 与 .compare-table 已改为动态列模式（table-layout: auto + min-width: max-content，globals.css '/* Dynamic column tables */' 注释段），其历史遗留的 nth-child 固定列宽与 min-width 覆盖层成为死代码；注意 specificity 陷阱——`table.model-price-table th:nth-child(2)` (0,2,2) 高于动态段的 `.data-table.model-price-table th` (0,2,1)，删除这些规则前必须逐表核实（risk R5）：仍在使用 fixed 布局的 .provider-catalog-table/.source-table/.provider-preview-price-table/.provider-model-table/.comparison-provider-table/.model-channel-table 的 nth-child 规则一律保留。若 TASK-001 route-decision 为 B-static-candidate，本任务照常执行（两项对 TTFB/CPU 均纯正贡献），并在 commit message 记录该状态。",
+  "requirement_refs": ["G3", "findings F-G3-02（providerStats 每请求扫描）", "findings F-G1-02（CSS 死代码层）", "risk R5（误删活规则风险）", "决策 D5（保守路线 A）"],
+  "deps": ["TASK-001", "TASK-005"],
+  "files": ["lib/catalog.ts", "app/globals.css"],
+  "read_first": [
+    "lib/catalog.ts（被改文件；23-72 行 canonicalModels 模块级聚合是预计算的既有惯例范本；75-84 行 providerStats 现状实现是行为等价基准）",
+    "tests/catalog.test.ts（providerStats 行为的单测锁定面，改后必须绿）",
+    "app/providers/page.tsx 与 app/providers/[id]/page.tsx（providerStats 的两个消费点，确认签名兼容）",
+    "app/globals.css（被改文件；'/* Dynamic column tables */' 注释段确认动态列模式覆盖的表；死代码候选区与保留表清单）",
+    "app/models/page.tsx:153 与 app/compare/page.tsx:228（确认两表类名为 'data-table model-price-table' / 'data-table compare-table'，位于 .table-scroll 容器内）",
+    "tests/e2e/catalog.spec.ts（无横向滚动断言 + 既有 screenshot 基建，删除死代码后的视觉回归防线）",
+    ".workflow/perf/lighthouse-baseline.md（TASK-001 产物：/providers TTFB 实测值与 route-decision，写入 commit message）"
+  ],
+  "action": "[1] lib/catalog.ts：在 providerStats 函数定义处替换为模块级预计算，逐字实现：`const modelsByProvider = new Map<string, Model[]>(); for (const model of catalog.models) { const list = modelsByProvider.get(model.providerId); if (list) list.push(model); else modelsByProvider.set(model.providerId, [model]); } const providerStatsById = new Map(catalog.providers.map((provider) => { const models = modelsByProvider.get(provider.id) ?? []; return [provider.id, { models, modelCount: new Set(models.map((model) => resolveCanonicalModelId(model.canonicalId))).size, usdCount: models.filter((model) => model.displayPrices.USD).length, cnyCount: models.filter((model) => model.displayPrices.CNY).length, qualityCount: new Set(models.filter((model) => model.quality).map((model) => resolveCanonicalModelId(model.canonicalId))).size }]; })); export function providerStats(provider: Provider) { return providerStatsById.get(provider.id) ?? { models: [], modelCount: 0, usdCount: 0, cnyCount: 0, qualityCount: 0 }; }`（等价性依据：原实现 filter 保持 catalog.models 顺序，push 分组同样保序；数值字段计算式逐字未变）。[2] globals.css 删除清单（仅 .model-price-table 与 .compare-table 的宽度死代码）：(a) 第 61 行内 `.model-price-table { min-width: 1180px; }` 与其 5 段 `th:nth-child(...)` 宽度规则、`.compare-table` 在第 68 行的 `{ min-width: 1240px; }` 与 4 段 nth-child 宽度规则；(b) 第 83-85 行 `table.model-price-table th:nth-child(...)` 3 行；(c) 第 99-103 行 model-price-table min-width/nth-child 覆盖层；(d) 第 114-115 行 compare-table min-width/nth-child(2)；(e) 第 116-139 行 @media(max-width:899px) 覆盖块中 model-price-table 与 compare-table 的全部行（同块 provider-preview/provider-model 行保留）；(f) 第 97 行大 @media 块内 `.model-price-table { min-width: 850px; }`、`.model-price-table th:nth-child(...)` 5 段、`.compare-table { min-width: 980px; }`、`.compare-table th:nth-child(...)` 5 段（同块其余表保留）。必须保留（活代码）：两表的 sticky 首列规则（`th:first-child/td:first-child { position: sticky; ... }`）、`.compare-table .entity-cell/.comparison-cell/.ability-comparison-cell` min-width、@media(min-width:900px) 的 `.compare-table .quality-cell`、以及 6 张 fixed 布局表（provider-catalog/source/provider-preview-price/provider-model/comparison-provider/model-channel）的全部 nth-child 规则。",
+  "implementation": [
+    "1. 改 lib/catalog.ts 按 action 逐字替换 providerStats 段（imports 无需新增，Model/Provider 类型已在文件头部导入）",
+    "2. npx tsc --noEmit + npm run test:ui（tests/catalog.test.ts 锁定行为必须绿）",
+    "3. 删除前基线：git stash 或分支上先跑 npx playwright test 确认全绿；记录 (Get-Item .next/static/**/*.css).Length 现值",
+    "4. 按 action 删除清单逐条删除 globals.css 死代码（每删一组用 e2e catalog.spec 的 screenshot/无横向滚动断言核对一次；(a)-(f) 可分 2-3 批执行）",
+    "5. npm run build 后对比 .next/static CSS 字节数，记录削减量（预期从 ~33.5KB 明显下降；不设硬阈值，实测记录）",
+    "6. npx playwright test 全量过（无横向滚动断言 + axe + dialog 流程）",
+    "7. 从 .workflow/perf/lighthouse-baseline.md 摘录 /providers 的 ttfb_ms 与 route-decision 写入 commit message",
+    "8. 两项改动分两个 commit：'perf: precompute providerStats at module load (O(providers×models) per-request scan removed)' 与 'style: remove dead nth-child width rules for dynamic-column tables (model-price/compare)'（死代码删除独立 commit 便于回滚，risk R5 缓解）"
+  ],
+  "convergence_criteria": [
+    "Select-String -Path lib/catalog.ts -Pattern 'const providerStatsById = new Map' 命中 1 且 -Pattern 'providerStatsById.get\\(provider.id\\)' 命中 1",
+    "(Select-String -Path lib/catalog.ts -Pattern 'catalog.models.filter\\(\\(model\\) => model.providerId' -AllMatches).Matches.Count 输出 0（每请求全量扫描已移除）",
+    "npm run test:ui 以 exit 0 结束（tests/catalog.test.ts 的 providerStats 行为断言通过 = 等价性证明）",
+    "(Select-String -Path app/globals.css -Pattern '(model-price-table|compare-table)[^,{]*th:nth-child' -AllMatches).Matches.Count 输出 0（两动态列表格的 nth-child 宽度死代码清零）",
+    "(Select-String -Path app/globals.css -Pattern 'provider-model-table th:nth-child' -AllMatches).Matches.Count 输出 ≥ 1 且 -Pattern 'source-table th:nth-child' ≥ 1（fixed 布局活表规则未被误删，risk R5 反证）",
+    "Select-String -Path app/globals.css -Pattern 'model-price-table th:first-child' 命中 ≥ 1（sticky 首列活规则保留）",
+    "npm run build 以 exit 0 结束",
+    "[UI-observable] npx playwright test 以 exit 0 结束（catalog.spec 无横向滚动断言 + screenshot 对比证明 models/compare 两表删除死代码后渲染视觉不变）"
+  ],
+  "verify": [
+    "npx tsc --noEmit",
+    "npm run test:ui",
+    "npm run build",
+    "npx playwright test"
+  ],
+  "estimate_minutes": 55,
+  "status": "pending"
+}

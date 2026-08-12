@@ -2,15 +2,11 @@ import { compactNumber, formatReleaseDate } from "@/lib/format";
 import { abilityMsg, msg, type Locale } from "@/lib/i18n";
 import type { ColumnDef } from "@/lib/model-columns";
 import { boardById, formatParameters, indexFor, licenseTone } from "@/lib/model-index";
+import { priceMetric } from "@/lib/price-metrics";
 import type { CanonicalModel, Currency } from "@/lib/types";
 import { PriceValue } from "@/components/ui";
 
-const priceRates: Record<string, string> = {
-  input: "textInput",
-  output: "textOutput",
-  cacheRead: "textInput_cacheRead",
-  cacheWrite: "textInput_cacheWrite",
-};
+const priceRates: Record<string, string> = priceMetric;
 
 const missing = <span className="missing">-</span>;
 

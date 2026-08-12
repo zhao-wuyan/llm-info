@@ -1,0 +1,27 @@
+{
+  "_meta": { "kind": "dependency-graph", "schema": "dependency-graph/1.0" },
+  "nodes": [
+    { "id": "TASK-001", "title": "Lighthouse 基线测量", "wave": "W1" },
+    { "id": "TASK-002", "title": "G1 token 层补全", "wave": "W2" },
+    { "id": "TASK-003", "title": "G1 纯函数/常量收敛", "wave": "W2" },
+    { "id": "TASK-004", "title": "G1 共享组件抽取", "wave": "W3" },
+    { "id": "TASK-005", "title": "G2 克制动效层", "wave": "W3" },
+    { "id": "TASK-006", "title": "G3 保守性能优化", "wave": "W4" },
+    { "id": "TASK-007", "title": "回归验证与 Lighthouse 复测", "wave": "W5" }
+  ],
+  "edges": [
+    { "from": "TASK-001", "to": "TASK-002", "reason": "数据依赖：基线必须在改码前测得（TASK-001 产物 = 改动前快照）" },
+    { "from": "TASK-001", "to": "TASK-003", "reason": "数据依赖：同上，基线先行" },
+    { "from": "TASK-003", "to": "TASK-004", "reason": "产物+文件依赖：TASK-004 重构的两详情页与两 dialog 已被 TASK-003 改写 import；同组文件跨 wave 串行避免写冲突" },
+    { "from": "TASK-002", "to": "TASK-005", "reason": "产物依赖：TASK-005 的全部动效规则消费 TASK-002 定义的 --motion-fast/base/slow tokens" },
+    { "from": "TASK-001", "to": "TASK-006", "reason": "数据依赖：TASK-006 需引用 lighthouse-baseline.md 的 /providers TTFB 与 route-decision 写入 commit 记录" },
+    { "from": "TASK-005", "to": "TASK-006", "reason": "文件串行：两任务均写 app/globals.css，跨 wave 串行避免写冲突" },
+    { "from": "TASK-002", "to": "TASK-007", "reason": "收口依赖：复测须覆盖全部改动" },
+    { "from": "TASK-003", "to": "TASK-007", "reason": "收口依赖：同上" },
+    { "from": "TASK-004", "to": "TASK-007", "reason": "收口依赖：同上" },
+    { "from": "TASK-005", "to": "TASK-007", "reason": "收口依赖：同上" },
+    { "from": "TASK-006", "to": "TASK-007", "reason": "收口依赖：同上" }
+  ],
+  "acyclic": true,
+  "cycle_check": "拓扑排序验证：TASK-001 → {TASK-002, TASK-003} → {TASK-004, TASK-005} → TASK-006 → TASK-007，7 节点 11 边全部前向，无环。"
+}

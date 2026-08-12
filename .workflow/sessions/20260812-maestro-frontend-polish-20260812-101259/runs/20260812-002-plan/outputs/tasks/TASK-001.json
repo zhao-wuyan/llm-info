@@ -1,0 +1,40 @@
+{
+  "_meta": { "kind": "plan-task", "schema": "plan-task/1.0", "role": "attachment" },
+  "id": "TASK-001",
+  "title": "Lighthouse 基线测量：4 核心页面生产构建 desktop+mobile 双预设，产出基线报告与路线决策",
+  "description": "在任何代码改动之前，对生产构建（npm run build + npm start）下的 4 个核心页面（/models、/models/[canonicalId] 详情、/compare、/providers）用 Lighthouse 测量 Performance 分数（desktop 与 mobile 双预设），产出 .workflow/perf/lighthouse-baseline.md 基线报告，并按决策规则写入 route-decision 结论行。决策规则（post-execute 门禁与后续路线判断依据）：[1] 全部核心页面 desktop Performance ≥ 90 → 写 `route-decision: A-conservative`（保守路线足够）；[2] 存在 <90 页面且其主因非 TTFB（Lighthouse 审计显示 unused-css-rules / render-blocking-resources 等占主导）→ 写 `route-decision: A-conservative-watch`（保守路线对症，继续执行）；[3] 存在 <90 页面且 server-response-time 审计 > 600ms 或 TTFB 是 LCP 分解的最大分项 → 写 `route-decision: B-static-candidate`（保守路线照常执行完，若 TASK-007 复测仍 below-target，post-execute 升级静态化路线 B 开新 plan，本轮不实施 B）。验收环境假设（analyze A1/OQ-2，用户未对齐，记入报告）：本地 next start 生产模式，desktop 预设为验收主线，mobile 记录参考。",
+  "requirement_refs": ["G3", "L2: Lighthouse ≥ 90（locked 决策 D2）", "findings F-G3-01（8/8 路由动态 SSR）", "risk R3（基线未实测的验收僵局风险）", "OQ-1"],
+  "deps": [],
+  "files": [".workflow/perf/lighthouse-baseline.md", ".workflow/perf/baseline/"],
+  "read_first": [
+    "package.json（scripts：build/start/test/test:e2e 定义）",
+    "app/page.tsx（首页 redirect('/models')，首页测量即 /models）",
+    "data/model-index.json（可从中取一个有效 canonicalId 作为详情页样本）",
+    ".workflow/sessions/20260812-maestro-frontend-polish-20260812-101259/runs/20260812-001-analyze/outputs/findings.json（F-G3-01/02/03 瓶颈画像）",
+    ".workflow/sessions/20260812-maestro-frontend-polish-20260812-101259/runs/20260812-001-analyze/outputs/risk-matrix.json（R3/R4、假设 A1/A3）"
+  ],
+  "action": "构建并启动生产服务：`npm run build` 然后 `npm start`（默认 http://localhost:3000）。确定详情页样本 URL：PowerShell 执行 `$html = (Invoke-WebRequest http://localhost:3000/models -UseBasicParsing).Content; [regex]::Match($html, 'href=\"(/models/[^\"]+)\"').Groups[1].Value` 取列表首行详情链接（页面已渲染 resolved canonicalId，无 redirect 干扰）。对 4 个 URL（/models、上一步取得的 /models/... 详情、/compare、/providers）各跑两轮 Lighthouse：desktop 用 `npx lighthouse <url> --preset=desktop --only-categories=performance --output=json --output-path=.workflow/perf/baseline/<name>-desktop.json --chrome-flags=\"--headless=new\" --quiet`，mobile 不传 preset（Lighthouse 默认即 mobile 模拟）输出 <name>-mobile.json。若本机无 Chrome，先设 `$env:CHROME_PATH=(Get-ChildItem \"$env:LOCALAPPDATA\\ms-playwright\\chromium-*\\chrome-win\\chrome.exe\" -ErrorAction SilentlyContinue | Select-Object -First 1).FullName`（Playwright chromium 已随 devDependencies 安装）。从各 JSON 提取 categories.performance.score、audits['server-response-time'].numericValue、audits['largest-contentful-paint'].numericValue，汇总写 .workflow/perf/lighthouse-baseline.md。",
+  "implementation": [
+    "1. `npm run build`（预期 exit 0，参考时长 ~18s）；`npm start` 后台启动，`Invoke-WebRequest http://localhost:3000/models -UseBasicParsing` 确认 200",
+    "2. `New-Item -ItemType Directory -Force .workflow/perf/baseline`；用 action 中的正则命令取详情页样本 URL 并记录",
+    "3. 对 4 个 URL × {desktop, mobile} 共 8 轮 npx lighthouse，JSON 报告写入 .workflow/perf/baseline/（命名：models-desktop.json、models-mobile.json、model-detail-desktop.json、model-detail-mobile.json、compare-desktop.json、compare-mobile.json、providers-desktop.json、providers-mobile.json）",
+    "4. 用 node 一行脚本汇总：读取 8 个 JSON，输出 Markdown 表 `| route | desktop_perf | mobile_perf | ttfb_ms | lcp_ms |`（perf 分数 ×100 取整）写入 .workflow/perf/lighthouse-baseline.md，表下附：测量环境说明（本地 next start、Lighthouse 版本、CHROME_PATH 来源）、详情页样本 URL、desktop 为验收主线的假设声明（A1/OQ-2 未与用户对齐）",
+    "5. 按 description 决策规则比对分数与审计项，在 lighthouse-baseline.md 末尾写恰好一行 `route-decision: A-conservative` 或 `route-decision: A-conservative-watch` 或 `route-decision: B-static-candidate`，并附 1-3 行判定理由（引用具体分数与审计值）",
+    "6. 停止 npm start 进程，恢复干净环境"
+  ],
+  "convergence_criteria": [
+    "Test-Path .workflow/perf/lighthouse-baseline.md 输出 True",
+    "(Get-ChildItem .workflow/perf/baseline/*.json).Count 输出 8",
+    "Select-String -Path .workflow/perf/lighthouse-baseline.md -Pattern '\\| /models ' 命中 ≥ 1 且 -Pattern '\\| /compare ' 命中 1 且 -Pattern '\\| /providers ' 命中 1（4 行数据齐全）",
+    "Select-String -Path .workflow/perf/lighthouse-baseline.md -Pattern '^route-decision: (A-conservative|A-conservative-watch|B-static-candidate)$' 命中恰好 1 行",
+    "[UI-observable] 8 个 Lighthouse JSON 中 categories.performance.score 均非 null（node -e 校验脚本 exit 0），证明 4 个页面在生产模式下真实渲染并被测量"
+  ],
+  "verify": [
+    "Test-Path .workflow/perf/lighthouse-baseline.md",
+    "(Get-ChildItem .workflow/perf/baseline/*.json).Count",
+    "Select-String -Path .workflow/perf/lighthouse-baseline.md -Pattern 'route-decision:'",
+    "node -e \"const fs=require('fs');const files=fs.readdirSync('.workflow/perf/baseline').filter(f=>f.endsWith('.json'));if(files.length!==8)process.exit(1);for(const f of files){const r=JSON.parse(fs.readFileSync('.workflow/perf/baseline/'+f));if(r.categories.performance.score==null)process.exit(1)}console.log('baseline ok')\""
+  ],
+  "estimate_minutes": 40,
+  "status": "pending"
+}

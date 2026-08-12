@@ -1,0 +1,11 @@
+{
+  "_meta": { "kind": "collision-report", "schema": "collision-report/1.0" },
+  "status": "skipped-standalone",
+  "reason": "本 plan 的 scope 为 standalone（无 roadmap/milestone 上下文），手册 Step 4.5 规定 scope==standalone 时跳过跨 plan 碰撞检测——同 milestone 内不存在其他已完成 plan 的 task.files[] 可供比对。",
+  "internal_wave_check": {
+    "performed": true,
+    "result": "clean",
+    "detail": "已替代性执行同 wave 内 files[]（写目标）交集检查：W2（TASK-002: app/globals.css ∩ TASK-003: lib/*+页面/组件 tsx = 空）；W3（TASK-004: components/detail.tsx、modal-shell.tsx、两详情页、两 dialog ∩ TASK-005: app/globals.css、components/topbar.tsx = 空）；W1/W4/W5 为单任务 wave。跨 wave 的同文件写入（globals.css: TASK-002→TASK-005→TASK-006；两详情页与两 dialog: TASK-003→TASK-004）已通过 deps 边强制串行。read_first[]（只读引用）按手册规则不计入冲突。"
+  },
+  "collisions": []
+}

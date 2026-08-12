@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { AppShell } from "@/components/app-shell";
 import { ComparisonDialog } from "@/components/comparison-dialog";
+import { DetailHeader, DetailMetrics } from "@/components/detail";
 import { formatScore } from "@/components/model-cells";
 import { EntityText, PriceValue, SortableHeader } from "@/components/ui";
 import { catalog, modelByCanonicalId, providerById } from "@/lib/catalog";
@@ -12,14 +13,15 @@ import { abilityMsg, msg } from "@/lib/i18n";
 import { modelHref } from "@/lib/links";
 import { boardById, boardLabel, formatParameters, indexFor, licenseTone } from "@/lib/model-index";
 import { resolveCanonicalModelId } from "@/lib/model-aliases";
+import { priceMetric } from "@/lib/price-metrics";
+import { one } from "@/lib/search-params";
 import { getCurrency, getLocale } from "@/lib/server-i18n";
+import { createSortLinks } from "@/lib/sort-links";
 import type { LifecycleStatus } from "@/lib/types";
 import { compareNullable, stableSort, type SortOrder } from "@/lib/table-sort";
 
 type ChannelSortKey = "provider" | "input" | "output" | "cacheRead" | "cacheWrite";
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
-const one = (value: string | string[] | undefined) => Array.isArray(value) ? value[0] ?? "" : value ?? "";
-const priceMetric = { input: "textInput", output: "textOutput", cacheRead: "textInput_cacheRead", cacheWrite: "textInput_cacheWrite" } as const;
 
 export default async function ModelDetailPage({ params, searchParams }: { params: Promise<{ canonicalId: string[] }>; searchParams: SearchParams }) {
   const [locale, currency, { canonicalId }, queryParams] = await Promise.all([getLocale(), getCurrency(), params, searchParams]);
@@ -51,20 +53,17 @@ export default async function ModelDetailPage({ params, searchParams }: { params
     const days = deprecationDayDistance(model.lifecycle.deprecationDate, snapshot);
     return days === null ? model.lifecycle.deprecationDate : days >= 0 ? `${model.lifecycle.deprecationDate} · ${days} ${msg(locale, "deprecatingIn")}` : `${model.lifecycle.deprecationDate} · ${-days} ${msg(locale, "deprecatedDaysAgo")}`;
   })() : undefined;
-  const directionFor = (key: ChannelSortKey) => sort === key ? order : null;
-  const sortLinkFor = (key: ChannelSortKey) => {
-    const direction = directionFor(key);
-    const nextOrder = direction === null ? "asc" : direction === "asc" ? "desc" : null;
-    const base = `/models/${model.canonicalId.split("/").map(encodeURIComponent).join("/")}`;
-    return nextOrder ? `${base}?sort=${key}&order=${nextOrder}` : base;
-  };
+  const { directionFor, sortLinkFor } = createSortLinks({ basePath: `/models/${model.canonicalId.split("/").map(encodeURIComponent).join("/")}`, sort, order });
 
   return <AppShell locale={locale} section={msg(locale, "models")} detail={model.name}>
-    <div className="detail-header">
-      <div className="identity"><span className="identity-mark">{initials}</span><div><h1>{model.name}</h1><p>{model.canonicalId}</p></div>{(openWeights || model.openWeights) && <span className="tag success" title={openWeights?.repoId}>{msg(locale, "openWeightsLabel")}</span>}{openWeights?.license && <span className={`tag license-${licenseTone(openWeights.license)}`}>{openWeights.license}</span>}{model.lifecycle.status !== "active" && <span className={`tag${model.lifecycle.status === "sunset" ? " warning" : ""}`} title={lifecycleTitle}>{lifecycleLabel(model.lifecycle.status)}</span>}</div>
-      <div className="detail-actions"><Link className="secondary-button" href="/models">{msg(locale, "back")}</Link><ComparisonDialog locale={locale} canonicalId={model.canonicalId} channels={model.channels} providerNames={providerNames} /></div>
-    </div>
-    <div className="detail-metrics"><div><span>{msg(locale, "context")}</span><strong>{compactNumber(model.contextWindow)}</strong></div><div><span>Max output</span><strong>{compactNumber(model.maxOutput)}</strong></div><div><span>{msg(locale, "channels")}</span><strong>{model.providerCount}</strong></div><div><span>{msg(locale, "qualityEvidence")}</span><strong>{model.quality?.aaIndex ?? "-"}</strong></div></div>
+    <DetailHeader
+      initials={initials}
+      title={model.name}
+      subtitle={model.canonicalId}
+      tags={<>{(openWeights || model.openWeights) && <span className="tag success" title={openWeights?.repoId}>{msg(locale, "openWeightsLabel")}</span>}{openWeights?.license && <span className={`tag license-${licenseTone(openWeights.license)}`}>{openWeights.license}</span>}{model.lifecycle.status !== "active" && <span className={`tag${model.lifecycle.status === "sunset" ? " warning" : ""}`} title={lifecycleTitle}>{lifecycleLabel(model.lifecycle.status)}</span>}</>}
+      actions={<><Link className="secondary-button" href="/models">{msg(locale, "back")}</Link><ComparisonDialog locale={locale} canonicalId={model.canonicalId} channels={model.channels} providerNames={providerNames} /></>}
+    />
+    <DetailMetrics metrics={[{ label: msg(locale, "context"), value: compactNumber(model.contextWindow) }, { label: "Max output", value: compactNumber(model.maxOutput) }, { label: msg(locale, "channels"), value: model.providerCount }, { label: msg(locale, "qualityEvidence"), value: model.quality?.aaIndex ?? "-" }]} />
     <div className="detail-grid"><div className="detail-main">
       <section className="panel"><header className="panel-header"><h2>{msg(locale, "modelAbilities")}</h2><span className="mono">{model.family ?? model.ownerId}</span></header><div className="panel-body ability-grid">{Object.entries(model.abilities).map(([key, enabled]) => <div className="ability-item" key={key}><span>{abilityMsg(locale, key)}</span>{enabled ? <Check className="yes" size={15} /> : <X className="no" size={15} />}</div>)}</div></section>
       <section className="panel"><header className="panel-header"><h2>{msg(locale, "pricingOverview")}</h2><span className="mono">{msg(locale, "priceUnit")}</span></header><div className="table-frame borderless"><table className="data-table"><thead><tr><th>{msg(locale, "currency")}</th><th>{msg(locale, "inputPrice")}</th><th>{msg(locale, "outputPrice")}</th><th>{msg(locale, "cacheReadPrice")}</th><th>{msg(locale, "cacheCreationPrice")}</th><th>{msg(locale, "source")}</th></tr></thead><tbody>{(["USD", "CNY"] as const).map((priceCurrency) => {

@@ -14,13 +14,13 @@ import { recentOpenWeightModelIds } from "@/lib/lifecycle";
 import { modelHref } from "@/lib/links";
 import { buildModelColumns, columnSortValue, defaultColumnIds, isSortableColumn, parseExplicitColumns, serializeColumns, toColumnPickerOptions } from "@/lib/model-columns";
 import { boards, indexedModelCount, indexFor } from "@/lib/model-index";
+import { many, one } from "@/lib/search-params";
 import { getCurrency, getLocale } from "@/lib/server-i18n";
+import { createSortLinks } from "@/lib/sort-links";
 import { compareNullable, stableSort } from "@/lib/table-sort";
 
 const PAGE_SIZE = 20;
 type Params = Promise<Record<string, string | string[] | undefined>>;
-const one = (value: string | string[] | undefined) => Array.isArray(value) ? value[0] ?? "" : value ?? "";
-const many = (value: string | string[] | undefined) => Array.isArray(value) ? value : value ? [value] : [];
 
 const columns = buildModelColumns(boards);
 
@@ -98,18 +98,7 @@ export default async function ModelsPage({ searchParams }: { searchParams: Param
     copy.set("page", String(next));
     return `/models?${copy}`;
   };
-  const directionFor = (key: string) => sort === key ? order : null;
-  const sortLinkFor = (key: string) => {
-    const direction = directionFor(key);
-    const nextOrder = direction === null ? "asc" : direction === "asc" ? "desc" : null;
-    const copy = baseQuery(false);
-    if (nextOrder) {
-      copy.set("sort", key);
-      copy.set("order", nextOrder);
-    }
-    const query = copy.toString();
-    return query ? `/models?${query}` : "/models";
-  };
+  const { directionFor, sortLinkFor } = createSortLinks({ basePath: "/models", sort, order, baseQuery });
   const resetColumnsHref = () => {
     const copy = baseQuery();
     copy.delete("cols");

@@ -9,7 +9,10 @@ import { abilityMsg, msg } from "@/lib/i18n";
 import { modelHref } from "@/lib/links";
 import { boardById, boardLabel, boards, indexFor, type ModelIndexRecord } from "@/lib/model-index";
 import { boardColumn, defaultColumnIds, parseExplicitColumns, serializeColumns, toColumnPickerOptions, type ColumnDef } from "@/lib/model-columns";
+import { priceMetric } from "@/lib/price-metrics";
+import { many, one } from "@/lib/search-params";
 import { getCurrency, getLocale } from "@/lib/server-i18n";
+import { createSortLinks } from "@/lib/sort-links";
 import { compareNullable, stableSort, type SortOrder } from "@/lib/table-sort";
 import { formatScore } from "@/components/model-cells";
 
@@ -28,8 +31,6 @@ type CompareRow = {
 
 const PAGE_SIZE = 50;
 
-const one = (value: string | string[] | undefined) => Array.isArray(value) ? value[0] ?? "" : value ?? "";
-const many = (value: string | string[] | undefined) => Array.isArray(value) ? value : value ? [value] : [];
 const priceMetrics: PriceMetric[] = ["textInput", "textOutput", "textInput_cacheRead", "textInput_cacheWrite"];
 const priceMetricTones: Record<PriceMetric, MetricTone> = {
   textInput: "input",
@@ -37,12 +38,7 @@ const priceMetricTones: Record<PriceMetric, MetricTone> = {
   textInput_cacheRead: "cache-read",
   textInput_cacheWrite: "cache-write",
 };
-const metricByColumn: Partial<Record<string, PriceMetric>> = {
-  input: "textInput",
-  output: "textOutput",
-  cacheRead: "textInput_cacheRead",
-  cacheWrite: "textInput_cacheWrite",
-};
+const metricByColumn: Partial<Record<string, PriceMetric>> = priceMetric;
 
 /** Compare columns: every leaderboard plus the fixed price/context metrics. */
 const compareColumns: ColumnDef[] = [
@@ -158,15 +154,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Para
     query.set("page", String(nextPage));
     return `/compare?${query}`;
   };
-  const directionFor = (key: string) => sort === key ? order : null;
-  const sortLinkFor = (key: string) => {
-    const direction = directionFor(key);
-    const nextOrder = direction === null ? "asc" : direction === "asc" ? "desc" : null;
-    const query = baseQuery(false);
-    if (nextOrder) { query.set("sort", key); query.set("order", nextOrder); }
-    else query.set("sort", "none");
-    return query.size ? `/compare?${query}` : "/compare";
-  };
+  const { directionFor, sortLinkFor } = createSortLinks({ basePath: "/compare", sort, order, baseQuery, onClear: (query) => query.set("sort", "none") });
   const resetColumnsHref = () => {
     const query = baseQuery();
     query.delete("cols");

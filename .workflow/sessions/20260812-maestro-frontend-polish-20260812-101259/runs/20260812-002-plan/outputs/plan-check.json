@@ -1,0 +1,110 @@
+{
+  "_meta": { "kind": "plan-check", "schema": "plan-check/1.0" },
+  "mode": "self-check-degraded",
+  "degradation_note": "本环境无法 spawn 独立 plan-checker agent（同 analyze Run W001 先例）；由执行器在产出全部任务 JSON 后切换 checker 视角，按手册 Step 4 的 9 个维度逐项自查。修订轮次上限 3，实际 2 轮收敛。",
+  "rounds": [
+    {
+      "round": 1,
+      "verdict": "revise-minor",
+      "critical": [],
+      "warnings": [
+        {
+          "id": "CHK-W1",
+          "dimension": "requirements_coverage",
+          "finding": "TASK-003 遗漏 app/compare/page.tsx:40-45 的 metricByColumn——键值与 priceMetric 逐字相同的第 6 处重复变体（仅类型标注不同），未纳入收敛清单。非 critical（原 convergence 判据不会因此误报失败），但降低 G1 收敛完整性。",
+          "action_taken": "修订 TASK-003：description 补充该变体及收敛方式（直接赋值引用 priceMetric）、implementation 步骤 3 补充精确改法、convergence_criteria 新增字面量清零 + 引用命中判据。"
+        },
+        {
+          "id": "CHK-W2",
+          "dimension": "feasibility",
+          "finding": "TASK-001/007 依赖 npx lighthouse（首次运行需网络下载包）与 Chrome 可执行文件；TASK-005 的 [UI-observable] computed-style 判据需 npm start 运行中。均为环境前置而非计划缺陷。",
+          "action_taken": "保留为 warning：TASK-001 action 已内置 CHROME_PATH 指向 Playwright chromium 的兜底命令；TASK-005 implementation 步骤已注明前置。执行时若 lighthouse 下载失败按 execute 阶段环境降级处理。"
+        },
+        {
+          "id": "CHK-W3",
+          "dimension": "estimation_accuracy",
+          "finding": "TASK-002（字号/圆角全量替换约 60+ 处）与 TASK-006（死代码逐表甄别 + 分批 e2e 核对）的 55 分钟预估偏紧，存在 10-15 分钟超时可能。",
+          "action_taken": "保留为 warning：两任务的替换/删除清单已逐条给出精确值，机械执行可控；未拆分任务以遵守反拆分规则（同一 feature 不按文件拆）。"
+        },
+        {
+          "id": "CHK-W4",
+          "dimension": "convergence_quality",
+          "finding": "TASK-003 对 components/model-cells.tsx 写'以实读为准'的弹性表述——该文件未在本轮实读，若其映射形式不同（如 priceRates 命名），'const priceMetric = {' 清零判据将天然通过而漏掉收敛。",
+          "action_taken": "保留为 warning：read_first 已列 model-cells.tsx 强制实读；漏收敛不破坏行为正确性，属完整性次优。"
+        }
+      ],
+      "dimension_results": {
+        "requirements_coverage": "pass-with-warning（CHK-W1 已修订；G1→TASK-002/003/004，G2→TASK-005，G3→TASK-001/006/007，L1 全 11 页面经 globals.css 全站规则 + 共享组件覆盖，error/not-found 仅 i18n 文案项按 findings deferred 排除并在 plan.json 声明）",
+        "feasibility": "pass-with-warning（CHK-W2；零新 npm 依赖，lighthouse 走 npx，动效 API 渐进增强）",
+        "dependency_correctness": "pass（7 节点 11 边拓扑排序无环：001→{002,003}→{004,005}→006→007；每条边附真实依赖理由）",
+        "convergence_quality": "pass-with-warning（CHK-W4；全部判据为 Select-String 计数/Test-Path/exit code/内联 node 脚本，无'看起来正确/与 X 一致'类主观语言）",
+        "read_first_completeness": "pass（每任务含被改文件自身 + 模式来源文件 + e2e 锁定文件；TASK-006/007 含上游基线报告路径）",
+        "action_specificity": "pass（token 名与值逐字给出、函数签名逐字给出、CSS 规则逐字给出、删除清单按行号+选择器双重定位；无 align-X-with-Y 类引用式表述）",
+        "wave_structure": "pass（W2: globals.css ∩ lib/页面 = 空；W3: detail/modal-shell/详情页/dialog ∩ globals.css/topbar = 空；跨 wave 同文件写入由 deps 强制串行：globals.css 002→005→006、详情页与 dialog 003→004）",
+        "completeness": "pass（无孤儿任务：7/7 进 wave，全部可达 TASK-007；无悬空 deps 引用）",
+        "ui_observable_coverage": "pass（W1-W5 每个 wave 至少 1 条 [UI-observable] 判据：W1 真实渲染测量、W2 e2e 视觉等价×2、W3 dialog 流程 e2e + computed transition 实测、W4 截图对比、W5 全套件绿 + 复测分数非空）"
+      }
+    },
+    {
+      "round": 2,
+      "verdict": "pass",
+      "critical": [],
+      "warnings": ["CHK-W2/W3/W4 维持 warning 不阻塞（均为环境前置或估时余量问题，非计划结构缺陷）"],
+      "dimension_results": {
+        "requirements_coverage": "pass（CHK-W1 修订确认：TASK-003 的 metricByColumn 收敛判据可 grep、改法精确）",
+        "feasibility": "pass-with-warning",
+        "dependency_correctness": "pass",
+        "convergence_quality": "pass-with-warning",
+        "read_first_completeness": "pass",
+        "action_specificity": "pass",
+        "wave_structure": "pass",
+        "completeness": "pass",
+        "ui_observable_coverage": "pass"
+      },
+      "readiness_gate": {
+        "coverage_below_40pct": false,
+        "task_missing_read_first_or_convergence": false,
+        "pressure_pass_missing": false,
+        "circular_dependency": false,
+        "verdict": "unblocked"
+      }
+    }
+  ],
+  "pressure_pass": {
+    "target_task": "TASK-004",
+    "reason": "最高复杂度任务：跨 6 文件的结构性重构（2 新组件 + 4 文件重写），e2e 回归面最大（dialog 交互流程 + axe 全路由 + 类名 CSS 依赖）",
+    "probes": [
+      "read_first 充分性：含组件惯例源（ui.tsx）、4 个被改文件的现状行号锚点、行导航目标实现（table-row-link.tsx）、两条 e2e 锁定面 → 执行器无需超出 task JSON 的上下文即可复现模式 ✓",
+      "浅实现防御：判据要求 <DetailHeader 在两个页面各命中、modal-layout 全 components/ 仅 1 处、内联 role=link 清零——只重构一半会被三条判据同时拦截 ✓",
+      "隐藏假设排查：ModalShell 的 close 能力通过 render-prop children(api) 暴露（comparison footer 的关闭按钮需要它）；aria-labelledby 从硬编码 id 改 useId 后 getByRole 定位不受影响（e2e 用 role+name 不用 id）；provider-models 分页 footer 独立于 shell ✓",
+      "边界/权衡：arch spec（对比弹框入口与比较范围）已内联进 description 铁律；TableRowLink 行为是原内联实现的超集（Enter+Space+防误触），纯增强 ✓",
+      "结论：无修订必要；残余风险为 e2e 在 dialog 重构后的选择器稳定性，由 convergence 的 playwright exit 0 判据兜底"
+    ],
+    "result": "pass"
+  },
+  "devils_advocate": [
+    "质疑'两套分页 UI（链接式 Pagination vs dialog 按钮式）不统一是否违背 G1'：dialog 分页是 client 状态分页、页面分页是 URL 分页，语义不同，强行统一 API 引入的复杂度大于一致性收益；F-G1-04 列出但 decisions 未锁定必须统一——裁量为不合并，记录于 report。",
+    "质疑'动效新增 CSS 会不会反噬 G3'：新增规则约 1.5-2KB（未压缩），TASK-006 死代码删除量级预期远大于此，且 TASK-007 复测兜底。",
+    "质疑'providerStats 预计算违背 findings deferred'：plan.json deferred_exclusions 已给出解除条件的三点理由（session 规划指令明示纳入、成本低于判断成本、TASK-001 完成后基线已知可回溯评估），与 findings 的条件性 deferred 不构成矛盾。"
+  ],
+  "confidence_scoring": {
+    "model": "5 维 × 权重因子（completeness .30 / specificity .25 / structural_validity .20 / user_validation .15 / consistency .10）",
+    "dimensions": {
+      "requirements_coverage": 0.92,
+      "task_quality": 0.88,
+      "dependency_correctness": 0.95,
+      "estimation_accuracy": 0.78,
+      "collision_safety": 0.95
+    },
+    "factors": {
+      "completeness": 0.9,
+      "specificity": 0.88,
+      "structural_validity": 0.95,
+      "user_validation": 0.6,
+      "consistency": 0.92
+    },
+    "weighted_total": 0.86,
+    "final_confidence": 86,
+    "weakest_dimension": "estimation_accuracy（0.78：TASK-002/006 有 10-15 分钟超时余量风险）与 user_validation 因子（0.60：Auto 模式无用户确认轮次，OQ-2 验收预设假设未对齐）"
+  }
+}

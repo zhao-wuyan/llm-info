@@ -2,19 +2,21 @@ import { ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AppShell } from "@/components/app-shell";
+import { DetailHeader, DetailMetrics } from "@/components/detail";
 import { ProviderModelsDialog } from "@/components/provider-models-dialog";
 import { EntityText, PriceValue, SortableHeader } from "@/components/ui";
 import { providerById, providerStats } from "@/lib/catalog";
 import { compactNumber, formatReleaseDate, priceRate, releaseDateValue } from "@/lib/format";
 import { msg } from "@/lib/i18n";
 import { modelHref } from "@/lib/links";
+import { priceMetric } from "@/lib/price-metrics";
+import { one } from "@/lib/search-params";
 import { getCurrency, getLocale } from "@/lib/server-i18n";
+import { createSortLinks } from "@/lib/sort-links";
 import { compareNullable, stableSort, type SortOrder } from "@/lib/table-sort";
 
 type PreviewSortKey = "name" | "released" | "context" | "input" | "output" | "cacheRead" | "cacheWrite";
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
-const one = (value: string | string[] | undefined) => Array.isArray(value) ? value[0] ?? "" : value ?? "";
-const priceMetric = { input: "textInput", output: "textOutput", cacheRead: "textInput_cacheRead", cacheWrite: "textInput_cacheWrite" } as const;
 
 export default async function ProviderDetailPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: SearchParams }) {
   const [locale, currency, { id }, queryParams] = await Promise.all([getLocale(), getCurrency(), params, searchParams]);
@@ -33,32 +35,25 @@ export default async function ProviderDetailPage({ params, searchParams }: { par
     if (sort === "context") return compareNullable(left.contextWindow, right.contextWindow, order) || left.name.localeCompare(right.name);
     return compareNullable(priceRate(left.displayPrices[currency], priceMetric[sort]), priceRate(right.displayPrices[currency], priceMetric[sort]), order) || left.name.localeCompare(right.name);
   }) : stats.models;
-  const directionFor = (key: PreviewSortKey) => sort === key ? order : null;
-  const sortLinkFor = (key: PreviewSortKey) => {
-    const direction = directionFor(key);
-    const nextOrder = direction === null ? "asc" : direction === "asc" ? "desc" : null;
-    if (!nextOrder) return `/providers/${encodeURIComponent(provider.id)}`;
-    return `/providers/${encodeURIComponent(provider.id)}?sort=${key}&order=${nextOrder}`;
-  };
+  const { directionFor, sortLinkFor } = createSortLinks({ basePath: `/providers/${encodeURIComponent(provider.id)}`, sort, order });
 
   return <AppShell locale={locale} section={msg(locale, "providers")} detail={provider.name}>
-    <div className="detail-header">
-      <div className="identity">
-        <span className="identity-mark">{initials}</span>
-        <div><h1>{provider.name}</h1><p>{provider.id}</p></div>
-        {provider.official && <span className="tag success">Official</span>}
-      </div>
-      <div className="detail-actions">
+    <DetailHeader
+      initials={initials}
+      title={provider.name}
+      subtitle={provider.id}
+      tags={provider.official && <span className="tag success">Official</span>}
+      actions={<>
         {provider.website && <a className="secondary-button" href={provider.website} target="_blank" rel="noreferrer"><ExternalLink size={15} />Website</a>}
         <ProviderModelsDialog locale={locale} currency={currency} providerName={provider.name} providerId={provider.id} models={stats.models} />
-      </div>
-    </div>
-    <div className="detail-metrics">
-      <div><span>{msg(locale, "modelCount")}</span><strong>{stats.modelCount}</strong></div>
-      <div><span>USD</span><strong>{stats.usdCount}</strong></div>
-      <div><span>CNY</span><strong>{stats.cnyCount}</strong></div>
-      <div><span>Quality</span><strong>{stats.qualityCount}</strong></div>
-    </div>
+      </>}
+    />
+    <DetailMetrics metrics={[
+      { label: msg(locale, "modelCount"), value: stats.modelCount },
+      { label: "USD", value: stats.usdCount },
+      { label: "CNY", value: stats.cnyCount },
+      { label: "Quality", value: stats.qualityCount },
+    ]} />
     <div className="detail-grid">
       <div className="detail-main">
         <section className="panel">

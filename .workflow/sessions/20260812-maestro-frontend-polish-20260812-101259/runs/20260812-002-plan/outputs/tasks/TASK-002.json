@@ -1,0 +1,43 @@
+{
+  "_meta": { "kind": "plan-task", "schema": "plan-task/1.0", "role": "attachment" },
+  "id": "TASK-002",
+  "title": "G1 token 层补全：globals.css 增加间距/圆角/字号/阴影/backdrop/z-index/动效 tokens 并替换硬编码（类名与视觉值零变化）",
+  "description": "在 app/globals.css 的 :root 中补全 6 类设计 tokens（现状仅颜色与字体 family 完整，findings F-G1-01），并把既有规则中的硬编码值替换为 var() 引用。铁律：不改任何 CSS 类名（e2e 锁定）、不改任何计算后视觉值（token 值 = 现状硬编码值的一一映射）、dark 主题不新增覆盖（--shadow-popover 现状在暗色下无变体，保持）。动效时长 tokens（--motion-*）本任务只定义不使用，供 TASK-005 消费。backdrop 两处硬编码颜色不一致（#14211d8c 与 #14211da6，F-G1-02）按现值分别定义两个 token 保值替换，不做统一。",
+  "requirement_refs": ["G1", "findings F-G1-01（token 缺口清单）", "findings F-BOUNDARY-01（类名锁定）", "决策 D4（保留类名，改规则+增 token）"],
+  "deps": ["TASK-001"],
+  "files": ["app/globals.css"],
+  "read_first": [
+    "app/globals.css（被改文件；:root 1-16 行现有 token 组织模式即为新增 token 的排版惯例）",
+    "tests/e2e/accessibility.spec.ts（锁定 .model-filter-picker/.column-picker/.pagination 等类名选择器，确认不可改名范围）",
+    "tests/e2e/catalog.spec.ts（无横向滚动断言与 console error 零容忍，视觉等价的回归防线）"
+  ],
+  "action": "在 :root（globals.css 第 16 行 --font-mono 声明之后、闭括号之前）追加以下 token 定义（值与现状硬编码一一对应，逐字使用）：`--space-4: 4px; --space-6: 6px; --space-8: 8px; --space-10: 10px; --space-12: 12px; --space-14: 14px; --space-16: 16px; --space-18: 18px; --space-20: 20px; --space-24: 24px; --space-32: 32px; --radius-xs: 2px; --radius-sm: 3px; --radius-md: 4px; --radius-lg: 6px; --radius-xl: 8px; --font-size-0: .625rem; --font-size-1: .6875rem; --font-size-2: .75rem; --font-size-3: .8125rem; --font-size-4: .875rem; --font-size-5: .9375rem; --font-size-6: 1rem; --font-size-7: 1.375rem; --font-size-8: 1.625rem; --font-size-9: 1.75rem; --shadow-popover: 0 12px 32px rgb(0 0 0 / 18%); --backdrop-drawer: #14211d8c; --backdrop-modal: #14211da6; --z-flow: 1; --z-table-header: 2; --z-table-sticky: 3; --z-sticky: 20; --z-popover: 30; --z-drawer: 60; --z-skip-link: 100; --motion-fast: 150ms; --motion-base: 220ms; --motion-slow: 300ms;` 然后按 5 类全量替换 + 1 类清单替换：[全量] 圆角：所有 `border-radius: 2px|3px|4px|6px|8px` → 对应 var(--radius-*)（`border-radius: 0`、`50%`、`inherit` 保留）；[全量] 字号：所有 font-size 与 font 简写中的 .625/.6875/.75/.8125/.875/.9375/1/1.375/1.625/1.75rem 字面量 → var(--font-size-0..9)（font 简写内使用 var() 合法，如 `font: 650 var(--font-size-1) var(--font-mono)`；line-height 数值 1.05/1.25/1.3/1.5 不动）；[全量] 阴影：两处 `0 12px 32px rgb(0 0 0 / 18%)`（.column-picker-panel 第 164 行、.model-filter-picker-panel 第 178 行）→ var(--shadow-popover)；[全量] backdrop：`.mobile-drawer::backdrop` 的 #14211d8c → var(--backdrop-drawer)，`.modal::backdrop` 的 #14211da6 → var(--backdrop-modal)；[全量] z-index：1→var(--z-flow)（.column-picker-actions）、2→var(--z-table-header)（.data-table th）、3→var(--z-table-sticky)（4 处 sticky 首列）、20→var(--z-sticky)（.mobile-header 与 .column-picker-panel/.model-filter-picker-panel 桌面态）、30→var(--z-popover)（.help-menu > div 与 .column-picker-panel 移动态）、60→var(--z-drawer)（.mobile-drawer）、100→var(--z-skip-link)（.skip-link）；[清单] 间距（仅替换以下 13 处结构容器，clamp()/负 margin/11px 等表格微调值一律保留）：.content{padding: var(--space-24) var(--space-16) var(--space-32); gap: var(--space-20)}、.panel-body{padding: var(--space-16)}、.modal-header{padding: 0 var(--space-24)}、.modal-toolbar{padding: var(--space-10) var(--space-24)}、.modal-note{padding: var(--space-8) var(--space-24)}、.modal-footer{padding: var(--space-10) var(--space-24)}、.page-header{gap: var(--space-20)}、.toolbar{gap: var(--space-10)}、.detail-grid{gap: var(--space-20)}、.detail-metrics > div{padding: var(--space-14) var(--space-18)}、.metric-strip > div{padding: var(--space-12) var(--space-18)}、.table-footer{padding: var(--space-10) var(--space-14)}、.panel-header{padding: 0 var(--space-16)}。",
+  "implementation": [
+    "1. 读 app/globals.css 全文，在 :root 第 15 行 --font-ui/--font-mono 之后按 action 逐字追加 token 块（分 6 行分组注释：spacing/radius/font-size/shadow-backdrop/z-index/motion，沿用现有单行多声明风格）",
+    "2. 圆角替换：逐个把 border-radius: 8px（12 处左右：.brand-mark/.data-status/.help-menu>div/.metric-strip/.table-frame/.detail-metrics/.panel/dialog/.column-picker-panel/.model-filter-picker-panel 等）→ var(--radius-xl)；6px（.board-strip a）→ var(--radius-lg)；4px（.primary-nav a/.project-link/.icon-button/.toolbar select/.search-field/.primary-button/.secondary-button/.tag/.pagination a/.segmented/.modal-toolbar select/.column-picker>summary 等）→ var(--radius-md)；3px（.segmented button）→ var(--radius-sm)；2px（.comparison-bar-track）→ var(--radius-xs)",
+    "3. 字号替换：font-size 属性与 font: 简写中的 rem 字面量按映射表替换为 var(--font-size-N)；覆盖 body(1rem)、.brand(.9375)、.data-status(.75)、.breadcrumbs(.75)、.compact-label(.6875)、.page-header h1(1.625)、@media(min-width:900px) .page-header h1(1.75)、.identity h1(1.375) 等全部出现点",
+    "4. 阴影/backdrop/z-index 按 action 全量替换（z-index 注意 .column-picker-panel 桌面 20/移动 30 分别对应 --z-sticky/--z-popover，保持原数值不变）",
+    "5. 间距按 action 的 13 处清单替换，清单外一律不动",
+    "6. 验证：npm run build（exit 0）；npm run test:ui（vitest exit 0）；npx playwright test（e2e 全过，含无横向滚动断言与 axe 扫描）",
+    "7. 单独 commit：'style: add design token layer (spacing/radius/font-size/shadow/z-index/motion) with value-preserving replacements'"
+  ],
+  "convergence_criteria": [
+    "Select-String -Path app/globals.css -Pattern '--radius-md: 4px' 命中 1；-Pattern '--motion-fast: 150ms' 命中 1；-Pattern '--font-size-8: 1.625rem' 命中 1；-Pattern '--space-18: 18px' 命中 1；-Pattern '--z-drawer: 60' 命中 1；-Pattern '--backdrop-modal: #14211da6' 命中 1",
+    "(Select-String -Path app/globals.css -Pattern 'border-radius: (2|3|4|6|8)px' -AllMatches).Matches.Count 输出 0",
+    "(Select-String -Path app/globals.css -Pattern 'font(-size)?:[^;{]*rem' | Where-Object { $_.Line -notmatch '--font-size' }).Count 输出 0",
+    "(Select-String -Path app/globals.css -Pattern 'z-index: \\d' | Where-Object { $_.Line -notmatch '--z-' }).Count 输出 0",
+    "(Select-String -Path app/globals.css -Pattern '0 12px 32px' | Where-Object { $_.Line -notmatch '--shadow-popover' }).Count 输出 0",
+    "(Select-String -Path app/globals.css -Pattern '#14211d(8c|a6)' | Where-Object { $_.Line -notmatch '--backdrop-' }).Count 输出 0",
+    "npm run build 以 exit 0 结束",
+    "[UI-observable] npx playwright test 以 exit 0 结束（catalog.spec 无横向滚动断言 + accessibility.spec axe 扫描通过，证明替换后页面渲染视觉等价、无布局回归）"
+  ],
+  "verify": [
+    "Select-String -Path app/globals.css -Pattern '--motion-fast: 150ms'",
+    "(Select-String -Path app/globals.css -Pattern 'border-radius: (2|3|4|6|8)px' -AllMatches).Matches.Count",
+    "npm run build",
+    "npm run test:ui",
+    "npx playwright test"
+  ],
+  "estimate_minutes": 55,
+  "status": "pending"
+}

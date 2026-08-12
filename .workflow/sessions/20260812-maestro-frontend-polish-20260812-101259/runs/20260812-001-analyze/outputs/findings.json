@@ -1,0 +1,279 @@
+{
+  "_meta": { "kind": "findings", "schema": "findings/1.0" },
+  "mode": "macro",
+  "topic": "前端样式统一/动效/加载性能（app/ 11 页面 + components/ 13 组件 + globals.css）",
+  "dimensions": ["architecture", "implementation", "performance"],
+  "generated_at": "2026-08-12T18:40:00+08:00",
+  "session_id": "20260812-maestro-frontend-polish-20260812-101259",
+  "run_id": "20260812-001-analyze",
+  "exploration_note": "本环境无 cli-explore-agent / CLI delegate，以执行器自身多轮 Glob/Grep/Read 深度探索替代（3 轮：广度扫描→链路追踪→构建实测），全部结论附 file:line 锚点；交叉验证降级记录见 report.md concerns（W001）。",
+  "findings": [
+    {
+      "id": "F-G1-01",
+      "goal": "G1",
+      "title": "设计 tokens 只有颜色/字体两类完整，间距/圆角/字号/阴影/z-index/动效 tokens 全部缺失",
+      "evidence": [
+        "app/globals.css:1-28 — :root 与 [data-theme=dark] 定义了完整颜色体系（含 oklch bar 色板）与 --font-ui/--font-mono，双主题一致",
+        "app/globals.css:43,45,50,59,71,164 — 圆角硬编码散布：8px/4px/6px/3px/2px 混用无 --radius-* token",
+        "app/globals.css:57,58,61,66 — 字号硬编码 .625/.6875/.75/.8125/.875/.9375/1.375/1.625rem 共 10 档无 scale",
+        "app/globals.css:14,164,178 — 阴影仅 --shadow-modal 一个 token，column-picker-panel/model-filter-picker-panel 用硬编码 '0 12px 32px rgb(0 0 0 / 18%)'",
+        "app/globals.css:38,55,61,74,164 — z-index 散布 1/2/3/20/30/60/100 无层级约定"
+      ],
+      "confidence": 0.95,
+      "impact": "统一化的地基：加 token 层是所有后续统一工作（G1/G2）的前置，且纯增量不破坏现有类名（e2e 安全）"
+    },
+    {
+      "id": "F-G1-02",
+      "goal": "G1",
+      "title": "globals.css 存在明显复制块与演进死代码：column-picker 与 model-filter-picker 两套几乎相同的 dropdown 规则；表格 nth-child 列宽规则被后来的动态列模式覆盖",
+      "evidence": [
+        "app/globals.css:159-172 vs 173-183 — .column-picker 与 .model-filter-picker 的 summary/panel/actions 三段规则几乎逐行相同（差异仅 panel 宽度 420px vs 240px），actions button 完全重复",
+        "app/globals.css:61,83-139 — .model-price-table/.compare-table 的 nth-child 固定列宽规则历经至少 3 轮覆盖（61 行定义→99-115 行再覆盖→116-139 移动端再覆盖）",
+        "app/globals.css:140-149 — 注释 'Dynamic column tables: width is driven by content, not by fixed nth-child rules'，model-price-table/compare-table 已改为 table-layout:auto + min-width:max-content，上述大量 nth-child 宽度规则对这两张表已是死代码",
+        "app/globals.css:40,74 — dialog backdrop 颜色两处硬编码且不一致：#14211d8c（mobile-drawer）与 #14211da6（modal）"
+      ],
+      "confidence": 0.9,
+      "impact": "清理死代码可显著缩减 33.5KB CSS（构建后单文件全站加载，见 F-G3-03）并降低后续维护成本；但需甄别 provider-model-table 等仍依赖 nth-child 的表格，不能一刀切"
+    },
+    {
+      "id": "F-G1-03",
+      "goal": "G1",
+      "title": "页面层重复模式清晰可抽取：工具函数、常量映射、排序链接构造、详情页头部/指标条、modal 骨架均为复制粘贴",
+      "evidence": [
+        "app/models/page.tsx:22, app/models/[...canonicalId]/page.tsx:21, app/compare/page.tsx:31, app/providers/page.tsx:18, app/providers/[id]/page.tsx:16, app/sources/page.tsx:13 — const one = (value)=>... 完全相同的 searchParams 取值 helper 重复 6 处",
+        "app/models/[...canonicalId]/page.tsx:22, app/providers/[id]/page.tsx:17, components/comparison-dialog.tsx:14, components/provider-models-dialog.tsx:15, components/model-cells.tsx:8-13 — priceMetric/priceRates 同一映射常量重复 5 处",
+        "app/models/page.tsx:96-118, app/compare/page.tsx:156-182, app/providers/page.tsx:42-58, app/sources/page.tsx:28-43, app/models/[...canonicalId]/page.tsx:54-60, app/providers/[id]/page.tsx:36-42 — baseQuery/linkFor/directionFor/sortLinkFor 排序分页链接构造逻辑重复 6 处（细节略有差异）",
+        "app/models/[...canonicalId]/page.tsx:63-67 vs app/providers/[id]/page.tsx:45-61 — detail-header/identity/identity-mark/detail-metrics JSX 结构两详情页复制未组件化",
+        "components/comparison-dialog.tsx:39-47 vs components/provider-models-dialog.tsx:64-120 — modal-layout/header/toolbar/content/footer 骨架 + dialog ref + showModal/close 模式高度重复",
+        "components/table-row-link.tsx:8-15 vs components/comparison-dialog.tsx:44 vs components/provider-models-dialog.tsx:98 — 行导航 role=link 实现 3 处，TableRowLink 有 closest('a,button,...') 防误触，另两处内联版没有"
+      ],
+      "confidence": 0.95,
+      "impact": "共享组件/工具抽取清单明确：searchParams 工具、排序链接 builder、DetailHeader、DetailMetrics、ModalShell、统一行导航；已有 components/ui.tsx:10-78 的 8 个共享组件（PageHeader/MetricStrip/SearchField/SortableHeader/Pagination/EmptyState 等）证明该项目有组件化惯例可延续"
+    },
+    {
+      "id": "F-G1-04",
+      "goal": "G1",
+      "title": "文案与状态页不一致：error/not-found 硬编码英文（全站默认中文且 e2e 锁定中文文案），两个独立分页 UI 实现",
+      "evidence": [
+        "app/error.tsx:4 — 'Page failed to load'/'Retry' 硬编码英文，未走 lib/i18n msg()",
+        "app/not-found.tsx:2 — '404'/'The requested catalog entry was not found.' 硬编码英文",
+        "tests/e2e/catalog.spec.ts:29 — e2e 断言中文默认文案 getByRole('heading', { name: '模型目录' })，证明全站默认 locale=zh",
+        "components/ui.tsx:70-74（链接式 Pagination）vs components/provider-models-dialog.tsx:113-117（按钮式内联分页）— 同一视觉模式两套实现"
+      ],
+      "confidence": 0.9,
+      "impact": "统一范围内的低成本收尾项；error/not-found 在 AppShell 之外无法拿 cookie locale，需要决定处理策略（双语并列或客户端读取）"
+    },
+    {
+      "id": "F-G2-01",
+      "goal": "G2",
+      "title": "动效几乎为零：全代码库 transition 属性 0 处，animation 仅 1 处（skeleton pulse），所有 hover/展开/弹窗均为瞬间跳变",
+      "evidence": [
+        "Grep 'transition' 于 {app,components,lib}/**/*.{css,tsx,ts} — 唯一命中是 globals.css:77 中 prefers-reduced-motion 的 transition-duration 覆盖（防御性规则，无实际过渡可关）",
+        "app/globals.css:77 — @keyframes pulse 是全站唯一动画（loading skeleton 1.5s alternate）",
+        "app/globals.css:46,49,54,59,62,152 — .primary-nav a:hover/.icon-button:hover/.primary-button:hover/.sortable-header:hover/.header-source:hover 等 hover 状态存在但都无 transition，颜色/背景瞬间切换",
+        "components/sidebar.tsx:52-53, components/comparison-dialog.tsx:38-39, components/provider-models-dialog.tsx:63-64 — 原生 dialog.showModal() 打开 mobile-drawer/两个 modal，无进出场动画",
+        "app/globals.css:55,160,174 — help-menu/column-picker/model-filter-picker 三个 details 弹层展开无动画"
+      ],
+      "confidence": 0.95,
+      "impact": "G2 是纯增量工作：加 --transition-fast/base token（150-300ms）+ 给既有 hover 状态补 transition + dialog/details 进场动画即可覆盖主要交互面；无需引入动画库"
+    },
+    {
+      "id": "F-G2-02",
+      "goal": "G2",
+      "title": "prefers-reduced-motion 全局 kill switch 已存在且写法完善，新增动效自动被其覆盖",
+      "evidence": [
+        "app/globals.css:77 — @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior:auto!important; animation-duration:.01ms!important; animation-iteration-count:1!important; transition-duration:.01ms!important; } } 已覆盖 animation 与 transition 两类"
+      ],
+      "confidence": 0.95,
+      "impact": "锁定决策 3 的 reduced-motion 约束已有现成保障，新动效只要走 CSS transition/animation 即自动合规；仅 JS 驱动的动画（如 View Transitions）才需要额外判断"
+    },
+    {
+      "id": "F-G2-03",
+      "goal": "G2",
+      "title": "交互反馈不对称：货币切换有 pending 态，语言/主题/刷新无任何反馈；表格排序点击后整页服务端往返也无过渡指示",
+      "evidence": [
+        "components/topbar.tsx:15,27-29 — changeCurrency 用 useTransition + isPending，按钮 disabled + cursor:wait（globals.css:54 .currency-switch button:disabled）",
+        "components/topbar.tsx:20-24 — changeLocale 直接 document.cookie + router.refresh()，无 pending 反馈",
+        "components/ui.tsx:45-53 — SortableHeader 是 Link，点击后触发整页 RSC 重渲染，期间无任何 loading 指示（根 app/loading.tsx:1 只在首次进入 segment 时出现）"
+      ],
+      "confidence": 0.85,
+      "impact": "克制动效的高价值落点：统一的 pending/过渡反馈能显著改善'点了没反应'的体感，符合 150-300ms 微交互定位"
+    },
+    {
+      "id": "F-G3-01",
+      "goal": "G3",
+      "title": "全站 8 条路由 100% 动态渲染（SSR on demand），零静态页面；根因是 cookies() 读取 locale/currency + 列表页依赖 searchParams",
+      "evidence": [
+        "npm run build 输出（terminals/592080.txt:28-39）— Route (app) 全部标记 ƒ (Dynamic) server-rendered on demand：/、/_not-found、/compare、/models、/models/[...canonicalId]、/providers、/providers/[id]、/sources",
+        "lib/server-i18n.ts:5-13 — getLocale/getCurrency 调用 next/headers cookies()，被 AppShell（components/app-shell.tsx:10）及所有页面消费，动态 API 强制退出静态渲染",
+        "app/models/page.tsx:27-46, app/compare/page.tsx:74-91 等 — 列表页过滤/排序/分页全部走 searchParams 服务端处理",
+        "app/models/[...canonicalId]/page.tsx 与 app/providers/[id]/page.tsx — 均无 generateStaticParams/revalidate 导出（Grep 'generateStaticParams|export const dynamic|revalidate' 全 app/ 无命中）",
+        "app/page.tsx:3 — 首页 redirect('/models')，Lighthouse 首页测量含一次跳转"
+      ],
+      "confidence": 0.95,
+      "impact": "Lighthouse Performance 的 TTFB/FCP/LCP 全部悬挂在每请求 SSR 上；是否达 90 取决于部署环境的服务器时延（见 assumptions），静态化/缓存是最大杠杆但受 cookie 个性化阻碍，属于本次分析最重要的方案权衡点"
+    },
+    {
+      "id": "F-G3-02",
+      "goal": "G3",
+      "title": "data/models.json 11.4MB 由服务端静态 import，构建期烘焙进 server bundle：不进客户端（安全），但 serverless 冷启动需解析 11.4MB，providerStats 每请求全量扫描",
+      "evidence": [
+        "PowerShell 测量 — data/models.json = 11,446.9KB，data/model-index.json = 221.9KB",
+        "lib/catalog.ts:1, lib/model-aliases.ts:2, lib/model-index.ts:1 — 三处均为顶层静态 import，仅被服务端代码消费（页面 RSC 与 app-shell），Grep 证实无客户端组件 import catalog",
+        "lib/catalog.ts:23-72 — canonicalModels 聚合在模块加载时一次性完成（每进程一次，请求间复用，设计合理）",
+        "lib/catalog.ts:75-84 — providerStats 每次调用 catalog.models.filter(...)（全量渠道扫描），app/providers/page.tsx:31 对列表页每个 provider 调一次，O(providers×models) 每请求执行",
+        "package.json:24 — hyparquet 仅在 src/fetch.js（数据生成管道）使用，不进 web bundle"
+      ],
+      "confidence": 0.9,
+      "impact": "客户端无大 JSON 风险（好消息）；坏消息是冷启动 JSON.parse 11.4MB（Node 上约数百 ms 量级）直接加到冷请求 TTFB，Vercel serverless 场景是 Lighthouse 尾延迟的真实来源；providerStats 可预计算"
+    },
+    {
+      "id": "F-G3-03",
+      "goal": "G3",
+      "title": "客户端资产规模可控但有优化空间：JS chunk 总量 982KB（未压缩，19 文件，最大 226KB），CSS 单文件 33.5KB 全站共享（含死代码），构建 17.6s 快",
+      "evidence": [
+        ".next/static 测量 — JS 总 982KB/19 文件，Top4: 225.8KB/222.2KB/138.3KB/110KB（Turbopack hash 命名）；CSS 25o0pgqy51l_5.css = 33.5KB",
+        "npm run build（terminals/592080.txt:14-17）— Next.js 16.2.10 Turbopack 编译 1.9s + TS 7.8s，总 17.6s，构建健康",
+        "package.json:22-29 — 客户端依赖轻：lucide-react（named import，Next 16 默认 optimizePackageImports 覆盖）、next-themes、@vercel/analytics+speed-insights；无重型 UI/动画库",
+        "Next 16 build 输出不再打印路由级 First Load JS 明细，本数据以 chunk 总量代替（记入 concerns）"
+      ],
+      "confidence": 0.8,
+      "impact": "bundle 不是主要瓶颈（页面均为 RSC，客户端组件小而分散）；CSS 死代码清理（F-G1-02）与按需拆分可小幅优化；Lighthouse 主要变量仍是 TTFB（F-G3-01）与字体渲染（F-G3-04）"
+    },
+    {
+      "id": "F-G3-04",
+      "goal": "G3",
+      "title": "未使用 next/font：Inter/IBM Plex Mono 仅是 font-family 回退声明，无网络字体加载（零字体成本但品牌字体实际不生效）",
+      "evidence": [
+        "app/globals.css:15 — --font-ui: Inter, 'Segoe UI', system-ui, sans-serif; --font-mono: 'IBM Plex Mono', 'Cascadia Mono', monospace（纯声明）",
+        "app/layout.tsx:1-14 — 无 next/font import，无 <link rel=preload> 字体资源",
+        "Grep 'next/font' 全项目 0 命中"
+      ],
+      "confidence": 0.95,
+      "impact": "对 Lighthouse 是正面（无字体阻塞/CLS）；若要真正统一排版需 next/font 自托管（self-host、swap、零 CLS），属于低风险增强项，但'是否引入真字体'触及品牌视觉边界，列为 deferred 决策"
+    },
+    {
+      "id": "F-BOUNDARY-01",
+      "goal": "G1/G2/G3",
+      "title": "e2e 测试深度锁定 CSS 类名、中文文案与 URL 语义，是本次改造最重要的回归防线与约束",
+      "evidence": [
+        "tests/e2e/accessibility.spec.ts:29,47 — 直接引用 .model-filter-picker summary/.column-picker summary 类名选择器；:20 引用 .pagination a[aria-current='page']",
+        "tests/e2e/catalog.spec.ts:29-49 — 锁定中文文案（'模型目录'/'比较供应商'/'重置筛选'）、aria-sort 行为、无横向滚动断言、console error 零容忍",
+        "tests/e2e/accessibility.spec.ts:96-187 — 锁定 reset 链接的 URL 参数语义（cols 保留、q/sort/page 清除等）",
+        "vitest tests/model-columns.test.ts 等 6 个 UI 单测 + node --test 3 个数据管道测试（package.json:13）"
+      ],
+      "confidence": 0.95,
+      "impact": "样式统一必须保留现有类名（改规则不改名）或同步更新 e2e；动效不得引入 axe serious 违规与横向滚动；URL 与文案零改动——这与 boundary contract 的'不破坏 URL 与 SEO'一致"
+    }
+  ],
+  "decisions": [
+    {
+      "title": "优化范围 = 全部 11 个页面",
+      "class": "locked",
+      "context": "用户在 session 启动时锁定，boundary contract in-scope 明确列出 app/ 全部 11 页面",
+      "options": [],
+      "chosen": "app/ 下 11 个页面全部纳入：models 列表/详情、compare、providers 列表/详情、sources、首页 redirect、error/loading/not-found、layout",
+      "reason": "用户锁定决策 #1，不可推翻"
+    },
+    {
+      "title": "性能验收 = 生产构建核心页面 Lighthouse Performance ≥ 90",
+      "class": "locked",
+      "context": "用户在 session 启动时锁定；探索发现全站动态渲染（F-G3-01），达标路径需在 plan 阶段先建基线测量",
+      "options": [],
+      "chosen": "以 next build + next start 的生产模式跑核心页面（/models、/models/[id]、/compare、/providers）Lighthouse Performance ≥ 90 为验收线",
+      "reason": "用户锁定决策 #2，不可推翻"
+    },
+    {
+      "title": "动效风格 = 克制（微交互、150-300ms、悬停反馈、尊重 prefers-reduced-motion）",
+      "class": "locked",
+      "context": "用户在 session 启动时锁定；现状动效为零（F-G2-01）、reduced-motion kill switch 已在位（F-G2-02），CSS transition 方案天然满足约束",
+      "options": [],
+      "chosen": "纯 CSS transition/animation 实现微交互层，时长 150-300ms，全部受 globals.css:77 的 prefers-reduced-motion 覆盖；不引入 framer-motion 等动画库",
+      "reason": "用户锁定决策 #3，不可推翻；探索证据（F-G2-01/02）确认 CSS 方案可行且成本最低"
+    },
+    {
+      "title": "CSS 类名保持不变，统一以'改规则 + 增 token'方式进行",
+      "class": "free",
+      "context": "e2e 直接引用类名选择器（F-BOUNDARY-01），改名需同步改测试，收益低风险高",
+      "options": [
+        { "option": "A: 保留全部现有类名，仅重构规则内部与新增 token 引用", "tradeoff": "零 e2e 风险，но死代码类名可能残留" },
+        { "option": "B: 借统一之机重命名为 BEM/utility 体系", "tradeoff": "命名更体系化，但需全量同步 e2e 与页面，回归面大" }
+      ],
+      "chosen": "推荐 A；实施者可对确认无引用的死类名做删除",
+      "reason": "锁定的测试通过约束 + e2e 类名耦合证据，A 的风险收益比明显占优；最终细节由 execute 阶段裁量"
+    },
+    {
+      "title": "globals.css 的组织方式（单文件分区 vs 拆分多文件）",
+      "class": "free",
+      "context": "37.9KB/188 行单行多规则风格可维护性差（F-G1-02），但拆分方式不影响产出 CSS",
+      "options": [
+        { "option": "A: 保持单文件，按 tokens/base/layout/components/pages/motion 分区注释重排", "tradeoff": "diff 大但零构建变化" },
+        { "option": "B: 拆分为多个 css 文件在 globals.css @import 或 layout 引入", "tradeoff": "文件边界清晰，需确认 Turbopack 合并行为不变" }
+      ],
+      "chosen": "实施者自由裁量，倾向 A（构建产物确定性最高）",
+      "reason": "两方案对最终 bundle 无本质差异，属实现细节"
+    },
+    {
+      "title": "共享组件抽取的具体清单与 API（DetailHeader/DetailMetrics/ModalShell/排序链接 builder/searchParams 工具）",
+      "class": "free",
+      "context": "F-G1-03 列出 6 类重复模式；抽取粒度与 props 设计不影响边界",
+      "options": [
+        { "option": "A: 最小抽取（工具函数 + 2-3 个高重复组件）", "tradeoff": "改动面小，仍留部分重复" },
+        { "option": "B: 全量抽取（含 ModalShell 骨架统一两个 dialog）", "tradeoff": "一致性最高，dialog 重构需回归两条 e2e 流程" }
+      ],
+      "chosen": "实施者按 plan 阶段任务拆分裁量；建议至少覆盖 one()/priceMetric/排序链接 builder 三个纯函数项（零 UI 风险）",
+      "reason": "重复证据充分但抽取深度是渐进式选择，无需在分析期锁死"
+    },
+    {
+      "title": "性能优化主路线：SSR 微优化为主（保守）vs 静态化改造（激进）",
+      "class": "free",
+      "context": "F-G3-01 全站动态渲染根因是 cookie 个性化；静态化收益最大但触碰 locale/currency 语义与 e2e 锁定行为；Lighthouse 基线未实测，可能微优化即达标",
+      "options": [
+        { "option": "A: 保守路线——保持 SSR，做 providerStats 预计算、冷启动数据裁剪（页面级只 import 所需字段的衍生数据）、CSS 死代码清理、preconnect/资源提示", "tradeoff": "不触碰路由与 cookie 语义，e2e 零风险；若基线远低于 90 可能不够" },
+        { "option": "B: 激进路线——locale/currency 下沉到客户端小组件或 middleware 重写，列表页默认视图静态化 + 参数视图 SSR", "tradeoff": "TTFB 收益最大，但改动 RSC 数据流，e2e 的 cookie 切换语义（catalog.spec 语言/币种测试）回归面大" },
+        { "option": "C: Next 16 cacheComponents/PPR 探索", "tradeoff": "架构最优雅，但特性成熟度需 spike 验证，超出克制原则" }
+      ],
+      "chosen": "推荐先 A 后视基线决定是否升级 B；C 仅作 spike 备选。plan 阶段第一个任务应是生产模式 Lighthouse 基线测量",
+      "reason": "验收线（锁定决策 2）是结果指标而非路线指标；在基线未知时选择最小风险路径符合'现有测试保持通过'约束"
+    },
+    {
+      "title": "error/not-found 的 i18n 补齐策略",
+      "class": "deferred",
+      "context": "F-G1-04：两个状态页硬编码英文；error.tsx 是 client 组件拿不到 cookie locale，not-found 是 server 但在 AppShell 之外",
+      "options": [
+        { "option": "A: 双语并列文案", "tradeoff": "零架构改动" },
+        { "option": "B: 客户端读 cookie 判断 locale", "tradeoff": "逻辑重复" }
+      ],
+      "chosen": "延迟——归入样式统一执行时顺带处理或后续 phase，不阻塞主线",
+      "reason": "影响面小且需要一个小的架构决定；不值得在本轮锁定",
+      "note": "未写外部 issue store（Auto 模式无用户确认），仅记录于此"
+    },
+    {
+      "title": "是否用 next/font 真正启用 Inter/IBM Plex Mono 品牌字体",
+      "class": "deferred",
+      "context": "F-G3-04：现状 Inter 声明了但多数系统回退到 Segoe UI/system-ui；真启用需权衡品牌视觉（out of scope: 品牌视觉重设计）与字体加载成本（next/font 自托管可零 CLS）",
+      "options": [
+        { "option": "A: 维持系统字体栈（现状）", "tradeoff": "零成本零风险，排版依平台而异" },
+        { "option": "B: next/font 自托管 Inter + IBM Plex Mono", "tradeoff": "跨平台排版统一，+~50-100KB 字体传输（swap 不阻塞）" }
+      ],
+      "chosen": "延迟——触及品牌视觉边界（boundary out-of-scope），需用户表态",
+      "reason": "boundary contract 将品牌视觉重设计列为 out of scope，执行器不越权",
+      "note": "未写外部 issue store（Auto 模式无用户确认），仅记录于此"
+    },
+    {
+      "title": "providerStats O(providers×models) 每请求扫描的预计算优化",
+      "class": "deferred",
+      "context": "F-G3-02：lib/catalog.ts:75-84 每请求对每个 provider 全量过滤 catalog.models；当前数据量下单次请求实测影响未量化",
+      "options": [
+        { "option": "A: 模块加载时预计算 Map<providerId, stats>", "tradeoff": "简单直接，冷启动+少量内存" }
+      ],
+      "chosen": "延迟——若 Lighthouse 基线显示 /providers TTFB 达标则不动；否则并入性能任务",
+      "reason": "过早优化风险；等待基线数据驱动",
+      "note": "未写外部 issue store（Auto 模式无用户确认），仅记录于此"
+    }
+  ],
+  "scope_verdict": "medium",
+  "scope_rationale": "涉及 app/ + components/ + globals.css 一个前端子系统（数据管道 scripts/、data/ 语义明确 out of scope），三个 goal 可并行推进（tokens/组件统一 → 动效叠加，性能优化独立分支），不存在 3+ 独立子系统或硬串行依赖屏障，故非 large；改动面覆盖 11 页面 13 组件超出 small 的少文件定义，判定 medium，下游走 plan。",
+  "recommendation": "go",
+  "recommendation_rationale": "三个 goal 均有明确、低风险的落地路径：G1 有既有 token/组件化基础可延续（F-G1-01/03）；G2 是纯增量且合规保障已在位（F-G2-01/02）；G3 的资产规模健康（F-G3-03），主要不确定性集中在 Lighthouse 基线未实测（open question OQ-1），建议 plan 阶段首任务即建立基线测量，再决定性能路线 A/B。"
+}

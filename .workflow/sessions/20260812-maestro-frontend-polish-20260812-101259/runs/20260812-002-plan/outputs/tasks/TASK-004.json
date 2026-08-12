@@ -1,0 +1,55 @@
+{
+  "_meta": { "kind": "plan-task", "schema": "plan-task/1.0", "role": "attachment" },
+  "id": "TASK-004",
+  "title": "G1 共享组件抽取：DetailHeader/DetailMetrics（两详情页）+ ModalShell（两 dialog）+ dialog 行导航统一到 TableRowLink",
+  "description": "把 findings F-G1-03 确认的三类 JSX 结构重复收敛为共享组件，延续 components/ui.tsx 的既有组件化惯例（PageHeader/MetricStrip 同型 API）。范围：[1] detail-header/identity/identity-mark/detail-actions 骨架（app/models/[...canonicalId]/page.tsx:63-66 与 app/providers/[id]/page.tsx:45-55 复制未组件化）→ components/detail.tsx 的 DetailHeader；[2] detail-metrics 四格指标条（两详情页各一份）→ 同文件 DetailMetrics；[3] dialog/modal-layout/modal-header/关闭按钮/backdrop 点击关闭骨架（components/comparison-dialog.tsx:37-47 与 provider-models-dialog.tsx:62-120 高度重复）→ components/modal-shell.tsx 的 ModalShell（render-prop 形态暴露 close）；[4] 行导航 role=link 的 3 处实现统一：两个 dialog 内联 tr（comparison-dialog.tsx:44、provider-models-dialog.tsx:98，均无 closest 防误触）替换为复用 components/table-row-link.tsx 的 TableRowLink（行为超集：Enter+Space+防误触，纯增强无破坏）。铁律：渲染出的 DOM 类名结构逐字保留（detail-header/identity/identity-mark/detail-actions/detail-metrics/modal-layout/modal-header/modal-toolbar/modal-note/modal-content/modal-footer 全部不变，e2e 与 CSS 依赖）；arch spec 约束（priors.json #2）：comparison-dialog 入口保持在详情页 detail-actions、比较范围仅当前 canonicalId 的渠道，不可改。",
+  "requirement_refs": ["G1", "findings F-G1-03（JSX 重复清单）", "C3: 类名/文案锁定（F-BOUNDARY-01）", "arch spec: 详情内供应商对比边界（priors.json specs #2）"],
+  "deps": ["TASK-003"],
+  "files": [
+    "components/detail.tsx",
+    "components/modal-shell.tsx",
+    "app/models/[...canonicalId]/page.tsx",
+    "app/providers/[id]/page.tsx",
+    "components/comparison-dialog.tsx",
+    "components/provider-models-dialog.tsx"
+  ],
+  "read_first": [
+    "components/ui.tsx（组件化惯例来源：PageHeader/MetricStrip 的 props 风格与单行 JSX 风格，10-25 行）",
+    "app/models/[...canonicalId]/page.tsx（62-67 行 detail-header + detail-metrics 现状；tags 槽位含 openWeights/license/lifecycle 三种条件 tag）",
+    "app/providers/[id]/page.tsx（44-61 行同构现状；tags 槽位是 Official tag，actions 是 Website 链接 + dialog 触发器）",
+    "components/comparison-dialog.tsx（backdrop 点击关闭 + aria-labelledby 模式，37-48 行）",
+    "components/provider-models-dialog.tsx（62-120 行；footer 为按钮式分页，需通过 children 保留）",
+    "components/table-row-link.tsx（行导航目标实现：closest('a,button,input,select,summary') 防误触 + Enter/Space）",
+    "tests/e2e/catalog.spec.ts（'比较供应商' dialog 流程断言，重构后必须通过）",
+    "tests/e2e/accessibility.spec.ts（axe 扫描；dialog aria-labelledby 增强不得引入新违规）"
+  ],
+  "action": "新建 components/detail.tsx（服务端组件，无 use client），导出两个组件，签名逐字为：`export function DetailHeader({ initials, title, subtitle, tags, actions }: { initials: string; title: string; subtitle: string; tags?: ReactNode; actions?: ReactNode })`，渲染 `<div className=\"detail-header\"><div className=\"identity\"><span className=\"identity-mark\">{initials}</span><div><h1>{title}</h1><p>{subtitle}</p></div>{tags}</div><div className=\"detail-actions\">{actions}</div></div>`；`export function DetailMetrics({ metrics }: { metrics: Array<{ label: string; value: ReactNode }> })`，渲染 `<div className=\"detail-metrics\">{metrics.map((metric) => <div key={metric.label}><span>{metric.label}</span><strong>{metric.value}</strong></div>)}</div>`。新建 components/modal-shell.tsx（\"use client\"），签名逐字为：`export function ModalShell({ triggerLabel, triggerClassName, title, subtitle, closeLabel, children }: { triggerLabel: string; triggerClassName: \"primary-button\" | \"secondary-button\"; title: string; subtitle: string; closeLabel: string; children: (api: { close: () => void }) => ReactNode })`，内部 useRef<HTMLDialogElement> + useId 生成 titleId，渲染触发按钮（onClick showModal）+ `<dialog ref className=\"modal\" aria-labelledby={titleId} onClick={backdrop 点击且 event.target === dialog 时 close}><div className=\"modal-layout\"><header className=\"modal-header\"><div><h2 id={titleId}>{title}</h2><p>{subtitle}</p></div><button className=\"icon-button\" onClick={close} aria-label={closeLabel} title={closeLabel}><X size={18} /></button></header>{children({ close })}</div></dialog>`。两个 dialog 重构为：ModalShell 包裹，children 渲染各自的 modal-toolbar/modal-note/modal-content/modal-footer（comparison 的 footer close 按钮调 api.close；provider-models 的分页 footer 原样保留）；tbody 行导航替换：comparison-dialog 的 `<tr role=\"link\" tabIndex={0} onClick/onKeyDown>` → `<TableRowLink href={`/providers/${encodeURIComponent(channel.providerId)}`} label={providerNames[channel.providerId] ?? channel.providerId}>`；provider-models-dialog 同理 href={modelHref(model.canonicalId)} label={model.name}。两详情页把 63-67 行（models）/45-61 行（providers）的 JSX 替换为 <DetailHeader .../> 与 <DetailMetrics metrics={[...]} />，tags/actions 以 ReactNode 原样传入（顺序与条件渲染逐字保留）。",
+  "implementation": [
+    "1. 新建 components/detail.tsx 按 action 逐字实现（import type { ReactNode } from \"react\"）",
+    "2. 新建 components/modal-shell.tsx 按 action 逐字实现（import { X } from \"lucide-react\"；import { useId, useRef } from \"react\"；不引入 Locale——文案由调用方传成品字符串 closeLabel = msg(locale, \"close\")，保持组件纯净）",
+    "3. 重构 app/models/[...canonicalId]/page.tsx：detail-header 段 → <DetailHeader initials={initials} title={model.name} subtitle={model.canonicalId} tags={<>三个条件 tag 原样</>} actions={<><Link className=\"secondary-button\" href=\"/models\">{msg(locale, \"back\")}</Link><ComparisonDialog .../></>} />；detail-metrics 段 → <DetailMetrics metrics={[{ label: msg(locale, \"context\"), value: compactNumber(model.contextWindow) }, { label: \"Max output\", value: compactNumber(model.maxOutput) }, { label: msg(locale, \"channels\"), value: model.providerCount }, { label: msg(locale, \"qualityEvidence\"), value: model.quality?.aaIndex ?? \"-\" }]} />",
+    "4. 重构 app/providers/[id]/page.tsx 同模式（tags 为 Official tag；actions 为 Website 链接 + ProviderModelsDialog；metrics 为 modelCount/USD/CNY/Quality 四项）",
+    "5. 重构 comparison-dialog.tsx：外层换 ModalShell（triggerLabel=msg(locale,\"compareProviders\")、triggerClassName=\"primary-button\"、title 同、subtitle=`${canonicalId} · ${channels.length} ${msg(locale, \"providers\")}`、closeLabel=msg(locale,\"close\")）；行导航换 TableRowLink；删除本组件内 dialog ref/showModal/close 样板",
+    "6. 重构 provider-models-dialog.tsx 同模式（triggerClassName=\"secondary-button\"）；分页 footer 原样保留在 children 内",
+    "7. 验证：npx tsc --noEmit；npm run test:ui；npx playwright test（重点 catalog.spec 比较流程 + axe）；npm run build",
+    "8. 单独 commit：'refactor: extract DetailHeader/DetailMetrics/ModalShell shared components, unify dialog row navigation'"
+  ],
+  "convergence_criteria": [
+    "Select-String -Path components/detail.tsx -Pattern 'export function DetailHeader\\(' 命中 1 且 -Pattern 'export function DetailMetrics\\(' 命中 1",
+    "Select-String -Path components/modal-shell.tsx -Pattern 'export function ModalShell\\(' 命中 1",
+    "(Get-ChildItem components -Filter *.tsx | Select-String -Pattern 'className=\"modal-layout\"').Count 输出 1（骨架仅存于 modal-shell.tsx）",
+    "Select-String -Path 'app/models/[...canonicalId]/page.tsx' -SimpleMatch '<DetailHeader' 命中 1；Select-String -Path 'app/providers/[id]/page.tsx' -SimpleMatch '<DetailHeader' 命中 1",
+    "(Get-ChildItem components -Filter *-dialog.tsx | Select-String -Pattern 'role=\"link\"').Count 输出 0（内联行导航清零，收敛到 TableRowLink）",
+    "Select-String -Path components/detail.tsx -Pattern 'className=\"identity-mark\"' 命中 1（类名逐字保留的抽样证据）",
+    "npx tsc --noEmit 以 exit 0 结束",
+    "[UI-observable] npx playwright test 以 exit 0 结束，其中 catalog.spec.ts 的'比较供应商'dialog 打开/交互/关闭流程断言与 accessibility.spec.ts 全路由 axe 扫描通过（证明 dialog 骨架重构后用户可见行为不变）"
+  ],
+  "verify": [
+    "npx tsc --noEmit",
+    "npm run test:ui",
+    "npx playwright test",
+    "npm run build"
+  ],
+  "estimate_minutes": 55,
+  "status": "pending"
+}

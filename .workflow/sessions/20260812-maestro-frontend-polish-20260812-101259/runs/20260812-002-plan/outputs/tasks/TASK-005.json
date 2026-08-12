@@ -1,0 +1,42 @@
+{
+  "_meta": { "kind": "plan-task", "schema": "plan-task/1.0", "role": "attachment" },
+  "id": "TASK-005",
+  "title": "G2 克制动效层：交互控件 hover/focus 过渡 + dialog/details 弹层进场 + topbar pending 反馈（纯 CSS + useTransition）",
+  "description": "现状动效为零（findings F-G2-01：全代码库 transition 属性 0 处），本任务给既有交互面纯增量补齐微交互层，全部消费 TASK-002 定义的 --motion-* tokens（150/220/300ms，符合 locked 决策 D3 的 150-300ms 区间），不引入任何动画库。既有 prefers-reduced-motion kill switch（globals.css 的 @media (prefers-reduced-motion: reduce) 全局 transition-duration/animation-duration .01ms 覆盖，F-G2-02）自动覆盖全部新增动效，无需额外适配。范围四组：[1] 交互控件 hover/focus 颜色过渡（150ms）；[2] dialog（.modal 与 .mobile-drawer）进出场（220ms，@starting-style + transition-behavior allow-discrete，Chrome 117+/Safari 17.5+ 渐进增强，不支持的浏览器瞬开瞬关 = 现状，零回归风险）；[3] details 弹层（help-menu/column-picker/model-filter-picker 面板）进场动画（150ms）；[4] 交互反馈不对称修复（F-G2-03）：topbar 语言切换与刷新按钮补 useTransition pending 态（对齐既有货币切换模式 topbar.tsx:15,27-29）。明确不做（克制裁量，记录）：排序链接点击后的整页 RSC 往返 loading 指示（需把 SortableHeader 改为 client 组件接 useLinkStatus，影响面大于收益，OQ-3 留给后续轮次）；全局主题切换颜色过渡（body transition 引发大面积重绘与首帧闪烁风险）。",
+  "requirement_refs": ["G2", "L3: 克制动效（locked 决策 D3）", "findings F-G2-01/02/03", "risk R6（axe/reduced-motion 冲突风险，已评 low）"],
+  "deps": ["TASK-002"],
+  "files": ["app/globals.css", "components/topbar.tsx"],
+  "read_first": [
+    "app/globals.css（被改文件；TASK-002 完成后的 --motion-fast/base/slow token 定义；既有 hover 状态选择器清单与 prefers-reduced-motion 块位置）",
+    "components/topbar.tsx（被改文件；changeCurrency 的 useTransition + isPending + disabled 既有模式 15,25-29 行是 changeLocale/refresh 改造的逐字范本）",
+    "components/sidebar.tsx（mobile-drawer 的 showModal 调用方，确认 dialog 开合路径）",
+    "tests/e2e/accessibility.spec.ts（axe serious 零容忍 + reduced-motion 相关断言防线）",
+    "tests/e2e/catalog.spec.ts（console error 零容忍；dialog 流程断言在动效下必须稳定）"
+  ],
+  "action": "globals.css 追加动效区（放在 prefers-reduced-motion 块之前，加分区注释 /* motion */）：[1] 控件过渡，逐字规则：`.icon-button, .primary-button, .secondary-button, .text-button, .primary-nav a, .project-link, .sortable-header, .header-source, .pagination a, .segmented button, .column-picker > summary, .model-filter-picker > summary, .source-link, .board-strip a { transition: color var(--motion-fast) ease, background-color var(--motion-fast) ease, border-color var(--motion-fast) ease, box-shadow var(--motion-fast) ease; }` 与 `.data-table tbody tr { transition: background-color var(--motion-fast) ease; }` 与 `.skip-link { transition: top var(--motion-fast) ease; }`；[2] dialog 进出场，逐字规则：`dialog.modal, dialog.mobile-drawer { opacity: 1; transition: opacity var(--motion-base) ease, transform var(--motion-base) ease, overlay var(--motion-base) ease allow-discrete, display var(--motion-base) ease allow-discrete; } dialog.modal:not([open]), dialog.mobile-drawer:not([open]) { opacity: 0; } @starting-style { dialog.modal[open] { opacity: 0; transform: translateY(10px) scale(.985); } dialog.mobile-drawer[open] { opacity: 0; transform: translateX(-16px); } } dialog.modal::backdrop, dialog.mobile-drawer::backdrop { transition: opacity var(--motion-base) ease, overlay var(--motion-base) ease allow-discrete, display var(--motion-base) ease allow-discrete; } @starting-style { dialog.modal[open]::backdrop, dialog.mobile-drawer[open]::backdrop { opacity: 0; } }`；[3] details 弹层进场，逐字规则：`@keyframes panel-in { from { opacity: 0; transform: translateY(-4px); } } .help-menu[open] > div, .column-picker[open] > .column-picker-panel, .model-filter-picker[open] > .model-filter-picker-panel { animation: panel-in var(--motion-fast) ease; }`；[4] pending 视觉：`.icon-button:disabled { cursor: wait; opacity: .65; }`。topbar.tsx 改造：changeLocale 函数体改为 `const changeLocale = () => { const next = locale === \"zh\" ? \"en\" : \"zh\"; document.cookie = ...(原样); startTransition(() => router.refresh()); };`（复用已有的 [isPending, startTransition]，不新增 useTransition 实例）；刷新按钮 onClick 改 `() => startTransition(() => router.refresh())`；刷新按钮与语言按钮加 `disabled={isPending}`（货币按钮已有）。主题按钮不加（next-themes 本地即时切换无异步）。",
+  "implementation": [
+    "1. 在 globals.css 的 @media (prefers-reduced-motion: reduce) 块之前插入 action 中 [1]-[4] 的 CSS（保持单文件分区注释风格，注释标记 /* motion (G2): consumes --motion-* tokens, killed by reduced-motion below */）",
+    "2. 确认新增规则未改变任何既有声明（纯追加；.skip-link 与 .icon-button:disabled 是对既有选择器的属性追加，不覆盖已有属性）",
+    "3. topbar.tsx 按 action 改 changeLocale/刷新按钮/disabled 三点（changeCurrency 与主题按钮不动）",
+    "4. 手工冒烟（dev 或 build+start 均可）：悬停主导航/图标按钮/表格行观察 150ms 颜色过渡；打开比较 dialog 与移动端抽屉观察 220ms 进场；展开列选择器观察面板进场；切语言观察按钮 pending 置灰；系统开启'减少动态效果'后全部动效消失",
+    "5. 自动验证：npm run build；npx playwright test（catalog.spec dialog 流程 + accessibility.spec axe 全路由；Playwright auto-wait 会等待过渡后的稳定态，risk R6 已评 low）",
+    "6. 用 Playwright 内联脚本验证 computed style（见 convergence 第 4 条的逐字脚本）",
+    "7. 单独 commit：'feat: add restrained motion layer (hover/focus transitions, dialog/details entrances, pending feedback)'"
+  ],
+  "convergence_criteria": [
+    "(Select-String -Path app/globals.css -Pattern 'var\\(--motion-fast\\)' -AllMatches).Matches.Count 输出 ≥ 4 且 (Select-String -Path app/globals.css -Pattern 'var\\(--motion-base\\)' -AllMatches).Matches.Count 输出 ≥ 4",
+    "Select-String -Path app/globals.css -Pattern '@starting-style' 命中 ≥ 2；-Pattern '@keyframes panel-in' 命中 1；-Pattern '\\.icon-button:disabled' 命中 1",
+    "Select-String -Path components/topbar.tsx -Pattern 'startTransition\\(\\(\\) => router.refresh\\(\\)\\)' 命中 ≥ 2（changeLocale + 刷新按钮）；(Select-String -Path components/topbar.tsx -Pattern 'disabled=\\{isPending\\}' -AllMatches).Matches.Count 输出 ≥ 3（货币段 + 语言 + 刷新）",
+    "[UI-observable] node 内联 Playwright 脚本 exit 0 且输出 '0.15s'：node -e \"const{chromium}=require('@playwright/test');(async()=>{const b=await chromium.launch();const p=await b.newPage();await p.goto('http://localhost:3000/models');const d=await p.evaluate(()=>getComputedStyle(document.querySelector('.icon-button')).transitionDuration);console.log(d);await b.close();process.exit(d.includes('0.15s')?0:1)})()\"（需先 npm run build && npm start；证明 hover 过渡在真实渲染中生效且时长为 150ms）",
+    "Select-String -Path app/globals.css -Pattern 'prefers-reduced-motion' 命中 ≥ 1（kill switch 未被破坏）",
+    "npx playwright test 以 exit 0 结束（axe 无新增 serious 违规、dialog 流程与 console error 零容忍断言在动效下稳定通过）"
+  ],
+  "verify": [
+    "npm run build",
+    "npx playwright test",
+    "Select-String -Path app/globals.css -Pattern '@starting-style'",
+    "Select-String -Path components/topbar.tsx -Pattern 'disabled=\\{isPending\\}'"
+  ],
+  "estimate_minutes": 40,
+  "status": "pending"
+}

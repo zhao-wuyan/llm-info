@@ -1,7 +1,7 @@
 {
-  "version": "2.0",
   "project_name": "llm-info",
   "status": "active",
+  "version": "2.0",
   "current_milestone": null,
   "current_task_id": null,
   "milestones": [],
@@ -13,7 +13,7 @@
   },
   "transition_history": [],
   "milestone_history": [],
-  "last_updated": "2026-07-30T16:48:36+08:00",
+  "last_updated": "2026-08-12T21:09:47+08:00",
   "sessions": [
     {
       "session_id": "20260718-grill-model-prototype",
@@ -306,6 +306,14 @@
     {
       "session_id": "maestro-model-catalog-fixes-20260730-032939",
       "intent": "实施已确认的模型目录与对比修复",
+      "status": "sealed",
+      "depends_on": [],
+      "roadmap_artifact_id": null,
+      "seed_ref": null
+    },
+    {
+      "session_id": "20260812-maestro-frontend-polish-20260812-101259",
+      "intent": "优化前端：统一样式与组件、添加克制动效、优化页面加载速度",
       "status": "sealed",
       "depends_on": [],
       "roadmap_artifact_id": null,
