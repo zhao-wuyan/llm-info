@@ -78,18 +78,18 @@ describe("catalog view model", () => {
   it("derives selected-channel lifecycle states for mixed canonical models", () => {
     const statuses = new Set(canonicalModels.map((model) => model.lifecycle.status));
     const deepSeekR1 = modelByCanonicalId.get("deepseek-ai/deepseek-r1");
-    const grok3 = modelByCanonicalId.get("xai/grok-3");
+    const gpt5Chat = modelByCanonicalId.get("openai/gpt-5-chat");
 
     expect(statuses).toEqual(new Set(["active", "deprecated", "sunset"]));
     expect(canonicalModels.every((model) => ["active", "deprecated", "sunset"].includes(model.lifecycle.status))).toBe(true);
     expect(deepSeekR1?.channels.some((channel) => channel.deprecated)).toBe(true);
     expect(deepSeekR1?.channels.some((channel) => !channel.deprecated && !channel.deprecationDate)).toBe(true);
     expect(deepSeekR1?.lifecycle).toEqual({ status: "active" });
-    expect(grok3?.channels.some((channel) => channel.providerId === "xai" && channel.deprecationDate)).toBe(true);
-    expect(grok3?.channels.some((channel) => channel.providerId !== "xai" && !channel.deprecationDate)).toBe(true);
-    expect(grok3?.lifecycle).toEqual({
+    expect(gpt5Chat?.channels.some((channel) => channel.providerId === "openai" && channel.deprecationDate)).toBe(true);
+    expect(gpt5Chat?.channels.some((channel) => channel.providerId !== "openai" && !channel.deprecationDate)).toBe(true);
+    expect(gpt5Chat?.lifecycle).toEqual({
       status: "sunset",
-      deprecationDate: "2026-05-15",
+      deprecationDate: "2026-07-23",
       source: "litellm",
     });
   });

@@ -411,11 +411,11 @@ test("only active retains mixed lifecycle models and excludes selected sunset mo
   await expect(active).toBeChecked();
   await expect(page.locator('a[href="/models/deepseek-ai/deepseek-r1"]')).toBeVisible();
 
-  await page.goto("/models?q=Grok+3&active=1&recent-open=0");
+  await page.goto("/models?q=openai%2Fgpt-5-chat&active=1&recent-open=0");
   await page.waitForLoadState("networkidle");
   await picker.locator("summary").click();
   await expect(active).toBeChecked();
-  await expect(page.locator('a[href="/models/xai/grok-3"]')).toHaveCount(0);
+  await expect(page.locator('a[href="/models/openai/gpt-5-chat"]')).toHaveCount(0);
 });
 
 test("model table headers cycle sorting across the complete filtered dataset", async ({ page }, testInfo) => {

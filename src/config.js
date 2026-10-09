@@ -5,11 +5,11 @@ export const SOURCE_CONFIG = {
     id: "litellm",
     name: "LiteLLM",
     role: "usd-baseline",
-    url: "https://raw.githubusercontent.com/BerriAI/litellm/litellm_internal_staging/model_prices_and_context_window.json",
+    url: "https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json",
     repository: "https://github.com/BerriAI/litellm",
     github: {
       repository: "BerriAI/litellm",
-      ref: "litellm_internal_staging",
+      ref: "main",
       path: "model_prices_and_context_window.json",
     },
     license: "NOASSERTION",
