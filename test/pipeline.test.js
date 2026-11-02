@@ -71,7 +71,7 @@ const hubFixture = {
 
 const qualityFixture = [
   {
-    model: "DeepSeek V4 Pro",
+    model: "DeepSeek V4.1 Flash 1017",
     developer: "DeepSeek",
     AAIndex: 44,
     inputPrice: 99,
@@ -237,9 +237,9 @@ test("adapts only AAIndex quality evidence from ai-pricing", () => {
   const catalog = adaptAiPricing(qualityFixture, qualityMeta);
   assert.equal(catalog.qualities.length, 1);
   assert.deepEqual(catalog.qualities[0], {
-    canonicalId: "deepseek/deepseek-v4-pro",
+    canonicalId: "deepseek/deepseek-v4.1-flash-1017",
     source: "ai-pricing",
-    sourceModel: "DeepSeek V4 Pro",
+    sourceModel: "DeepSeek V4.1 Flash 1017",
     sourceDeveloper: "DeepSeek",
     aaIndex: 44,
     ...qualityMeta,
@@ -263,10 +263,10 @@ test("resolves explicit canonical aliases for model and Quality records", () => 
   assert.equal(catalog.models[0].id === catalog.models[1].id, false);
 
   const quality = adaptAiPricing(
-    [{ model: "Claude Opus 4.8", developer: "Anthropic", AAIndex: 56 }],
+    [{ model: "Claude Opus 5.5", developer: "Anthropic", AAIndex: 56 }],
     qualityMeta,
   );
-  assert.equal(quality.qualities[0].canonicalId, "anthropic/claude-opus-4-8");
+  assert.equal(quality.qualities[0].canonicalId, "anthropic/claude-opus-5-5");
 });
 
 test("automatically merges owner variants and model separator substitutions only", () => {
@@ -399,7 +399,7 @@ test("automatically merges owner variants and model separator substitutions only
 
 test("attaches Quality to every listing with the mapped canonicalId", () => {
   const modelFixture = {
-    "deepseek-v4-pro": {
+    "deepseek-v4.1-flash-1017": {
       litellm_provider: "deepseek",
       mode: "chat",
     },
@@ -467,7 +467,7 @@ test("ignores generated and observed timestamps when detecting data changes", ()
 });
 
 test("ignores Quality observation metadata but detects AAIndex changes", () => {
-  const modelFixture = { "deepseek-v4-pro": { litellm_provider: "deepseek", mode: "chat" } };
+  const modelFixture = { "deepseek-v4.1-flash-1017": { litellm_provider: "deepseek", mode: "chat" } };
   const first = mergeCatalogs(
     [
       { configKey: "litellm", ...adaptLiteLlm(modelFixture, "2026-07-18T00:00:00Z") },
