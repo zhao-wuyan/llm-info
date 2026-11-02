@@ -193,7 +193,7 @@ npm test
 
 ## Quality 证据
 
-Quality 适配器只读取 ai-pricing 的 `AAIndex`、模型名和开发者，并通过显式映射关联到本地 `canonicalId`。它不会使用 ai-pricing 的价格、上下文或能力字段覆盖本地模型数据。
+Quality 适配器只读取 ai-pricing 的 `AAIndex`、模型名和开发者。优先通过显式别名关联到本地 `canonicalId`；未配置别名的新型号，允许通过显式 developer→owner 对照，在同 owner 下按模型 ID 或名称唯一精确匹配。只统一大小写和空白、点号、下划线、连字符分隔符，不删除版本、日期、参数规模或推理变体；未知开发者、无匹配及歧义候选均保持未映射，不使用模糊匹配。它不会使用 ai-pricing 的价格、上下文或能力字段覆盖本地模型数据。
 
 每条 Quality 证据保留：
 
@@ -203,7 +203,9 @@ Quality 适配器只读取 ai-pricing 的 `AAIndex`、模型名和开发者，�
 - `observedAt`；
 - 对应的 `sourceRefs`。
 
-新增但未映射的 Quality 模型会计入 `stats.unmatchedQualityModels`，不会被静默忽略。
+新增但未映射的 Quality 模型会计入 `stats.unmatchedQualityModels`。AAIndex 榜单直接复用已附着 Quality 的 `canonicalId`，不再按来源名称二次匹配。
+
+外部榜单覆盖不足（包括零匹配、空榜）仅告警，不阻断模型与价格更新；生成和校验日志、Actions Summary、数据 PR 会列出覆盖计数及有界未映射名称。缺失评分显示空态，不沿用旧分数。非法评分、数据结构错误、未知 canonicalId、目录与索引快照时间不配对，以及上游抓取或格式错误仍会导致失败。
 
 ## 常用命令
 

@@ -1,9 +1,8 @@
 import { numberOrNull, parseFlatYamlList } from "./parse.js";
 
 /**
- * Board adapters turn a raw upstream payload into `{ entries, unmapped }`.
- * Every entry is provider-agnostic: it only carries a model id / display name / owner hint,
- * and the matcher maps it onto a canonicalId later.
+ * 外部榜单携带源名称与 owner 提示，由 matcher 关联 canonicalId。
+ * 仅 catalog 派生的 AAIndex 保留已确认的 canonicalId，不再二次匹配名称。
  */
 
 /**
@@ -121,6 +120,7 @@ export function adaptAaIndexFromCatalog(catalog, { boardId }) {
     if (seen.has(model.canonicalId)) continue;
     seen.set(model.canonicalId, {
       boardId,
+      canonicalId: model.canonicalId,
       sourceModel: model.quality.sourceModel,
       organization: model.quality.sourceDeveloper ?? model.ownerId,
       score: model.quality.aaIndex,

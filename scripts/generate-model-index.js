@@ -5,6 +5,7 @@ import { fetchGitHubTextSource, fetchHfDatasetParquet } from "../src/fetch.js";
 import { adaptAaIndexFromCatalog, adaptAiderPolyglot, adaptHuggingFace, adaptLmArenaParquet } from "../src/model-index/boards.js";
 import { buildModelIndex, validateModelIndex } from "../src/model-index/build.js";
 import { MODEL_INDEX_BOARD_CONFIG } from "../src/model-index/config.js";
+import { modelIndexCoverageWarnings } from "../src/model-index/coverage.js";
 import { crawlHuggingFace } from "../src/model-index/hugging-face.js";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
@@ -63,6 +64,7 @@ const index = buildModelIndex({
 
 const errors = validateModelIndex(index, catalog);
 if (errors.length > 0) throw new Error(`Generated model index is invalid:\n${errors.slice(0, 20).join("\n")}`);
+for (const warning of modelIndexCoverageWarnings(index, catalog)) console.warn(warning);
 
 await mkdir(dirname(outputPath), { recursive: true });
 const temporaryPath = `${outputPath}.tmp`;

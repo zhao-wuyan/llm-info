@@ -1,4 +1,10 @@
 import assert from "node:assert/strict";
+import { execFile } from "node:child_process";
+import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { fileURLToPath } from "node:url";
+import { promisify } from "node:util";
 import test from "node:test";
 import { renderChangeSummaryMarkdown, summarizeDatabaseChanges } from "../src/database-change.js";
 
@@ -78,4 +84,57 @@ test("blocks auto merge when affected models cross a bulk threshold", () => {
 
   assert.equal(summary.bulkChange, true);
   assert.match(renderChangeSummaryMarkdown(summary), /已禁止自动合并/);
+});
+
+test("report CLI includes non-blocking coverage warnings in the shared summary", async (t) => {
+  const run = promisify(execFile);
+  const script = fileURLToPath(new URL("../scripts/report-model-changes.js", import.meta.url));
+  const directory = await mkdtemp(join(tmpdir(), "model-change-summary-"));
+  t.after(() => rm(directory, { recursive: true, force: true }));
+  await mkdir(join(directory, "data"));
+  const current = {
+    ...database([model("owner/current")]),
+    sources: [{ id: "ai-pricing", unmappedCount: 1, unmappedModels: ["Future Quality Model"] }],
+    stats: { quotes: 0, unmatchedQualityModels: 1 },
+  };
+  const index = {
+    boards: [{ id: "arena", name: "Arena", coverage: { entries: 1, matched: 0, unmatched: 1 } }],
+    models: {},
+    unmapped: { arena: ["Future Arena Model"] },
+  };
+  await writeFile(join(directory, "data/models.json"), JSON.stringify(current));
+  await writeFile(join(directory, "data/model-index.json"), JSON.stringify(index));
+  await writeFile(join(directory, "custom-index.json"), JSON.stringify(index));
+
+  for (const args of [[], ["--index", "custom-index.json"]]) {
+    const { stdout } = await run(process.execPath, [script, ...args, "--github-output", "github-output"], { cwd: directory });
+    const markdown = await readFile(join(directory, "model-update-summary.md"), "utf8");
+    const outputs = await readFile(join(directory, "github-output"), "utf8");
+    assert.equal(stdout.trim(), markdown.trim());
+    assert.match(markdown, /外部榜单覆盖告警/);
+    assert.match(markdown, /0\/1 matched/);
+    assert.match(markdown, /Future Arena Model/);
+    assert.match(markdown, /Quality coverage: 1 unmatched/);
+    assert.match(markdown, /Future Quality Model/);
+    assert.match(outputs, /bulk_change=false/);
+    assert.ok(outputs.includes(`summary_path=${join(directory, "model-update-summary.md")}`));
+  }
+
+  await writeFile(join(directory, "complete-index.json"), JSON.stringify({
+    boards: [{ id: "arena", coverage: { entries: 1, matched: 1, unmatched: 0 } }],
+    unmapped: {},
+  }));
+  await writeFile(join(directory, "data/models.json"), JSON.stringify(database([model("owner/current")])));
+  await run(process.execPath, [script, "--index", "complete-index.json", "--github-output", "github-output"], { cwd: directory });
+  assert.doesNotMatch(await readFile(join(directory, "model-update-summary.md"), "utf8"), /外部榜单覆盖告警/);
+
+  await assert.rejects(
+    run(process.execPath, [script, "--index", "missing-index.json"], { cwd: directory }),
+    /ENOENT/,
+  );
+  await writeFile(join(directory, "invalid-index.json"), "not JSON");
+  await assert.rejects(
+    run(process.execPath, [script, "--index", "invalid-index.json"], { cwd: directory }),
+    /SyntaxError/,
+  );
 });
