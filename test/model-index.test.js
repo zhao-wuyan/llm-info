@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { adaptAaIndexFromCatalog, adaptAiderPolyglot, adaptHuggingFace, adaptLmArenaParquet } from "../src/model-index/boards.js";
 import { buildModelIndex, validateModelIndex } from "../src/model-index/build.js";
+import { modelIndexCoverageWarnings } from "../src/model-index/coverage.js";
 import { canonicalIndexFromCatalog, createModelMatcher, looseKey, normalizeModelKey, ownersCompatible } from "../src/model-index/match.js";
 import { parseCsv, parseFlatYamlList } from "../src/model-index/parse.js";
 
@@ -232,6 +233,7 @@ test("adapts arena, aider, hugging face, and AAIndex payloads", () => {
 
   const aaIndex = adaptAaIndexFromCatalog(catalogFixture, { boardId: "aaindex" });
   assert.deepEqual(aaIndex.entries.map((entry) => entry.score), [51]);
+  assert.deepEqual(aaIndex.entries.map((entry) => entry.canonicalId), ["deepseek/deepseek-v4-pro"]);
 });
 
 test("builds a validated index keyed by canonicalId with blank cells for missing boards", () => {
@@ -381,4 +383,103 @@ test("rejects malformed board coverage", () => {
   assert.deepEqual(validateModelIndex(inconsistent, catalogFixture), [
     "board fixture coverage.entries must equal coverage.matched + coverage.unmatched",
   ]);
+});
+
+test("projects every confirmed AAIndex identity without rematching unusual source names", () => {
+  const catalog = structuredClone(catalogFixture);
+  catalog.models[0].quality.sourceModel = "Future Ω / unmappable upstream label";
+  catalog.models[2].quality = { sourceModel: "Another unfamiliar label", aaIndex: 0 };
+  const index = buildModelIndex({
+    catalog,
+    boards: [{
+      config: { id: "aaindex", name: "AAIndex", direction: "higher", homepageUrl: "https://example.com/aa" },
+      ...adaptAaIndexFromCatalog(catalog, { boardId: "aaindex" }),
+    }],
+  });
+  assert.deepEqual(validateModelIndex(index, catalog), []);
+  for (const model of catalog.models.filter((model) => model.quality)) {
+    const evidence = index.models[model.canonicalId].boards.aaindex;
+    assert.equal(evidence.score, model.quality.aaIndex);
+    assert.equal(evidence.sourceModel, model.quality.sourceModel);
+    assert.equal(evidence.match, "exact");
+  }
+  assert.deepEqual(modelIndexCoverageWarnings(index, catalog), []);
+});
+
+test("accepts empty and zero-match boards while exposing coverage and unmapped names", () => {
+  const index = buildModelIndex({
+    catalog: catalogFixture,
+    boards: [
+      { config: { id: "empty", name: "Empty", direction: "higher", homepageUrl: "https://example.com" }, entries: [] },
+      { config: { id: "unknown", name: "Unknown", direction: "higher", homepageUrl: "https://example.com" }, entries: [{ sourceModel: "Future Unknown", score: 12 }] },
+    ],
+  });
+  assert.deepEqual(validateModelIndex(index, catalogFixture), []);
+  assert.deepEqual(index.models, {});
+  const warnings = modelIndexCoverageWarnings(index, catalogFixture);
+  assert.equal(warnings.length, 2);
+  assert.match(warnings[0], /0\/0 matched/);
+  assert.match(warnings[1], /0\/1 matched.*Future Unknown/);
+});
+
+test("external canonicalId hints cannot bypass owner or repository variant gates", () => {
+  const index = buildModelIndex({
+    catalog: catalogFixture,
+    boards: [{
+      config: { id: "external", name: "External", kind: "popularity", direction: "higher", homepageUrl: "https://example.com", match: { ownerRequired: true, allowLoose: false } },
+      entries: [
+        { canonicalId: "deepseek/deepseek-v4-pro", sourceModel: "deepseek-v4-pro", organization: "unrelated", score: 100 },
+        { canonicalId: "deepseek/deepseek-v4-pro", sourceModel: "deepseek-v4-pro-base", organization: "deepseek", score: 99 },
+      ],
+    }],
+  });
+  assert.deepEqual(index.models, {});
+  assert.equal(index.boards[0].coverage.unmatched, 2);
+  assert.deepEqual(validateModelIndex(index, catalogFixture), []);
+});
+
+test("rejects forged canonical identities and invalid scores despite permissive coverage", () => {
+  const forged = structuredClone(timestampIndexFixture);
+  forged.models["forged/model"] = forged.models["deepseek/deepseek-v4-pro"];
+  delete forged.models["deepseek/deepseek-v4-pro"];
+  assert.ok(validateModelIndex(forged, catalogFixture).includes("unknown catalog canonicalId: forged/model"));
+  for (const value of [NaN, Infinity, "51"]) {
+    const invalid = structuredClone(timestampIndexFixture);
+    invalid.models["deepseek/deepseek-v4-pro"].boards.fixture.score = value;
+    assert.ok(validateModelIndex(invalid, catalogFixture).some((error) => error.includes("non-numeric score")));
+    assert.throws(() => buildModelIndex({
+      catalog: catalogFixture,
+      boards: [{ config: { id: "external" }, entries: [{ sourceModel: "Unmapped Model", score: value }] }],
+    }), /non-numeric score/);
+  }
+  assert.ok(validateModelIndex({ ...timestampIndexFixture, schemaVersion: 2 }, catalogFixture).includes("schemaVersion must be 1"));
+  assert.throws(() => buildModelIndex({
+    catalog: catalogFixture,
+    boards: [{ config: { id: "aaindex" }, entries: [{ canonicalId: "forged/model", sourceModel: "DeepSeek V4 Pro", score: 51 }] }],
+  }), /unknown catalog canonicalId/);
+});
+
+test("rejects AAIndex evidence moved to a different catalog identity", () => {
+  const index = buildModelIndex({
+    catalog: catalogFixture,
+    boards: [{ config: { id: "aaindex", name: "AAIndex", direction: "higher", homepageUrl: "https://example.com" }, ...adaptAaIndexFromCatalog(catalogFixture, { boardId: "aaindex" }) }],
+  });
+  index.models["qwen/qwen3-235b-a22b"] = index.models["deepseek/deepseek-v4-pro"];
+  delete index.models["deepseek/deepseek-v4-pro"];
+  const errors = validateModelIndex(index, catalogFixture);
+  assert.ok(errors.some((error) => error.includes("must match catalog quality evidence exactly")));
+});
+
+test("reports Quality unmapped counts and bounded names even without board warnings", () => {
+  const catalog = {
+    ...catalogFixture,
+    stats: { unmatchedQualityModels: 15 },
+    sources: [{ id: "ai-pricing", unmappedModels: Array.from({ length: 12 }, (_, index) => `Unknown ${index}`) }],
+  };
+  const warnings = modelIndexCoverageWarnings(timestampIndexFixture, catalog);
+  assert.equal(warnings.length, 1);
+  assert.match(warnings[0], /Quality coverage: 15 unmatched models/);
+  assert.match(warnings[0], /Unknown 0/);
+  assert.match(warnings[0], /\+2 names/);
+  assert.doesNotMatch(warnings[0], /Unknown 10/);
 });

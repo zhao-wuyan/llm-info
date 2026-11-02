@@ -8,6 +8,7 @@ export const MODEL_INDEX_SCHEMA_VERSION = 1;
  */
 export function buildModelIndex({ catalog, boards, generatedAt }) {
   const matcher = createModelMatcher(canonicalIndexFromCatalog(catalog));
+  const catalogModels = new Map((catalog.models ?? []).map((model) => [model.canonicalId, model]));
   const models = new Map();
   const boardMeta = [];
   const unmapped = {};
@@ -17,13 +18,25 @@ export function buildModelIndex({ catalog, boards, generatedAt }) {
     let matched = 0;
     const missing = [];
     for (const entry of entries) {
-      const hit = matcher.match({
-        id: entry.sourceModel,
-        name: entry.sourceModel,
-        organization: entry.organization,
-        kind: config.kind,
-        ...(config.match ?? {}),
-      });
+      if (entry.score != null && !Number.isFinite(entry.score)) {
+        throw new Error(`${config.id}/${entry.sourceModel} has a non-numeric score`);
+      }
+      // AAIndex 已在 catalog 中确认身份；外部榜单始终经过原有 owner/variant 检查。
+      let hit;
+      if (config.id === "aaindex") {
+        if (!catalogModels.has(entry.canonicalId)) {
+          throw new Error(`AAIndex references unknown catalog canonicalId: ${entry.canonicalId}`);
+        }
+        hit = { canonicalId: entry.canonicalId, confidence: "exact" };
+      } else {
+        hit = matcher.match({
+          id: entry.sourceModel,
+          name: entry.sourceModel,
+          organization: entry.organization,
+          kind: config.kind,
+          ...(config.match ?? {}),
+        });
+      }
       if (!hit) {
         missing.push(entry.sourceModel);
         continue;
@@ -98,6 +111,11 @@ export function validateModelIndex(index, catalog) {
   if (errors.length) return errors;
 
   const boardIds = new Set();
+  const catalogIds = new Set((catalog.models ?? []).map((model) => model.canonicalId));
+  const qualityById = new Map();
+  for (const model of catalog.models ?? []) {
+    if (model.quality) qualityById.set(model.canonicalId, model.quality);
+  }
   for (const board of index.boards) {
     if (!board.id || boardIds.has(board.id)) errors.push(`invalid or duplicate board id: ${board.id}`);
     boardIds.add(board.id);
@@ -113,12 +131,18 @@ export function validateModelIndex(index, catalog) {
     if (validCoverage && board.coverage.entries !== board.coverage.matched + board.coverage.unmatched) {
       errors.push(`board ${board.id} coverage.entries must equal coverage.matched + coverage.unmatched`);
     }
-    if (board.coverage?.matched === 0) errors.push(`board ${board.id} matched zero models`);
   }
   for (const [canonicalId, record] of Object.entries(index.models)) {
+    if (!catalogIds.has(canonicalId)) errors.push(`unknown catalog canonicalId: ${canonicalId}`);
     for (const [boardId, score] of Object.entries(record.boards ?? {})) {
       if (!boardIds.has(boardId)) errors.push(`${canonicalId} references unknown board ${boardId}`);
       if (score.score != null && !Number.isFinite(score.score)) errors.push(`${canonicalId}/${boardId} has a non-numeric score`);
+      if (boardId === "aaindex") {
+        const quality = qualityById.get(canonicalId);
+        if (!quality || quality.sourceModel !== score.sourceModel || quality.aaIndex !== score.score) {
+          errors.push(`${canonicalId}/aaindex must match catalog quality evidence exactly`);
+        }
+      }
     }
     if (record.openWeights && !record.openWeights.repoId) errors.push(`${canonicalId} open-weight facts are missing repoId`);
   }

@@ -26,16 +26,52 @@ export const QUALITY_MODEL_ALIASES = {
   "MiMo V2.6 Pro": "xiaomi/mimo-v2.6-pro",
 };
 
-export function adaptAiPricing(data, { observedAt, revision }) {
+const QUALITY_DEVELOPER_OWNERS = {
+  openai: "openai", anthropic: "anthropic", "google ai": "google", google: "google",
+  xai: "xai", meta: "meta", nvidia: "nvidia", mistral: "mistral",
+  "moonshot ai": "moonshotai", "z ai": "zai-org", qwen: "qwen",
+  minimax: "minimax", deepseek: "deepseek", stepfun: "stepfun", xiaomi: "xiaomi",
+};
+
+// 仅统一分隔符，不删除日期、版本、参数规模或推理变体。
+function exactQualityKey(value) {
+  return String(value ?? "").trim().toLowerCase().replace(/[\s._-]+/g, "-");
+}
+
+function qualityCandidates(models) {
+  const candidates = new Map();
+  for (const model of models) {
+    const canonicalId = resolveCanonicalId(model.canonicalId);
+    const slash = canonicalId.indexOf("/");
+    if (slash < 1) continue;
+    const owner = canonicalId.slice(0, slash);
+    for (const value of [canonicalId.slice(slash + 1), model.name]) {
+      if (!value) continue;
+      const key = `${owner}/${exactQualityKey(value)}`;
+      const ids = candidates.get(key) ?? new Set();
+      ids.add(canonicalId);
+      candidates.set(key, ids);
+    }
+  }
+  return candidates;
+}
+
+export function adaptAiPricing(data, { observedAt, revision, models = [] }) {
   if (!Array.isArray(data)) throw new Error("ai-pricing: expected an array of model records");
   if (!revision) throw new Error("ai-pricing: repository revision is required");
 
   const qualities = [];
   const unmappedModels = [];
+  const candidates = qualityCandidates(models);
 
   for (const record of data) {
-    if (typeof record?.AAIndex !== "number" || !Number.isFinite(record.AAIndex) || record.AAIndex < 0) continue;
-    const mappedCanonicalId = QUALITY_MODEL_ALIASES[record.model];
+    if (record?.AAIndex == null) continue;
+    if (typeof record.AAIndex !== "number" || !Number.isFinite(record.AAIndex) || record.AAIndex < 0) {
+      throw new Error(`ai-pricing: invalid AAIndex for ${record.model}`);
+    }
+    const owner = QUALITY_DEVELOPER_OWNERS[String(record.developer ?? "").trim().toLowerCase()];
+    const hits = owner ? candidates.get(`${owner}/${exactQualityKey(record.model)}`) : null;
+    const mappedCanonicalId = QUALITY_MODEL_ALIASES[record.model] ?? (hits?.size === 1 ? hits.values().next().value : null);
     if (!mappedCanonicalId) {
       unmappedModels.push(record.model);
       continue;

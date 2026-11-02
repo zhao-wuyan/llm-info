@@ -45,16 +45,20 @@ const withProvenance = (configKey, catalog) => ({
   },
 });
 
+const pricingCatalogs = [
+  withProvenance("litellm", adaptLiteLlm(sources.litellm.data, sources.litellm.provenance.observedAt)),
+  withProvenance("aidy", adaptAidy(sources.aidy.data)),
+  withProvenance("priceHub", adaptPriceHub(sources.priceHub.data)),
+];
 const database = mergeCatalogs(
   [
-    withProvenance("litellm", adaptLiteLlm(sources.litellm.data, sources.litellm.provenance.observedAt)),
-    withProvenance("aidy", adaptAidy(sources.aidy.data)),
-    withProvenance("priceHub", adaptPriceHub(sources.priceHub.data)),
+    ...pricingCatalogs,
     withProvenance(
       "aiPricing",
       adaptAiPricing(sources.aiPricing.data, {
         observedAt: sources.aiPricing.provenance.observedAt,
         revision: sources.aiPricing.provenance.revision,
+        models: pricingCatalogs.flatMap((catalog) => catalog.models),
       }),
     ),
   ],

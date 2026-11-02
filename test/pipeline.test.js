@@ -250,6 +250,36 @@ test("adapts only AAIndex quality evidence from ai-pricing", () => {
   assert.equal("context" in catalog.qualities[0], false);
 });
 
+test("maps future Quality names only to unique same-owner exact identities", () => {
+  const models = [
+    { canonicalId: "openai/gpt-99-1", name: "GPT 99.1" },
+    { canonicalId: "openai/gpt-99-1-thinking", name: "GPT 99.1 Thinking" },
+    { canonicalId: "openai/gpt-99-1-20270101", name: "GPT 99.1 20270101" },
+    { canonicalId: "anthropic/gpt-99-1", name: "GPT 99.1" },
+    { canonicalId: "openai/ambiguous-a", name: "Ambiguous" },
+    { canonicalId: "openai/ambiguous-b", name: "Ambiguous" },
+    { canonicalId: "openai/gpt-6-astra", name: "GPT 6 Astra" },
+    { canonicalId: "openai/conflicting-name", name: "GPT 6 Astra" },
+  ];
+  const records = [
+    ["GPT 99.1", "OpenAI"], ["GPT 99.1 Thinking", "OpenAI"],
+    ["GPT 99.1 20270101", "OpenAI"], ["GPT 99.1", "Meta"],
+    ["GPT 99.1", "Unknown"], ["Ambiguous", "OpenAI"],
+    ["GPT 99.2", "OpenAI"], ["GPT 6 Astra", "OpenAI"],
+  ].map(([model, developer]) => ({ model, developer, AAIndex: 42 }));
+  const result = adaptAiPricing(records, { ...qualityMeta, models });
+  assert.deepEqual(result.qualities.map((quality) => quality.canonicalId), [
+    "openai/gpt-99-1", "openai/gpt-99-1-thinking", "openai/gpt-99-1-20270101", "openai/gpt-6-astra",
+  ]);
+  assert.deepEqual(result.meta.unmappedModels, ["GPT 99.1", "GPT 99.1", "Ambiguous", "GPT 99.2"]);
+});
+
+test("rejects corrupt Quality scores instead of treating them as missing coverage", () => {
+  for (const AAIndex of [-1, Infinity, NaN, "42"]) {
+    assert.throws(() => adaptAiPricing([{ model: "GPT 6 Astra", AAIndex }], qualityMeta), /invalid AAIndex/);
+  }
+});
+
 test("resolves explicit canonical aliases for model and Quality records", () => {
   const aliased = structuredClone(aidyFixture);
   aliased.providers.anthropic = { name: "Anthropic", official: true };

@@ -29,6 +29,7 @@ export const messages = {
     leaderboards: "多榜单", viewSource: "查看信息源", boardRank: "排名", votes: "投票数",
     looseMatch: "按模型 ID 近似匹配", openWeightsSection: "开源权重与热度", valuePerScore: "每分单价",
     boardCoverage: "榜单覆盖", noBoardData: "暂无榜单数据",
+    noMatchedScores: "暂无已匹配评分",
   },
   en: {
     models: "Models", compare: "Model compare", providers: "Providers", sources: "Data sources",
@@ -58,6 +59,7 @@ export const messages = {
     leaderboards: "Leaderboards", viewSource: "Open source page", boardRank: "Rank", votes: "Votes",
     looseMatch: "Approximate match on model ID", openWeightsSection: "Open weights & popularity", valuePerScore: "Cost per point",
     boardCoverage: "Board coverage", noBoardData: "No leaderboard data yet",
+    noMatchedScores: "No matched scores available",
   },
 } as const;
 

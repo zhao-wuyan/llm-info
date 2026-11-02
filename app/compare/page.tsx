@@ -210,7 +210,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Para
     <div className="board-strip">{boards.map((item) => <a key={item.id} href={item.homepageUrl} target="_blank" rel="noreferrer" title={`${msg(locale, "viewSource")}: ${item.sourceName}`}>
       <span>{boardLabel(item, locale)}</span>
       <strong>{item.coverage.matched}</strong>
-      <small>{item.sourceName.split(" (")[0]}</small>
+      <small>{item.coverage.matched === 0 ? msg(locale, "noMatchedScores") : item.sourceName.split(" (")[0]}</small>
     </a>)}</div>
     <div className="table-frame">
       {rows.length ? <div className="table-scroll"><table className="data-table compare-table">
@@ -226,7 +226,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Para
           <td className="mono release-date-cell">{formatReleaseDate(row.model.releasedAt)}</td>
           {visibleColumns.map((column) => cellFor(row, column))}
         </tr>)}</tbody>
-      </table></div> : <EmptyState>{msg(locale, "noResults")}</EmptyState>}
+      </table></div> : <EmptyState>{msg(locale, ranked.length === 0 ? "noMatchedScores" : "noResults")}</EmptyState>}
       <div className="table-footer">
         <span>{completeRows.length} / {ranked.length} {msg(locale, "mappedModels")} · {visibleColumnIds.length}/{compareColumns.length} {msg(locale, "columns")}</span>
         <Pagination page={currentPage} pages={pages} href={pageLinkFor} />
